@@ -13,25 +13,25 @@ public class ItemProduto {
     private int id;                 // não pode ser <= 0
     private double precoCompra;     // não pode ser <= 0
     private int quantidade;         // não pode ser <= 0
-    private final Produto produto;  // não pode ser null
+    private final Produto produto;  // deve ser carregado e não passado para construtor
 
-    public ItemProduto(int id, double precoCompra, int quantidade, Produto produto) throws IllegalArgumentException{
-        if (id <= 0 || precoCompra <= 0 || quantidade <= 0 || produto == null)
+    public ItemProduto(int id, double precoCompra, int quantidade) throws IllegalArgumentException{
+        if (id <= 0 || precoCompra <= 0 || quantidade <= 0)
             throw new IllegalArgumentException("Algum argumento inválido!");
         
         this.id = id;
         this.precoCompra = precoCompra;
         this.quantidade = quantidade;
-        this.produto = produto;
+        this.produto = ;    // Fazer carregamento do produto aki 
     }
 
-    public ItemProduto(double precoCompra, int quantidade, Produto produto) throws IllegalArgumentException{
-        if (precoCompra <= 0 || quantidade <= 0 || produto == null)
+    public ItemProduto(double precoCompra, int quantidade) throws IllegalArgumentException{
+        if (precoCompra <= 0 || quantidade <= 0)
             throw new IllegalArgumentException("Algum argumento inválido!");
         
         this.precoCompra = precoCompra;
         this.quantidade = quantidade;
-        this.produto = produto;
+        this.produto = ;    // Fazer carregamento do produto aki
     }
 
     public int getId() {

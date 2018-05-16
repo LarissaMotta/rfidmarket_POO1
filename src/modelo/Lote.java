@@ -16,10 +16,10 @@ public class Lote {
     private final Date dataValidade;
     private final int numUnidades;      //não pode ser <= 0
     private final String registro;
-    private final Produto produto;
+    private final Produto produto;      // deve ser carregado e não passado para construtor
 
-    public Lote(int id, String codigoProd, Date dataCompra, Date dataFabricacao, Date dataValidade, int numUnidades, String registro, Produto produto) throws IllegalArgumentException{
-        if (id <= 0 || codigoProd == null || dataCompra == null || dataFabricacao == null || dataValidade == null || numUnidades <= 0 || registro == null || produto == null)
+    public Lote(int id, String codigoProd, Date dataCompra, Date dataFabricacao, Date dataValidade, int numUnidades, String registro) throws IllegalArgumentException{
+        if (id <= 0 || codigoProd == null || dataCompra == null || dataFabricacao == null || dataValidade == null || numUnidades <= 0 || registro == null)
             throw new IllegalArgumentException("Algum argumento inválido!");
         
         this.id = id;
@@ -29,7 +29,24 @@ public class Lote {
         this.dataValidade = dataValidade;
         this.numUnidades = numUnidades;
         this.registro = registro;
-        this.produto = produto;
+        this.produto = ;    // Fazer carregamento do produto aki
+    }
+    
+    public Lote(String codigoProd, Date dataCompra, Date dataFabricacao, Date dataValidade, int numUnidades, String registro) throws IllegalArgumentException{
+        if (codigoProd == null || dataCompra == null || dataFabricacao == null || dataValidade == null || numUnidades <= 0 || registro == null)
+            throw new IllegalArgumentException("Algum argumento inválido!");
+        
+        this.codigoProd = codigoProd;
+        this.dataCompra = dataCompra;
+        this.dataFabricacao = dataFabricacao;
+        this.dataValidade = dataValidade;
+        this.numUnidades = numUnidades;
+        this.registro = registro;
+        this.produto = ;    // Fazer carregamento do produto aki 
+    }
+    
+    public Supermercado getSupermercado(){
+        //TODO criar função na classe SupermercadoDAO para carregar no BD
     }
     
     public int getId() {
