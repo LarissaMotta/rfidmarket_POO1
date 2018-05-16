@@ -6,16 +6,17 @@
 package modelo;
 
 public class Produto {
-    private final int id;
-    private final String codigo; //TODO: verificar se é string ou int
+    // nenhum atributo pode ser null
+    private int id;           // não pode ser <= 0
+    private final String codigo;    // TODO: verificar se é string ou int
     private double custo;
-    private String descricao;
-    private final String marca; //Faz sentido eu mudar a marca do produto depois de instancia-lo?
-    private final String nome;  //E o nome? Faz sentido permite muda-lo?
-    private double precoVenda;
-    private int qtdPrateleira;
-    private int qtdEstoque;
-    private final String tipo;
+    private String descricao;       
+    private final String marca;     // Faz sentido eu mudar a marca do produto depois de instancia-lo? ou seja, final ou não?
+    private final String nome;      // E o nome? Faz sentido permitir muda-lo?
+    private double precoVenda;      // deve ser > 0
+    private int qtdPrateleira;      // deve ser > 0
+    private int qtdEstoque;         // deve ser > 0
+    private final String tipo;      // E o tipo? Faz sentido permitir muda-lo?
 
     public Produto(int id, String codigo, double custo, String descricao, String marca, String nome, double precoVenda, int qtdPrateleira, int qtdEstoque, String tipo) throws IllegalArgumentException{
         if (id <= 0 || marca == null || nome == null || tipo == null)

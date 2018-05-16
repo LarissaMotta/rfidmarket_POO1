@@ -8,17 +8,19 @@ package modelo;
 import java.util.Date;
 
 public class Lote {
-    private final int id;
+    // nenhum dos atributos pode ser null
+    private final int id;               //não pode ser alterado depois de instanciado e nem <= 0
     private final String codigoProd;
     private final Date dataCompra;
     private final Date dataFabricacao;
     private final Date dataValidade;
-    private final int numUnidades;
+    private final int numUnidades;      //não pode ser <= 0
     private final String registro;
+    private final Produto produto;
 
-    public Lote(int id, String codigoProd, Date dataCompra, Date dataFabricacao, Date dataValidade, int numUnidades, String registro) throws IllegalArgumentException{
-        if (id <= 0 || codigoProd == null || dataCompra == null || dataFabricacao == null || dataValidade == null || numUnidades <= 0 || registro == null)
-            throw new IllegalArgumentException("ID inválido: menor que 1!");
+    public Lote(int id, String codigoProd, Date dataCompra, Date dataFabricacao, Date dataValidade, int numUnidades, String registro, Produto produto) throws IllegalArgumentException{
+        if (id <= 0 || codigoProd == null || dataCompra == null || dataFabricacao == null || dataValidade == null || numUnidades <= 0 || registro == null || produto == null)
+            throw new IllegalArgumentException("Algum argumento inválido!");
         
         this.id = id;
         this.codigoProd = codigoProd;
@@ -27,8 +29,9 @@ public class Lote {
         this.dataValidade = dataValidade;
         this.numUnidades = numUnidades;
         this.registro = registro;
+        this.produto = produto;
     }
-
+    
     public int getId() {
         return id;
     }
@@ -56,5 +59,8 @@ public class Lote {
     public String getRegistro() {
         return registro;
     }
-    
+
+    public Produto getProduto() {
+        return produto;
+    }
 }

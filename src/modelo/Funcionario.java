@@ -8,7 +8,8 @@ package modelo;
 import java.util.Date;
 
 public class Funcionario extends PessoaFisica{
-    private String cargo;
+    // nenhum dos atributos pode ser null
+    private String cargo; 
     private String setor;
 
     public Funcionario(String cargo, String setor, String cpf, Date dataNasc, char genero, String login, String rg, String senha, int id, String nome, Endereco endereco) throws IllegalArgumentException{
@@ -17,6 +18,12 @@ public class Funcionario extends PessoaFisica{
         setSetor(setor);
     }
 
+    public Funcionario(String cargo, String setor, String cpf, Date dataNasc, char genero, String login, String rg, String senha, String nome, Endereco endereco) throws IllegalArgumentException{
+        super(cpf, dataNasc, genero, login, rg, senha, nome, endereco);
+        setCargo(cargo);
+        setSetor(setor);
+    }
+    
     public final void setCargo(String cargo) throws IllegalArgumentException{
         if (cargo == null)
             throw new IllegalArgumentException("Cargo nulo!");
@@ -33,10 +40,6 @@ public class Funcionario extends PessoaFisica{
     
     public String getCargo() {
         return cargo;
-    }
-
-    public int getPermissoes() {
-        return permissoes;
     }
 
     public String getSetor() {

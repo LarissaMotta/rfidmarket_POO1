@@ -8,13 +8,28 @@ package modelo;
 import java.util.Date;
 import java.util.List;
 
-public class Cliente extends PessoaFisica{
-    
-    public Cliente(long cpf, Date dataNasc, char genero, String login, long rg, String senha, int id, String nome, Endereco endereco) {
+public class Cliente extends PessoaFisica {
+
+    public Cliente(String cpf, Date dataNasc, char genero, String login, String rg, String senha, int id, String nome, Endereco endereco) throws IllegalArgumentException{
         super(cpf, dataNasc, genero, login, rg, senha, id, nome, endereco);
     }
-    
-    public List<Compra> getHistoricosCompra(){
-        return ;
+
+    public Cliente(String cpf, Date dataNasc, char genero, String login, String rg, String senha, String nome, Endereco endereco) throws IllegalArgumentException{
+        super(cpf, dataNasc, genero, login, rg, senha, nome, endereco);
+    }
+
+    // Retorna a lista com todas as compras feitas do cliente
+    public List<Compra> getHistoricoCompra() {
+        //TODO criar função na classe CompraDAO para carregar no BD
+    }
+
+    // Retorna a lista com as compras feitas do cliente com um determinado cartao
+    public List<Compra> getHistoricoCompraByCartao(Cartao cartao) {
+        //TODO criar função na classe CompraDAO para carregar no BD
+    }
+
+    // Retorna todos os cartoes do cliente
+    public List<Cartao> getCartoes() {
+        //TODO criar função na classe CartaoDAO para carregar no BD
     }
 }

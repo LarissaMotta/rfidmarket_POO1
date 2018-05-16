@@ -9,17 +9,33 @@ import java.util.List;
  */
 
 public abstract class Pessoa {
-    private final int id;
+    private int id; //não pode ser <= 0
+    
+    // nenhum dos atributos pode ser null
     private final String nome;
     private Endereco endereco;
 
     public Pessoa(int id, String nome, Endereco endereco) throws IllegalArgumentException{
-        if (id <= 0 || nome == null || endereco == null) 
-            throw new IllegalArgumentException("Algum argumento está errado!");
+        if (id <= 0) 
+            throw new IllegalArgumentException("ID inválido: menor que 1!");
+        if (isNomeInvalido(nome))
+            throw new IllegalArgumentException("Nome inválido!");
         
         this.id = id;
         this.nome = nome;
+        setEndereco(endereco);
+    }
+
+    public Pessoa(String nome, Endereco endereco) throws IllegalArgumentException{
+        if (isNomeInvalido(nome))
+            throw new IllegalArgumentException("Nome inválido!");
+
+        this.nome = nome;
         this.endereco = endereco;
+    }
+    
+    private final boolean isNomeInvalido(String nome){
+        return nome == null || nome.length() == 0;
     }
     
     public int getId() {
@@ -35,10 +51,10 @@ public abstract class Pessoa {
     }
 
     public List<Contato> getContato() {
-        return ;
+        //TODO criar função na classe ContatoDAO para carregar no BD
     }
 
-    public void setEndereco(Endereco endereco) throws IllegalArgumentException{
+    public final void setEndereco(Endereco endereco) throws IllegalArgumentException{
         if (endereco == null)
             throw new IllegalArgumentException("Endereço nulo!");
         else

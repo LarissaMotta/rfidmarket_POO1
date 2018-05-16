@@ -10,16 +10,26 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class PessoaFisica extends Pessoa{
-    private String cpf;
-    private Date dataNasc;
-    private char genero;
-    private String login;
-    private String rg;
-    private String senha;
+    // nenhum atributo pode ser null
+    private String cpf;     // deve ter length igual a 14 e ser válido. Ex: 541.578.176-19
+    private Date dataNasc;  
+    private char genero;    // deve ser M para masculino e F para feminino
+    private String login;   // deve seguir o padrao: example@servidor.com
+    private String rg;      // deve ter length igual a 7
+    private String senha;   // deve ter no length >= 6
 
     public PessoaFisica(String cpf, Date dataNasc, char genero, String login, String rg, String senha, int id, String nome, Endereco endereco) throws IllegalArgumentException{
         super(id, nome, endereco);
-        
+        setCpf(cpf);
+        setDataNasc(dataNasc);
+        setGenero(genero);
+        setLogin(login);
+        setRg(rg);
+        setSenha(senha);
+    }
+
+    public PessoaFisica(String cpf, Date dataNasc, char genero, String login, String rg, String senha, String nome, Endereco endereco) throws IllegalArgumentException{
+        super(nome, endereco);
         setCpf(cpf);
         setDataNasc(dataNasc);
         setGenero(genero);
@@ -28,7 +38,9 @@ public abstract class PessoaFisica extends Pessoa{
         setSenha(senha);
     }
     
-    public static boolean validaLogin(String login) throws IllegalArgumentException{ // verifica se o loguin pode ser usado
+    
+    
+    public static boolean isLoginValido(String login) throws IllegalArgumentException{ // verifica se o loguin pode ser usado
         if (login == null && login.length() <= 0) return false;
         
         String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
@@ -52,14 +64,14 @@ public abstract class PessoaFisica extends Pessoa{
     }
 
     public final void setGenero(char genero) throws IllegalArgumentException{
-        if (genero != 'M' && genero != 'F')
+        if (genero != 'M' && genero != 'F') //char pode ser null?
             throw new IllegalArgumentException("Genêro inválido");
         else
             this.genero = genero;
     }
 
     public final void setLogin(String login) throws IllegalArgumentException{
-        if (!validaLogin(login))
+        if (!isLoginValido(login))
             throw new IllegalArgumentException("Login inválido");
         else
             this.login = login;

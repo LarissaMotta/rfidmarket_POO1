@@ -6,11 +6,12 @@
 package modelo;
 
 public class Endereco {
+    // nenhum dos atributos podem ser null
     private String bairro;
-    private String cep;
+    private String cep;     //deve ter tamanho = 9. Ex: 29177-152
     private String cidade;
-    private String estado;
-    private int numero;
+    private String estado;  //deve ser uma sigla em maiusculo. Ex: ES
+    private int numero;     //não pode ser  <= 0 (eu acho)
     private String ruaAvenida;
 
     public Endereco(String bairro, String cep, String cidade, String estado, int numero, String ruaAvenida) throws IllegalArgumentException{
