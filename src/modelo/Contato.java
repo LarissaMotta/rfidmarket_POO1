@@ -5,38 +5,41 @@
  */
 package modelo;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-/**
- *
- * @author 20162bsi0147
- */
 public class Contato {
-    private int id;
-    private Map<String, List<String>> contatos;
+    private final int id;
+    private String descricao;
+    private String tipo;
 
-    public Contato(int id, Map<String, List<String>> contatos) {
+    public Contato(int id, String descricao, String tipo) throws IllegalArgumentException{
+        if (id <= 0) throw new IllegalArgumentException("ID inválido: menor que 1!");
         this.id = id;
-        this.contatos = contatos;
+        setDescricao(descricao);
+        setTipo(tipo);
     }
 
     public int getId() {
         return id;
     }
 
-    public Map<String, List<String>> getContatos() {
-        return contatos;
+    public String getDescricao() {
+        return descricao;
     }
-    
-    public void addContato(String tipo, String contato){
-        if (contatos.containsKey(tipo)){
-            contatos.get(tipo).add(contato);
-        }else {
-            List<String> lstContatos = new ArrayList<>();
-            lstContatos.add(contato);
-            contatos.put(tipo, lstContatos);
-        }
+
+    public final void setDescricao(String descricao) throws IllegalArgumentException{
+        if (descricao == null)
+            throw new IllegalArgumentException("Descrição nula!");
+        else
+            this.descricao = descricao;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public final void setTipo(String tipo) throws IllegalArgumentException{
+        if (tipo == null)
+            throw new IllegalArgumentException("Tipo nulo!");
+        else
+            this.tipo = tipo;
     }
 }

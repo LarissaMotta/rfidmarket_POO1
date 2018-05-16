@@ -5,24 +5,63 @@
  */
 package modelo;
 
-/**
- *
- * @author 20162bsi0147
- */
 public class Endereco {
-    private final String bairro;
-    private final String cep;
-    private final String cidade;
-    private final String estado;
-    private final int numero;
-    private final String ruaAvenida;
+    private String bairro;
+    private String cep;
+    private String cidade;
+    private String estado;
+    private int numero;
+    private String ruaAvenida;
 
-    public Endereco(String bairro, String cep, String cidade, String estado, int numero, String ruaAvenida) {
-        this.bairro = bairro;
-        this.cep = cep;
-        this.cidade = cidade;
-        this.estado = estado;
+    public Endereco(String bairro, String cep, String cidade, String estado, int numero, String ruaAvenida) throws IllegalArgumentException{
+        setBairro(bairro);
+        setCep(cep);
+        setCidade(cidade);
+        setEstado(estado);
+        setNumero(numero);
+        setRuaAvenida(ruaAvenida);
+    }
+
+    public final void setBairro(String bairro) throws IllegalArgumentException{
+        if (bairro == null)
+            throw new IllegalArgumentException("Bairro nulo!");
+        else
+            this.bairro = bairro;
+    }
+
+    public final void setCep(String cep) throws IllegalArgumentException{
+        if (cep == null)
+            throw new IllegalArgumentException("CEP nulo!");
+        else if (cep.length() < 9)
+            throw new IllegalArgumentException("CEP inválido!");
+        else
+            this.cep = cep;
+    }
+
+    public final void setCidade(String cidade) throws IllegalArgumentException{
+        if (cidade == null)
+            throw new IllegalArgumentException("Cidade nula!");
+        else
+            this.cidade = cidade;
+    }
+
+    public final void setEstado(String estado) throws IllegalArgumentException{
+        if (estado == null)
+            throw new IllegalArgumentException("Estado nulo!");
+        else if (estado.length() != 2)
+            throw new IllegalArgumentException("Estado inválido! Somente siglas serão aceitas");
+        else
+            this.estado = estado;
+    }
+
+    public final void setNumero(int numero) throws IllegalArgumentException{
+        if (numero < 0) throw new IllegalArgumentException("Número inválido: menor que 0!");
         this.numero = numero;
+    }
+
+    public final void setRuaAvenida(String ruaAvenida) throws IllegalArgumentException{
+        if (ruaAvenida == null)
+            throw new IllegalArgumentException("Rua/Avenida nula!");
         this.ruaAvenida = ruaAvenida;
     }
 

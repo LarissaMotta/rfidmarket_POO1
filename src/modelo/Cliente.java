@@ -8,17 +8,13 @@ package modelo;
 import java.util.Date;
 import java.util.List;
 
-/**
- *
- * @author 20162bsi0147
- */
 public class Cliente extends PessoaFisica{
     
     public Cliente(long cpf, Date dataNasc, char genero, String login, long rg, String senha, int id, String nome, Endereco endereco) {
         super(cpf, dataNasc, genero, login, rg, senha, id, nome, endereco);
     }
     
-    public List<HistoricoCompra> getHistoricosCompra(){
+    public List<Compra> getHistoricosCompra(){
         return ;
     }
 }

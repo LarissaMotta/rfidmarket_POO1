@@ -10,44 +10,62 @@ public class Produto {
     private final String codigo; //TODO: verificar se é string ou int
     private double custo;
     private String descricao;
-    private final String marca;
-    private final String nome;
+    private final String marca; //Faz sentido eu mudar a marca do produto depois de instancia-lo?
+    private final String nome;  //E o nome? Faz sentido permite muda-lo?
     private double precoVenda;
     private int qtdPrateleira;
     private int qtdEstoque;
     private final String tipo;
 
-    public Produto(int id, String codigo, double custo, String descricao, String marca, String nome, double precoVenda, int qtdPrateleira, int qtdEstoque, String tipo) {
+    public Produto(int id, String codigo, double custo, String descricao, String marca, String nome, double precoVenda, int qtdPrateleira, int qtdEstoque, String tipo) throws IllegalArgumentException{
+        if (id <= 0 || marca == null || nome == null || tipo == null)
+            throw new IllegalArgumentException("Algum argumento está inválido: menor que 1!");
+        
         this.id = id;
         this.codigo = codigo;
-        this.custo = custo;
-        this.descricao = descricao;
+        setCusto(custo);
+        setDescricao(descricao);
         this.marca = marca;
         this.nome = nome;
-        this.precoVenda = precoVenda;
-        this.qtdPrateleira = qtdPrateleira;
-        this.qtdEstoque = qtdEstoque;
+        setPrecoVenda(precoVenda);
+        setQtdPrateleira(qtdPrateleira);
+        setQtdEstoque(qtdEstoque);
         this.tipo = tipo;
     }
 
-    public void setCusto(double custo) {
-        this.custo = custo;
+    public final void setCusto(double custo) throws IllegalArgumentException{
+        if (custo <= 0) 
+            throw new IllegalArgumentException("Custo inválido: menor ou igual à 0!");
+        else
+            this.custo = custo;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public final void setDescricao(String descricao) throws IllegalArgumentException{
+        if (descricao == null) 
+            throw new IllegalArgumentException("Descrição nula!");
+        else
+            this.descricao = descricao;
     }
 
-    public void setPrecoVenda(double precoVenda) {
-        this.precoVenda = precoVenda;
+    public final void setPrecoVenda(double precoVenda) throws IllegalArgumentException{
+        if (precoVenda <= 0) 
+            throw new IllegalArgumentException("Preco de venda inválido: menor ou igual à 0!");
+        else
+            this.precoVenda = precoVenda;
     }
 
-    public void setQtdPrateleira(int qtdPrateleira) {
-        this.qtdPrateleira = qtdPrateleira;
+    public final void setQtdPrateleira(int qtdPrateleira) throws IllegalArgumentException{
+        if (qtdPrateleira <= 0) 
+            throw new IllegalArgumentException("Quantidade na prateleira inválida: menor ou igual à 0!");
+        else
+            this.qtdPrateleira = qtdPrateleira;
     }
 
-    public void setQtdEstoque(int qtdEstoque) {
-        this.qtdEstoque = qtdEstoque;
+    public final void setQtdEstoque(int qtdEstoque) throws IllegalArgumentException{
+        if (qtdEstoque <= 0) 
+            throw new IllegalArgumentException("Quantidade em estoque inválida: menor ou igual à 0!");
+        else
+            this.qtdEstoque = qtdEstoque;
     }
 
     public int getId() {
@@ -84,10 +102,6 @@ public class Produto {
 
     public int getQtdEstoque() {
         return qtdEstoque;
-    }
-
-    public int getQtdVendidas() {
-        return qtdVendidas;
     }
 
     public String getTipo() {

@@ -7,22 +7,30 @@ package modelo;
 
 import java.util.Date;
 
-/**
- *
- * @author 20162bsi0147
- */
 public class Funcionario extends PessoaFisica{
     private String cargo;
-    private int permissoes;
     private String setor;
 
-    public Funcionario(String cargo, int permissoes, String setor, long cpf, Date dataNasc, char genero, String login, long rg, String senha, int id, String nome, Endereco endereco) {
+    public Funcionario(String cargo, String setor, String cpf, Date dataNasc, char genero, String login, String rg, String senha, int id, String nome, Endereco endereco) throws IllegalArgumentException{
         super(cpf, dataNasc, genero, login, rg, senha, id, nome, endereco);
-        this.cargo = cargo;
-        this.permissoes = permissoes;
-        this.setor = setor;
+        setCargo(cargo);
+        setSetor(setor);
     }
 
+    public final void setCargo(String cargo) throws IllegalArgumentException{
+        if (cargo == null)
+            throw new IllegalArgumentException("Cargo nulo!");
+        else
+            this.cargo = cargo;
+    }
+
+    public final void setSetor(String setor) throws IllegalArgumentException{
+        if (setor == null)
+            throw new IllegalArgumentException("Setor nulo!");
+        else
+            this.setor = setor;
+    }
+    
     public String getCargo() {
         return cargo;
     }
