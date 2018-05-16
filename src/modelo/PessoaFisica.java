@@ -18,6 +18,7 @@ public abstract class PessoaFisica extends Pessoa{
     private String rg;      // deve ter length igual a 7
     private String senha;   // deve ter no length >= 6
 
+    // Pode ser usada quando para instanciar a partir de dados do BD
     public PessoaFisica(String cpf, Date dataNasc, char genero, String login, String rg, String senha, int id, String nome, Endereco endereco) throws IllegalArgumentException{
         super(id, nome, endereco);
         setCpf(cpf);
@@ -28,6 +29,7 @@ public abstract class PessoaFisica extends Pessoa{
         setSenha(senha);
     }
 
+    // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
     public PessoaFisica(String cpf, Date dataNasc, char genero, String login, String rg, String senha, String nome, Endereco endereco) throws IllegalArgumentException{
         super(nome, endereco);
         setCpf(cpf);
@@ -37,8 +39,6 @@ public abstract class PessoaFisica extends Pessoa{
         setRg(rg);
         setSenha(senha);
     }
-    
-    
     
     public static boolean isLoginValido(String login) throws IllegalArgumentException{ // verifica se o loguin pode ser usado
         if (login == null && login.length() <= 0) return false;

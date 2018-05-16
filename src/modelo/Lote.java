@@ -18,6 +18,7 @@ public class Lote {
     private final String registro;
     private final Produto produto;      // deve ser carregado e não passado para construtor
 
+    // Pode ser usada quando para instanciar a partir de dados do BD
     public Lote(int id, String codigoProd, Date dataCompra, Date dataFabricacao, Date dataValidade, int numUnidades, String registro) throws IllegalArgumentException{
         if (id <= 0 || codigoProd == null || dataCompra == null || dataFabricacao == null || dataValidade == null || numUnidades <= 0 || registro == null)
             throw new IllegalArgumentException("Algum argumento inválido!");
@@ -32,6 +33,7 @@ public class Lote {
         this.produto = ;    // Fazer carregamento do produto aki
     }
     
+    // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
     public Lote(String codigoProd, Date dataCompra, Date dataFabricacao, Date dataValidade, int numUnidades, String registro) throws IllegalArgumentException{
         if (codigoProd == null || dataCompra == null || dataFabricacao == null || dataValidade == null || numUnidades <= 0 || registro == null)
             throw new IllegalArgumentException("Algum argumento inválido!");

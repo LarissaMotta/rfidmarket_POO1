@@ -10,6 +10,7 @@ public class Contato {
     private String descricao;   //não pode ser null
     private String tipo;        //não pode ser null
 
+    // Pode ser usada quando para instanciar a partir de dados do BD
     public Contato(int id, String descricao, String tipo) throws IllegalArgumentException{
         if (id <= 0) throw new IllegalArgumentException("ID inválido: menor que 1!");
         this.id = id;
@@ -17,6 +18,7 @@ public class Contato {
         setTipo(tipo);
     }
 
+    // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
     public Contato(String descricao, String tipo) throws IllegalArgumentException{
         setDescricao(descricao);
         setTipo(tipo);

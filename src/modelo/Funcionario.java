@@ -12,12 +12,14 @@ public class Funcionario extends PessoaFisica{
     private String cargo; 
     private String setor;
 
+    // Pode ser usada quando para instanciar a partir de dados do BD
     public Funcionario(String cargo, String setor, String cpf, Date dataNasc, char genero, String login, String rg, String senha, int id, String nome, Endereco endereco) throws IllegalArgumentException{
         super(cpf, dataNasc, genero, login, rg, senha, id, nome, endereco);
         setCargo(cargo);
         setSetor(setor);
     }
 
+    // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
     public Funcionario(String cargo, String setor, String cpf, Date dataNasc, char genero, String login, String rg, String senha, String nome, Endereco endereco) throws IllegalArgumentException{
         super(cpf, dataNasc, genero, login, rg, senha, nome, endereco);
         setCargo(cargo);

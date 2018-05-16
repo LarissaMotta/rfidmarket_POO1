@@ -17,7 +17,7 @@ public class Compra {
     private final Date dataHora;
     private List<ItemProduto> itens;
 
-    // Pode ser usada quando para instanciar uma compra que já está BD
+    // Pode ser usada quando para instanciar a partir de dados do BD
     public Compra(int id, Date dataHora) {
         if (id <= 0)
             throw new IllegalArgumentException("ID inválido: menor que 1!");
@@ -29,7 +29,7 @@ public class Compra {
         this.dataHora = dataHora;
     }
     
-    // Pode ser usada quando for instaciar uma compra nova e que será salva posteriormente no BD
+    // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
     public Compra(Date dataHora, List<ItemProduto> itens){
         if (dataHora == null) 
             throw new IllegalArgumentException("Data e hora nula!");

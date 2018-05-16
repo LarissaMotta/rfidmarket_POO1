@@ -18,9 +18,10 @@ public class Produto {
     private int qtdEstoque;         // deve ser > 0
     private final String tipo;      // E o tipo? Faz sentido permitir muda-lo?
 
+    // Pode ser usada quando para instanciar a partir de dados do BD
     public Produto(int id, String codigo, double custo, String descricao, String marca, String nome, double precoVenda, int qtdPrateleira, int qtdEstoque, String tipo) throws IllegalArgumentException{
         if (id <= 0 || marca == null || nome == null || tipo == null)
-            throw new IllegalArgumentException("Algum argumento está inválido: menor que 1!");
+            throw new IllegalArgumentException("Algum argumento está inválido!");
         
         this.id = id;
         this.codigo = codigo;
@@ -34,6 +35,22 @@ public class Produto {
         this.tipo = tipo;
     }
 
+    // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
+    public Produto(String codigo, double custo, String descricao, String marca, String nome, double precoVenda, int qtdPrateleira, int qtdEstoque, String tipo) throws IllegalArgumentException{
+        if (marca == null || nome == null || tipo == null)
+            throw new IllegalArgumentException("Algum argumento está inválido!");
+        
+        this.codigo = codigo;
+        setCusto(custo);
+        setDescricao(descricao);
+        this.marca = marca;
+        this.nome = nome;
+        setPrecoVenda(precoVenda);
+        setQtdPrateleira(qtdPrateleira);
+        setQtdEstoque(qtdEstoque);
+        this.tipo = tipo;
+    }
+    
     public final void setCusto(double custo) throws IllegalArgumentException{
         if (custo <= 0) 
             throw new IllegalArgumentException("Custo inválido: menor ou igual à 0!");

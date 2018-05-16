@@ -15,6 +15,7 @@ public abstract class Pessoa {
     private final String nome;
     private Endereco endereco;
 
+    // Pode ser usada quando para instanciar a partir de dados do BD
     public Pessoa(int id, String nome, Endereco endereco) throws IllegalArgumentException{
         if (id <= 0) 
             throw new IllegalArgumentException("ID inválido: menor que 1!");
@@ -26,6 +27,7 @@ public abstract class Pessoa {
         setEndereco(endereco);
     }
 
+    // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
     public Pessoa(String nome, Endereco endereco) throws IllegalArgumentException{
         if (isNomeInvalido(nome))
             throw new IllegalArgumentException("Nome inválido!");
