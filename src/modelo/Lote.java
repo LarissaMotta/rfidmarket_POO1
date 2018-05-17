@@ -42,7 +42,12 @@ public class Lote {
     
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
     public Lote(String codigoProd, Date dataCompra, Date dataFabricacao, Date dataValidade, int numUnidades, String registro) throws IllegalArgumentException{
-        if (codigoProd == null || dataCompra == null || dataFabricacao == null || dataValidade == null || numUnidades <= 0 || registro == null)
+        Util.verificaStringNullVazia(codigoProd);
+        Util.verificaIsObjNull(dataCompra);
+        Util.verificaIsObjNull(dataFabricacao);
+        Util.verificaIsObjNull(dataValidade);
+        Util.verificaStringNullVazia(identificador);
+        if (numUnidades <= 0)
             throw new IllegalArgumentException("Algum argumento inválido!");
         
         this.codigoProd = codigoProd;

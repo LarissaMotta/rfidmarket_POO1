@@ -5,6 +5,7 @@
  */
 package modelo;
 
+import java.util.List;
 import util.Util;
 
 public class Produto {
@@ -54,6 +55,11 @@ public class Produto {
         setQtdPrateleira(qtdPrateleira);
         setQtdEstoque(qtdEstoque);
         this.tipo = tipo;
+    }
+    
+    // Retorna uma lista com todas os lotes em que esse produto está
+    public List<Lote> getLote() {
+        //TODO criar função na classe LoteDAO para carregar no BD
     }
     
     public final void setCusto(double custo) throws IllegalArgumentException{

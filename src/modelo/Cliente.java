@@ -20,17 +20,17 @@ public class Cliente extends PessoaFisica {
         super(cpf, dataNasc, genero, login, rg, senha, nome, endereco);
     }
 
-    // Retorna a lista com todas as compras feitas do cliente
-    public List<Compra> getHistoricoCompra() {
+    // Retorna uma lista com todas as compras feitas do cliente
+    public List<Compra> getHistoricoCompras() {
         //TODO criar função na classe CompraDAO para carregar no BD
     }
 
-    // Retorna a lista com as compras feitas do cliente com um determinado cartao
-    public List<Compra> getHistoricoCompraByCartao(Cartao cartao) {
+    // Retorna uma lista com as compras feitas do cliente com um determinado cartao
+    public List<Compra> getHistoricoComprasByCartao(Cartao cartao) {
         //TODO criar função na classe CompraDAO para carregar no BD
     }
 
-    // Retorna todos os cartoes do cliente
+    // Retorna uma lista com todos os cartoes do cliente
     public List<Cartao> getCartoes() {
         //TODO criar função na classe CartaoDAO para carregar no BD
     }

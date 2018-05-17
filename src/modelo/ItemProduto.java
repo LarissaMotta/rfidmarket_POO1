@@ -31,13 +31,13 @@ public class ItemProduto {
     }
 
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
-    public ItemProduto(double precoCompra, int quantidade) throws IllegalArgumentException{
+    public ItemProduto(double precoCompra, int quantidade, Produto produto) throws IllegalArgumentException{
         if (precoCompra <= 0 || quantidade <= 0)
             throw new IllegalArgumentException("Algum argumento inválido!");
         
         this.precoCompra = precoCompra;
         this.quantidade = quantidade;
-        this.produto = ;    // Fazer carregamento do produto aki
+        this.produto = produto; // deve ser passado por parametro para fazer a ligacao entre as tabelas no BD
     }
 
     public int getId() {
