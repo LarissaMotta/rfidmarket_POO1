@@ -19,7 +19,7 @@ public abstract class PessoaJuridica extends Pessoa{
     public PessoaJuridica(String cnpj, int id, String nome, Endereco endereco) throws IllegalArgumentException {
         super(id, nome, endereco);
         
-        Util.verificaStringNullVazia(cnpj);
+        Util.verificaStringNullVazia(cnpj); //TODO melhorar a validação do cnpj
         this.cnpj = cnpj;
     }
 
@@ -27,7 +27,7 @@ public abstract class PessoaJuridica extends Pessoa{
     public PessoaJuridica(String cnpj, String nome, Endereco endereco) throws IllegalArgumentException{
         super(nome, endereco);
         
-        Util.verificaStringNullVazia(cnpj);
+        Util.verificaStringNullVazia(cnpj); //TODO melhorar a validação do cnpj
         this.cnpj = cnpj;
     }
     

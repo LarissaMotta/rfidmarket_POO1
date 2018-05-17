@@ -49,7 +49,7 @@ public class Supermercado extends PessoaJuridica{
     }
     
     // Retorna umaa lista com todos os funcionarios do supermercado
-    public List<Compra> getFuncionarios() {
+    public List<Funcionario> getFuncionarios() {
         //TODO criar função na classe FuncionarioDAO para carregar no BD
     }
     

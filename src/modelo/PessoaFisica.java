@@ -51,7 +51,7 @@ public abstract class PessoaFisica extends Pessoa{
     }
 
     public final void setCpf(String cpf) throws IllegalArgumentException{
-        if (cpf == null || cpf.length() != 14)
+        if (cpf == null || cpf.length() != 14) //TODO melhorar a validação do cpf
             throw new IllegalArgumentException("CPF inválido");
         else
             this.cpf = cpf;
