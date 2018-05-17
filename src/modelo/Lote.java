@@ -15,7 +15,7 @@ public class Lote {
     private final Date dataFabricacao;
     private final Date dataValidade;
     private final int numUnidades;      //não pode ser <= 0
-    private final String registro;
+    private final String identificador;
     private final Produto produto;      // deve ser carregado e não passado para construtor
 
     // Pode ser usada quando para instanciar a partir de dados do BD
@@ -29,7 +29,7 @@ public class Lote {
         this.dataFabricacao = dataFabricacao;
         this.dataValidade = dataValidade;
         this.numUnidades = numUnidades;
-        this.registro = registro;
+        this.identificador = registro;
         this.produto = ;    // Fazer carregamento do produto aki
     }
     
@@ -43,7 +43,7 @@ public class Lote {
         this.dataFabricacao = dataFabricacao;
         this.dataValidade = dataValidade;
         this.numUnidades = numUnidades;
-        this.registro = registro;
+        this.identificador = registro;
         this.produto = ;    // Fazer carregamento do produto aki 
     }
     
@@ -75,8 +75,8 @@ public class Lote {
         return numUnidades;
     }
 
-    public String getRegistro() {
-        return registro;
+    public String getIdentificador() {
+        return identificador;
     }
 
     public Produto getProduto() {
