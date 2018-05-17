@@ -57,8 +57,8 @@ public class Produto {
         this.tipo = tipo;
     }
     
-    // Retorna uma lista com todas os lotes em que esse produto está
-    public List<Lote> getLote() {
+    // Retorna uma lista com todos os lotes em que esse produto está
+    public List<Lote> getLotes() {
         //TODO criar função na classe LoteDAO para carregar no BD
     }
     

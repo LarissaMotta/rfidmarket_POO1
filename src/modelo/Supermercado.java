@@ -12,29 +12,31 @@ import util.Util;
  *
  * @author joel-
  */
-public class Supermercado {
-    private int id;
+public class Supermercado extends PessoaJuridica{
     private double latitude;
     private double longitude;
     private String unidade;
 
-    public Supermercado(int id, double latitude, double longitude, String unidade) {
-        Util.verificaID(id);
+    // Pode ser usada quando para instanciar a partir de dados do BD
+    public Supermercado(int id, double latitude, double longitude, String unidade, String cnpj, String nome, Endereco endereco) throws IllegalArgumentException {
+        super(cnpj, id, nome, endereco);
         Util.verificaStringNullVazia(unidade);
         
-        this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
         this.unidade = unidade;
     }
 
-    public Supermercado(double latitude, double longitude, String unidade) {
+    // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
+    public Supermercado(double latitude, double longitude, String unidade, String cnpj, String nome, Endereco endereco) throws IllegalArgumentException {
+        super(cnpj, nome, endereco);
         Util.verificaStringNullVazia(unidade);
         
         this.latitude = latitude;
         this.longitude = longitude;
         this.unidade = unidade;
     }
+
     
     // Retorna uma lista com todas as vendas (compras dos clientes) feitas pelo supermercado
     public List<Compra> getHistoricoCompras() {
@@ -57,12 +59,14 @@ public class Supermercado {
     }
     
     // Retorna uma lista com todas os lotes do supermercado
-    public List<Lote> getLote() {
+    public List<Lote> getLotes() {
         //TODO criar função na classe LoteDAO para carregar no BD
     }
-
-    public int getId() {
-        return id;
+    
+    // Retorna uma lista com todos os clientes do supermercado
+    // Ou seja, os clientes que ja fizeram ao menos 1 compra no supermecado
+    public List<Cliente> getClientes(){
+        //TODO criar função na classe ClienteDAO para carregar no BD
     }
 
     public double getLatitude() {

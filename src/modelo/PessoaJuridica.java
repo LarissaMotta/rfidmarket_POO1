@@ -11,7 +11,7 @@ import util.Util;
  *
  * @author joel-
  */
-public class PessoaJuridica extends Pessoa{
+public abstract class PessoaJuridica extends Pessoa{
     // não pode ser nulo, deve ter length igual a 18 e não pode ser alterado
     private final String cnpj;
 

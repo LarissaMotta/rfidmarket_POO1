@@ -27,6 +27,11 @@ public class Funcionario extends PessoaFisica{
         setSetor(setor);
     }
     
+    // Retorna o supermercado em que o funcionario trabalha
+    public Supermercado getSupermecado() {
+        //TODO criar função na classe SupermercadoDAO para carregar no BD
+    }
+    
     public final void setCargo(String cargo) throws IllegalArgumentException{
         Util.verificaStringNullVazia(cargo);
         
