@@ -7,6 +7,7 @@ package modelo;
 
 import java.util.Date;
 import java.util.List;
+import util.*;
 
 /**
  *
@@ -19,11 +20,8 @@ public class Compra {
 
     // Pode ser usada quando para instanciar a partir de dados do BD
     public Compra(int id, Date dataHora) {
-        if (id <= 0)
-            throw new IllegalArgumentException("ID inválido: menor que 1!");
-        
-        if (dataHora == null) 
-            throw new IllegalArgumentException("Data e hora nula!");
+        Util.verificaID(id);
+        Util.verificaIsObjNull(dataHora);
         
         this.id = id;
         this.dataHora = dataHora;
@@ -31,8 +29,7 @@ public class Compra {
     
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
     public Compra(Date dataHora, List<ItemProduto> itens){
-        if (dataHora == null) 
-            throw new IllegalArgumentException("Data e hora nula!");
+        Util.verificaIsObjNull(dataHora);
         
         this.dataHora = dataHora;
         setItens(itens);
@@ -54,10 +51,9 @@ public class Compra {
     }
 
     public final void setItens(List<ItemProduto> itens) {
-        if (itens == null) 
-            throw new IllegalArgumentException("Itens nulo!");
-        else 
-            this.itens = itens;
+        Util.verificaIsObjNull(itens);
+        
+        this.itens = itens;
     }
     
     public Date getDataHora() {

@@ -5,6 +5,8 @@
  */
 package modelo;
 
+import util.Util;
+
 /**
  *
  * @author joel-
@@ -17,26 +19,18 @@ public class PessoaJuridica extends Pessoa{
     public PessoaJuridica(String cnpj, int id, String nome, Endereco endereco) throws IllegalArgumentException {
         super(id, nome, endereco);
         
-        if (isCnpjInvalido(cnpj))
-            throw new IllegalArgumentException("CNPJ inválido");
-        else
-            this.cnpj = cnpj;
+        Util.verificaStringNullVazia(cnpj);
+        this.cnpj = cnpj;
     }
 
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
     public PessoaJuridica(String cnpj, String nome, Endereco endereco) throws IllegalArgumentException{
         super(nome, endereco);
         
-        if (isCnpjInvalido(cnpj))
-            throw new IllegalArgumentException("CNPJ inválido");
-        else
-            this.cnpj = cnpj;
+        Util.verificaStringNullVazia(cnpj);
+        this.cnpj = cnpj;
     }
     
-    private final boolean isCnpjInvalido(String cnpj){
-        return cnpj == null || cnpj.length() != 18;
-    }
-
     public String getCnpj() {
         return cnpj;
     }

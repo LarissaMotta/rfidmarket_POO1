@@ -6,6 +6,7 @@
 package modelo;
 
 import java.util.Date;
+import util.Util;
 
 public class Funcionario extends PessoaFisica{
     // nenhum dos atributos pode ser null
@@ -27,17 +28,15 @@ public class Funcionario extends PessoaFisica{
     }
     
     public final void setCargo(String cargo) throws IllegalArgumentException{
-        if (cargo == null)
-            throw new IllegalArgumentException("Cargo nulo!");
-        else
-            this.cargo = cargo;
+        Util.verificaStringNullVazia(cargo);
+        
+        this.cargo = cargo;
     }
 
     public final void setSetor(String setor) throws IllegalArgumentException{
-        if (setor == null)
-            throw new IllegalArgumentException("Setor nulo!");
-        else
-            this.setor = setor;
+        Util.verificaStringNullVazia(setor);
+        
+        this.setor = setor;
     }
     
     public String getCargo() {

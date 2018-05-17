@@ -8,6 +8,7 @@ package modelo;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import util.Util;
 
 public abstract class PessoaFisica extends Pessoa{
     // nenhum atributo pode ser null
@@ -86,10 +87,11 @@ public abstract class PessoaFisica extends Pessoa{
     }
 
     public final void setSenha(String senha) throws IllegalArgumentException{
-        if (senha == null)
-            throw new IllegalArgumentException("Senha nula");
-        else if (senha.length() < 6)
-            throw new IllegalArgumentException("Senha deve ter pelo menos 3 caracteres");
+        Util.verificaStringNullVazia(senha);
+        
+        if (senha.length() < 6)
+            throw new IllegalArgumentException("Senha deve ter pelo menos 6 caracteres");
+        
         this.senha = senha;
     }
 

@@ -5,9 +5,11 @@
  */
 package modelo;
 
+import util.Util;
+
 public class Produto {
     // nenhum atributo pode ser null
-    private int id;           // não pode ser <= 0
+    private int id;                 // não pode ser <= 0
     private final String codigo;    // TODO: verificar se é string ou int
     private double custo;
     private String descricao;       
@@ -20,9 +22,11 @@ public class Produto {
 
     // Pode ser usada quando para instanciar a partir de dados do BD
     public Produto(int id, String codigo, double custo, String descricao, String marca, String nome, double precoVenda, int qtdPrateleira, int qtdEstoque, String tipo) throws IllegalArgumentException{
-        if (id <= 0 || marca == null || nome == null || tipo == null)
-            throw new IllegalArgumentException("Algum argumento está inválido!");
-        
+        Util.verificaID(id);
+        Util.verificaStringNullVazia(marca);
+        Util.verificaStringNullVazia(nome);
+        Util.verificaStringNullVazia(tipo);
+       
         this.id = id;
         this.codigo = codigo;
         setCusto(custo);
@@ -37,8 +41,9 @@ public class Produto {
 
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
     public Produto(String codigo, double custo, String descricao, String marca, String nome, double precoVenda, int qtdPrateleira, int qtdEstoque, String tipo) throws IllegalArgumentException{
-        if (marca == null || nome == null || tipo == null)
-            throw new IllegalArgumentException("Algum argumento está inválido!");
+        Util.verificaStringNullVazia(marca);
+        Util.verificaStringNullVazia(nome);
+        Util.verificaStringNullVazia(tipo);
         
         this.codigo = codigo;
         setCusto(custo);
@@ -59,10 +64,8 @@ public class Produto {
     }
 
     public final void setDescricao(String descricao) throws IllegalArgumentException{
-        if (descricao == null) 
-            throw new IllegalArgumentException("Descrição nula!");
-        else
-            this.descricao = descricao;
+        Util.verificaStringNullVazia(descricao);
+        this.descricao = descricao;
     }
 
     public final void setPrecoVenda(double precoVenda) throws IllegalArgumentException{

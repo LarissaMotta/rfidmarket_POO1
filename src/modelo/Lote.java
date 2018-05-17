@@ -6,6 +6,7 @@
 package modelo;
 
 import java.util.Date;
+import util.Util;
 
 public class Lote {
     // nenhum dos atributos pode ser null
@@ -19,8 +20,14 @@ public class Lote {
     private final Produto produto;      // deve ser carregado e não passado para construtor
 
     // Pode ser usada quando para instanciar a partir de dados do BD
-    public Lote(int id, String codigoProd, Date dataCompra, Date dataFabricacao, Date dataValidade, int numUnidades, String registro) throws IllegalArgumentException{
-        if (id <= 0 || codigoProd == null || dataCompra == null || dataFabricacao == null || dataValidade == null || numUnidades <= 0 || registro == null)
+    public Lote(int id, String codigoProd, Date dataCompra, Date dataFabricacao, Date dataValidade, int numUnidades, String identificador) throws IllegalArgumentException{
+        Util.verificaID(id);
+        Util.verificaStringNullVazia(codigoProd);
+        Util.verificaIsObjNull(dataCompra);
+        Util.verificaIsObjNull(dataFabricacao);
+        Util.verificaIsObjNull(dataValidade);
+        Util.verificaStringNullVazia(identificador);
+        if (numUnidades <= 0)
             throw new IllegalArgumentException("Algum argumento inválido!");
         
         this.id = id;
@@ -29,7 +36,7 @@ public class Lote {
         this.dataFabricacao = dataFabricacao;
         this.dataValidade = dataValidade;
         this.numUnidades = numUnidades;
-        this.identificador = registro;
+        this.identificador = identificador;
         this.produto = ;    // Fazer carregamento do produto aki
     }
     

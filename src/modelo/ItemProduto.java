@@ -5,6 +5,8 @@
  */
 package modelo;
 
+import util.Util;
+
 /**
  *
  * @author joel-
@@ -17,7 +19,9 @@ public class ItemProduto {
 
     // Pode ser usada quando para instanciar a partir de dados do BD
     public ItemProduto(int id, double precoCompra, int quantidade) throws IllegalArgumentException{
-        if (id <= 0 || precoCompra <= 0 || quantidade <= 0)
+        Util.verificaID(id);
+        
+        if (precoCompra <= 0 || quantidade <= 0)
             throw new IllegalArgumentException("Algum argumento inválido!");
         
         this.id = id;

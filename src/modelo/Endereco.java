@@ -5,6 +5,8 @@
  */
 package modelo;
 
+import util.Util;
+
 public class Endereco {
     // nenhum dos atributos podem ser null
     private String bairro;
@@ -24,35 +26,32 @@ public class Endereco {
     }
 
     public final void setBairro(String bairro) throws IllegalArgumentException{
-        if (bairro == null)
-            throw new IllegalArgumentException("Bairro nulo!");
-        else
-            this.bairro = bairro;
+        Util.verificaStringNullVazia(bairro);
+        
+        this.bairro = bairro;
     }
 
     public final void setCep(String cep) throws IllegalArgumentException{
-        if (cep == null)
-            throw new IllegalArgumentException("CEP nulo!");
-        else if (cep.length() < 9)
+        Util.verificaStringNullVazia(cep);
+        
+        if (cep.length() < 9)
             throw new IllegalArgumentException("CEP inválido!");
-        else
-            this.cep = cep;
+        
+        this.cep = cep;
     }
 
     public final void setCidade(String cidade) throws IllegalArgumentException{
-        if (cidade == null)
-            throw new IllegalArgumentException("Cidade nula!");
-        else
-            this.cidade = cidade;
+        Util.verificaStringNullVazia(cidade);
+        this.cidade = cidade;
     }
 
     public final void setEstado(String estado) throws IllegalArgumentException{
-        if (estado == null)
-            throw new IllegalArgumentException("Estado nulo!");
-        else if (estado.length() != 2)
+        Util.verificaIsObjNull(estado);
+        
+        if (estado.length() != 2)
             throw new IllegalArgumentException("Estado inválido! Somente siglas serão aceitas");
-        else
-            this.estado = estado;
+        
+        this.estado = estado;
     }
 
     public final void setNumero(int numero) throws IllegalArgumentException{
@@ -61,8 +60,8 @@ public class Endereco {
     }
 
     public final void setRuaAvenida(String ruaAvenida) throws IllegalArgumentException{
-        if (ruaAvenida == null)
-            throw new IllegalArgumentException("Rua/Avenida nula!");
+        Util.verificaStringNullVazia(ruaAvenida);
+
         this.ruaAvenida = ruaAvenida;
     }
 

@@ -1,6 +1,7 @@
 package modelo;
 
 import java.util.List;
+import util.Util;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -17,10 +18,8 @@ public abstract class Pessoa {
 
     // Pode ser usada quando para instanciar a partir de dados do BD
     public Pessoa(int id, String nome, Endereco endereco) throws IllegalArgumentException{
-        if (id <= 0) 
-            throw new IllegalArgumentException("ID inválido: menor que 1!");
-        if (isNomeInvalido(nome))
-            throw new IllegalArgumentException("Nome inválido!");
+        Util.verificaID(id);
+        Util.verificaStringNullVazia(nome);
         
         this.id = id;
         this.nome = nome;
@@ -29,16 +28,12 @@ public abstract class Pessoa {
 
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
     public Pessoa(String nome, Endereco endereco) throws IllegalArgumentException{
-        if (isNomeInvalido(nome))
-            throw new IllegalArgumentException("Nome inválido!");
+        Util.verificaStringNullVazia(nome);
 
         this.nome = nome;
-        this.endereco = endereco;
+        setEndereco(endereco);
     }
-    
-    private final boolean isNomeInvalido(String nome){
-        return nome == null || nome.length() == 0;
-    }
+   
     
     public int getId() {
         return id;
@@ -57,10 +52,9 @@ public abstract class Pessoa {
     }
 
     public final void setEndereco(Endereco endereco) throws IllegalArgumentException{
-        if (endereco == null)
-            throw new IllegalArgumentException("Endereço nulo!");
-        else
-            this.endereco = endereco;
+        Util.verificaIsObjNull(endereco);
+        
+        this.endereco = endereco;
     }
     
 }
