@@ -25,7 +25,7 @@ public class Supermercado {
     public Supermercado(double latitude, double longitude, String unidade) {
         this.latitude = latitude;
         this.longitude = longitude;
-        this.unidade = unidade;// dwdawdwadw
+        this.unidade = unidade;// dwdawdwadwdwadwae2
     }
     
         
