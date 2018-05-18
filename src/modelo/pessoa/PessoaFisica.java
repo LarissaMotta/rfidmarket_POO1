@@ -16,15 +16,17 @@ public abstract class PessoaFisica extends Pessoa{
     private Date dataNasc;  
     private char genero;    // deve ser M para masculino e F para feminino
     private String login;   // deve seguir o padrao: example@servidor.com
+    private String rg;      // deve ter length igual a 7
     private String senha;   // deve ter no length >= 6
 
     // Pode ser usada quando para instanciar a partir de dados do BD
-    public PessoaFisica(String cpf, Date dataNasc, char genero, String login, String senha, int id, String nome, Endereco endereco) throws IllegalArgumentException{
+    public PessoaFisica(String cpf, Date dataNasc, char genero, String login, String rg, String senha, int id, String nome, Endereco endereco) throws IllegalArgumentException{
         super(id, nome, endereco);
         setCpf(cpf);
         setDataNasc(dataNasc);
         setGenero(genero);
         setLogin(login);
+        setRg(rg);
         setSenha(senha);
     }
 
@@ -35,6 +37,7 @@ public abstract class PessoaFisica extends Pessoa{
         setDataNasc(dataNasc);
         setGenero(genero);
         setLogin(login);
+        setRg(rg);
         setSenha(senha);
     }
     
@@ -47,51 +50,9 @@ public abstract class PessoaFisica extends Pessoa{
         return matcher.matches();
     }
 
-    private static boolean validarCpf(String cpf) {
-
-        String digitos;
-        int multip = 10;
-        int somaDigitos = 0;
-        digitos = cpf.replace(".","").replace("-","");
-
-        //Primeira verificação:
-        for (int i = 0; i < 9; i++) {
-            somaDigitos += multip * Character.getNumericValue(digitos.charAt(i));
-            multip--;
-        }
-
-        //A soma final deve ser igual ao primeiro digito verificador;
-        if (somaDigitos * 10 % 11 != Character.getNumericValue(digitos.charAt(9)))
-            return false;
-
-        //Segunda verificação:
-        multip = 11;
-        somaDigitos = 0;
-
-        for (int i = 0; i < 10; i++) {
-            somaDigitos += multip * Character.getNumericValue(digitos.charAt(i));
-            multip--;
-        }
-
-        //A soma final agora deve ser igual ao segundo digito verificador;
-        return somaDigitos * 10 % 11 == Character.getNumericValue(digitos.charAt(10));
-    }
-
     public final void setCpf(String cpf) throws IllegalArgumentException{
-
-        char charCpf;
-        int contDigit = 0;
-
-        Util.verificaIsObjNull(cpf);
-
-        //Garanta que só haverá dígitos, '.' ou '-';
-        String expression = "^[0-9]{3}.?[0-9]{3}.?[0-9]{3}-?[0-9]{2}$";
-        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(cpf);
-
-        if (!matcher.matches() || !validarCpf(cpf))
-            throw new IllegalArgumentException("CPF não é válido");
-
+        if (cpf == null || cpf.length() != 14) //TODO melhorar a validação do cpf
+            throw new IllegalArgumentException("CPF inválido");
         else
             this.cpf = cpf;
     }
@@ -105,10 +66,7 @@ public abstract class PessoaFisica extends Pessoa{
 
     //TODO Testar essa função
     public final void setGenero(char genero) throws IllegalArgumentException{
-
-        char genUpper = Character.toUpperCase(genero);
-
-        if (genUpper != 'M' && genUpper != 'F') //char pode ser null?
+        if (genero != 'M' && genero != 'F') //char pode ser null?
             throw new IllegalArgumentException("Genêro inválido");
         else
             this.genero = genero;
@@ -119,6 +77,13 @@ public abstract class PessoaFisica extends Pessoa{
             throw new IllegalArgumentException("Login inválido");
         else
             this.login = login;
+    }
+
+    public final void setRg(String rg) throws IllegalArgumentException{
+        if (rg == null || rg.length() != 7)
+            throw new IllegalArgumentException("RG inválido");
+        else
+            this.rg = rg;
     }
 
     public final void setSenha(String senha) throws IllegalArgumentException{
@@ -144,6 +109,10 @@ public abstract class PessoaFisica extends Pessoa{
 
     public String getLogin() {
         return login;
+    }
+
+    public String getRg() {
+        return rg;
     }
 
     public String getSenha() {
