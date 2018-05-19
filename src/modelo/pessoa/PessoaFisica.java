@@ -118,7 +118,10 @@ public abstract class PessoaFisica extends Pessoa{
 
     //TODO Testar essa função
     public final void setGenero(char genero) throws IllegalArgumentException{
-        if (genero != 'M' && genero != 'F') //char pode ser null?
+
+        char genUpper = Character.toUpperCase(genero);
+
+        if (genUpper != 'M' && genUpper != 'F') //char pode ser null?
             throw new IllegalArgumentException("Genêro inválido");
         else
             this.genero = genero;
