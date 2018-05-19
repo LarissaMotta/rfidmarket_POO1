@@ -50,9 +50,61 @@ public abstract class PessoaFisica extends Pessoa{
         return matcher.matches();
     }
 
+    private static boolean validarCpf(String cpf) {
+
+        String digitos;
+        int multip = 10;
+        int somaDigitos = 0;
+        digitos = cpf.replace(".","").replace("-","");
+
+        //Primeira verificação:
+        for (int i = 0; i < 9; i++) {
+            somaDigitos += multip * Character.getNumericValue(digitos.charAt(i));
+            multip--;
+        }
+
+        //A soma final deve ser igual ao primeiro digito verificador;
+        if (somaDigitos * 10 % 11 != Character.getNumericValue(digitos.charAt(9)))
+            return false;
+
+        //Segunda verificação:
+        multip = 11;
+        somaDigitos = 0;
+
+        for (int i = 0; i < 10; i++) {
+            somaDigitos += multip * Character.getNumericValue(digitos.charAt(i));
+            multip--;
+        }
+
+        //A soma final agora deve ser igual ao segundo digito verificador;
+        return somaDigitos * 10 % 11 == Character.getNumericValue(digitos.charAt(10));
+    }
+
     public final void setCpf(String cpf) throws IllegalArgumentException{
-        if (cpf == null || cpf.length() != 14) //TODO melhorar a validação do cpf
-            throw new IllegalArgumentException("CPF inválido");
+
+        char charCpf;
+        int contDigit = 0;
+
+        if (cpf == null || cpf.length() != 14)
+            throw new IllegalArgumentException("CPF com tamanho inválido");
+
+        //Garanta que só haverá dígitos, '.' ou '-';
+        for (int i = 0; i < cpf.length(); i++) {
+            charCpf = cpf.charAt(i);
+
+            if (Character.isDigit(charCpf)) contDigit++;
+
+            else if (charCpf == '.' || charCpf == '-')
+                throw new IllegalArgumentException("CPF com caracter inválido '" + charCpf + "'");
+        }
+
+        //CPF deve possuir exatamente 11 dígitos;
+        if (contDigit != 11)
+            throw new IllegalArgumentException("CPF com menos que 11 dígitos");
+
+        else if (!validarCpf(cpf))
+            throw new IllegalArgumentException("CPF não é válido");
+
         else
             this.cpf = cpf;
     }
