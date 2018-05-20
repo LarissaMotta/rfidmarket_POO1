@@ -16,17 +16,15 @@ public abstract class PessoaFisica extends Pessoa{
     private Date dataNasc;  
     private char genero;    // deve ser M para masculino e F para feminino
     private String login;   // deve seguir o padrao: example@servidor.com
-    private String rg;      // deve ter length igual a 7
     private String senha;   // deve ter no length >= 6
 
     // Pode ser usada quando para instanciar a partir de dados do BD
-    public PessoaFisica(String cpf, Date dataNasc, char genero, String login, String rg, String senha, int id, String nome, Endereco endereco) throws IllegalArgumentException{
+    public PessoaFisica(String cpf, Date dataNasc, char genero, String login, String senha, int id, String nome, Endereco endereco) throws IllegalArgumentException{
         super(id, nome, endereco);
         setCpf(cpf);
         setDataNasc(dataNasc);
         setGenero(genero);
         setLogin(login);
-        setRg(rg);
         setSenha(senha);
     }
 
@@ -37,7 +35,6 @@ public abstract class PessoaFisica extends Pessoa{
         setDataNasc(dataNasc);
         setGenero(genero);
         setLogin(login);
-        setRg(rg);
         setSenha(senha);
     }
     
@@ -85,24 +82,14 @@ public abstract class PessoaFisica extends Pessoa{
         char charCpf;
         int contDigit = 0;
 
-        if (cpf == null || cpf.length() != 14)
-            throw new IllegalArgumentException("CPF com tamanho inválido");
+        Util.verificaIsObjNull(cpf);
 
         //Garanta que só haverá dígitos, '.' ou '-';
-        for (int i = 0; i < cpf.length(); i++) {
-            charCpf = cpf.charAt(i);
+        String expression = "^[0-9]{3}.?[0-9]{3}.?[0-9]{3}-?[0-9]{2}$";
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(cpf);
 
-            if (Character.isDigit(charCpf)) contDigit++;
-
-            else if (charCpf == '.' || charCpf == '-')
-                throw new IllegalArgumentException("CPF com caracter inválido '" + charCpf + "'");
-        }
-
-        //CPF deve possuir exatamente 11 dígitos;
-        if (contDigit != 11)
-            throw new IllegalArgumentException("CPF com menos que 11 dígitos");
-
-        else if (!validarCpf(cpf))
+        if (!matcher.matches() || !validarCpf(cpf))
             throw new IllegalArgumentException("CPF não é válido");
 
         else
@@ -134,13 +121,6 @@ public abstract class PessoaFisica extends Pessoa{
             this.login = login;
     }
 
-    public final void setRg(String rg) throws IllegalArgumentException{
-        if (rg == null || rg.length() != 7)
-            throw new IllegalArgumentException("RG inválido");
-        else
-            this.rg = rg;
-    }
-
     public final void setSenha(String senha) throws IllegalArgumentException{
         Util.verificaStringNullVazia(senha);
         
@@ -164,10 +144,6 @@ public abstract class PessoaFisica extends Pessoa{
 
     public String getLogin() {
         return login;
-    }
-
-    public String getRg() {
-        return rg;
     }
 
     public String getSenha() {

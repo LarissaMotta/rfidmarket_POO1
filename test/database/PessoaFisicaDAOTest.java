@@ -5,11 +5,10 @@
  */
 package database;
 
-import java.sql.Connection;
 import java.util.Date;
 import modelo.cliente.Cliente;
 import modelo.pessoa.Endereco;
-import modelo.pessoa.Pessoa;
+import modelo.pessoa.PessoaFisica;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -21,9 +20,9 @@ import static org.junit.Assert.*;
  *
  * @author joel-
  */
-public class PessoaDAOTest {
+public class PessoaFisicaDAOTest {
     
-    public PessoaDAOTest() {
+    public PessoaFisicaDAOTest() {
     }
     
     @BeforeClass
@@ -43,15 +42,14 @@ public class PessoaDAOTest {
     }
 
     /**
-     * Test of create method, of class PessoaDAO.
+     * Test of create method, of class PessoaFisicaDAO.
      */
     @Test
     public void testCreate() throws Exception {
         System.out.println("create");
         Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", "ES", 75, "Rua Xablau");
-        Pessoa pessoa = new Cliente("785.967.158-98", new Date(), 'M', "joelwb@hotmail.com", "3589745", "testedesenha", "Joel", endereco);
-        int result = PessoaDAO.create(pessoa);
-        System.out.println("id = "+result);
+        PessoaFisica pessoaFisica = new Cliente("216.856.707-76", new Date(), 'M', "joel@hotmail.com", "3589745", "testedesenha", "Joel", endereco);;
+        int result = PessoaFisicaDAO.create(pessoaFisica);
     }
     
 }
