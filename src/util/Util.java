@@ -27,7 +27,7 @@ public abstract class Util {
     public static void verificaStringNullVazia(String string) throws IllegalArgumentException{
         if (string == null)
             throw new IllegalArgumentException("String nula!");
-        else if (string.length() == 0)
+        else if (string.trim().isEmpty())
             throw new IllegalArgumentException("String vazia!");
     }
     

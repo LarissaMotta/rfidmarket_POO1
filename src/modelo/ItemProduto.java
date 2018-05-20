@@ -5,6 +5,7 @@
  */
 package modelo;
 
+import modelo.supermercado.mercadoria.Produto;
 import util.Util;
 
 /**
