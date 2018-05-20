@@ -11,7 +11,7 @@ public abstract class DBCommand {
         //ALTERAR de acordo com sua base de dados, usuário e senha no postgresql;
         String nome_base_dados = "EasyMarket";
         String nome_user_postgre = "postgres";
-        String senha = "Pianobsiwill1";
+        String senha = "";
 
         String driver = "org.postgresql.Driver";
         String url = "jdbc:postgresql://localhost:5432/" + nome_base_dados;
