@@ -17,7 +17,7 @@ import org.postgresql.util.PSQLException;
  *
  * @author joel-
  */
-public class PessoaFisicaDAO {
+public abstract class PessoaFisicaDAO {
     public static int create(PessoaFisica pessoaFisica) throws ClassNotFoundException, SQLException, PSQLException {
         int id = PessoaDAO.create(pessoaFisica); // insere primeiro os dados da pessoa
         
