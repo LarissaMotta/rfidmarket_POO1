@@ -38,10 +38,7 @@ public abstract class PessoaDAO extends DBCommand{
         st.setString(7, endereco.getEstado());
 
         st.executeUpdate();
-        ResultSet rs = st.getGeneratedKeys();
-        rs.next();
-        int id = rs.getInt("id");
-
+        int id = getIdAtCreate(st);
         st.close();
         conn.close();
 

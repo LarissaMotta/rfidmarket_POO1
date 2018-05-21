@@ -29,7 +29,7 @@ public abstract class PessoaFisica extends Pessoa{
     }
 
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
-    public PessoaFisica(String cpf, Date dataNasc, char genero, String login, String rg, String senha, String nome, Endereco endereco) throws IllegalArgumentException{
+    public PessoaFisica(String cpf, Date dataNasc, char genero, String login, String senha, String nome, Endereco endereco) throws IllegalArgumentException{
         super(nome, endereco);
         setCpf(cpf);
         setDataNasc(dataNasc);

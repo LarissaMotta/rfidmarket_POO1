@@ -17,7 +17,7 @@ import org.postgresql.util.PSQLException;
  *
  * @author joel-
  */
-public abstract class PessoaFisicaDAO {
+public abstract class PessoaFisicaDAO extends DBCommand {
     public static int create(PessoaFisica pessoaFisica) throws ClassNotFoundException, SQLException, PSQLException {
         int id = PessoaDAO.create(pessoaFisica); // insere primeiro os dados da pessoa
         
@@ -47,5 +47,20 @@ public abstract class PessoaFisicaDAO {
         conn.close();
 
         return id;
+    }
+
+    public static void delete(int id) throws SQLException, ClassNotFoundException {
+        Connection conn = getConnection();
+        String sql = "DELETE FROM fisica WHERE id = ?";
+
+        PreparedStatement st = conn.prepareStatement(sql);
+        st.setInt(1, id);
+
+        st.executeUpdate();
+
+        st.close();
+        conn.close();
+
+        PessoaDAO.delete(id);
     }
 }

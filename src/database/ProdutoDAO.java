@@ -4,14 +4,14 @@ import modelo.supermercado.mercadoria.Produto;
 
 import java.sql.*;
 
-public class ProdutoDAO {
+public class ProdutoDAO extends DBCommand{
 
     // Insere um produto no BD e retorna seu ID;
     //java n presta uvbbbh
     public static int create(Produto produto)
             throws ClassNotFoundException, SQLException {
 
-        Connection conn = DBCommand.getConnection();
+        Connection conn = getConnection();
         String sql = "INSERT INTO pessoa" +
                 "(nome, preco, codigo, descricao, custo, estoque," +
                 "tipo, quant_prateleira, marca, fk_supermecado) "

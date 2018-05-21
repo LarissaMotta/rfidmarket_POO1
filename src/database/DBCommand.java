@@ -23,6 +23,11 @@ public abstract class DBCommand {
         return conexao;
     }
 
+    public static int getIdAtCreate(PreparedStatement st) throws SQLException {
+        ResultSet rs = st.getGeneratedKeys();
+        rs.next();
+        return rs.getInt("id");
+    }
     
     //não criaremos tabela dentro da aplicacao
     /*
