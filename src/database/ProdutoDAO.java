@@ -3,16 +3,17 @@ package database;
 import modelo.supermercado.mercadoria.Produto;
 
 import java.sql.*;
+import modelo.supermercado.Supermercado;
 
 public class ProdutoDAO extends DBCommand{
 
     // Insere um produto no BD e retorna seu ID;
-    //java n presta uvbbbh
-    public static int create(Produto produto)
+    //java n presta uvbbbh - Edit
+    public static int create(Produto produto, Supermercado supermercado)
             throws ClassNotFoundException, SQLException {
 
         Connection conn = getConnection();
-        String sql = "INSERT INTO pessoa" +
+        String sql = "INSERT INTO produto" +
                 "(nome, preco, codigo, descricao, custo, estoque," +
                 "tipo, quant_prateleira, marca, fk_supermecado) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -27,15 +28,10 @@ public class ProdutoDAO extends DBCommand{
         st.setString(7, produto.getTipo());
         st.setInt(8, produto.getQtdPrateleira());
         st.setString(9, produto.getMarca());
-
-//       OBS: no BD na tabela produto pede a PK do supermercado;
-//       Precisa? Como pegar? Qual relação inicial?
-//       st.setInt(7, produto.get);
+        st.setInt(10, supermercado.getId());
 
         st.executeUpdate();
-        ResultSet rs = st.getGeneratedKeys();
-        rs.next();
-        int id = rs.getInt("id");
+        int id = getIdAtCreate(st);
 
         st.close();
         conn.close();

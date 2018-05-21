@@ -10,7 +10,7 @@ import java.sql.SQLException;
 /**
  * Created by 20162bsi0511 on 21/05/2018.
  */
-public class FuncionarioDAO extends  DBCommand {
+public abstract class FuncionarioDAO extends  DBCommand {
 
     public static int create(Funcionario funcionario, Supermercado supermercado) throws SQLException, ClassNotFoundException {
         int id = PessoaFisicaDAO.create(funcionario); // insere primeiro os dados da pessoa

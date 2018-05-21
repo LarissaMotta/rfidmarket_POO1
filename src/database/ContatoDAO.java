@@ -2,8 +2,6 @@ package database;
 
 import modelo.pessoa.Contato;
 import modelo.pessoa.Pessoa;
-import modelo.supermercado.Funcionario;
-import modelo.supermercado.Supermercado;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,7 +11,7 @@ import java.sql.Statement;
 /**
  * Created by 20162bsi0511 on 21/05/2018.
  */
-public class ContatoDAO extends DBCommand {
+public abstract class ContatoDAO extends DBCommand {
 
     public static int create(Contato contato, Pessoa pessoa) throws SQLException, ClassNotFoundException {
         Connection conn = getConnection();
