@@ -7,7 +7,7 @@ import java.sql.*;
 public class ProdutoDAO {
 
     // Insere um produto no BD e retorna seu ID;
-    //java n presta
+    //java n presta uvbbbh
     public static int create(Produto produto)
             throws ClassNotFoundException, SQLException {
 
