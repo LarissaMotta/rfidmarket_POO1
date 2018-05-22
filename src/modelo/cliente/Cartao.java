@@ -6,6 +6,9 @@
 package modelo.cliente;
 
 import util.Util;
+
+import java.util.Date;
+
 /**
  *
  * @author joel-
@@ -14,13 +17,13 @@ public class Cartao {
     // nenhum desse valores pode ser null
     private int id;             //não pode ser <= 0 
     private String bandeira;    
-    private String dataValid;
+    private Date dataValid;
     private long numero;        
     private String titular;     
     private String tipo;        //talves tenha que tirar, ou talves tenha que add no Diagrama
 
     // Pode ser usada quando para instanciar a partir de dados do BD
-    public Cartao(int id, String bandeira, String dataValid, long numero, String titular, String tipo) throws IllegalArgumentException{
+    public Cartao(int id, String bandeira, Date dataValid, long numero, String titular, String tipo) throws IllegalArgumentException{
         Util.verificaID(id);
 
         this.id = id;
@@ -32,7 +35,7 @@ public class Cartao {
     }
 
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
-    public Cartao(String bandeira, String dataValid, long numero, String titular, String tipo) throws IllegalArgumentException{
+    public Cartao(String bandeira, Date dataValid, long numero, String titular, String tipo) throws IllegalArgumentException{
         setBandeira(bandeira);
         setDataValid(dataValid);
         setNumero(numero);
@@ -53,12 +56,12 @@ public class Cartao {
         this.bandeira = bandeira;
     }
 
-    public String getDataValid() {
+    public Date getDataValid() {
         return dataValid;
     }
 
-    public final void setDataValid(String dataValid) throws IllegalArgumentException{
-        Util.verificaStringNullVazia(bandeira);
+    public void setDataValid(Date dataValid) {
+        Util.verificaIsObjNull(dataValid);
         this.dataValid = dataValid;
     }
 

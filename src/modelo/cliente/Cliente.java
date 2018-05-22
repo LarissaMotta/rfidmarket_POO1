@@ -5,8 +5,11 @@
  */
 package modelo.cliente;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+
+import database.CartaoDAO;
 import modelo.pessoa.Endereco;
 import modelo.pessoa.PessoaFisica;
 
@@ -33,7 +36,8 @@ public class Cliente extends PessoaFisica {
     }
 
     // Retorna uma lista com todos os cartoes do cliente
-    public List<Cartao> getCartoes() {
+    public List<Cartao> getCartoes() throws SQLException, ClassNotFoundException {
         //TODO criar função na classe CartaoDAO para carregar no BD
+        return CartaoDAO.readCartoes(this);
     }
 }
