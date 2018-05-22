@@ -1,10 +1,11 @@
 package database;
 
-import modelo.supermercado.Supermercado;
-import org.postgresql.util.PSQLException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
+import modelo.supermercado.Supermercado;
+import org.postgresql.util.PSQLException;
 
 /**
  *

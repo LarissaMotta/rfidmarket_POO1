@@ -9,13 +9,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import modelo.ItemProduto;
 
 /**
  *
  * @author joel-
  */
-public class ItemProdutoDAO extends DBCommand{
+public abstract class ItemProdutoDAO extends DBCommand{
     
     // O ideal aki seria ter como parametro uma Instancia de uma compra já com seu id
     // Mas para agilizar (só olhar a inserção da compra que vcs vao entender) vai ficar assim msm

@@ -1,11 +1,14 @@
+package database;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package database;
+
 
 import java.util.Date;
+import modelo.cliente.Cartao;
 import modelo.cliente.Cliente;
 import modelo.pessoa.Endereco;
 import modelo.pessoa.PessoaFisica;
@@ -20,9 +23,9 @@ import static org.junit.Assert.*;
  *
  * @author joel-
  */
-public class PessoaFisicaDAOTest {
+public class ClienteDAOTest {
     
-    public PessoaFisicaDAOTest() {
+    public ClienteDAOTest() {
     }
     
     @BeforeClass
@@ -42,14 +45,30 @@ public class PessoaFisicaDAOTest {
     }
 
     /**
-     * Test of create method, of class PessoaFisicaDAO.
+     * Test of create method, of class ClienteDAO.
      */
     @Test
     public void testCreate() throws Exception {
         System.out.println("create");
+        
         Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", "ES", 75, "Rua Xablau");
-        PessoaFisica pessoaFisica = new Cliente("216.856.707-76", new Date(), 'M', "joel@hotmail.com", "testedesenha", "Joel", endereco);
-        int result = PessoaFisicaDAO.create(pessoaFisica);
+        Cliente cliente = new Cliente("216.856.707-76", new Date(), 'M', "joel@hotmail.com", "testedesenha", "Joel", endereco);
+        int result = ClienteDAO.create(cliente);
     }
+
+    /**
+     * Test of addCartao method, of class ClienteDAO.
+     */
+    /*@Test
+    public void testAddCartao() throws Exception {
+        System.out.println("addCartao");
+        Cliente cliente = null;
+        Cartao cartao = null;
+        int expResult = 0;
+        int result = ClienteDAO.addCartao(cliente, cartao);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }*/
     
 }

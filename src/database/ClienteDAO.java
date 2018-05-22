@@ -1,9 +1,12 @@
 package database;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import modelo.cliente.Cartao;
 import modelo.cliente.Cliente;
-
-import java.sql.*;
 
 /**
  * Created by 20162bsi0040 on 21/05/2018.

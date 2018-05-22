@@ -1,12 +1,12 @@
 package database;
 
-import modelo.pessoa.Endereco;
-import modelo.pessoa.Pessoa;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import modelo.pessoa.Endereco;
+import modelo.pessoa.Pessoa;
 
 /**
  *
@@ -18,9 +18,10 @@ public abstract class PessoaDAO extends DBCommand{
      * Insere uma pessoa na base de dados;
      * @param pessoa pessoa a ser gravada na base de dados;
      * @return Inteiro que representa o ID da pessoa inserida no BD;
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
      */
-    public static int create(Pessoa pessoa)
-            throws ClassNotFoundException, SQLException {
+    public static int create(Pessoa pessoa) throws ClassNotFoundException, SQLException {
 
         Connection conn = getConnection();
         String sql = "INSERT INTO pessoa (nome,numero,rua,cep,bairro,cidade,estado) "

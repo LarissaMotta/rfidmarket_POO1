@@ -5,7 +5,6 @@
  */
 package database;
 
-import java.sql.Connection;
 import java.util.Date;
 import modelo.cliente.Cliente;
 import modelo.pessoa.Endereco;

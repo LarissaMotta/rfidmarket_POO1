@@ -1,12 +1,17 @@
 package database;
 
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import modelo.supermercado.Supermercado;
 import modelo.supermercado.mercadoria.Fornecedor;
 import modelo.supermercado.mercadoria.Lote;
 import modelo.supermercado.mercadoria.Produto;
-import java.sql.*;
 
-public class LoteDAO extends DBCommand {
+public abstract class LoteDAO extends DBCommand {
 
     /**
      * Insere um lote de um produto na base de dados;
@@ -15,9 +20,10 @@ public class LoteDAO extends DBCommand {
      * @param prod produto que corresponde as unidades do lote;
      * @param superm supermercado proprietário do lote de produtos;
      * @return Inteiro que representa o ID do lote inserido no BD;
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
      */
-    public static int create(Lote lote, Fornecedor forn, Produto prod, Supermercado superm)
-            throws ClassNotFoundException, SQLException {
+    public static int create(Lote lote, Fornecedor forn, Produto prod, Supermercado superm)throws ClassNotFoundException, SQLException {
 
         // Obtenha a conexão com o BD;
         Connection conexao = getConnection();

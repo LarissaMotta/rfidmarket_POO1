@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import modelo.ItemProduto;
 import modelo.cliente.Cartao;
 import modelo.cliente.Cliente;
@@ -19,7 +20,8 @@ import modelo.supermercado.Supermercado;
  *
  * @author joel-
  */
-public class CompraDAO extends DBCommand{
+public abstract class CompraDAO extends DBCommand{
+    
     public static int create(Compra compra, Cliente cliente, Cartao cartao, Supermercado supermercado) throws ClassNotFoundException, SQLException {
 
         // Obtenha a conexão com o BD;

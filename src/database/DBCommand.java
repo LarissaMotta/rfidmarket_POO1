@@ -8,9 +8,10 @@ public abstract class DBCommand {
     /**
      *Abre uma conexão com a base dados e a retorna;
      *@return Conexão aberta com a base de dados
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
      */
-    public static Connection getConnection()
-            throws ClassNotFoundException, SQLException {
+    public static Connection getConnection() throws ClassNotFoundException, SQLException {
 
         // ALTERAR de acordo com sua base de dados, usuário e senha no postgresql;
 

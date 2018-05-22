@@ -38,11 +38,11 @@ public class Lote {
         this.dataValidade = dataValidade;
         this.numUnidades = numUnidades;
         this.identificador = identificador;
-        this.produto = ;    // Fazer carregamento do produto aki
+        this.produto = null;    // Fazer carregamento do produto aki
     }
     
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
-    public Lote(String codigoProd, Date dataCompra, Date dataFabricacao, Date dataValidade, int numUnidades, String registro) throws IllegalArgumentException{
+    public Lote(String codigoProd, Date dataCompra, Date dataFabricacao, Date dataValidade, int numUnidades, String identificador) throws IllegalArgumentException{
         Util.verificaStringNullVazia(codigoProd);
         Util.verificaIsObjNull(dataCompra);
         Util.verificaIsObjNull(dataFabricacao);
@@ -56,8 +56,8 @@ public class Lote {
         this.dataFabricacao = dataFabricacao;
         this.dataValidade = dataValidade;
         this.numUnidades = numUnidades;
-        this.identificador = registro;
-        this.produto = ;    // Fazer carregamento do produto aki 
+        this.identificador = identificador;
+        this.produto = null;    // Fazer carregamento do produto aki 
     }
     
     public Supermercado getSupermercado(){

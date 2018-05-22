@@ -1,11 +1,12 @@
 package database;
 
-import modelo.pessoa.PessoaFisica;
-import org.postgresql.util.PSQLException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
+import modelo.pessoa.PessoaFisica;
+import org.postgresql.util.PSQLException;
 
 /**
  *
@@ -17,9 +18,10 @@ public abstract class PessoaFisicaDAO extends DBCommand {
      * Insere uma pessoa física na base de dados;
      * @param pessoaFisica PF a ser gravada na base de dados;
      * @return Inteiro que representa o ID da PF inserida no BD;
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
      */
-    public static int create(PessoaFisica pessoaFisica)
-            throws ClassNotFoundException, SQLException {
+    public static int create(PessoaFisica pessoaFisica) throws ClassNotFoundException, SQLException {
 
         int id = PessoaDAO.create(pessoaFisica); // insere primeiro os dados da pessoa
         
@@ -54,9 +56,10 @@ public abstract class PessoaFisicaDAO extends DBCommand {
     /**
      * Remove uma pessoa da base de dados;
      * @param id id da pessoa a ser removida da base;
+     * @throws java.sql.SQLException
+     * @throws java.lang.ClassNotFoundException
      */
-    public static void delete(int id)
-            throws SQLException, ClassNotFoundException {
+    public static void delete(int id) throws SQLException, ClassNotFoundException {
 
         Connection conn = getConnection();
         String sql = "DELETE FROM fisica WHERE id = ?";

@@ -1,12 +1,12 @@
 package database;
 
-import modelo.pessoa.Contato;
-import modelo.pessoa.Pessoa;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import modelo.pessoa.Contato;
+import modelo.pessoa.Pessoa;
 
 /**
  * Created by 20162bsi0511 on 21/05/2018.

@@ -1,13 +1,19 @@
 package database;
 
-import modelo.cliente.Cartao;
-import modelo.cliente.Cliente;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartaoDAO extends DBCommand {
+import modelo.cliente.Cartao;
+import modelo.cliente.Cliente;
+
+public abstract class CartaoDAO extends DBCommand {
 
     public static int create(Cartao cartao, Cliente cliente)
             throws ClassNotFoundException, SQLException {
@@ -43,6 +49,8 @@ public class CartaoDAO extends DBCommand {
      * Retorna um conjunto de cartões relacionados a um cliente;
      * @param cliente cliente usuário do(s) cartão(ões);
      * @return Conjunto de cartões relacionados ao cliente;
+     * @throws java.sql.SQLException
+     * @throws java.lang.ClassNotFoundException
      */
     public static List<Cartao> readCartoesByCliente(Cliente cliente)
             throws SQLException, ClassNotFoundException {

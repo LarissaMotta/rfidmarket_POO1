@@ -1,13 +1,14 @@
 package database;
 
-import modelo.supermercado.Supermercado;
-import modelo.supermercado.mercadoria.Produto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class ProdutoDAO extends DBCommand{
+import modelo.supermercado.Supermercado;
+import modelo.supermercado.mercadoria.Produto;
+
+public abstract class ProdutoDAO extends DBCommand{
 
     /**
      * Insere um produto na base de dados;

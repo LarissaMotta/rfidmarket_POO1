@@ -28,7 +28,7 @@ public class ItemProduto {
         this.id = id;
         this.precoCompra = precoCompra;
         this.quantidade = quantidade;
-        this.produto = ;    // Fazer carregamento do produto aki 
+        this.produto = null;    // Fazer carregamento do produto aki 
     }
 
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
