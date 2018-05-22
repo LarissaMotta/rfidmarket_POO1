@@ -2,7 +2,10 @@ package database;
 
 import modelo.cliente.Cartao;
 import modelo.cliente.Cliente;
+
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CartaoDAO extends DBCommand {
 
@@ -37,5 +40,55 @@ public class CartaoDAO extends DBCommand {
         conexao.close();
 
         return id;
+    }
+
+    /**
+     * Retorna um conjunto de cartões relacionados a um cliente;
+     * @param cliente cliente usuário do(s) cartão(ões);
+     * @return Conjunto de cartões relacionados ao cliente;
+     */
+    public static List<Cartao> readCartoes(Cliente cliente)
+            throws SQLException, ClassNotFoundException {
+
+        List<Cartao> cartoes;
+
+        // Obtenha a conexão com o BD;
+        Connection conexao = getConnection();
+
+        // Forme a string sql;
+        String sql = "SELECT * utiliza WHERE fk_pessoa_fisica = " + cliente.getId();
+
+        Statement st = conexao.createStatement();
+        ResultSet rs = st.executeQuery(sql);
+
+        // Se a pesquina na base retornou 0 resultados;
+        if (rs.getMetaData().getColumnCount() < 1) return null;
+
+        int id;
+        String bandeira;
+        Date dataValid;
+        long numero;
+        String titular;
+        String tipo;
+
+        cartoes = new ArrayList<>();
+
+        // Enquanto houver algum cartão resultado da busca;
+        while (rs.next()) {
+
+            id = rs.getInt("id");
+            bandeira = rs.getString("bandeira");
+            dataValid = rs.getDate("validade");
+            numero = rs.getLong("numero");
+            titular = rs.getString("nome_titular");
+            tipo = rs.getString("tipo");
+
+            cartoes.add(new Cartao(id, bandeira, dataValid, numero, titular, tipo));
+        }
+
+        st.close();
+        conexao.close();
+
+        return cartoes;
     }
 }
