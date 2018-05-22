@@ -5,12 +5,22 @@ import java.sql.*;
 //Classe para agilizar criação de tabelas, seleção e inserção de valores;
 public abstract class DBCommand {
 
+    /**
+     *Abre uma conexão com a base dados e a retorna;
+     *@return Conexão aberta com a base de dados
+     */
     public static Connection getConnection()
             throws ClassNotFoundException, SQLException {
 
-        //ALTERAR de acordo com sua base de dados, usuário e senha no postgresql;
+        // ALTERAR de acordo com sua base de dados, usuário e senha no postgresql;
+
+        // Nome da sua base de dados no postgres;
         String nome_base_dados = "EasyMarket";
+
+        // Nome do usuário de sua base;
         String nome_user_postgre = "postgres";
+
+        // Senha para acessar sua base de dados;
         String senha = "";
 
         String driver = "org.postgresql.Driver";
@@ -23,9 +33,15 @@ public abstract class DBCommand {
         return conexao;
     }
 
+    /**
+     *Dado um PreparedStatement já executado, retorna o ID do item gravado na tabela;
+     *@return Inteiro que representa o ID do item inserido em uma tabela;
+     *@param st PreparedStatement já executado;
+     */
     public static int getIdAtCreate(PreparedStatement st) throws SQLException {
         ResultSet rs = st.getGeneratedKeys();
         rs.next();
+
         return rs.getInt("id");
     }
 }

@@ -1,16 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package database;
+
+import modelo.pessoa.Endereco;
+import modelo.pessoa.Pessoa;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
-import modelo.pessoa.Endereco;
-import modelo.pessoa.Pessoa;
 
 /**
  *
@@ -18,10 +14,15 @@ import modelo.pessoa.Pessoa;
  */
 public abstract class PessoaDAO extends DBCommand{
 
-    // insere no BD e retorna o id gerado
-    public static int create(Pessoa pessoa) throws ClassNotFoundException, SQLException {
-        Connection conn = getConnection();
+    /**
+     * Insere uma pessoa na base de dados;
+     * @param pessoa pessoa a ser gravada na base de dados;
+     * @return Inteiro que representa o ID da pessoa inserida no BD;
+     */
+    public static int create(Pessoa pessoa)
+            throws ClassNotFoundException, SQLException {
 
+        Connection conn = getConnection();
         String sql = "INSERT INTO pessoa (nome,numero,rua,cep,bairro,cidade,estado) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -53,11 +54,9 @@ public abstract class PessoaDAO extends DBCommand{
         
         PreparedStatement st = conn.prepareStatement(sql);
         st.setInt(1, id);
-        
         st.executeUpdate();
         
         st.close();
         conn.close();
     }
-
 }

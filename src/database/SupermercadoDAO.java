@@ -1,26 +1,27 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package database;
 
+import modelo.supermercado.Supermercado;
+import org.postgresql.util.PSQLException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import modelo.supermercado.Supermercado;
-import org.postgresql.util.PSQLException;
 
 /**
  *
  * @author joel-
  */
 public abstract class SupermercadoDAO extends DBCommand{
-    public static int create(Supermercado supermercado) throws ClassNotFoundException, SQLException {
-        int id = PessoaJuridicaDAO.create(supermercado);
-        
-        Connection conn = getConnection();
 
+    /**
+     * Insere um supermercado na base de dados;
+     * @param supermercado Supermercado a ser inserido na base;
+     * @return Inteiro que representa o ID do supermercado inserido no BD;
+     */
+    public static int create(Supermercado supermercado)
+            throws ClassNotFoundException, SQLException {
+
+        int id = PessoaJuridicaDAO.create(supermercado);
+        Connection conn = getConnection();
         String sql = "INSERT INTO supermercado (longitude,latitude,unidade,fk_pessoa_juridica) "
                 + "VALUES (?, ?, ?, ?)";
 

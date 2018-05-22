@@ -1,28 +1,29 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package database;
 
-import static database.DBCommand.getConnection;
+import modelo.pessoa.PessoaJuridica;
+import org.postgresql.util.PSQLException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import modelo.pessoa.PessoaJuridica;
-import org.postgresql.util.PSQLException;
 
 /**
  *
  * @author joel-
  */
 public abstract class PessoaJuridicaDAO extends DBCommand{
-    public static int create(PessoaJuridica pessoaJuridica) throws ClassNotFoundException, SQLException, PSQLException {
+
+    /**
+     * Insere uma pessoa jurídica na base de dados;
+     * @param pessoaJuridica PJ a ser gravada na base de dados;
+     * @return Inteiro que representa o ID da PJ inserida no BD;
+     */
+    public static int create(PessoaJuridica pessoaJuridica)
+            throws ClassNotFoundException, SQLException {
+
         int id = PessoaDAO.create(pessoaJuridica); // insere primeiro os dados da pessoa
         
         Connection conn = getConnection();
-
-        String sql = "INSERT INTO juridica (cnpj,fk_pessoa) "
+        String sql = "INSERT INTO juridica (cnpj, fk_pessoa) "
                 + "VALUES (?, ?)";
 
         PreparedStatement st = conn.prepareStatement(sql);
@@ -42,8 +43,14 @@ public abstract class PessoaJuridicaDAO extends DBCommand{
 
         return id;
     }
-    
-    public static void delete(int id) throws SQLException, ClassNotFoundException {
+
+    /**
+     * Remove uma pessoa da base de dados;
+     * @param id id da pessoa a ser removida da base;
+     */
+    public static void delete(int id)
+            throws SQLException, ClassNotFoundException {
+
         Connection conn = getConnection();
         String sql = "DELETE FROM juridica WHERE id = ?";
 
@@ -51,7 +58,6 @@ public abstract class PessoaJuridicaDAO extends DBCommand{
         st.setInt(1, id);
 
         st.executeUpdate();
-
         st.close();
         conn.close();
 

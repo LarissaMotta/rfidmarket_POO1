@@ -2,7 +2,7 @@ package database;
 
 import modelo.supermercado.Funcionario;
 import modelo.supermercado.Supermercado;
-
+import org.postgresql.util.PSQLException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -10,8 +10,14 @@ import java.sql.SQLException;
 /**
  * Created by 20162bsi0511 on 21/05/2018.
  */
-public abstract class FuncionarioDAO extends  DBCommand {
+public abstract class FuncionarioDAO extends DBCommand {
 
+    /**
+     * Insere um funcionário na base de dados;
+     * @param funcionario funcionário a ser gravado na base de dados;
+     * @param supermercado supermercado em que o funcionário trabalha;
+     * @return Inteiro que representa o ID do funcionário inserido no BD;
+     */
     public static int create(Funcionario funcionario, Supermercado supermercado) throws SQLException, ClassNotFoundException {
         int id = PessoaFisicaDAO.create(funcionario); // insere primeiro os dados da pessoa
 
@@ -26,10 +32,11 @@ public abstract class FuncionarioDAO extends  DBCommand {
         st.setInt(3, id);
         st.setInt(4, supermercado.getId());
 
-
         try {
             st.executeUpdate();
-        } catch (PSQLException ex) {
+        }
+
+        catch (PSQLException ex) {
             // se ocorrer algum erro durante a inseção do restante dos dados
             // apaga o que ja foi inserido e lança a exceção
             PessoaFisicaDAO.delete(id);

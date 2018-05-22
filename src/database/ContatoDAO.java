@@ -13,9 +13,15 @@ import java.sql.Statement;
  */
 public abstract class ContatoDAO extends DBCommand {
 
+    /**
+     * Insere um contato na base de dados;
+     * @param contato contato a ser gravado na base de dados;
+     * @param pessoa pessoa relacionada ao contato recebido;
+     * @return Inteiro que representa o ID do contato inserido no BD;
+     */
     public static int create(Contato contato, Pessoa pessoa) throws SQLException, ClassNotFoundException {
-        Connection conn = getConnection();
 
+        Connection conn = getConnection();
         String sql = "INSERT INTO contato (descricao,tipo,fk_pessoa) "
                 + "VALUES (?, ?, ?)";
 
@@ -25,7 +31,7 @@ public abstract class ContatoDAO extends DBCommand {
         st.setInt(3, pessoa.getId());
 
         st.executeUpdate();
-
+        int id = getIdAtCreate(st);
         st.close();
         conn.close();
 

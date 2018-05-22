@@ -1,14 +1,20 @@
 package database;
 
-import modelo.supermercado.mercadoria.Produto;
-
-import java.sql.*;
 import modelo.supermercado.Supermercado;
+import modelo.supermercado.mercadoria.Produto;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class ProdutoDAO extends DBCommand{
 
-    // Insere um produto no BD e retorna seu ID;
-    //java n presta uvbbbh - Edit
+    /**
+     * Insere um produto na base de dados;
+     * @param produto produto a ser escrito na base de dados;
+     * @param supermercado supermercado que dispõe do produto;
+     * @return Inteiro que representa o ID do produto inserido no BD;
+     */
     public static int create(Produto produto, Supermercado supermercado)
             throws ClassNotFoundException, SQLException {
 
@@ -29,7 +35,6 @@ public class ProdutoDAO extends DBCommand{
         st.setInt(8, produto.getQtdPrateleira());
         st.setString(9, produto.getMarca());
         st.setInt(10, supermercado.getId());
-
         st.executeUpdate();
         int id = getIdAtCreate(st);
 

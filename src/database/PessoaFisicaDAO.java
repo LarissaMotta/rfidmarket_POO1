@@ -1,24 +1,26 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package database;
 
-import static database.DBCommand.getConnection;
+import modelo.pessoa.PessoaFisica;
+import org.postgresql.util.PSQLException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import modelo.pessoa.PessoaFisica;
-import org.postgresql.util.PSQLException;
 
 /**
  *
  * @author joel-
  */
 public abstract class PessoaFisicaDAO extends DBCommand {
-    public static int create(PessoaFisica pessoaFisica) throws ClassNotFoundException, SQLException, PSQLException {
+
+    /**
+     * Insere uma pessoa física na base de dados;
+     * @param pessoaFisica PF a ser gravada na base de dados;
+     * @return Inteiro que representa o ID da PF inserida no BD;
+     */
+    public static int create(PessoaFisica pessoaFisica)
+            throws ClassNotFoundException, SQLException {
+
         int id = PessoaDAO.create(pessoaFisica); // insere primeiro os dados da pessoa
         
         Connection conn = getConnection();
@@ -49,7 +51,13 @@ public abstract class PessoaFisicaDAO extends DBCommand {
         return id;
     }
 
-    public static void delete(int id) throws SQLException, ClassNotFoundException {
+    /**
+     * Remove uma pessoa da base de dados;
+     * @param id id da pessoa a ser removida da base;
+     */
+    public static void delete(int id)
+            throws SQLException, ClassNotFoundException {
+
         Connection conn = getConnection();
         String sql = "DELETE FROM fisica WHERE id = ?";
 
@@ -57,7 +65,6 @@ public abstract class PessoaFisicaDAO extends DBCommand {
         st.setInt(1, id);
 
         st.executeUpdate();
-
         st.close();
         conn.close();
 
