@@ -48,7 +48,7 @@ public class PessoaDAOTest {
     public void testCreate() throws Exception {
         System.out.println("create");
         Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", "ES", 75, "Rua Xablau");
-        Pessoa pessoa = new Cliente("785.967.158-98", new Date(), 'M', "joelwb@hotmail.com", "3589745", "testedesenha", "Joel", endereco);
+        Pessoa pessoa = new Cliente("785.967.158-98", new Date(), 'M', "joelwb@hotmail.com", "testedesenha", "Joel", endereco);
         int result = PessoaDAO.create(pessoa);
         System.out.println("id = "+result);
     }

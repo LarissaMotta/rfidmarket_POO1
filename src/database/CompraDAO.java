@@ -5,10 +5,15 @@
  */
 package database;
 
+import static database.DBCommand.getConnection;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import modelo.ItemProduto;
 import modelo.cliente.Cartao;
@@ -54,5 +59,62 @@ public abstract class CompraDAO extends DBCommand{
         }
 
         return id;
+    }
+    
+    public static List<Compra> getHistoricoCompras(Cliente cliente) throws ClassNotFoundException, SQLException{
+        List<Compra> histCompras = new ArrayList<>();
+
+        // Obtenha a conexão com o BD;
+        Connection conexao = getConnection();
+
+        // Forme a string sql;
+        String sql = "SELECT id,timestamp from hist_compra WHERE fk_pessoa_fisica = ?";
+
+        PreparedStatement st = conexao.prepareStatement (sql);
+        st.setInt(1, cliente.getId());
+        
+        ResultSet rs = st.executeQuery(sql);
+
+        // Enquanto houver algum cartão resultado da busca;
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            Date dataHora = rs.getDate("timestamp");
+
+            histCompras.add(new Compra(id, dataHora));
+        }
+
+        st.close();
+        conexao.close();
+
+        return histCompras;
+    }
+    
+    public static List<Compra> getHistoricoComprasByCartao(Cliente cliente, Cartao cartao) throws ClassNotFoundException, SQLException{
+        List<Compra> histCompras = new ArrayList<>();
+
+        // Obtenha a conexão com o BD;
+        Connection conexao = getConnection();
+
+        // Forme a string sql;
+        String sql = "SELECT id,timestamp from hist_compra WHERE fk_pessoa_fisica = ? AND fk_cartao = ?";
+
+        PreparedStatement st = conexao.prepareStatement (sql);
+        st.setInt(1, cliente.getId());
+        st.setInt(2, cartao.getId());
+        
+        ResultSet rs = st.executeQuery(sql);
+
+        // Enquanto houver algum cartão resultado da busca;
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            Date dataHora = rs.getDate("timestamp");
+
+            histCompras.add(new Compra(id, dataHora));
+        }
+
+        st.close();
+        conexao.close();
+
+        return histCompras;
     }
 }

@@ -54,6 +54,7 @@ public class ClienteDAOTest {
         Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", "ES", 75, "Rua Xablau");
         Cliente cliente = new Cliente("216.856.707-76", new Date(), 'M', "joel@hotmail.com", "testedesenha", "Joel", endereco);
         int result = ClienteDAO.create(cliente);
+        System.out.println("id = "+result);
     }
 
     /**

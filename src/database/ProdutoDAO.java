@@ -15,9 +15,10 @@ public abstract class ProdutoDAO extends DBCommand{
      * @param produto produto a ser escrito na base de dados;
      * @param supermercado supermercado que dispõe do produto;
      * @return Inteiro que representa o ID do produto inserido no BD;
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
      */
-    public static int create(Produto produto, Supermercado supermercado)
-            throws ClassNotFoundException, SQLException {
+    public static int create(Produto produto, Supermercado supermercado) throws ClassNotFoundException, SQLException {
 
         Connection conn = getConnection();
         String sql = "INSERT INTO produto" +

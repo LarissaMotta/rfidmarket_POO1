@@ -50,6 +50,7 @@ public class PessoaFisicaDAOTest {
         Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", "ES", 75, "Rua Xablau");
         PessoaFisica pessoaFisica = new Cliente("216.856.707-76", new Date(), 'M', "joel@hotmail.com", "testedesenha", "Joel", endereco);
         int result = PessoaFisicaDAO.create(pessoaFisica);
+        System.out.println("id = "+result);
     }
     
 }

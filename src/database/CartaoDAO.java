@@ -52,8 +52,7 @@ public abstract class CartaoDAO extends DBCommand {
      * @throws java.sql.SQLException
      * @throws java.lang.ClassNotFoundException
      */
-    public static List<Cartao> readCartoesByCliente(Cliente cliente)
-            throws SQLException, ClassNotFoundException {
+    public static List<Cartao> readCartoesByCliente(Cliente cliente) throws SQLException, ClassNotFoundException {
 
         List<Cartao> cartoes = new ArrayList<>();
 
@@ -61,9 +60,11 @@ public abstract class CartaoDAO extends DBCommand {
         Connection conexao = getConnection();
 
         // Forme a string sql;
-        String sql = "SELECT * utiliza WHERE fk_pessoa_fisica = " + cliente.getId();
+        String sql = "SELECT * from utiliza WHERE fk_pessoa_fisica = ?";
 
-        Statement st = conexao.createStatement();
+        PreparedStatement st = conexao.prepareStatement (sql);
+        st.setInt(1, cliente.getId());
+        
         ResultSet rs = st.executeQuery(sql);
 
 

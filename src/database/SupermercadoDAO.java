@@ -17,9 +17,10 @@ public abstract class SupermercadoDAO extends DBCommand{
      * Insere um supermercado na base de dados;
      * @param supermercado Supermercado a ser inserido na base;
      * @return Inteiro que representa o ID do supermercado inserido no BD;
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
      */
-    public static int create(Supermercado supermercado)
-            throws ClassNotFoundException, SQLException {
+    public static int create(Supermercado supermercado) throws ClassNotFoundException, SQLException {
 
         int id = PessoaJuridicaDAO.create(supermercado);
         Connection conn = getConnection();

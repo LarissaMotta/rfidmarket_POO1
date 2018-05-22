@@ -38,6 +38,7 @@ public abstract class DBCommand {
      *Dado um PreparedStatement já executado, retorna o ID do item gravado na tabela;
      *@return Inteiro que representa o ID do item inserido em uma tabela;
      *@param st PreparedStatement já executado;
+     * @throws java.sql.SQLException
      */
     public static int getIdAtCreate(PreparedStatement st) throws SQLException {
         ResultSet rs = st.getGeneratedKeys();

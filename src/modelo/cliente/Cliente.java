@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 import database.CartaoDAO;
+import database.CompraDAO;
 import modelo.pessoa.Endereco;
 import modelo.pessoa.PessoaFisica;
 
@@ -24,19 +25,22 @@ public class Cliente extends PessoaFisica {
     public Cliente(String cpf, Date dataNasc, char genero, String login,String senha, String nome, Endereco endereco) throws IllegalArgumentException{
         super(cpf, dataNasc, genero, login, senha, nome, endereco);
     }
-
+    
     // Retorna uma lista com todas as compras feitas do cliente
-    public List<Compra> getHistoricoCompras() {
-        //TODO criar função na classe CompraDAO para carregar no BD
+    public List<Compra> getHistoricoCompras() throws ClassNotFoundException, SQLException {
+        if (getId() <= 0) return null;
+        else return CompraDAO.getHistoricoCompras(this);
     }
 
     // Retorna uma lista com as compras feitas do cliente com um determinado cartao
     public List<Compra> getHistoricoComprasByCartao(Cartao cartao) {
-        //TODO criar função na classe CompraDAO para carregar no BD
+        if (getId() <= 0) return null;
+        else return CompraDAO.getHistoricoComprasByCartao(this, cartao);
     }
 
     // Retorna uma lista com todos os cartoes do cliente
     public List<Cartao> getCartoes() throws SQLException, ClassNotFoundException {
-        return CartaoDAO.readCartoesByCliente(this);
+        if (getId() <= 0) return null;
+        else return CartaoDAO.readCartoesByCliente(this);
     }
 }

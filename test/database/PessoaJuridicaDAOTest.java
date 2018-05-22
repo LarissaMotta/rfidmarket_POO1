@@ -49,6 +49,7 @@ public class PessoaJuridicaDAOTest {
         Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", "ES", 75, "Rua Xablau");
         PessoaJuridica pessoaJuridica = new Fornecedor("44.122.623/0001-02", "Coca-Cola", endereco);
         int result = PessoaJuridicaDAO.create(pessoaJuridica);
+        System.out.println("id = "+result);
     }
     
 }
