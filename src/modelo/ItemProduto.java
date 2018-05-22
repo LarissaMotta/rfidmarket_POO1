@@ -52,4 +52,8 @@ public class ItemProduto {
     public int getQuantidade() {
         return quantidade;
     }
+
+    public Produto getProduto() {
+        return produto;
+    }
 }

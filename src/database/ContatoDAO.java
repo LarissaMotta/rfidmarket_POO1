@@ -18,6 +18,8 @@ public abstract class ContatoDAO extends DBCommand {
      * @param contato contato a ser gravado na base de dados;
      * @param pessoa pessoa relacionada ao contato recebido;
      * @return Inteiro que representa o ID do contato inserido no BD;
+     * @throws java.sql.SQLException
+     * @throws java.lang.ClassNotFoundException
      */
     public static int create(Contato contato, Pessoa pessoa) throws SQLException, ClassNotFoundException {
 

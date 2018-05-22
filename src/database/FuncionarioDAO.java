@@ -17,6 +17,8 @@ public abstract class FuncionarioDAO extends DBCommand {
      * @param funcionario funcionário a ser gravado na base de dados;
      * @param supermercado supermercado em que o funcionário trabalha;
      * @return Inteiro que representa o ID do funcionário inserido no BD;
+     * @throws java.sql.SQLException
+     * @throws java.lang.ClassNotFoundException
      */
     public static int create(Funcionario funcionario, Supermercado supermercado) throws SQLException, ClassNotFoundException {
         int id = PessoaFisicaDAO.create(funcionario); // insere primeiro os dados da pessoa

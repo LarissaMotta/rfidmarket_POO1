@@ -42,7 +42,10 @@ public class Compra {
     
     // retorna os itens e inicializa o atributo itens caso ele seja = null
     public List<ItemProduto> getItens() {
-        if (itens == null){ // se true, significa que os itens não foram carregados ainda
+        if (id <= 0){
+            return null;
+        }
+        else if (itens == null){ // se true, significa que os itens não foram carregados ainda
             //TODO criar função para carregar itens de uma compra na classe CompraDAO
             //inicializar o atributo itens com o que foi carregado
         }

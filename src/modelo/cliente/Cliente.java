@@ -37,7 +37,6 @@ public class Cliente extends PessoaFisica {
 
     // Retorna uma lista com todos os cartoes do cliente
     public List<Cartao> getCartoes() throws SQLException, ClassNotFoundException {
-        //TODO criar função na classe CartaoDAO para carregar no BD
-        return CartaoDAO.readCartoes(this);
+        return CartaoDAO.readCartoesByCliente(this);
     }
 }

@@ -28,24 +28,23 @@ public class LoteDAO extends DBCommand {
                 "fk_fornecedor, fk_produto, fk_supermecado) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        PreparedStatement ps;
-        ps = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement st = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
         // Defina os valores que ocuparão as '?' na ordem acima;
-        ps.setDate(1, new Date(lote.getDataCompra().getTime()));
-        ps.setString(2, lote.getIdentificador());
-        ps.setDate(3, new Date(lote.getDataFabricacao().getTime()));
-        ps.setInt(4, lote.getNumUnidades());
-        ps.setDate(5, new Date(lote.getDataValidade().getTime()));
-        ps.setInt(6, forn.getId());
-        ps.setInt(7, prod.getId());
-        ps.setInt(8, superm.getId());
+        st.setDate(1, new Date(lote.getDataCompra().getTime()));
+        st.setString(2, lote.getIdentificador());
+        st.setDate(3, new Date(lote.getDataFabricacao().getTime()));
+        st.setInt(4, lote.getNumUnidades());
+        st.setDate(5, new Date(lote.getDataValidade().getTime()));
+        st.setInt(6, forn.getId());
+        st.setInt(7, prod.getId());
+        st.setInt(8, superm.getId());
 
         // Execute o INSERT e receba o ID do cartão cadastrado no BD;
-        ps.executeUpdate();
-        int id = getIdAtCreate(ps);
+        st.executeUpdate();
+        int id = getIdAtCreate(st);
 
-        ps.close();
+        st.close();
         conexao.close();
 
         return id;

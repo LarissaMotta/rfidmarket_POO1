@@ -20,10 +20,10 @@ public class Cartao {
     private Date dataValid;
     private long numero;        
     private String titular;     
-    private String tipo;        //talves tenha que tirar, ou talves tenha que add no Diagrama
+    private char tipo;        //talves tenha que tirar, ou talves tenha que add no Diagrama
 
     // Pode ser usada quando para instanciar a partir de dados do BD
-    public Cartao(int id, String bandeira, Date dataValid, long numero, String titular, String tipo) throws IllegalArgumentException{
+    public Cartao(int id, String bandeira, Date dataValid, long numero, String titular, char tipo) throws IllegalArgumentException{
         Util.verificaID(id);
 
         this.id = id;
@@ -35,7 +35,7 @@ public class Cartao {
     }
 
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
-    public Cartao(String bandeira, Date dataValid, long numero, String titular, String tipo) throws IllegalArgumentException{
+    public Cartao(String bandeira, Date dataValid, long numero, String titular, char tipo) throws IllegalArgumentException{
         setBandeira(bandeira);
         setDataValid(dataValid);
         setNumero(numero);
@@ -83,11 +83,16 @@ public class Cartao {
         this.titular = titular;
     }
 
-    public String getTipo() {
+    public char getTipo() {
         return tipo;
     }
 
-    public final void setTipo(String tipo) throws IllegalArgumentException{
+    public final void setTipo(char tipo) throws IllegalArgumentException{
+        tipo = Character.toUpperCase(tipo);
+
+        if (tipo != 'C' && tipo != 'D') //char pode ser null?
+            throw new IllegalArgumentException("Tipo de cartão inválido");
+        
         this.tipo = tipo;
     }
 }
