@@ -1,5 +1,6 @@
 package modelo.pessoa;
 
+import database.ContatoDAO;
 import java.util.List;
 import util.Util;
 
@@ -49,6 +50,7 @@ public abstract class Pessoa {
 
     public List<Contato> getContato() {
         //TODO criar função na classe ContatoDAO para carregar no BD
+        return ContatoDAO.getContato(pessoa);
     }
 
     public final void setEndereco(Endereco endereco) throws IllegalArgumentException{
