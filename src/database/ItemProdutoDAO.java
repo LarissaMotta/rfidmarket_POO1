@@ -68,7 +68,6 @@ public abstract class ItemProdutoDAO extends DBCommand{
         String sql = "SELECT * from produto "
                + "INNER JOIN produto on produto.id = compra.id"
                 + "WHERE id = ?"; //REVER SE ESTA CERTO
-        //int id, double precoCompra, int quantidade, Produto produto
         PreparedStatement st = conexao.prepareStatement (sql);
         st.setInt(1, compra.getId());
         
@@ -79,16 +78,8 @@ public abstract class ItemProdutoDAO extends DBCommand{
             int id = rs.getInt("id");
             double precoCompra = rs.getDouble("preco_compra");
             int quantidade = rs.getInt("quantidade");
-            String codigo = rs.getString("codigo");
-            double custo = rs.getDouble("");
-            String descricao = rs.getString("descricao");
-            String marca = rs.getString("marca");
-            String nome = rs.getString("nome");
-            double preco = rs.getDouble("preco");
-            int quant_prateleira = rs.getInt("quant_prateleira");
-            int estoque = rs.getInt("estoque");
-            String tipo = rs.getString("tipo");
-            Produto prod = new Produto(codigo,custo,descricao,marca,nome,preco,quant_prateleira,estoque,tipo);
+            Produto prod ;
+            prod = ProdutoDAO.readProdutosById(id);
             
              
             itens.add(new ItemProduto(id,precoCompra,quantidade,prod));
