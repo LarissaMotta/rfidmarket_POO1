@@ -2,6 +2,7 @@ package database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -59,5 +60,16 @@ public abstract class PessoaDAO extends DBCommand{
         
         st.close();
         conn.close();
+    }
+    
+    protected static Endereco getEndereco(ResultSet rs) throws SQLException{
+        int numero = rs.getInt("numero");
+        String ruaAvenida = rs.getString("rua");
+        String cep = rs.getString("cep");
+        String bairro = rs.getString("bairro");
+        String cidade = rs.getString("cidade");
+        String estado = rs.getString("estado");
+        
+        return new Endereco(bairro, cep, cidade, estado, numero, ruaAvenida);
     }
 }
