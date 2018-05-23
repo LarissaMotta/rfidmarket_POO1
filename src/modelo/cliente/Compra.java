@@ -46,7 +46,7 @@ public class Compra {
             return null;
         }
         else if (itens == null){ // se true, significa que os itens não foram carregados ainda
-            //TODO criar função para carregar itens de uma compra na classe CompraDAO
+            //TODO criar função para carregar itens de uma compra na classe ItemProdutoDAO
             //inicializar o atributo itens com o que foi carregado
         }
         else{

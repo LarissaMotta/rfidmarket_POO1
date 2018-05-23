@@ -1,7 +1,11 @@
 package database;
 
+import java.sql.PreparedStatement;
 import modelo.supermercado.mercadoria.Fornecedor;
 import java.sql.SQLException;
+import java.util.List;
+import modelo.supermercado.Supermercado;
+import modelo.supermercado.mercadoria.Lote;
 
 public abstract class FornecedorDAO extends DBCommand{
 
@@ -16,5 +20,20 @@ public abstract class FornecedorDAO extends DBCommand{
 
         // Retorne o id da pessoa jurídica que corresponde ao fornecedor;
         return PessoaJuridicaDAO.create(fornecedor);
+    }
+    
+    //Larissa
+    public static List<Fornecedor> readFornecedoresBySupermercado(Supermercado supermercado){
+        
+    }
+    
+    //Larissa
+    public static Fornecedor readFornecedorByLote(Lote lote){
+        
+    }
+    
+    //Larissa
+    private static Fornecedor readFornecedor(PreparedStatement st){
+        
     }
 }

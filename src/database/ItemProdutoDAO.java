@@ -9,8 +9,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import modelo.ItemProduto;
+import modelo.cliente.Compra;
 
 /**
  *
@@ -46,5 +48,11 @@ public abstract class ItemProdutoDAO extends DBCommand{
         conexao.close();
 
         return id;
+    }
+    
+    //Jennifer
+    public static List<ItemProduto> readItensByCompra(Compra compra){
+        //Faça uso da função ProdutoDAO.readProdutoById(int id)
+        //Servira para pegar o produto do item em questao
     }
 }

@@ -3,6 +3,7 @@ package database;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 
 import modelo.supermercado.Funcionario;
 import modelo.supermercado.Supermercado;
@@ -51,5 +52,10 @@ public abstract class FuncionarioDAO extends DBCommand {
         conn.close();
 
         return id;
+    }
+    
+    //Jennifer
+    public static List<Funcionario> readFuncionariosBySupermercado(Supermercado supermercado){
+        
     }
 }

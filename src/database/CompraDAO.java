@@ -96,6 +96,11 @@ public abstract class CompraDAO extends DBCommand{
         return histCompras;
     }
     
+    //Larissa
+    public static List<Compra> readHistoricoComprasBySupermercado(Supermercado supermercado) throws ClassNotFoundException, SQLException{
+        
+    }
+    
     private static List<Compra> readHistoricoCompras(PreparedStatement st) throws SQLException{
         List<Compra> histCompras = new ArrayList<>();
         

@@ -51,6 +51,8 @@ public abstract class CartaoDAO extends DBCommand {
      * @throws java.sql.SQLException
      * @throws java.lang.ClassNotFoundException
      */
+    
+    //TODO Consertar
     public static List<Cartao> readCartoesByCliente(Cliente cliente) throws SQLException, ClassNotFoundException {
 
         List<Cartao> cartoes = new ArrayList<>();

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import modelo.supermercado.Supermercado;
 import modelo.supermercado.mercadoria.Produto;
@@ -46,4 +47,18 @@ public abstract class ProdutoDAO extends DBCommand{
         return id;
     }
 
+    //Jennifer
+    public static List<Produto> readProdutosBySupermercado(Supermercado supermercado){
+        
+    }
+    
+    //Jennifer
+    public static Produto readProdutosById(int id){
+        
+    }
+    
+    //Jennifer
+    private static Produto readProdutos(PreparedStatement st){
+        
+    }
 }

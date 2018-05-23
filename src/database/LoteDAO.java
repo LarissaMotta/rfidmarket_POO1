@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import modelo.supermercado.Supermercado;
 import modelo.supermercado.mercadoria.Fornecedor;
@@ -54,5 +55,26 @@ public abstract class LoteDAO extends DBCommand {
         conexao.close();
 
         return id;
+    }
+    
+    //Jubileu
+    public static List<Lote> readLotesBySupermercado(Supermercado supermercado){
+        
+    }
+    
+    //Jubileu
+    public static List<Lote> readLotesByProduto(Produto produto){
+        
+    }
+    
+    //Jubileu
+    public static List<Lote> readLotesByFornecedor(Fornecedor fornecedor){
+        
+    }
+    
+    //Jubileu
+    private static List<Lote> readLotes(PreparedStatement st){
+        //Faça uso da função ProdutoDAO.readProdutoById(int id)
+        //Servira para pegar o produto do Lote em questao
     }
 }

@@ -7,6 +7,7 @@ package modelo.supermercado.mercadoria;
 
 import modelo.supermercado.Supermercado;
 import java.util.Date;
+import java.util.List;
 import util.Util;
 
 public class Lote {
@@ -21,13 +22,15 @@ public class Lote {
     private final Produto produto;      // deve ser carregado e não passado para construtor
 
     // Pode ser usada quando para instanciar a partir de dados do BD
-    public Lote(int id, String codigoProd, Date dataCompra, Date dataFabricacao, Date dataValidade, int numUnidades, String identificador) throws IllegalArgumentException{
+    public Lote(int id, String codigoProd, Date dataCompra, Date dataFabricacao, Date dataValidade, int numUnidades, String identificador, Produto produto) throws IllegalArgumentException{
         Util.verificaID(id);
         Util.verificaStringNullVazia(codigoProd);
         Util.verificaIsObjNull(dataCompra);
         Util.verificaIsObjNull(dataFabricacao);
         Util.verificaIsObjNull(dataValidade);
         Util.verificaStringNullVazia(identificador);
+        Util.verificaIsObjNull(produto);
+        
         if (numUnidades <= 0)
             throw new IllegalArgumentException("Algum argumento inválido!");
         
@@ -38,16 +41,18 @@ public class Lote {
         this.dataValidade = dataValidade;
         this.numUnidades = numUnidades;
         this.identificador = identificador;
-        this.produto = null;    // Fazer carregamento do produto aki
+        this.produto = produto;    // Fazer carregamento do produto aki
     }
     
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
-    public Lote(String codigoProd, Date dataCompra, Date dataFabricacao, Date dataValidade, int numUnidades, String identificador) throws IllegalArgumentException{
+    public Lote(String codigoProd, Date dataCompra, Date dataFabricacao, Date dataValidade, int numUnidades, String identificador, Produto produto) throws IllegalArgumentException{
         Util.verificaStringNullVazia(codigoProd);
         Util.verificaIsObjNull(dataCompra);
         Util.verificaIsObjNull(dataFabricacao);
         Util.verificaIsObjNull(dataValidade);
         Util.verificaStringNullVazia(identificador);
+        Util.verificaIsObjNull(produto);
+         
         if (numUnidades <= 0)
             throw new IllegalArgumentException("Algum argumento inválido!");
         
@@ -57,12 +62,17 @@ public class Lote {
         this.dataValidade = dataValidade;
         this.numUnidades = numUnidades;
         this.identificador = identificador;
-        this.produto = null;    // Fazer carregamento do produto aki 
+        this.produto = produto;    
     }
     
     // Retorna de que supermercado aquele lote pertence
     public Supermercado getSupermercado(){
         //TODO criar função na classe SupermercadoDAO para carregar no BD
+    }
+    
+    // Retorna o fornecedor do lote
+    public List<Fornecedor> getFornecedores() {
+        //TODO criar função na classe FornecedorDAO para carregar no BD
     }
     
     public int getId() {

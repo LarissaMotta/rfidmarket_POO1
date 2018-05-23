@@ -19,8 +19,9 @@ public class ItemProduto {
     private final Produto produto;  // deve ser carregado e não passado para construtor
 
     // Pode ser usada quando para instanciar a partir de dados do BD
-    public ItemProduto(int id, double precoCompra, int quantidade) throws IllegalArgumentException{
+    public ItemProduto(int id, double precoCompra, int quantidade, Produto produto) throws IllegalArgumentException{
         Util.verificaID(id);
+        Util.verificaIsObjNull(produto);
         
         if (precoCompra <= 0 || quantidade <= 0)
             throw new IllegalArgumentException("Algum argumento inválido!");
@@ -28,11 +29,12 @@ public class ItemProduto {
         this.id = id;
         this.precoCompra = precoCompra;
         this.quantidade = quantidade;
-        this.produto = null;    // Fazer carregamento do produto aki 
+        this.produto = produto;
     }
 
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
     public ItemProduto(double precoCompra, int quantidade, Produto produto) throws IllegalArgumentException{
+         Util.verificaIsObjNull(produto);
         if (precoCompra <= 0 || quantidade <= 0)
             throw new IllegalArgumentException("Algum argumento inválido!");
         
