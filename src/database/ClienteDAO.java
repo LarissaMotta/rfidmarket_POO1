@@ -26,7 +26,7 @@ public abstract class ClienteDAO extends DBCommand{
         return PessoaFisicaDAO.create(cliente);
     }
 
-    public static int addCartao(Cliente cliente, Cartao cartao) throws SQLException, ClassNotFoundException {
+    public static void addCartao(Cliente cliente, Cartao cartao) throws SQLException, ClassNotFoundException {
 
         // Obtenha a conexão com o BD;
         Connection conexao = getConnection();
@@ -41,12 +41,9 @@ public abstract class ClienteDAO extends DBCommand{
 
         // Execute o INSERT e receba o ID do cartão cadastrado no BD;
         st.executeUpdate();
-        int id = getIdAtCreate(st);
 
         st.close();
         conexao.close();
-
-        return id;
     }
     
     //Jubileu
