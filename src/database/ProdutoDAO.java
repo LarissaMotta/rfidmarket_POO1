@@ -64,7 +64,7 @@ public abstract class ProdutoDAO extends DBCommand{
                + "INNER JOIN pessoa on pessoa.id = juridica.id"
                 + "INNER JOIN juridica on juridica.id = supermercado.id"
                 + "INNER JOIN supermercado on supermercado.id = produto.id"
-                + "WHERE fk_supermercado = ?"; //REVER SE ESTA CERTO
+                + "WHERE fk_supermercado = ?"; //REVER SE ESTA CERTO !
 
         PreparedStatement st = conexao.prepareStatement (sql);
         st.setInt(1, supermercado.getId());
