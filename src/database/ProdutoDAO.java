@@ -60,11 +60,11 @@ public abstract class ProdutoDAO extends DBCommand{
         Connection conexao = getConnection();
  
         // Forme a string sql;
-        String sql = "SELECT * from produtos "
+        String sql = "SELECT * from produto "
                + "INNER JOIN pessoa on pessoa.id = juridica.id"
                 + "INNER JOIN juridica on juridica.id = supermercado.id"
                 + "INNER JOIN supermercado on supermercado.id = produto.id"
-                + "WHERE fk_produto = ?"; //REVER SE ESTA CERTO
+                + "WHERE fk_supermercado = ?"; //REVER SE ESTA CERTO
 
         PreparedStatement st = conexao.prepareStatement (sql);
         st.setInt(1, supermercado.getId());
@@ -95,7 +95,42 @@ public abstract class ProdutoDAO extends DBCommand{
     }
     
     //Jennifer
-    public static Produto readProdutosById(int id){
+    public static Produto readProdutosById(int id)throws SQLException, ClassNotFoundException{
+         // Obtenha a conexão com o BD;
+        Connection conexao = getConnection();
+            
+  
+        // Forme a string sql;
+        String sql = "SELECT * from produtos "
+                + "WHERE id = ?"; //REVER SE ESTA CERTO
+
+        PreparedStatement st = conexao.prepareStatement (sql);
+ 
+        
+        ResultSet rs = st.executeQuery();
+ 
+        while (rs.next()) {
+
+           
+            String codigo = rs.getString("codigo");
+            double custo = rs.getDouble("custo");
+            String descricao = rs.getString("descricao");
+            String marca = rs.getString("marca");
+            String nome = rs.getString("nome");
+            double precoVenda = rs.getDouble("preco");
+            int qtdPrateleira = rs.getInt("quant_prateleira");
+            int qtdEstoque = rs.getInt("estoque");
+            String tipo = rs.getString("tipo");
+
+           Produto prod = new Produto (id,codigo,custo,descricao,marca,nome,precoVenda,qtdPrateleira,qtdEstoque,tipo);
+           
+        }
+
+        conexao.close();
+
+        return prod;
+        
+
         
     }
     
