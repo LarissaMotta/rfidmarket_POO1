@@ -50,7 +50,7 @@ public abstract class FuncionarioDAO extends DBCommand {
 
         catch (PSQLException ex) {
             // se ocorrer algum erro durante a inseção do restante dos dados
-            // apaga o que ja foi inserido e lança a exceção .
+            // apaga o que ja foi inserido e lança a exceção
             PessoaFisicaDAO.delete(id);
             throw ex;
         }
@@ -70,9 +70,9 @@ public abstract class FuncionarioDAO extends DBCommand {
 
         // Forme a string sql;
         String sql = "SELECT * from funcionario "
-                + "INNER JOIN pessoa on pessoa.id = fisica.id"
-                + "INNER JOIN pessoa on pessoa.id = contato.id"
-                + "inner join supermercado on supermercado.id =funcionario.id " // VERIFICAR SE ESTA CERTO
+                + "INNER JOIN fisica on fisica.fk_pessoa = funcionario.fk_pessoa_fisica"
+                + "INNER JOIN pessoa on pessoa.id = funcionario.fk_pessoa_fisica"
+             
                   + " WHERE fk_supermercado = ?"; 
 
         PreparedStatement st = conexao.prepareStatement (sql);
@@ -93,6 +93,7 @@ public abstract class FuncionarioDAO extends DBCommand {
             int id = rs.getInt("id");
             String nome = rs.getString("nome");
             String bairro = rs.getString("bairro");
+            
             String cep = rs.getString("cep");
             String cidade = rs.getString("cidade");
             String estado = rs.getString("estado");
