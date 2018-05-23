@@ -74,7 +74,7 @@ public abstract class FuncionarioDAO extends DBCommand {
                 + "INNER JOIN pessoa on pessoa.id = fisica.id"
                 + "INNER JOIN pessoa on pessoa.id = contato.id"
                 + "inner join supermercado on supermercado.id =funcionario.id " // VERIFICAR SE ESTA CERTO
-                  + " WHERE fk_pessoa_fisica = ?"; //ALTERAR AQUI
+                  + " WHERE fk_funcionario = ?"; 
 
         PreparedStatement st = conexao.prepareStatement (sql);
         st.setInt(1, supermercado.getId());
