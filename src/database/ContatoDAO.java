@@ -76,5 +76,5 @@ public abstract class ContatoDAO extends DBCommand {
     }
     
 
-    }
+    
 }
