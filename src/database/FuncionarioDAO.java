@@ -50,7 +50,7 @@ public abstract class FuncionarioDAO extends DBCommand {
 
         catch (PSQLException ex) {
             // se ocorrer algum erro durante a inseção do restante dos dados
-            // apaga o que ja foi inserido e lança a exceção
+            // apaga o que ja foi inserido e lança a exceção .
             PessoaFisicaDAO.delete(id);
             throw ex;
         }
