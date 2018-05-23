@@ -5,14 +5,18 @@
  */
 package database;
 
+import static database.DBCommand.getConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import modelo.ItemProduto;
 import modelo.cliente.Compra;
+import modelo.supermercado.mercadoria.Produto;
 
 /**
  *
@@ -51,8 +55,39 @@ public abstract class ItemProdutoDAO extends DBCommand{
     }
     
     //Jennifer
-    public static List<ItemProduto> readItensByCompra(Compra compra){
+    public static List<ItemProduto> readItensByCompra(Compra compra)throws SQLException, ClassNotFoundException{
         //Faça uso da função ProdutoDAO.readProdutoById(int id)
         //Servira para pegar o produto do item em questao
+        
+        List<ItemProduto> itens = new ArrayList<>();
+
+        // Obtenha a conexão com o BD;
+        Connection conexao = getConnection();
+ 
+        // Forme a string sql;
+        String sql = "SELECT * from produto "
+               + "INNER JOIN produto on produto.id = compra.id"
+                + "WHERE compra.id = ?"; //REVER SE ESTA CERTO
+        PreparedStatement st = conexao.prepareStatement (sql);
+        st.setInt(1, compra.getId());
+        
+        ResultSet rs = st.executeQuery();
+ 
+        while (rs.next()) {
+  
+            int id = rs.getInt("id");
+            double precoCompra = rs.getDouble("preco_compra");
+            int quantidade = rs.getInt("quantidade");
+            Produto prod ;
+            prod = ProdutoDAO.readProdutosById(id);
+            
+             
+            itens.add(new ItemProduto(id,precoCompra,quantidade,prod));
+        }
+
+        st.close();
+        conexao.close();
+
+        return itens;
     }
 }
