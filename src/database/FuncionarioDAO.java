@@ -70,11 +70,10 @@ public abstract class FuncionarioDAO extends DBCommand {
 
         // Forme a string sql;
         String sql = "SELECT * from funcionario "
-                //inner join Cidade cid on cid.IdCidade = a.IdCidade
                 + "INNER JOIN pessoa on pessoa.id = fisica.id"
                 + "INNER JOIN pessoa on pessoa.id = contato.id"
                 + "inner join supermercado on supermercado.id =funcionario.id " // VERIFICAR SE ESTA CERTO
-                  + " WHERE fk_funcionario = ?"; 
+                  + " WHERE fk_supermercado = ?"; 
 
         PreparedStatement st = conexao.prepareStatement (sql);
         st.setInt(1, supermercado.getId());
@@ -86,14 +85,21 @@ public abstract class FuncionarioDAO extends DBCommand {
             String cargo = rs.getString("cargo");
             String setor = rs.getString("setor");
             String cpf = rs.getString("cpf");
-            Date dataNasc = rs.getDate("dataNasc");
+            Date dataNasc = rs.getDate("data_nasc");
             char genero = rs.getString("genero").charAt(0);
             String login = rs.getString("login");
             String rg = rs.getString("rg");
             String senha = rs.getString("senha");
             int id = rs.getInt("id");
             String nome = rs.getString("nome");
-            Endereco endereco = rs.getObject("pessoa", Endereco); // REVER
+            String bairro = rs.getString("bairro");
+            String cep = rs.getString("cep");
+            String cidade = rs.getString("cidade");
+            String estado = rs.getString("estado");
+            int numero = rs.getInt("numero");
+            String ruaAvenida = rs.getString("rua");
+            Endereco endereco = new Endereco (bairro,cep,cidade,estado,numero,ruaAvenida);
+            
 
             funcionarios.add(new Funcionario(cargo,setor,cpf,dataNasc,genero,login,rg,senha,id,nome,endereco));
         }
