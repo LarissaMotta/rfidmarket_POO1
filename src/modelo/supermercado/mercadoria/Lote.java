@@ -60,6 +60,7 @@ public class Lote {
         this.produto = null;    // Fazer carregamento do produto aki 
     }
     
+    // Retorna de que supermercado aquele lote pertence
     public Supermercado getSupermercado(){
         //TODO criar função na classe SupermercadoDAO para carregar no BD
     }

@@ -29,13 +29,13 @@ public class Cliente extends PessoaFisica {
     // Retorna uma lista com todas as compras feitas do cliente
     public List<Compra> getHistoricoCompras() throws ClassNotFoundException, SQLException {
         if (getId() <= 0) return null;
-        else return CompraDAO.getHistoricoCompras(this);
+        else return CompraDAO.readHistoricoCompras(this);
     }
 
     // Retorna uma lista com as compras feitas do cliente com um determinado cartao
-    public List<Compra> getHistoricoComprasByCartao(Cartao cartao) {
+    public List<Compra> getHistoricoComprasByCartao(Cartao cartao) throws ClassNotFoundException, SQLException {
         if (getId() <= 0) return null;
-        else return CompraDAO.getHistoricoComprasByCartao(this, cartao);
+        else return CompraDAO.readHistoricoComprasByCartao(this, cartao);
     }
 
     // Retorna uma lista com todos os cartoes do cliente

@@ -6,6 +6,7 @@
 package modelo.supermercado.mercadoria;
 
 import java.util.List;
+import modelo.supermercado.Supermercado;
 import util.Util;
 
 public class Produto {
@@ -60,6 +61,11 @@ public class Produto {
     // Retorna uma lista com todos os lotes em que esse produto está
     public List<Lote> getLotes() {
         //TODO criar função na classe LoteDAO para carregar no BD
+    }
+    
+    // Retorna o supermercado que aquele produto pertence
+    public Supermercado getSupermercado() {
+        //TODO criar função na classe SupermercadoDAO para carregar no BD
     }
     
     public final void setCusto(double custo) throws IllegalArgumentException{

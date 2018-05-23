@@ -61,9 +61,7 @@ public abstract class CompraDAO extends DBCommand{
         return id;
     }
     
-    public static List<Compra> getHistoricoCompras(Cliente cliente) throws ClassNotFoundException, SQLException{
-        List<Compra> histCompras = new ArrayList<>();
-
+    public static List<Compra> readHistoricoCompras(Cliente cliente) throws ClassNotFoundException, SQLException{
         // Obtenha a conexão com o BD;
         Connection conexao = getConnection();
 
@@ -73,36 +71,35 @@ public abstract class CompraDAO extends DBCommand{
         PreparedStatement st = conexao.prepareStatement (sql);
         st.setInt(1, cliente.getId());
         
-        ResultSet rs = st.executeQuery(sql);
-
-        // Enquanto houver algum cartão resultado da busca;
-        while (rs.next()) {
-            int id = rs.getInt("id");
-            Date dataHora = rs.getDate("timestamp");
-
-            histCompras.add(new Compra(id, dataHora));
-        }
-
+        List<Compra> histCompras = readHistoricoCompras(st);
+        
         st.close();
         conexao.close();
-
         return histCompras;
     }
     
-    public static List<Compra> getHistoricoComprasByCartao(Cliente cliente, Cartao cartao) throws ClassNotFoundException, SQLException{
-        List<Compra> histCompras = new ArrayList<>();
-
+    public static List<Compra> readHistoricoComprasByCartao(Cliente cliente, Cartao cartao) throws ClassNotFoundException, SQLException{
         // Obtenha a conexão com o BD;
         Connection conexao = getConnection();
 
         // Forme a string sql;
         String sql = "SELECT id,timestamp from hist_compra WHERE fk_pessoa_fisica = ? AND fk_cartao = ?";
-
+        
         PreparedStatement st = conexao.prepareStatement (sql);
         st.setInt(1, cliente.getId());
         st.setInt(2, cartao.getId());
         
-        ResultSet rs = st.executeQuery(sql);
+        List<Compra> histCompras = readHistoricoCompras(st);
+        
+        st.close();
+        conexao.close();
+        return histCompras;
+    }
+    
+    private static List<Compra> readHistoricoCompras(PreparedStatement st) throws SQLException{
+        List<Compra> histCompras = new ArrayList<>();
+        
+        ResultSet rs = st.executeQuery();
 
         // Enquanto houver algum cartão resultado da busca;
         while (rs.next()) {
@@ -111,9 +108,6 @@ public abstract class CompraDAO extends DBCommand{
 
             histCompras.add(new Compra(id, dataHora));
         }
-
-        st.close();
-        conexao.close();
 
         return histCompras;
     }

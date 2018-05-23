@@ -15,8 +15,7 @@ import modelo.cliente.Cliente;
 
 public abstract class CartaoDAO extends DBCommand {
 
-    public static int create(Cartao cartao, Cliente cliente)
-            throws ClassNotFoundException, SQLException {
+    public static int create(Cartao cartao, Cliente cliente) throws ClassNotFoundException, SQLException {
 
         // Obtenha a conexão com o BD;
         Connection conexao = getConnection();
@@ -60,12 +59,12 @@ public abstract class CartaoDAO extends DBCommand {
         Connection conexao = getConnection();
 
         // Forme a string sql;
-        String sql = "SELECT * from utiliza WHERE fk_pessoa_fisica = ?";
+        String sql = "SELECT * from utiliza WHERE fk_pessoa_fisica = ?"; //tem que fazer os joins para consertar
 
         PreparedStatement st = conexao.prepareStatement (sql);
         st.setInt(1, cliente.getId());
         
-        ResultSet rs = st.executeQuery(sql);
+        ResultSet rs = st.executeQuery();
 
 
         // Enquanto houver algum cartão resultado da busca;

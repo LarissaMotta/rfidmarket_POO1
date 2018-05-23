@@ -50,8 +50,7 @@ public abstract class Pessoa {
     }
 
     public List<Contato> getContato() throws SQLException, ClassNotFoundException {
-        //TODO criar função na classe ContatoDAO para carregar no BD
-        return ContatoDAO.getContato(this);
+        return ContatoDAO.readContatosByPessoa(this);
     }
 
     public final void setEndereco(Endereco endereco) throws IllegalArgumentException{

@@ -45,7 +45,7 @@ public abstract class ContatoDAO extends DBCommand {
         return id;
     }
     
-    public static List<Contato> getContato(Pessoa pessoa) throws SQLException, ClassNotFoundException{
+    public static List<Contato> readContatosByPessoa(Pessoa pessoa) throws SQLException, ClassNotFoundException{
         List<Contato> lstContatos = new ArrayList<>();
 
         // Obtenha a conexão com o BD;
