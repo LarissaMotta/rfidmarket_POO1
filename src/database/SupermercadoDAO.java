@@ -46,4 +46,43 @@ public abstract class SupermercadoDAO extends DBCommand{
 
         return id;
     }
+    
+    public static Supermercado getSupermecado (Funcionario funcionario) throws SQLException, ClassNotFoundException {  
+         Supermercado supermercado = new Supermercado ();
+        // Obtenha a conexão com o BD;
+        Connection conexao = getConnection();
+
+        // Forme a string sql;
+        String sql = "SELECT * from utiliza WHERE fk_pessoa_fisica = ? and fk_supermercado = ?";
+
+        PreparedStatement st = conexao.prepareStatement (sql);
+        st.setInt(1, funcionario.getId());
+        
+        ResultSet rs = st.executeQuery(sql);
+
+
+        // Enquanto houver algum cartão resultado da busca;
+        while (rs.next()) {
+
+            String cargo = rs.getString("cargo");
+            String setor = rs.getString("setor");
+            String cpf = rs.getString("cpf");
+            Date dataNasc = rs.getDate("dataNasc");
+            char genero = rs.getString("genero").charAt(0);
+            String login = rs.getString("login");
+            String rg = rs.getString("rg");
+            String senha = rs.getString("senha");
+            int id = rs.getInt("id");
+            String nome = rs.getString("nome");
+           
+            
+         
+            Supermercado.supermacado(new Funcionario(cargo,setor,cpf,dataNasc,genero,login,rg,senha,id,nome,endereco));
+        }
+
+        st.close();
+        conexao.close();
+
+        return supermercados;
+  }
 }
