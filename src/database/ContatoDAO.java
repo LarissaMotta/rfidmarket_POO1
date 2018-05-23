@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import modelo.cliente.Cliente;
 
 import modelo.pessoa.Contato;
 import modelo.pessoa.Pessoa;
@@ -45,8 +44,8 @@ public abstract class ContatoDAO extends DBCommand {
 
         return id;
     }
-    //teste
-    public List<Contato> getContato(Cliente cliente) throws SQLException, ClassNotFoundException{
+    
+    public static List<Contato> getContato(Pessoa pessoa) throws SQLException, ClassNotFoundException{
         List<Contato> lstContatos = new ArrayList<>();
 
         // Obtenha a conexão com o BD;
@@ -56,7 +55,7 @@ public abstract class ContatoDAO extends DBCommand {
         String sql = "SELECT * from contato WHERE fk_pessoa = ?";
  
         PreparedStatement st = conexao.prepareStatement (sql);
-        st.setInt(1, cliente.getId());
+        st.setInt(1, pessoa.getId());
         
         ResultSet rs = st.executeQuery();
 
@@ -65,8 +64,7 @@ public abstract class ContatoDAO extends DBCommand {
             int id = rs.getInt("id");
             String descricao = rs.getString("descricao");
             String tipo = rs.getString("tipo");
-           //Date dataHora = rs.getDate("timestamp");
-
+           
             lstContatos.add(new Contato(id,descricao,tipo));
         }
 
