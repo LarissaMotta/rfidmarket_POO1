@@ -58,17 +58,19 @@ public abstract class ProdutoDAO extends DBCommand{
 
         // Obtenha a conexão com o BD;
         Connection conexao = getConnection();
-
+ 
         // Forme a string sql;
-        String sql = "SELECT * from utiliza WHERE fk_pessoa_fisica = ?"; //ALTERAR AQUI
+        String sql = "SELECT * from produtos "
+               + "INNER JOIN pessoa on pessoa.id = juridica.id"
+                + "INNER JOIN juridica on juridica.id = supermercado.id"
+                + "INNER JOIN supermercado on supermercado.id = produto.id"
+                + "WHERE fk_produto = ?"; //REVER SE ESTA CERTO
 
         PreparedStatement st = conexao.prepareStatement (sql);
         st.setInt(1, supermercado.getId());
         
         ResultSet rs = st.executeQuery();
-
-        //int id, String codigo, double custo, String descricao, String marca, String nome, double precoVenda, int qtdPrateleira, int qtdEstoque, String tipo)
-        // Enquanto houver algum cartão resultado da busca;
+ 
         while (rs.next()) {
 
             int id = rs.getInt("id");
