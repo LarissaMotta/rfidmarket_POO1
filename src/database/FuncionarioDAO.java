@@ -1,13 +1,20 @@
 package database;
 
+import static database.DBCommand.getConnection;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import modelo.pessoa.Endereco;
 
 import modelo.supermercado.Funcionario;
-import modelo.supermercado.Supermercado;
 
+import modelo.supermercado.Supermercado;
+import modelo.supermercado.mercadoria.Produto;
+import java.io.Serializable;
 import org.postgresql.util.PSQLException;
 
 /**
@@ -55,7 +62,46 @@ public abstract class FuncionarioDAO extends DBCommand {
     }
     
     //Jennifer
-    public static List<Funcionario> readFuncionariosBySupermercado(Supermercado supermercado){
+    public static List<Funcionario> readFuncionariosBySupermercado(Supermercado supermercado)throws SQLException, ClassNotFoundException{
+          List<Funcionario> funcionarios = new ArrayList<>();
+      
+        // Obtenha a conexão com o BD;
+        Connection conexao = getConnection();
+
+        // Forme a string sql;
+        String sql = "SELECT * from funcionario "
+                //inner join Cidade cid on cid.IdCidade = a.IdCidade
+                + "INNER JOIN pessoa on pessoa.id = fisica.id"
+                + "INNER JOIN pessoa on pessoa.id = contato.id"
+                + "inner join supermercado on supermercado.id =funcionario.id " // VERIFICAR SE ESTA CERTO
+                  + " WHERE fk_pessoa_fisica = ?"; //ALTERAR AQUI
+
+        PreparedStatement st = conexao.prepareStatement (sql);
+        st.setInt(1, supermercado.getId());
+        
+        ResultSet rs = st.executeQuery();
+        while (rs.next()) {
+
+
+            String cargo = rs.getString("cargo");
+            String setor = rs.getString("setor");
+            String cpf = rs.getString("cpf");
+            Date dataNasc = rs.getDate("dataNasc");
+            char genero = rs.getString("genero").charAt(0);
+            String login = rs.getString("login");
+            String rg = rs.getString("rg");
+            String senha = rs.getString("senha");
+            int id = rs.getInt("id");
+            String nome = rs.getString("nome");
+            Endereco endereco = rs.getObject("pessoa", Endereco); // REVER
+
+            funcionarios.add(new Funcionario(cargo,setor,cpf,dataNasc,genero,login,rg,senha,id,nome,endereco));
+        }
+
+        st.close();
+        conexao.close();
+
+        return funcionarios;
         
     }
 }
