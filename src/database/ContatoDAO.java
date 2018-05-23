@@ -58,7 +58,7 @@ public abstract class ContatoDAO extends DBCommand {
         
         ResultSet rs = st.executeQuery();
 
-        // Enquanto houver algum cartão resultado da busca;
+        // Enquanto houver algum contato resultado da busca;
         while (rs.next()) {
             int id = rs.getInt("id");
             String descricao = rs.getString("descricao");
