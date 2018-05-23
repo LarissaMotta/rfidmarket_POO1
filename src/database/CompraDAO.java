@@ -98,7 +98,21 @@ public abstract class CompraDAO extends DBCommand{
     
     //Larissa
     public static List<Compra> readHistoricoComprasBySupermercado(Supermercado supermercado) throws ClassNotFoundException, SQLException{
+                // Obtenha a conexão com o BD;
+        Connection conexao = getConnection();
+
+        // Forme a string sql;
+        String sql = "SELECT id,timestamp from hist_compra WHERE fk_supermercado = ?";
+
+        PreparedStatement st = conexao.prepareStatement (sql);
+        st.setInt(1, supermercado.getId());
         
+        List<Compra> histCompras = readHistoricoCompras(st);
+        
+        st.close();
+        conexao.close();
+        return histCompras;
+    
     }
     
     private static List<Compra> readHistoricoCompras(PreparedStatement st) throws SQLException{
