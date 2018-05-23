@@ -12,7 +12,7 @@ import util.Util;
 
 public class Lote {
     // nenhum dos atributos pode ser null
-    private final int id;               //não pode ser alterado depois de instanciado e nem <= 0
+    private int id;               //não pode ser alterado depois de instanciado e nem <= 0
     private final String codigoProd;
     private final Date dataCompra;
     private final Date dataFabricacao;
