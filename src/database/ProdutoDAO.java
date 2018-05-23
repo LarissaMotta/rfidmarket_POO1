@@ -136,24 +136,21 @@ public abstract class ProdutoDAO extends DBCommand{
     
     //Jennifer
     private static Produto readProdutos(PreparedStatement st) throws SQLException{
-        Produto prod = null;
+ 
         ResultSet rs = st.executeQuery();
  
-        while (rs.next()) {
-            int id = rs.getInt("id");
-            String codigo = rs.getString("codigo");
-            double custo = rs.getDouble("custo");
-            String descricao = rs.getString("descricao");
-            String marca = rs.getString("marca");
-            String nome = rs.getString("nome");
-            double precoVenda = rs.getDouble("preco");
-            int qtdPrateleira = rs.getInt("quant_prateleira");
-            int qtdEstoque = rs.getInt("estoque");
-            String tipo = rs.getString("tipo");
-
-           prod = new Produto (id,codigo,custo,descricao,marca,nome,precoVenda,qtdPrateleira,qtdEstoque,tipo);
-        } 
+        rs.next();
+        int id = rs.getInt("id");
+        String codigo = rs.getString("codigo");
+        double custo = rs.getDouble("custo");
+        String descricao = rs.getString("descricao");
+        String marca = rs.getString("marca");
+        String nome = rs.getString("nome");
+        double precoVenda = rs.getDouble("preco");
+        int qtdPrateleira = rs.getInt("quant_prateleira");
+        int qtdEstoque = rs.getInt("estoque");
+        String tipo = rs.getString("tipo");
         
-        return prod;
+        return new Produto (id,codigo,custo,descricao,marca,nome,precoVenda,qtdPrateleira,qtdEstoque,tipo);
     }
 }
