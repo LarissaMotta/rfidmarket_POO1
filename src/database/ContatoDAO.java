@@ -1,9 +1,16 @@
 package database;
 
+import static database.DBCommand.getConnection;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import modelo.cliente.Cliente;
+import modelo.cliente.Compra;
 
 import modelo.pessoa.Contato;
 import modelo.pessoa.Pessoa;
@@ -38,5 +45,37 @@ public abstract class ContatoDAO extends DBCommand {
         conn.close();
 
         return id;
+    }
+    public List<Contato> getContato(Cliente cliente) throws SQLException, ClassNotFoundException{
+        List<Contato> lstContatos = new ArrayList<>();
+
+        // Obtenha a conexão com o BD;
+        Connection conexao = getConnection();
+
+        // Forme a string sql;
+        String sql = "SELECT id, from contato WHERE fk_pessoa = ?";
+
+        PreparedStatement st = conexao.prepareStatement (sql);
+        st.setInt(1, cliente.getId());
+        
+        ResultSet rs = st.executeQuery(sql);
+
+        // Enquanto houver algum cartão resultado da busca;
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            String descricao = rs.getString("descricao");
+            String tipo = rs.getString("tipo");
+           //Date dataHora = rs.getDate("timestamp");
+
+            lstContatos.add(new Contato(id,descricao,tipo));
+        }
+
+        st.close();
+        conexao.close();
+
+        return lstContatos;
+    }
+    
+
     }
 }
