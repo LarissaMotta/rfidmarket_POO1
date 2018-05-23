@@ -45,6 +45,7 @@ public abstract class ContatoDAO extends DBCommand {
 
         return id;
     }
+    
     public List<Contato> getContato(Cliente cliente) throws SQLException, ClassNotFoundException{
         List<Contato> lstContatos = new ArrayList<>();
 
@@ -52,12 +53,12 @@ public abstract class ContatoDAO extends DBCommand {
         Connection conexao = getConnection();
 
         // Forme a string sql;
-        String sql = "SELECT id, from contato WHERE fk_pessoa = ?";
-
+        String sql = "SELECT * from contato WHERE fk_pessoa = ?";
+ 
         PreparedStatement st = conexao.prepareStatement (sql);
         st.setInt(1, cliente.getId());
         
-        ResultSet rs = st.executeQuery(sql);
+        ResultSet rs = st.executeQuery();
 
         // Enquanto houver algum cartão resultado da busca;
         while (rs.next()) {
