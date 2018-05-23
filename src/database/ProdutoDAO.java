@@ -1,10 +1,15 @@
 package database;
 
+import static database.DBCommand.getConnection;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
+import modelo.cliente.Cartao;
 
 import modelo.supermercado.Supermercado;
 import modelo.supermercado.mercadoria.Produto;
@@ -48,7 +53,42 @@ public abstract class ProdutoDAO extends DBCommand{
     }
 
     //Jennifer
-    public static List<Produto> readProdutosBySupermercado(Supermercado supermercado){
+    public static List<Produto> readProdutosBySupermercado(Supermercado supermercado)throws SQLException, ClassNotFoundException{
+        List<Produto> produtos = new ArrayList<>();
+
+        // Obtenha a conexão com o BD;
+        Connection conexao = getConnection();
+
+        // Forme a string sql;
+        String sql = "SELECT * from utiliza WHERE fk_pessoa_fisica = ?"; //ALTERAR AQUI
+
+        PreparedStatement st = conexao.prepareStatement (sql);
+        st.setInt(1, supermercado.getId());
+        
+        ResultSet rs = st.executeQuery();
+
+        //int id, String codigo, double custo, String descricao, String marca, String nome, double precoVenda, int qtdPrateleira, int qtdEstoque, String tipo)
+        // Enquanto houver algum cartão resultado da busca;
+        while (rs.next()) {
+
+            int id = rs.getInt("id");
+            String codigo = rs.getString("codigo");
+            double custo = rs.getDouble("custo");
+            String descricao = rs.getString("descricao");
+            String marca = rs.getString("marca");
+            String nome = rs.getString("nome");
+            double precoVenda = rs.getDouble("precoVenda");
+            int qtdPrateleira = rs.getInt("qtdPrateleira");
+            int qtdEstoque = rs.getInt("qtdEstoque");
+            String tipo = rs.getString("tipo");
+
+            produtos.add(new Produto(id,codigo,custo,descricao,marca,nome,precoVenda,qtdPrateleira,qtdEstoque,tipo));
+        }
+
+        st.close();
+        conexao.close();
+
+        return produtos;
         
     }
     
