@@ -4,10 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
+import java.util.List;
+import modelo.cliente.Compra;
 import modelo.supermercado.Funcionario;
 
 import modelo.supermercado.Supermercado;
+import modelo.supermercado.mercadoria.Fornecedor;
+import modelo.supermercado.mercadoria.Lote;
+import modelo.supermercado.mercadoria.Produto;
 import org.postgresql.util.PSQLException;
 
 /**
@@ -61,7 +65,7 @@ public abstract class SupermercadoDAO extends DBCommand {
         PreparedStatement st = conexao.prepareStatement(sql);
         st.setInt(1, funcionario.getId());
 
-        Supermercado supermercado = readSupermercadoByFuncionario(st);
+        Supermercado supermercado = readSupermercado(st);
         
         st.close();
         conexao.close();
@@ -69,9 +73,29 @@ public abstract class SupermercadoDAO extends DBCommand {
         return supermercado;
     }
     
+    //Joel
+    public static Supermercado readSupermercadoByCompra(Compra compra) throws SQLException, ClassNotFoundException {
+        
+    }
+    
+    //Joel
+    public static List<Supermercado> readSupermercadoByFornecedor(Fornecedor fornecedor) throws SQLException, ClassNotFoundException {
+        
+    }
+    
+    //Joel
+    public static Supermercado readSupermercadoByLote(Lote lote) throws SQLException, ClassNotFoundException {
+        
+    }
+    
+    //Joel
+    public static Supermercado readSupermercadoByProduto(Produto produto) throws SQLException, ClassNotFoundException {
+        
+    }
+    
     //Esse metodo deve ser usada em todos os outros readSupermecados... para instaciar o supermercado
     //
-    private static Supermercado readSupermercadoByFuncionario(PreparedStatement st) throws SQLException{
+    private static Supermercado readSupermercado(PreparedStatement st) throws SQLException{
         ResultSet rs = st.executeQuery();
         
         rs.next();
