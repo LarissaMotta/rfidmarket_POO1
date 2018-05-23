@@ -1,6 +1,7 @@
 package modelo.pessoa;
 
 import database.ContatoDAO;
+import java.sql.SQLException;
 import java.util.List;
 import util.Util;
 
@@ -48,9 +49,9 @@ public abstract class Pessoa {
         return endereco;
     }
 
-    public List<Contato> getContato() {
+    public List<Contato> getContato() throws SQLException, ClassNotFoundException {
         //TODO criar função na classe ContatoDAO para carregar no BD
-        return ContatoDAO.getContato(pessoa);
+        return ContatoDAO.getContato(this);
     }
 
     public final void setEndereco(Endereco endereco) throws IllegalArgumentException{
