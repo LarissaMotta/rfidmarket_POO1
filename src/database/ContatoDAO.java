@@ -10,7 +10,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import modelo.cliente.Cliente;
-import modelo.cliente.Compra;
 
 import modelo.pessoa.Contato;
 import modelo.pessoa.Pessoa;
