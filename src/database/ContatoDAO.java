@@ -45,7 +45,7 @@ public abstract class ContatoDAO extends DBCommand {
 
         return id;
     }
-    
+    //teste
     public List<Contato> getContato(Cliente cliente) throws SQLException, ClassNotFoundException{
         List<Contato> lstContatos = new ArrayList<>();
 
