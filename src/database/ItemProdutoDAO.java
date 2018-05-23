@@ -79,9 +79,8 @@ public abstract class ItemProdutoDAO extends DBCommand{
             int id = rs.getInt("id");
             double precoCompra = rs.getDouble("preco_compra");
             int quantidade = rs.getInt("quantidade");
-            //String codigo, double custo, String descricao, String marca, String nome, double precoVenda, int qtdPrateleira, int qtdEstoque, String tipo
             String codigo = rs.getString("codigo");
-            double custo = rs.getDouble("custo");
+            double custo = rs.getDouble("");
             String descricao = rs.getString("descricao");
             String marca = rs.getString("marca");
             String nome = rs.getString("nome");
