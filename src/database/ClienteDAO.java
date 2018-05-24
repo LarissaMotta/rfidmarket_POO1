@@ -38,8 +38,8 @@ public abstract class ClienteDAO extends DBCommand{
         Connection conexao = getConnection();
 
         // Forme a string básica de sql;
-        String sql = "INSERT INTO utiliza (fk_cartao, fk_pessoa_fisica) VALUES (?, ?)";
-        PreparedStatement ps = conexao.prepareStatement (sql, Statement.RETURN_GENERATED_KEYS);
+        String sql = "INSERT INTO utiliza (fk_cartao, fk_cliente) VALUES (?, ?)";
+        PreparedStatement ps = conexao.prepareStatement (sql);
 
         // Defina os valores que ocuparão as '?' na ordem acima;
         ps.setInt(1, cartao.getId());
@@ -102,10 +102,10 @@ public abstract class ClienteDAO extends DBCommand{
         String sql = "SELECT p.id, p.nome, p.numero, p.rua, p.cep, p.bairro," +
                 "p.estado, p.cidade, pf.data_nasc, pf.genero, pf.login, pf.senha" +
                 "pf.cpf FROM hist_compra as hc" +
-                "INNER JOIN supermercado as sm ON hc.fk_supermercado = sm.fk_pessoa_juridica " +
-                "INNER JOIN fisica as pf ON hc.fk_pessoa_fisica = pf.fk_pessoa " +
+                "INNER JOIN supermercado as sm ON hc.fk_supermercado = sm.fk_pessoa_juridica " + //jubileu tira essa linha
+                "INNER JOIN fisica as pf ON hc.fk_cliente = pf.fk_pessoa " +
                 "INNER JOIN pessoa as p ON pf.fk_pessoa = pessoa.id "
-                + "WHERE sm.fk_pessoa_juridica = ?";
+                + "WHERE sm.fk_pessoa_juridica = ?"; //jubileu muda sm para supermercado
 
         // Substitua a '?' pelo valor da coluna;
         PreparedStatement ps = conexao.prepareStatement(sql);

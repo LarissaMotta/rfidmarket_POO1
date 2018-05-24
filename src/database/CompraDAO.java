@@ -34,7 +34,7 @@ public abstract class CompraDAO extends DBCommand{
 
         // Forme a string básica de sql;
         String sql = "INSERT INTO hist_compra" +
-                "(timestamp, fk_cartao, fk_pessoa_fisica, fk_supermercado)" +
+                "(timestamp, fk_cartao, fk_cliente, fk_supermercado)" +
                 " VALUES (CURRENT_TIMESTAMP, ?, ?, ?)";
 
         PreparedStatement st = conexao.prepareStatement (sql, Statement.RETURN_GENERATED_KEYS);
@@ -66,7 +66,7 @@ public abstract class CompraDAO extends DBCommand{
         Connection conexao = getConnection();
 
         // Forme a string sql;
-        String sql = "SELECT id,timestamp from hist_compra WHERE fk_pessoa_fisica = ?";
+        String sql = "SELECT id,timestamp from hist_compra WHERE fk_cliente = ?";
 
         PreparedStatement st = conexao.prepareStatement (sql);
         st.setInt(1, cliente.getId());
@@ -83,7 +83,7 @@ public abstract class CompraDAO extends DBCommand{
         Connection conexao = getConnection();
 
         // Forme a string sql;
-        String sql = "SELECT id,timestamp from hist_compra WHERE fk_pessoa_fisica = ? AND fk_cartao = ?";
+        String sql = "SELECT id,timestamp from hist_compra WHERE fk_cliente = ? AND fk_cartao = ?";
         
         PreparedStatement st = conexao.prepareStatement (sql);
         st.setInt(1, cliente.getId());
