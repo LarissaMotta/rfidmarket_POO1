@@ -62,7 +62,7 @@ public abstract class CartaoDAO extends DBCommand {
         // Forme a string sql;
         String sql = "SELECT c.id, c.nome_titular, c.validade, c.bandeira, c.numero," +
                 "c.tipo FROM utiliza AS ut INNER JOIN cartao AS c" +
-                "ON ut.fk_cartao = c.id WHERE ut.fk_pessoa_fisica = ?"; //tem que fazer os joins para consertar
+                "ON ut.fk_cartao = c.id WHERE ut.fk_cliente = ?";
 
         PreparedStatement st = conexao.prepareStatement (sql);
         st.setInt(1, cliente.getId());
