@@ -28,7 +28,7 @@ public abstract class LoteDAO extends DBCommand {
 
         // Forme a string básica de sql;
         String sql = "INSERT INTO lote" +
-                "(data_compra, numero, fabricacao, quantidade, validade," +
+                "(data_compra, identificador, fabricacao, quantidade, validade," +
                 "fk_fornecedor, fk_produto, fk_supermercado) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -190,13 +190,5 @@ public abstract class LoteDAO extends DBCommand {
         conexao.close();
 
         return lotes;
-    }
-    
-    //Jubileu
-    //TODO EDITAR/CONFIRMAR NECESSIDADE;
-    private static List<Lote> readLotes(PreparedStatement st){
-        //Faça uso da função ProdutoDAO.readProdutoById(int id)
-        //Servira para pegar o produto do Lote em questao
-        return null;
     }
 }

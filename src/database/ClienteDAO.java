@@ -101,11 +101,10 @@ public abstract class ClienteDAO extends DBCommand{
         // Forme a string sql;
         String sql = "SELECT p.id, p.nome, p.numero, p.rua, p.cep, p.bairro," +
                 "p.estado, p.cidade, pf.data_nasc, pf.genero, pf.login, pf.senha" +
-                "pf.cpf FROM hist_compra as hc" +
-                "INNER JOIN supermercado as sm ON hc.fk_supermercado = sm.fk_pessoa_juridica " + //jubileu tira essa linha
+                "pf.cpf FROM hist_compra as hc " +
                 "INNER JOIN fisica as pf ON hc.fk_cliente = pf.fk_pessoa " +
                 "INNER JOIN pessoa as p ON pf.fk_pessoa = pessoa.id "
-                + "WHERE sm.fk_pessoa_juridica = ?"; //jubileu muda sm para supermercado
+                + "WHERE supermercado.fk_pessoa_juridica = ?";
 
         // Substitua a '?' pelo valor da coluna;
         PreparedStatement ps = conexao.prepareStatement(sql);
