@@ -59,8 +59,6 @@ public abstract class ProdutoDAO extends DBCommand{
  
         // Forme a string sql;
         String sql = "SELECT * from produto "
-               + "INNER JOIN pessoa on pessoa.id = juridica.id"
-         
                 + "WHERE fk_supermercado = ?"; //REVER SE ESTA CERTO !
 
         PreparedStatement st = conexao.prepareStatement (sql);
@@ -89,7 +87,7 @@ public abstract class ProdutoDAO extends DBCommand{
             
   
         // Forme a string sql;
-        String sql = "SELECT * from produtos "
+        String sql = "SELECT * from produto "
                 + "WHERE id = ?"; //REVER SE ESTA CERTO
 
         PreparedStatement st = conexao.prepareStatement (sql);

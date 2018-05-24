@@ -68,10 +68,10 @@ public abstract class FuncionarioDAO extends DBCommand {
         Connection conexao = getConnection();
 
         // Forme a string sql;
-        String sql = "SELECT * from funcionario "
-       
-             
-                  + " WHERE fk_supermercado = ?"; 
+        String sql = "SELECT * FROM funcionario "
+                + "INNER JOIN fisica on fisica.fk_pessoa = funcionario.fk_pessoa_fisica "
+                + "INNER JOIN pessoa on pessoa.id = funcionario.fk_pessoa_fisica "
+                + "WHERE fk_supermercado = ?"; 
 
         PreparedStatement st = conexao.prepareStatement (sql);
         st.setInt(1, supermercado.getId());

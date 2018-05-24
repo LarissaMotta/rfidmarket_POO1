@@ -5,6 +5,8 @@
  */
 package modelo.cliente;
 
+import database.ItemProdutoDAO;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import modelo.ItemProduto;
@@ -45,8 +47,11 @@ public class Compra {
             return null;
         }
         else if (itens == null){ // se true, significa que os itens não foram carregados ainda
-            //TODO criar função para carregar itens de uma compra na classe ItemProdutoDAO
-            //inicializar o atributo itens com o que foi carregado
+            try {
+                itens = ItemProdutoDAO.readItensByCompra(this);
+            }catch (ClassNotFoundException | SQLException ex){
+                ex.printStackTrace();
+            }
         }
         
         return itens;
