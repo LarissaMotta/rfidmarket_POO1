@@ -51,7 +51,6 @@ public abstract class CartaoDAO extends DBCommand {
      * @throws java.sql.SQLException
      * @throws java.lang.ClassNotFoundException
      */
-    
     //TODO Consertar
     public static List<Cartao> readCartoesByCliente(Cliente cliente) throws SQLException, ClassNotFoundException {
 
@@ -61,13 +60,14 @@ public abstract class CartaoDAO extends DBCommand {
         Connection conexao = getConnection();
 
         // Forme a string sql;
-        String sql = "SELECT * from utiliza WHERE fk_pessoa_fisica = ?"; //tem que fazer os joins para consertar
+        String sql = "SELECT c.id, c.nome_titular, c.validade, c.bandeira, c.numero," +
+                "c.tipo FROM utiliza AS ut INNER JOIN cartao AS c" +
+                "ON ut.fk_cartao = c.id WHERE ut.fk_pessoa_fisica = ?"; //tem que fazer os joins para consertar
 
         PreparedStatement st = conexao.prepareStatement (sql);
         st.setInt(1, cliente.getId());
         
         ResultSet rs = st.executeQuery();
-
 
         // Enquanto houver algum cartão resultado da busca;
         while (rs.next()) {
