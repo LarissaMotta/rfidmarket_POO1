@@ -21,7 +21,6 @@ import org.postgresql.util.PSQLException;
  * @author joel-
  */
 public abstract class SupermercadoDAO extends DBCommand {
-    // lembrar de trocar no sql fk_supermecado pra fk_supermercado
     
     
     /**
@@ -66,7 +65,7 @@ public abstract class SupermercadoDAO extends DBCommand {
 
         // Forme a string sql;
         String sql = "SELECT pessoa.id, latitude, longitude, unidade, cnpj, nome, numero, rua, cep, bairro, estado, cidade FROM funcionario "
-                + "INNER JOIN supermercado ON funcionario.fk_supermecado = supermercado.fk_pessoa_juridica "
+                + "INNER JOIN supermercado ON funcionario.fk_supermercado = supermercado.fk_pessoa_juridica "
                 + "INNER JOIN juridica ON supermercado.fk_pessoa_juridica = juridica.fk_pessoa "
                 + "INNER JOIN pessoa ON juridica.fk_pessoa = pessoa.id "
                 + "WHERE funcionario.fk_pessoa_fisica = ?";
@@ -89,7 +88,7 @@ public abstract class SupermercadoDAO extends DBCommand {
 
         // Forme a string sql;
         String sql = "SELECT pessoa.id, latitude, longitude, unidade, cnpj, nome, numero, rua, cep, bairro, estado, cidade FROM hist_compra "
-                + "INNER JOIN supermercado ON hist_compra.fk_supermecado = supermercado.fk_pessoa_juridica "
+                + "INNER JOIN supermercado ON hist_compra.fk_supermercado = supermercado.fk_pessoa_juridica "
                 + "INNER JOIN juridica ON supermercado.fk_pessoa_juridica = juridica.fk_pessoa "
                 + "INNER JOIN pessoa ON juridica.fk_pessoa = pessoa.id "
                 + "WHERE hist_compra.id = ?";
@@ -112,7 +111,7 @@ public abstract class SupermercadoDAO extends DBCommand {
 
         // Forme a string sql;
         String sql = "SELECT pessoa.id, latitude, longitude, unidade, cnpj, nome, numero, rua, cep, bairro, estado, cidade FROM fornecimento "
-                + "INNER JOIN supermercado ON fornecimento.fk_supermecado = supermercado.fk_pessoa_juridica "
+                + "INNER JOIN supermercado ON fornecimento.fk_supermercado = supermercado.fk_pessoa_juridica "
                 + "INNER JOIN juridica ON supermercado.fk_pessoa_juridica = juridica.fk_pessoa "
                 + "INNER JOIN pessoa ON juridica.fk_pessoa = pessoa.id "
                 + "WHERE fornecimento.fk_fornecedor = ?";
@@ -140,7 +139,7 @@ public abstract class SupermercadoDAO extends DBCommand {
 
         // Forme a string sql;
         String sql = "SELECT pessoa.id, latitude, longitude, unidade, cnpj, nome, pessoa.numero, rua, cep, bairro, estado, cidade FROM lote "
-                + "INNER JOIN supermercado ON lote.fk_supermecado = supermercado.fk_pessoa_juridica "
+                + "INNER JOIN supermercado ON lote.fk_supermercado = supermercado.fk_pessoa_juridica "
                 + "INNER JOIN juridica ON supermercado.fk_pessoa_juridica = juridica.fk_pessoa "
                 + "INNER JOIN pessoa ON juridica.fk_pessoa = pessoa.id "
                 + "WHERE lote.id = ?";
@@ -163,7 +162,7 @@ public abstract class SupermercadoDAO extends DBCommand {
 
         // Forme a string sql;
         String sql = "SELECT pessoa.id, latitude, longitude, unidade, cnpj, pessoa.nome, numero, rua, cep, bairro, estado, cidade FROM produto "
-                + "INNER JOIN supermercado ON produto.fk_supermecado = supermercado.fk_pessoa_juridica "
+                + "INNER JOIN supermercado ON produto.fk_supermercado = supermercado.fk_pessoa_juridica "
                 + "INNER JOIN juridica ON supermercado.fk_pessoa_juridica = juridica.fk_pessoa "
                 + "INNER JOIN pessoa ON juridica.fk_pessoa = pessoa.id "
                 + "WHERE produto.id = ?";

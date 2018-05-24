@@ -27,7 +27,7 @@ public abstract class ProdutoDAO extends DBCommand{
         Connection conn = getConnection();
         String sql = "INSERT INTO produto" +
                 "(nome, preco, codigo, descricao, custo, estoque," +
-                "tipo, quant_prateleira, marca, fk_supermecado) "
+                "tipo, quant_prateleira, marca, fk_supermercado) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);

@@ -13,8 +13,6 @@ import modelo.pessoa.Endereco;
 import modelo.supermercado.Funcionario;
 
 import modelo.supermercado.Supermercado;
-import modelo.supermercado.mercadoria.Produto;
-import java.io.Serializable;
 import org.postgresql.util.PSQLException;
 
 /**
