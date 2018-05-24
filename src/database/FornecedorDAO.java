@@ -1,8 +1,9 @@
 package database;
 
 import static database.DBCommand.getConnection;
+import static database.PessoaDAO.getEndereco;
 import java.sql.Connection;
-import java.sql.Date;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import modelo.supermercado.mercadoria.Fornecedor;
@@ -10,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import modelo.pessoa.Endereco;
-import modelo.supermercado.Funcionario;
+
 import modelo.supermercado.Supermercado;
 import modelo.supermercado.mercadoria.Lote;
 
@@ -37,30 +38,18 @@ public abstract class FornecedorDAO extends DBCommand{
         Connection conexao = getConnection();
 
         // Forme a string sql;
-        String sql = "SELECT * from juridico " 
-                //pessoa com juridica
-               /* + "INNER JOIN pessoa on pessoa.id = juridica.id"
-                + "INNER JOIN juridica on juridica.id = supermercado.id"
-                + " WHERE fk_fornecedor = ?"*/; 
+        String sql = "SELECT pessoa.id, cnpj, nome, numero, rua, cep, bairro, estado, cidade FROM fornecimento "
+                + "INNER JOIN fornecedor ON fornecimento.fk_fornecedor = fornecedor.fk_pessoa_juridica "
+                + "INNER JOIN juridica ON fornecedor.fk_pessoa_juridica = juridica.fk_pessoa "
+                + "INNER JOIN pessoa ON juridica.fk_pessoa = pessoa.id "
+                + "WHERE fornecimento.fk_supermercado = ?";
 
         PreparedStatement st = conexao.prepareStatement (sql);
         st.setInt(1, supermercado.getId());
         
         ResultSet rs = st.executeQuery();
         while (rs.next()) {
-
-            String cnpj = rs.getString("cnpj");
-            String nome = rs.getString("nome");
-            int id = rs.getInt("id");
-            String bairro = rs.getString("bairro");
-            String cep = rs.getString("cep");
-            String cidade = rs.getString("cidade");
-            String estado = rs.getString("estado");
-            int numero = rs.getInt("numero");
-            String ruaAvenida = rs.getString("rua");
-            Endereco endereco = new Endereco(bairro,cep,cidade,estado,numero, ruaAvenida);
-
-            fornecedores.add(new Fornecedor(cnpj,id,nome,endereco));
+            fornecedores.add(readFornecedor(rs));
         }
 
         st.close();
@@ -75,51 +64,33 @@ public abstract class FornecedorDAO extends DBCommand{
         // Obtenha a conexão com o BD;
         Connection conexao = getConnection();
         // Forme a string sql;
-        String sql = "SELECT * from juridico "
-                //pessoa com juridica
-               /* + "INNER JOIN pessoa on pessoa.id = juridica.id"
-                + "INNER JOIN juridica on juridica.id = supermercado.id"
-                + "INNER JOIN supermercado supermercado.id = lote.id"
-                + " WHERE fk_fornecedor = ?"*/; 
+        String sql = "SELECT fk_fornecedor from lote where id = ? "; //em duvida
         PreparedStatement st = conexao.prepareStatement (sql);
         st.setInt(1, lote.getId());
- /*       ResultSet rs = st.executeQuery();
-        while (rs.next()) {
-            String cnpj = rs.getString("cnpj");
-            String nome = rs.getString("nome");
-            int id = rs.getInt("id");
-            String bairro = rs.getString("bairro");
-            String cep = rs.getString("cep");
-            String cidade = rs.getString("cidade");
-            String estado = rs.getString("estado");
-            int numero = rs.getInt("numero");
-            String ruaAvenida = rs.getString("rua");
-            Endereco endereco = new Endereco(bairro,cep,cidade,estado,numero, ruaAvenida);*/
-            fornecedor = readFornecedor(st);
-       // }
+
+        fornecedor = readFornecedor(st);
+       
         st.close();
         conexao.close();
         return fornecedor;
     }
     
-    //Larissa
+    
     private static Fornecedor readFornecedor(PreparedStatement st) throws SQLException{
-        Fornecedor fornecedor = null;
         ResultSet rs = st.executeQuery();
-        while (rs.next()) {
-            String cnpj = rs.getString("cnpj");
-            String nome = rs.getString("nome");
-            int id = rs.getInt("id");
-            String bairro = rs.getString("bairro");
-            String cep = rs.getString("cep");
-            String cidade = rs.getString("cidade");
-            String estado = rs.getString("estado");
-            int numero = rs.getInt("numero");
-            String ruaAvenida = rs.getString("rua");
-            Endereco endereco = new Endereco(bairro,cep,cidade,estado,numero, ruaAvenida);
-            fornecedor = new Fornecedor(cnpj,id,nome,endereco);
-        }
-        return fornecedor;
+        rs.next();
+        return readFornecedor(rs);
+    }
+    
+    //Larissa
+    private static Fornecedor readFornecedor(ResultSet rs) throws SQLException{
+ 
+        String cnpj = rs.getString("cnpj");
+        String nome = rs.getString("nome");
+        int id = rs.getInt("id");
+        Endereco endereco = getEndereco(rs);
+       
+        return new Fornecedor(cnpj,id,nome,endereco);
         
     }
 }
