@@ -1,6 +1,7 @@
 package database;
 
 import static database.DBCommand.getConnection;
+import static database.PessoaDAO.getEndereco;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -90,14 +91,8 @@ public abstract class FuncionarioDAO extends DBCommand {
             String senha = rs.getString("senha");
             int id = rs.getInt("id");
             String nome = rs.getString("nome");
-            String bairro = rs.getString("bairro");
-            
-            String cep = rs.getString("cep");
-            String cidade = rs.getString("cidade");
-            String estado = rs.getString("estado");
-            int numero = rs.getInt("numero");
-            String ruaAvenida = rs.getString("rua");
-            Endereco endereco = new Endereco (bairro,cep,cidade,estado,numero,ruaAvenida);
+   
+            Endereco endereco = getEndereco(rs);
             
 
             funcionarios.add(new Funcionario(cargo,setor,cpf,dataNasc,genero,login,rg,senha,id,nome,endereco));
