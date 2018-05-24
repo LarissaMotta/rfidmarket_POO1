@@ -69,8 +69,7 @@ public abstract class FuncionarioDAO extends DBCommand {
 
         // Forme a string sql;
         String sql = "SELECT * from funcionario "
-                + "INNER JOIN fisica on fisica.fk_pessoa = funcionario.fk_pessoa_fisica"
-                + "INNER JOIN pessoa on pessoa.id = funcionario.fk_pessoa_fisica"
+       
              
                   + " WHERE fk_supermercado = ?"; 
 
