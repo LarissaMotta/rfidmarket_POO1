@@ -39,8 +39,7 @@ public abstract class FornecedorDAO extends DBCommand{
 
         // Forme a string sql;
         String sql = "SELECT pessoa.id, cnpj, nome, numero, rua, cep, bairro, estado, cidade FROM fornecimento "
-                + "INNER JOIN fornecedor ON fornecimento.fk_fornecedor = fornecedor.fk_pessoa_juridica "
-                + "INNER JOIN juridica ON fornecedor.fk_pessoa_juridica = juridica.fk_pessoa "
+                + "INNER JOIN juridica ON fornecimento.fk_fornecedor = juridica.fk_pessoa "
                 + "INNER JOIN pessoa ON juridica.fk_pessoa = pessoa.id "
                 + "WHERE fornecimento.fk_supermercado = ?";
 
@@ -64,7 +63,7 @@ public abstract class FornecedorDAO extends DBCommand{
         // Obtenha a conexão com o BD;
         Connection conexao = getConnection();
         // Forme a string sql;
-        String sql = "SELECT fk_fornecedor from lote where id = ? "; //em duvida
+        String sql = "SELECT pessoa.id, cnpj, nome, numero, rua, cep, bairro, estado, cidade FROM lote where id = ? "; //em duvida
         PreparedStatement st = conexao.prepareStatement (sql);
         st.setInt(1, lote.getId());
 
