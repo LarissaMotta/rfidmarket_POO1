@@ -8,7 +8,6 @@ package modelo.cliente;
 import java.util.Date;
 import java.util.List;
 import modelo.ItemProduto;
-import modelo.supermercado.Supermercado;
 import util.*;
 
 /**
@@ -49,9 +48,8 @@ public class Compra {
             //TODO criar função para carregar itens de uma compra na classe ItemProdutoDAO
             //inicializar o atributo itens com o que foi carregado
         }
-        else{
-            return itens;
-        }
+        
+        return itens;
     }
 
     public final void setItens(List<ItemProduto> itens) {
@@ -62,10 +60,6 @@ public class Compra {
     
     public Date getDataHora() {
         return dataHora;
-    }
-    
-    public Supermercado getSupermercado(){
-        //TODO criar função na classe SupermercadoDAO para carregar no BD
     }
     
     public double getValorTotal(){

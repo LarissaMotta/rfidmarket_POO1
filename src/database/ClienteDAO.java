@@ -44,11 +44,11 @@ public abstract class ClienteDAO extends DBCommand{
 
         st.close();
         conexao.close();
+
     }
     
     //Jubileu
     public static List<Cliente> readClientesBySupermercado(Supermercado supermercado){
         
     }
-    
 }

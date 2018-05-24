@@ -5,14 +5,8 @@
  */
 package modelo.supermercado;
 
-import modelo.supermercado.mercadoria.Produto;
 import modelo.pessoa.PessoaJuridica;
 import modelo.pessoa.Endereco;
-import modelo.cliente.Compra;
-import modelo.cliente.Cliente;
-import java.util.List;
-import modelo.supermercado.mercadoria.Fornecedor;
-import modelo.supermercado.mercadoria.Lote;
 import util.Util;
 
 /**
@@ -43,39 +37,7 @@ public class Supermercado extends PessoaJuridica{
         this.longitude = longitude;
         this.unidade = unidade;
     }
-
     
-    // Retorna uma lista com todas as vendas (compras dos clientes) feitas pelo supermercado
-    public List<Compra> getHistoricoCompras() {
-        //TODO criar função na classe CompraDAO para carregar no BD
-    }
-    
-    // Retorna uma lista com todos os fornecedores deste supermercado
-    public List<Fornecedor> getFornecedores() {
-        //TODO criar função na classe FornecedorDAO para carregar no BD
-    }
-    
-    // Retorna umaa lista com todos os funcionarios do supermercado
-    public List<Funcionario> getFuncionarios() {
-        //TODO criar função na classe FuncionarioDAO para carregar no BD
-    }
-    
-    // Retorna uma lista com todos os produtos do supermercado
-    public List<Produto> getProdutos() {
-        //TODO criar função na classe ProdutoDAO para carregar no BD
-    }
-    
-    // Retorna uma lista com todas os lotes do supermercado
-    public List<Lote> getLotes() {
-        //TODO criar função na classe LoteDAO para carregar no BD
-    }
-    
-    // Retorna uma lista com todos os clientes do supermercado
-    // Ou seja, os clientes que ja fizeram ao menos 1 compra no supermecado
-    public List<Cliente> getClientes(){
-        //TODO criar função na classe ClienteDAO para carregar no BD
-    }
-
     public double getLatitude() {
         return latitude;
     }

@@ -5,10 +5,8 @@
  */
 package modelo.supermercado.mercadoria;
 
-import modelo.supermercado.Supermercado;
 import modelo.pessoa.PessoaJuridica;
 import modelo.pessoa.Endereco;
-import java.util.List;
 
 /**
  *
@@ -24,15 +22,5 @@ public class Fornecedor extends PessoaJuridica{
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
     public Fornecedor(String cnpj, String nome, Endereco endereco) throws IllegalArgumentException {
         super(cnpj, nome, endereco);
-    }
-    
-    // Retorna uma lista com todos os lotes que foram fornecidos pelo fornecedor
-    public List<Lote> getLotes() {
-        //TODO criar função na classe LoteDAO para carregar no BD
-    }
-    
-    // Retorna uma lista com todos supermercados que dependem do fornecedor
-    public List<Supermercado> getSupermercados() {
-        //TODO criar função na classe SupermercadoDAO para carregar no BD
     }
 }
