@@ -58,16 +58,6 @@ public class Produto {
         this.tipo = tipo;
     }
     
-    // Retorna uma lista com todos os lotes em que esse produto está
-    public List<Lote> getLotes() {
-        //TODO criar função na classe LoteDAO para carregar no BD
-    }
-    
-    // Retorna o supermercado que aquele produto pertence
-    public Supermercado getSupermercado() {
-        //TODO criar função na classe SupermercadoDAO para carregar no BD
-    }
-    
     public final void setCusto(double custo) throws IllegalArgumentException{
         if (custo <= 0) 
             throw new IllegalArgumentException("Custo inválido: menor ou igual à 0!");

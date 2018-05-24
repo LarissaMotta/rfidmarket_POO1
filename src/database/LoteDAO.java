@@ -32,7 +32,7 @@ public abstract class LoteDAO extends DBCommand {
         // Forme a string básica de sql;
         String sql = "INSERT INTO lote" +
                 "(data_compra, numero, fabricacao, quantidade, validade," +
-                "fk_fornecedor, fk_produto, fk_supermecado) "
+                "fk_fornecedor, fk_produto, fk_supermercado) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         PreparedStatement st = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);

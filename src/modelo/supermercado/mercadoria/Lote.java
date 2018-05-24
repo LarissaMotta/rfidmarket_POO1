@@ -5,9 +5,7 @@
  */
 package modelo.supermercado.mercadoria;
 
-import modelo.supermercado.Supermercado;
 import java.util.Date;
-import java.util.List;
 import util.Util;
 
 public class Lote {
@@ -63,16 +61,6 @@ public class Lote {
         this.numUnidades = numUnidades;
         this.identificador = identificador;
         this.produto = produto;    
-    }
-    
-    // Retorna de que supermercado aquele lote pertence
-    public Supermercado getSupermercado(){
-        //TODO criar função na classe SupermercadoDAO para carregar no BD
-    }
-    
-    // Retorna o fornecedor do lote
-    public List<Fornecedor> getFornecedores() {
-        //TODO criar função na classe FornecedorDAO para carregar no BD
     }
     
     public int getId() {
