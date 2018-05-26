@@ -7,7 +7,7 @@ package database;
  */
 
 
-import database.core.CoreDAO;
+import controlTest.ResetTable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,7 +59,7 @@ public class ClienteDAOTest {
     
     @After
     public void tearDown() throws ClassNotFoundException, SQLException {
-        CoreDAO.cleanAllTables();
+        ResetTable.cleanAllTables();
     }
 
     /**
