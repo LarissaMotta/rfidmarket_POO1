@@ -1,7 +1,6 @@
 package database;
 
-import static database.DBCommand.getConnection;
-import static database.PessoaDAO.getEndereco;
+import database.core.CoreDAO;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -19,7 +18,7 @@ import org.postgresql.util.PSQLException;
 /**
  * Created by 20162bsi0511 on 21/05/2018.
  */
-public abstract class FuncionarioDAO extends DBCommand {
+public abstract class FuncionarioDAO extends CoreDAO {
 
     /**
      * Insere um funcionário na base de dados;
@@ -91,7 +90,7 @@ public abstract class FuncionarioDAO extends DBCommand {
             int id = rs.getInt("id");
             String nome = rs.getString("nome");
    
-            Endereco endereco = getEndereco(rs);
+            Endereco endereco = PessoaDAO.getEndereco(rs);
             
 
             funcionarios.add(new Funcionario(cargo,setor,cpf,dataNasc,genero,login,rg,senha,id,nome,endereco));

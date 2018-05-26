@@ -1,5 +1,6 @@
 package database;
 
+import database.core.CoreDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,7 +14,7 @@ import modelo.pessoa.Pessoa;
  *
  * @author joel-
  */
-public abstract class PessoaDAO extends DBCommand{
+public abstract class PessoaDAO extends CoreDAO{
 
     /**
      * Insere uma pessoa na base de dados;

@@ -1,6 +1,6 @@
 package database;
 
-import static database.DBCommand.getConnection;
+import database.core.CoreDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,7 +12,7 @@ import java.util.List;
 import modelo.supermercado.Supermercado;
 import modelo.supermercado.mercadoria.Produto;
 
-public abstract class ProdutoDAO extends DBCommand{
+public abstract class ProdutoDAO extends CoreDAO{
 
     /**
      * Insere um produto na base de dados;

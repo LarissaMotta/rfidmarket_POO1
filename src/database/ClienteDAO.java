@@ -1,5 +1,6 @@
 package database;
 
+import database.core.CoreDAO;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,7 +11,7 @@ import modelo.pessoa.Endereco;
 import modelo.supermercado.Supermercado;
 
 //Classe criada p/ abstrair a manipulação de objetos cliente no Banco de Dados;
-public abstract class ClienteDAO extends DBCommand{
+public abstract class ClienteDAO extends CoreDAO{
 
     /**
      * Insere um cliente na base de dados;
@@ -100,11 +101,11 @@ public abstract class ClienteDAO extends DBCommand{
 
         // Forme a string sql;
         String sql = "SELECT p.id, p.nome, p.numero, p.rua, p.cep, p.bairro," +
-                "p.estado, p.cidade, pf.data_nasc, pf.genero, pf.login, pf.senha" +
+                "p.estado, p.cidade, pf.data_nasc, pf.genero, pf.login, pf.senha," +
                 "pf.cpf FROM hist_compra as hc " +
                 "INNER JOIN fisica as pf ON hc.fk_cliente = pf.fk_pessoa " +
-                "INNER JOIN pessoa as p ON pf.fk_pessoa = pessoa.id "
-                + "WHERE supermercado.fk_pessoa_juridica = ?";
+                "INNER JOIN pessoa as p ON pf.fk_pessoa = p.id "
+                + "WHERE hc.fk_supermercado = ?";
 
         // Substitua a '?' pelo valor da coluna;
         PreparedStatement ps = conexao.prepareStatement(sql);

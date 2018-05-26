@@ -43,10 +43,7 @@ public class Compra {
     
     // retorna os itens e inicializa o atributo itens caso ele seja = null
     public List<ItemProduto> getItens() {
-        if (id <= 0){
-            return null;
-        }
-        else if (itens == null){ // se true, significa que os itens não foram carregados ainda
+        if (itens == null){ // se true, significa que os itens não foram carregados ainda
             try {
                 itens = ItemProdutoDAO.readItensByCompra(this);
             }catch (ClassNotFoundException | SQLException ex){

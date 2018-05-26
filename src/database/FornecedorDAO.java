@@ -1,7 +1,6 @@
 package database;
 
-import static database.DBCommand.getConnection;
-import static database.PessoaDAO.getEndereco;
+import database.core.CoreDAO;
 import java.sql.Connection;
 
 import java.sql.PreparedStatement;
@@ -15,7 +14,7 @@ import modelo.pessoa.Endereco;
 import modelo.supermercado.Supermercado;
 import modelo.supermercado.mercadoria.Lote;
 
-public abstract class FornecedorDAO extends DBCommand{
+public abstract class FornecedorDAO extends CoreDAO{
 
     /**
      * Insere um fornecedor na base de dados;
@@ -89,7 +88,7 @@ public abstract class FornecedorDAO extends DBCommand{
         String cnpj = rs.getString("cnpj");
         String nome = rs.getString("nome");
         int id = rs.getInt("id");
-        Endereco endereco = getEndereco(rs);
+        Endereco endereco = PessoaDAO.getEndereco(rs);
        
         return new Fornecedor(cnpj,id,nome,endereco);
         

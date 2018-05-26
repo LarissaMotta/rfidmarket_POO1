@@ -1,5 +1,6 @@
 package database;
 
+import database.core.CoreDAO;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -12,7 +13,7 @@ import org.postgresql.util.PSQLException;
  *
  * @author joel-
  */
-public abstract class PessoaFisicaDAO extends DBCommand {
+public abstract class PessoaFisicaDAO extends CoreDAO {
 
     /**
      * Insere uma pessoa física na base de dados;

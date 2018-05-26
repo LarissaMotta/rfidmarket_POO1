@@ -1,9 +1,9 @@
-package database;
+package database.core;
 
 import java.sql.*;
 
 //Classe para agilizar criação de tabelas, seleção e inserção de valores;
-public abstract class DBCommand {
+public abstract class CoreDAO {
 
     /**
      *Abre uma conexão com a base dados e a retorna;
@@ -45,5 +45,25 @@ public abstract class DBCommand {
         rs.next();
 
         return rs.getInt("id");
+    }
+    
+    public static void cleanTable(String table) throws ClassNotFoundException, SQLException{
+        Connection conn = getConnection();
+        
+        String sql = "DELETE FROM " + table;
+        PreparedStatement st = conn.prepareStatement(sql);
+        st.executeUpdate();
+        
+        st.close();
+        conn.close();
+    }
+    
+    public static void cleanAllTables() throws ClassNotFoundException, SQLException{
+        String[] tables = 
+        {"compra","lote","produto","hist_compra","utiliza","fornecimento","cartao","funcionario","fisica","supermercado","juridica","pessoa","contato"};
+        
+        for (String table : tables){
+            cleanTable(table);
+        }
     }
 }

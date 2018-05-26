@@ -5,7 +5,7 @@
  */
 package database;
 
-import static database.DBCommand.getConnection;
+import database.core.CoreDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,7 +22,7 @@ import modelo.supermercado.mercadoria.Produto;
  *
  * @author joel-
  */
-public abstract class ItemProdutoDAO extends DBCommand{
+public abstract class ItemProdutoDAO extends CoreDAO{
     
     // O ideal aki seria ter como parametro uma Instancia de uma compra já com seu id
     // Mas para agilizar (só olhar a inserção da compra que vcs vao entender) vai ficar assim msm
@@ -42,7 +42,7 @@ public abstract class ItemProdutoDAO extends DBCommand{
         st.setDouble(1, item.getPrecoCompra());
         st.setInt(2, item.getQuantidade());
         st.setInt(3, item.getProduto().getId());
-        st.setInt(3, idCompra);
+        st.setInt(4, idCompra);
 
         // Execute o INSERT e receba o ID do item cadastrado no BD;
         st.executeUpdate();

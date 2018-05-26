@@ -1,6 +1,6 @@
 package database;
 
-import static database.DBCommand.getConnection;
+import database.core.CoreDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,7 +15,7 @@ import modelo.pessoa.Pessoa;
 /**
  * Created by 20162bsi0511 on 21/05/2018.
  */
-public abstract class ContatoDAO extends DBCommand {
+public abstract class ContatoDAO extends CoreDAO {
 
     /**
      * Insere um contato na base de dados;

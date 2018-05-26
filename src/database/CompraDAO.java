@@ -5,7 +5,7 @@
  */
 package database;
 
-import static database.DBCommand.getConnection;
+import database.core.CoreDAO;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -25,7 +25,7 @@ import modelo.supermercado.Supermercado;
  *
  * @author joel-
  */
-public abstract class CompraDAO extends DBCommand{
+public abstract class CompraDAO extends CoreDAO{
     
     public static int create(Compra compra, Cliente cliente, Cartao cartao, Supermercado supermercado) throws ClassNotFoundException, SQLException {
 

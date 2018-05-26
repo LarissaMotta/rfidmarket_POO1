@@ -70,7 +70,7 @@ public class Cartao {
     }
 
     public final void setNumero(long numero) throws IllegalArgumentException{
-        if (numero <= 0 || String.valueOf(numero).length() <= 16) //TODO tem que melhorar essa validação
+        if (numero <= 0 /*|| String.valueOf(numero).length() != 16*/) //TODO tem que trocar o tipo para string
             throw new IllegalArgumentException("Número do cartão inválido!");
         this.numero = numero;
     }

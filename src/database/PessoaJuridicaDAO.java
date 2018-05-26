@@ -1,5 +1,6 @@
 package database;
 
+import database.core.CoreDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -11,7 +12,7 @@ import org.postgresql.util.PSQLException;
  *
  * @author joel-
  */
-public abstract class PessoaJuridicaDAO extends DBCommand{
+public abstract class PessoaJuridicaDAO extends CoreDAO{
 
     /**
      * Insere uma pessoa jurídica na base de dados;

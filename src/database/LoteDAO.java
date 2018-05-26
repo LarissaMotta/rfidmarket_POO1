@@ -1,5 +1,6 @@
 package database;
 
+import database.core.CoreDAO;
 import modelo.supermercado.Supermercado;
 import modelo.supermercado.mercadoria.Fornecedor;
 import modelo.supermercado.mercadoria.Lote;
@@ -9,7 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class LoteDAO extends DBCommand {
+public abstract class LoteDAO extends CoreDAO {
 
     /**
      * Insere um lote de um produto na base de dados;

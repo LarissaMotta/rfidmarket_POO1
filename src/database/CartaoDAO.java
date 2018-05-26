@@ -1,5 +1,6 @@
 package database;
 
+import database.core.CoreDAO;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -13,9 +14,9 @@ import java.util.List;
 import modelo.cliente.Cartao;
 import modelo.cliente.Cliente;
 
-public abstract class CartaoDAO extends DBCommand {
+public abstract class CartaoDAO extends CoreDAO {
 
-    public static int create(Cartao cartao, Cliente cliente) throws ClassNotFoundException, SQLException {
+    public static int create(Cartao cartao) throws ClassNotFoundException, SQLException {
 
         // Obtenha a conexão com o BD;
         Connection conexao = getConnection();
