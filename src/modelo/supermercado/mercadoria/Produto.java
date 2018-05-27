@@ -5,8 +5,6 @@
  */
 package modelo.supermercado.mercadoria;
 
-import java.util.List;
-import modelo.supermercado.Supermercado;
 import util.Util;
 
 public class Produto {

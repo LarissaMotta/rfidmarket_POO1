@@ -49,10 +49,6 @@ public abstract class Pessoa {
         return endereco;
     }
 
-    public List<Contato> getContato() throws SQLException, ClassNotFoundException {
-        return ContatoDAO.readContatosByPessoa(this);
-    }
-
     public final void setEndereco(Endereco endereco) throws IllegalArgumentException{
         Util.verificaIsObjNull(endereco);
         
