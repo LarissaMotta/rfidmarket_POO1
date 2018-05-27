@@ -63,7 +63,7 @@ public abstract class PessoaFisicaDAO extends CoreDAO {
     public static void delete(int id) throws SQLException, ClassNotFoundException {
 
         Connection conn = getConnection();
-        String sql = "DELETE FROM fisica WHERE id = ?";
+        String sql = "DELETE FROM fisica WHERE fk_pessoa = ?";
 
         PreparedStatement st = conn.prepareStatement(sql);
         st.setInt(1, id);

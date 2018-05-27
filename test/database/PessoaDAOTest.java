@@ -5,7 +5,13 @@
  */
 package database;
 
+import controlTest.ResetTable;
+import static database.core.CoreDAO.getConnection;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import modelo.cliente.Cliente;
 import modelo.pessoa.Endereco;
@@ -16,12 +22,14 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import util.Util;
 
 /**
  *
  * @author joel-
  */
 public class PessoaDAOTest {
+    private Cliente cliente;
     
     public PessoaDAOTest() {
     }
@@ -35,23 +43,21 @@ public class PessoaDAOTest {
     }
     
     @Before
-    public void setUp() {
+    public void setUp() throws ClassNotFoundException, SQLException {
+        ResetTable.cleanAllTables();
+        System.out.println("create");
+        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", "ES", 75, "Rua Xablau");
+        cliente = new Cliente("216.856.707-76", new Date(), 'M', "joel@hotmail.com", "testedesenha", "Joel", endereco);
+        
+        int result = ClienteDAO.create(cliente);
+        
+        cliente = new Cliente(cliente.getCpf(), cliente.getDataNasc(), cliente.getGenero(), cliente.getLogin(), cliente.getSenha(),result, cliente.getNome(), endereco);
+        System.out.println("id = "+result);
     }
     
     @After
-    public void tearDown() {
-    }
-
-    /**
-     * Test of create method, of class PessoaDAO.
-     */
-    @Test
-    public void testCreate() throws Exception {
-        System.out.println("create");
-        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", "ES", 75, "Rua Xablau");
-        Pessoa pessoa = new Cliente("785.967.158-98", new Date(), 'M', "joelwb@hotmail.com", "testedesenha", "Joel", endereco);
-        int result = PessoaDAO.create(pessoa);
-        System.out.println("id = "+result);
+    public void tearDown() throws ClassNotFoundException, SQLException {
+        ResetTable.cleanAllTables();
     }
 
     /**
@@ -60,7 +66,8 @@ public class PessoaDAOTest {
     @Test
     public void testDelete() throws Exception {
         System.out.println("delete");
-        int id = 0;
+        int id = cliente.getId();
+        PessoaFisicaDAO.delete(id);
         PessoaDAO.delete(id);
     }
 
@@ -70,10 +77,19 @@ public class PessoaDAOTest {
     @Test
     public void testGetEndereco() throws Exception {
         System.out.println("getEndereco");
-        ResultSet rs = null;
-        Endereco expResult = null;
+        Connection conexao = getConnection();
+
+        // Forme a string sql;
+        String sql = "SELECT numero, rua, cep, bairro, estado, cidade FROM pessoa";
+        
+        // Substitua a '?' pelo valor da coluna;
+        PreparedStatement ps = conexao.prepareStatement(sql);
+        ps.executeQuery();
+        ResultSet rs = ps.getResultSet();
+        rs.next();
+        
+        Endereco expResult = new Endereco("Jacaraípe", "29177-486", "SERRA", "ES", 75, "Rua Xablau");
         Endereco result = PessoaDAO.getEndereco(rs);
-        assertEquals(expResult, result);
     }
     
 }
