@@ -5,6 +5,7 @@
  */
 package database;
 
+import java.sql.ResultSet;
 import java.util.Date;
 import modelo.cliente.Cliente;
 import modelo.pessoa.Endereco;
@@ -51,6 +52,28 @@ public class PessoaDAOTest {
         Pessoa pessoa = new Cliente("785.967.158-98", new Date(), 'M', "joelwb@hotmail.com", "testedesenha", "Joel", endereco);
         int result = PessoaDAO.create(pessoa);
         System.out.println("id = "+result);
+    }
+
+    /**
+     * Test of delete method, of class PessoaDAO.
+     */
+    @Test
+    public void testDelete() throws Exception {
+        System.out.println("delete");
+        int id = 0;
+        PessoaDAO.delete(id);
+    }
+
+    /**
+     * Test of getEndereco method, of class PessoaDAO.
+     */
+    @Test
+    public void testGetEndereco() throws Exception {
+        System.out.println("getEndereco");
+        ResultSet rs = null;
+        Endereco expResult = null;
+        Endereco result = PessoaDAO.getEndereco(rs);
+        assertEquals(expResult, result);
     }
     
 }

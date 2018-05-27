@@ -52,5 +52,15 @@ public class PessoaFisicaDAOTest {
         int result = PessoaFisicaDAO.create(pessoaFisica);
         System.out.println("id = "+result);
     }
+
+    /**
+     * Test of delete method, of class PessoaFisicaDAO.
+     */
+    @Test
+    public void testDelete() throws Exception {
+        System.out.println("delete");
+        int id = 0;
+        PessoaFisicaDAO.delete(id);
+    }
     
 }
