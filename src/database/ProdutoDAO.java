@@ -51,6 +51,9 @@ public abstract class ProdutoDAO extends CoreDAO{
     }
 
     //Jennifer
+    //TODO: Fazer melhoria na Query usando filtros uteis
+    //Filtros devem ser baseados nas telas do prototipo
+    //Seguir o modelo de filtro da função ClienteDAO.readClientesBySupermercado(...);
     public static List<Produto> readProdutosBySupermercado(Supermercado supermercado)throws SQLException, ClassNotFoundException{
         List<Produto> produtos = new ArrayList<>();
 
