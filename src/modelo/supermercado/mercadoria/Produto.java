@@ -10,7 +10,7 @@ import util.Util;
 public class Produto {
     // nenhum atributo pode ser null
     private int id;                 // não pode ser <= 0
-    private final String codigo;    // TODO: verificar se é string ou int
+    private final String codigo;    
     private double custo;
     private String descricao;       
     private final String marca;     // Faz sentido eu mudar a marca do produto depois de instancia-lo? ou seja, final ou não?

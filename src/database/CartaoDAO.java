@@ -52,7 +52,6 @@ public abstract class CartaoDAO extends CoreDAO {
      * @throws java.sql.SQLException
      * @throws java.lang.ClassNotFoundException
      */
-    //TODO Consertar
     public static List<Cartao> readCartoesByCliente(Cliente cliente) throws SQLException, ClassNotFoundException {
 
         List<Cartao> cartoes = new ArrayList<>();

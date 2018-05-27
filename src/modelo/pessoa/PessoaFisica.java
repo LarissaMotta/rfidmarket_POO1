@@ -53,7 +53,6 @@ public abstract class PessoaFisica extends Pessoa{
             this.dataNasc = dataNasc;
     }
 
-    //TODO Testar essa função
     public final void setGenero(char genero) throws IllegalArgumentException{
 
         genero = Character.toUpperCase(genero);

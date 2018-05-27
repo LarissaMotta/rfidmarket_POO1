@@ -15,14 +15,12 @@ import java.sql.SQLException;
 import java.util.Date;
 import modelo.cliente.Cliente;
 import modelo.pessoa.Endereco;
-import modelo.pessoa.Pessoa;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import util.Util;
 
 /**
  *
