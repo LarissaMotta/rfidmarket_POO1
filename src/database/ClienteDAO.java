@@ -90,8 +90,8 @@ public abstract class ClienteDAO extends CoreDAO{
     /**
      * Retorna um conjunto de clientes do supermercado recebido como parâmetro
      * fazendo os devidos filtros podendo ser: 
-     * total - onde todos os parametros de filtro são passados
-     * parcial - onde alguns parametros de filtro são passados e outros são null
+     * total - onde todos os parametros de filtro são passados,
+     * parcial - onde alguns parametros de filtro são passados e outros são null,
      * sem filtros - onde todos os parametros de filtro são null.
      * @param superm supermercado que contém os clientes buscados;
      * @param nome usado para filtro de clientes que comecam com esse nome
@@ -99,9 +99,10 @@ public abstract class ClienteDAO extends CoreDAO{
      * @return lista de clientes compradores no supermercado recebido;
      * @throws SQLException
      * @throws ClassNotFoundException
+     * @throws IllegalArgumentException
      */
     public static List<Cliente> readClientesBySupermercado(Supermercado superm, String nome, String cpf)
-            throws SQLException, ClassNotFoundException {
+            throws SQLException, ClassNotFoundException, IllegalArgumentException {
 
         // Crie e inicialize a lista, e abra uma conexão com o BD;
         List<Cliente> clientes = new ArrayList<>();
