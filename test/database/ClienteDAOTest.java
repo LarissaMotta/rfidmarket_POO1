@@ -46,6 +46,7 @@ public class ClienteDAOTest {
     
     @Before
     public void setUp() throws ClassNotFoundException, SQLException {
+        ResetTable.cleanAllTables();
         System.out.println("create");
         
         Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", "ES", 75, "Rua Xablau");
@@ -109,6 +110,6 @@ public class ClienteDAOTest {
         
         CompraDAO.create(compra, cliente, cartao, superm);
         
-        List<Cliente> result = ClienteDAO.readClientesBySupermercado(superm);
+        List<Cliente> result = ClienteDAO.readClientesBySupermercado(superm,null,"216.856.707-76");
     }
 }

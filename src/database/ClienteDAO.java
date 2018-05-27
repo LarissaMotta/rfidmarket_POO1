@@ -1,6 +1,8 @@
 package database;
 
 import database.core.CoreDAO;
+import database.filter.Clause;
+import database.filter.Filter;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,6 +11,7 @@ import modelo.cliente.Cartao;
 import modelo.cliente.Cliente;
 import modelo.pessoa.Endereco;
 import modelo.supermercado.Supermercado;
+import util.Util;
 
 //Classe criada p/ abstrair a manipulação de objetos cliente no Banco de Dados;
 public abstract class ClienteDAO extends CoreDAO{
@@ -85,13 +88,19 @@ public abstract class ClienteDAO extends CoreDAO{
     }
 
     /**
-     * Retorna um conjunto de clientes do supermercado recebido como parâmetro;
+     * Retorna um conjunto de clientes do supermercado recebido como parâmetro
+     * fazendo os devidos filtros podendo ser: 
+     * total - onde todos os parametros de filtro são passados
+     * parcial - onde alguns parametros de filtro são passados e outros são null
+     * sem filtros - onde todos os parametros de filtro são null.
      * @param superm supermercado que contém os clientes buscados;
+     * @param nome usado para filtro de clientes que comecam com esse nome
+     * @param cpf usado para filtro do cliente que tenha este cpf 
      * @return lista de clientes compradores no supermercado recebido;
      * @throws SQLException
      * @throws ClassNotFoundException
      */
-    public static List<Cliente> readClientesBySupermercado(Supermercado superm)
+    public static List<Cliente> readClientesBySupermercado(Supermercado superm, String nome, String cpf)
             throws SQLException, ClassNotFoundException {
 
         // Crie e inicialize a lista, e abra uma conexão com o BD;
@@ -99,14 +108,24 @@ public abstract class ClienteDAO extends CoreDAO{
 
         Connection conexao = getConnection();
 
+        if (cpf != null && !Util.isCpfValido(cpf)) throw new IllegalArgumentException("CPF inválido!");
+        
+        Filter filter = new Filter();
+        
+        Clause clause = new Clause(nome+"%", Clause.ILIKE);
+        filter.addClause("p.nome", clause);
+        
+        clause = new Clause(cpf, Clause.IGUAL);
+        filter.addClause("pf.cpf", clause);
+        
         // Forme a string sql;
         String sql = "SELECT p.id, p.nome, p.numero, p.rua, p.cep, p.bairro," +
                 "p.estado, p.cidade, pf.data_nasc, pf.genero, pf.login, pf.senha," +
                 "pf.cpf FROM hist_compra as hc " +
                 "INNER JOIN fisica as pf ON hc.fk_cliente = pf.fk_pessoa " +
                 "INNER JOIN pessoa as p ON pf.fk_pessoa = p.id "
-                + "WHERE hc.fk_supermercado = ?";
-
+                + "WHERE hc.fk_supermercado = ? " + filter.getFilter();
+        
         // Substitua a '?' pelo valor da coluna;
         PreparedStatement ps = conexao.prepareStatement(sql);
         ps.setInt(1, superm.getId());

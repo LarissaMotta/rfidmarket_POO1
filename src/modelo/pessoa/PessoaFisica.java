@@ -6,8 +6,6 @@
 package modelo.pessoa;
 
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import util.Util;
 
 public abstract class PessoaFisica extends Pessoa{
@@ -38,62 +36,12 @@ public abstract class PessoaFisica extends Pessoa{
         setSenha(senha);
     }
     
-    public static boolean isLoginValido(String login) throws IllegalArgumentException{ // verifica se o loguin pode ser usado
-        if (login == null && login.length() <= 0) return false;
-        
-        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
-        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(login);
-        return matcher.matches();
-    }
-
-    private static boolean validarCpf(String cpf) {
-
-        String digitos;
-        int multip = 10;
-        int somaDigitos = 0;
-        digitos = cpf.replace(".","").replace("-","");
-
-        //Primeira verificação:
-        for (int i = 0; i < 9; i++) {
-            somaDigitos += multip * Character.getNumericValue(digitos.charAt(i));
-            multip--;
-        }
-
-        //A soma final deve ser igual ao primeiro digito verificador;
-        if (somaDigitos * 10 % 11 != Character.getNumericValue(digitos.charAt(9)))
-            return false;
-
-        //Segunda verificação:
-        multip = 11;
-        somaDigitos = 0;
-
-        for (int i = 0; i < 10; i++) {
-            somaDigitos += multip * Character.getNumericValue(digitos.charAt(i));
-            multip--;
-        }
-
-        //A soma final agora deve ser igual ao segundo digito verificador;
-        return somaDigitos * 10 % 11 == Character.getNumericValue(digitos.charAt(10));
-    }
-
     public final void setCpf(String cpf) throws IllegalArgumentException{
 
-        char charCpf;
-        int contDigit = 0;
-
-        Util.verificaIsObjNull(cpf);
-
-        //Garanta que só haverá dígitos, '.' ou '-';
-        String expression = "^[0-9]{3}.?[0-9]{3}.?[0-9]{3}-?[0-9]{2}$";
-        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(cpf);
-
-        if (!matcher.matches() || !validarCpf(cpf))
+        if (!Util.isCpfValido(cpf))
             throw new IllegalArgumentException("CPF não é válido");
-
-        else
-            this.cpf = cpf;
+        
+        this.cpf = cpf;
     }
 
     public final void setDataNasc(Date dataNasc) throws IllegalArgumentException{
@@ -115,7 +63,7 @@ public abstract class PessoaFisica extends Pessoa{
     }
 
     public final void setLogin(String login) throws IllegalArgumentException{
-        if (!isLoginValido(login))
+        if (!Util.isLoginValido(login))
             throw new IllegalArgumentException("Login inválido");
         else
             this.login = login;
