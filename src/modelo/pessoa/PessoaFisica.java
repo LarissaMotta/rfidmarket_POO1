@@ -5,6 +5,8 @@
  */
 package modelo.pessoa;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import util.Util;
 
@@ -17,7 +19,7 @@ public abstract class PessoaFisica extends Pessoa{
     private String senha;   // deve ter no length >= 6
 
     // Pode ser usada quando para instanciar a partir de dados do BD
-    public PessoaFisica(String cpf, Date dataNasc, char genero, String login, String senha, int id, String nome, Endereco endereco) throws IllegalArgumentException{
+    public PessoaFisica(String cpf, Date dataNasc, char genero, String login, String senha, int id, String nome, Endereco endereco) throws IllegalArgumentException, NoSuchAlgorithmException, UnsupportedEncodingException{
         super(id, nome, endereco);
         setCpf(cpf);
         setDataNasc(dataNasc);
@@ -27,7 +29,7 @@ public abstract class PessoaFisica extends Pessoa{
     }
 
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
-    public PessoaFisica(String cpf, Date dataNasc, char genero, String login, String senha, String nome, Endereco endereco) throws IllegalArgumentException{
+    public PessoaFisica(String cpf, Date dataNasc, char genero, String login, String senha, String nome, Endereco endereco) throws IllegalArgumentException, NoSuchAlgorithmException, UnsupportedEncodingException{
         super(nome, endereco);
         setCpf(cpf);
         setDataNasc(dataNasc);
@@ -69,13 +71,13 @@ public abstract class PessoaFisica extends Pessoa{
             this.login = login;
     }
 
-    public final void setSenha(String senha) throws IllegalArgumentException{
+    public final void setSenha(String senha) throws IllegalArgumentException, NoSuchAlgorithmException, UnsupportedEncodingException{
         Util.verificaStringNullVazia(senha);
         
         if (senha.length() < 6)
             throw new IllegalArgumentException("Senha deve ter pelo menos 6 caracteres");
         
-        this.senha = senha;
+        this.senha = Util.criptografar(senha);
     }
 
     public String getCpf() {

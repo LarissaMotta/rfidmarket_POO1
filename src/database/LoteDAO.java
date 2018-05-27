@@ -146,7 +146,7 @@ public abstract class LoteDAO extends CoreDAO {
         Connection conexao = getConnection();
 
         // Forme a string sql;
-        String sql = "SELECT id, fk_produto, data_compra, fabricacao, validade, " +
+        String sql = "SELECT id, data_compra, fabricacao, validade, " +
                 "quantidade, identificador FROM lote WHERE fk_produto = ?";
 
         // Substitua a '?' pelo valor da coluna;

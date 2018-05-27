@@ -5,6 +5,9 @@
  */
 package util;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -141,5 +144,17 @@ public abstract class Util {
         }
 
         return true;
+    }
+    
+    public static String criptografar(String string) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+        MessageDigest algorithm = MessageDigest.getInstance("SHA-512");
+        byte messageDigest[] = algorithm.digest(string.getBytes("UTF-8"));
+        
+        StringBuilder hexString = new StringBuilder();
+        for (byte b : messageDigest) {
+          hexString.append(String.format("%02X", 0xFF & b));
+        }
+        
+        return hexString.toString();
     }
 }
