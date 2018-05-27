@@ -31,7 +31,7 @@ public abstract class FornecedorDAO extends CoreDAO{
     
     //Larissa
     //TODO: Fazer melhoria na Query usando filtros uteis
-    //Filtros devem ser baseados nas telas do prototipo
+    //Filtros devem ser baseados nas telas do prototipo e o que se pede no git
     //Seguir o modelo de filtro da função ClienteDAO.readClientesBySupermercado(...);
     public static List<Fornecedor> readFornecedoresBySupermercado(Supermercado supermercado)throws ClassNotFoundException, SQLException{
         List<Fornecedor> fornecedores = new ArrayList<>();

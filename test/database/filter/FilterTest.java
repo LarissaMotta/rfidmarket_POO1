@@ -52,6 +52,12 @@ public class FilterTest {
         clause = new Clause(new Date(), Clause.MAIOR_IGUAL);
         filter.addClause("validade", clause);
         
+        clause = new Clause(5000.00, Clause.DIFERENTE);
+        filter.addClause("salario", clause);
+        
+        clause = new Clause(18, Clause.IGUAL);
+        filter.addClause("idade", clause);
+        
         clause = new Clause(null, Clause.MENOR);
         filter.addClause("numero", clause);
         

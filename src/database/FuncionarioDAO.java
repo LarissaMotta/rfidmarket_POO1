@@ -61,7 +61,7 @@ public abstract class FuncionarioDAO extends CoreDAO {
     
     //Jennifer
     //TODO: Fazer melhoria Query usando filtros uteis
-    //Filtros devem ser baseados nas telas do prototipo
+    //Filtros devem ser baseados nas telas do prototipo e o que se pede no git
     //Seguir o modelo de filtro da função ClienteDAO.readClientesBySupermercado(...);
     public static List<Funcionario> readFuncionariosBySupermercado(Supermercado supermercado)throws SQLException, ClassNotFoundException{
           List<Funcionario> funcionarios = new ArrayList<>();
