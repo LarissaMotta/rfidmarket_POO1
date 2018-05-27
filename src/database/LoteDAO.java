@@ -62,21 +62,21 @@ public abstract class LoteDAO extends CoreDAO {
         ResultSet rs = ps.executeQuery();
         rs.next();
 
-        return readLote(rs);
+        return readLote(rs,null);
     }
 
     /**
-     * TODO REVISAR - Uso de 'ProdutoDAO.readProdutosById'
      * Com base em um ResultSet, cria e retorna um novo Lote de produtos com os dados
      * da linha do RS.
      * @param rs resultSet com os dados do Lote;
      * @return Lote gerado com base nos dados do RS;
      * @throws SQLException
      */
-    private static Lote readLote(ResultSet rs)
+    private static Lote readLote(ResultSet rs,Produto prod)
             throws SQLException, ClassNotFoundException {
 
-        Produto prod = ProdutoDAO.readProdutosById(rs.getInt("fk_produto"));
+        if (prod == null) prod = ProdutoDAO.readProdutosById(rs.getInt("fk_produto"));
+        
         int id = rs.getInt("id");
         String codProd = prod.getCodigo();
         java.util.Date dtComp = new java.util.Date(rs.getDate("data_compra").getTime());
@@ -118,7 +118,7 @@ public abstract class LoteDAO extends CoreDAO {
         ResultSet rs = ps.executeQuery();
 
         // Enquanto houver linhas, gere um lote c/ a linha e add. na lista;
-        while (rs.next()) lotes.add(readLote(rs));
+        while (rs.next()) lotes.add(readLote(rs,null));
 
         ps.close();
         conexao.close();
@@ -156,7 +156,7 @@ public abstract class LoteDAO extends CoreDAO {
         ResultSet rs = ps.executeQuery();
 
         // Enquanto houver linhas, gere um lote c/ a linha e add. na lista;
-        while (rs.next()) lotes.add(readLote(rs));
+        while (rs.next()) lotes.add(readLote(rs,produto));
 
         ps.close();
         conexao.close();
@@ -192,7 +192,7 @@ public abstract class LoteDAO extends CoreDAO {
         ResultSet rs = ps.executeQuery();
 
         // Enquanto houver linhas, gere um lote c/ a linha e add. na lista;
-        while (rs.next()) lotes.add(readLote(rs));
+        while (rs.next()) lotes.add(readLote(rs,null));
 
         ps.close();
         conexao.close();
