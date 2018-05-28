@@ -46,24 +46,26 @@ public class FilterTest {
         System.out.println("getFilter");
         Filter filter = new Filter();
         
-        Clause clause = new Clause("%Joel%", Clause.ILIKE);
-        filter.addClause("nome", clause);
+        Clause clause = new Clause("nome","%Joel%", Clause.ILIKE);
+        filter.addClause(clause);
         
-        clause = new Clause(new Date(), Clause.MAIOR_IGUAL);
-        filter.addClause("validade", clause);
+        clause = new Clause("validade", new Date(), Clause.MAIOR_IGUAL);
+        filter.addClause(clause);
         
-        clause = new Clause(5000.00, Clause.DIFERENTE);
-        filter.addClause("salario", clause);
+        clause = new Clause("salario",5000.00, Clause.DIFERENTE);
+        filter.addClause(clause);
         
-        clause = new Clause(18, Clause.IGUAL);
-        filter.addClause("idade", clause);
+        clause = new Clause("idade",18, Clause.IGUAL);
+        filter.addClause(clause);
         
-        clause = new Clause(null, Clause.MENOR);
-        filter.addClause("numero", clause);
-        
+        clause = new Clause("numero", null, Clause.MENOR);
+        filter.addClause(clause);
+
+        String expected = "AND nome ILIKE '%Joel%' AND validade >= '2018-05-28' AND salario != 5000.0 AND idade = 18 ";
+
         String result = filter.getFilter();
         
-        System.out.println("filtro = " + result);
+        assertEquals(expected,result);
     }
     
 }

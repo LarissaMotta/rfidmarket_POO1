@@ -6,6 +6,9 @@
 package database;
 
 import controlTest.ResetTable;
+
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.Date;
 import modelo.cliente.Cliente;
@@ -37,7 +40,7 @@ public class PessoaFisicaDAOTest {
     }
     
     @Before
-    public void setUp() throws ClassNotFoundException, SQLException {
+    public void setUp() throws ClassNotFoundException, SQLException, UnsupportedEncodingException, NoSuchAlgorithmException {
         ResetTable.cleanAllTables();
         System.out.println("create");
         

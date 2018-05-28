@@ -1,6 +1,9 @@
 package database;
 
 import database.core.CoreDAO;
+
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -63,7 +66,7 @@ public abstract class FuncionarioDAO extends CoreDAO {
     //TODO: Fazer melhoria Query usando filtros uteis
     //Filtros devem ser baseados nas telas do prototipo e o que se pede no git
     //Seguir o modelo de filtro da função ClienteDAO.readClientesBySupermercado(...);
-    public static List<Funcionario> readFuncionariosBySupermercado(Supermercado supermercado)throws SQLException, ClassNotFoundException{
+    public static List<Funcionario> readFuncionariosBySupermercado(Supermercado supermercado) throws SQLException, ClassNotFoundException, UnsupportedEncodingException, NoSuchAlgorithmException {
           List<Funcionario> funcionarios = new ArrayList<>();
       
         // Obtenha a conexão com o BD;

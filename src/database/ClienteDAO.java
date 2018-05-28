@@ -3,6 +3,9 @@ package database;
 import database.core.CoreDAO;
 import database.filter.Clause;
 import database.filter.Filter;
+
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -57,7 +60,7 @@ public abstract class ClienteDAO extends CoreDAO{
     }
 
     private static Cliente readCliente(PreparedStatement ps)
-            throws SQLException{
+            throws SQLException, UnsupportedEncodingException, NoSuchAlgorithmException {
 
         ResultSet rs = ps.executeQuery();
         rs.next();
@@ -73,7 +76,7 @@ public abstract class ClienteDAO extends CoreDAO{
      * @throws SQLException
      */
     private static Cliente readCliente(ResultSet rs)
-            throws SQLException{
+            throws SQLException, UnsupportedEncodingException, NoSuchAlgorithmException {
 
         String cpf = rs.getString("cpf");
         Date dtNasc = new Date(rs.getDate("data_nasc").getTime());
@@ -102,7 +105,7 @@ public abstract class ClienteDAO extends CoreDAO{
      * @throws IllegalArgumentException
      */
     public static List<Cliente> readClientesBySupermercado(Supermercado superm, String nome, String cpf)
-            throws SQLException, ClassNotFoundException, IllegalArgumentException {
+            throws SQLException, ClassNotFoundException, IllegalArgumentException, UnsupportedEncodingException, NoSuchAlgorithmException {
 
         // Crie e inicialize a lista, e abra uma conexão com o BD;
         List<Cliente> clientes = new ArrayList<>();
@@ -113,11 +116,11 @@ public abstract class ClienteDAO extends CoreDAO{
         
         Filter filter = new Filter();
         
-        Clause clause = new Clause(nome+"%", Clause.ILIKE);
-        filter.addClause("p.nome", clause);
+        Clause clause = new Clause("p.nome",nome+"%", Clause.ILIKE);
+        filter.addClause(clause);
         
-        clause = new Clause(cpf, Clause.IGUAL);
-        filter.addClause("pf.cpf", clause);
+        clause = new Clause("pf.cpf",cpf, Clause.IGUAL);
+        filter.addClause(clause);
         
         // Forme a string sql;
         String sql = "SELECT p.id, p.nome, p.numero, p.rua, p.cep, p.bairro," +

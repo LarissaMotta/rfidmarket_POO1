@@ -5,7 +5,9 @@
  */
 package database.filter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,27 +15,28 @@ import java.util.Map;
  * @author joel-
  */
 public class Filter {
-    private Map<String,Clause> mapClauses;
+    private List<Clause> clauses;
 
     public Filter() {
-        mapClauses = new HashMap<>();
+        clauses = new ArrayList<>();
     }
     
-    public void addClause(String campo,Clause clause){
-        mapClauses.put(campo, clause);
+    public void addClause(Clause clause){
+        clauses.add(clause);
     }
     
     public String getFilter(){
         String filterStr = "";
         
         int i = 0;
-        for (String campo : mapClauses.keySet()){
-            String clauseStr = mapClauses.get(campo).getClause();
+        for (Clause clause : clauses){
+            String clauseStr = clause.getClause();
             
             if (clauseStr != null){
                 filterStr += "AND ";
-                filterStr += campo + clauseStr + " ";
+                filterStr += clauseStr + " ";
             }
+
             i++;
         }
         

@@ -8,6 +8,9 @@ package database;
 
 
 import controlTest.ResetTable;
+
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,7 +48,7 @@ public class ClienteDAOTest {
     }
     
     @Before
-    public void setUp() throws ClassNotFoundException, SQLException {
+    public void setUp() throws ClassNotFoundException, SQLException, UnsupportedEncodingException, NoSuchAlgorithmException {
         ResetTable.cleanAllTables();
         System.out.println("create");
         
@@ -110,6 +113,6 @@ public class ClienteDAOTest {
         
         CompraDAO.create(compra, cliente, cartao, superm);
         
-        List<Cliente> result = ClienteDAO.readClientesBySupermercado(superm,null,"216.856.707-76");
+        List<Cliente> result = ClienteDAO.readClientesBySupermercado(superm,"J","216.856.807-76");
     }
 }

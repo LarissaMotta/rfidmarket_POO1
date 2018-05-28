@@ -13,6 +13,7 @@ import java.util.Date;
  * @author joel-
  */
 public class Clause {
+    private final String campo;
     private final Object valor;
     private final byte opLog;
     
@@ -25,18 +26,18 @@ public class Clause {
     public static final byte LIKE = 6;
     public static final byte ILIKE = 7;
 
-    public Clause(Object valor, byte opLog) throws IllegalArgumentException{
-        this.valor = valor;
-        
+    public Clause(String campo,Object valor, byte opLog) throws IllegalArgumentException{
         if (opLog < 0 || opLog > 7) throw new IllegalArgumentException("operador lógico invalido!");
         
         this.opLog = opLog;
+        this.valor = valor;
+        this.campo = campo;
     }
     
     public String getClause(){
         if (valor == null) return null;
         
-        String clause = getOpLogStr();
+        String clause = campo + getOpLogStr();
         
         if (valor instanceof String){
             if (((String)valor).contains("null")) return null;
