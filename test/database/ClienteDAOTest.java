@@ -113,6 +113,6 @@ public class ClienteDAOTest {
         
         CompraDAO.create(compra, cliente, cartao, superm);
         
-        List<Cliente> result = ClienteDAO.readClientesBySupermercado(superm,"J","216.856.807-76");
+        List<Cliente> result = ClienteDAO.readClientesBySupermercado(superm,"J","216.856.707-76");
     }
 }

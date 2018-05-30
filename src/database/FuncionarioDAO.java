@@ -91,7 +91,6 @@ public abstract class FuncionarioDAO extends CoreDAO {
             Date dataNasc = rs.getDate("data_nasc");
             char genero = rs.getString("genero").charAt(0);
             String login = rs.getString("login");
-            String rg = rs.getString("rg");
             String senha = rs.getString("senha");
             int id = rs.getInt("id");
             String nome = rs.getString("nome");
@@ -99,7 +98,7 @@ public abstract class FuncionarioDAO extends CoreDAO {
             Endereco endereco = PessoaDAO.getEndereco(rs);
             
 
-            funcionarios.add(new Funcionario(cargo,setor,cpf,dataNasc,genero,login,rg,senha,id,nome,endereco));
+            funcionarios.add(new Funcionario(cargo,setor,cpf,dataNasc,genero,login,senha,id,nome,endereco));
         }
 
         st.close();

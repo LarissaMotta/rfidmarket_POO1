@@ -5,6 +5,7 @@
  */
 package database;
 
+import controlTest.ResetTable;
 import java.sql.SQLException;
 import modelo.pessoa.Endereco;
 import modelo.pessoa.PessoaJuridica;
@@ -36,6 +37,7 @@ public class PessoaJuridicaDAOTest {
     
     @Before
     public void setUp() throws ClassNotFoundException, SQLException {
+        ResetTable.cleanAllTables();
         System.out.println("create");
         
         Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", "ES", 75, "Rua Xablau");
@@ -48,7 +50,8 @@ public class PessoaJuridicaDAOTest {
     }
     
     @After
-    public void tearDown() {
+    public void tearDown() throws ClassNotFoundException, SQLException {
+        ResetTable.cleanAllTables();
     }
     /**
      * Test of delete method, of class PessoaJuridicaDAO.
