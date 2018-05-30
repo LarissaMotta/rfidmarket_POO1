@@ -40,7 +40,7 @@ public class PessoaJuridicaDAOTest {
         ResetTable.cleanAllTables();
         System.out.println("create");
         
-        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", "ES", 75, "Rua Xablau");
+        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
         pessoaJuridica = new Fornecedor("44.122.623/0001-02", "Coca-Cola", endereco);
         int result = PessoaJuridicaDAO.create(pessoaJuridica);
         

@@ -20,6 +20,7 @@ import modelo.cliente.Cartao;
 import modelo.cliente.Cliente;
 import modelo.cliente.Compra;
 import modelo.pessoa.Endereco;
+import modelo.pessoa.PessoaFisica;
 import modelo.supermercado.Supermercado;
 import modelo.supermercado.mercadoria.Produto;
 import org.junit.After;
@@ -52,8 +53,8 @@ public class ClienteDAOTest {
         ResetTable.cleanAllTables();
         System.out.println("create");
         
-        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", "ES", 75, "Rua Xablau");
-        cliente = new Cliente("216.856.707-76", new Date(), 'M', "joel@hotmail.com", "testedesenha", "Joel", endereco);
+        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
+        cliente = new Cliente("216.856.707-76", new Date(), PessoaFisica.Genero.M, "joel@hotmail.com", "testedesenha", "Joel", endereco);
         
         int result = ClienteDAO.create(cliente);
         
@@ -73,7 +74,7 @@ public class ClienteDAOTest {
     public void testAddCartao() throws Exception {
         System.out.println("addCartao");
         
-        Cartao cartao = new Cartao("MasterCard", new  Date(2019, 8, 1), 514256985, "Maria", 'C');
+        Cartao cartao = new Cartao("MasterCard", new  Date(2019, 8, 1), "5482657412589634", "Maria", Cartao.Tipo.CREDITO);
         int id = CartaoDAO.create(cartao);
         
         cartao = new Cartao(id, cartao.getBandeira(), cartao.getDataValid(), cartao.getNumero(), cartao.getTitular(), cartao.getTipo());
@@ -88,7 +89,7 @@ public class ClienteDAOTest {
     public void testReadClientesBySupermercado() throws Exception {
         System.out.println("readClientesBySupermercado");
         
-        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", "ES", 75, "Rua Xablau");
+        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
         Supermercado superm = new Supermercado(18.5774, 15.1741, "Serra", "35.415.363/0001-72", "Carone", endereco);
         
         int idSuperm = SupermercadoDAO.create(superm);
@@ -101,7 +102,7 @@ public class ClienteDAOTest {
                 prod.getNome(), prod.getPrecoVenda(), prod.getQtdPrateleira(), prod.getQtdEstoque(), prod.getTipo());
         
         
-        Cartao cartao = new Cartao("MasterCard", new  Date(2019, 8, 1), 514256985, "Maria", 'C');
+        Cartao cartao = new Cartao("MasterCard", new  Date(2019, 8, 1), "5482657412589634", "Maria", Cartao.Tipo.CREDITO);
         int idCartao = CartaoDAO.create(cartao);
         
         cartao = new Cartao(idCartao, cartao.getBandeira(), cartao.getDataValid(), cartao.getNumero(), cartao.getTitular(), cartao.getTipo());

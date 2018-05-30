@@ -14,20 +14,36 @@ import java.util.Date;
  * @author joel-
  */
 public class Cartao {
+
     // nenhum desse valores pode ser null
     private int id;             //não pode ser <= 0 
-    private String bandeira;    
+    private final String bandeira;
     private Date dataValid;
-    private long numero;        
-    private String titular;     
-    private char tipo;        //talves tenha que tirar, ou talves tenha que add no Diagrama
+    private String numero;
+    private String titular;
+    private Tipo tipo;          //talves tenha que tirar, ou talves tenha que add no Diagrama
+
+    public enum Tipo {
+        CREDITO('C'), DEBITO('D');
+
+        private final char type;
+
+        Tipo(char type) {
+            this.type = type;
+        }
+
+        public char toChar() {
+            return type;
+        }
+    }
 
     // Pode ser usada quando para instanciar a partir de dados do BD
-    public Cartao(int id, String bandeira, Date dataValid, long numero, String titular, char tipo) throws IllegalArgumentException{
+    public Cartao(int id, String bandeira, Date dataValid, String numero, String titular, Tipo tipo) throws IllegalArgumentException {
         Util.verificaID(id);
-
+        Util.verificaStringNullVazia(bandeira);
+        
         this.id = id;
-        setBandeira(bandeira);
+        this.bandeira = bandeira;
         setDataValid(dataValid);
         setNumero(numero);
         setTipo(tipo);
@@ -35,8 +51,10 @@ public class Cartao {
     }
 
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
-    public Cartao(String bandeira, Date dataValid, long numero, String titular, char tipo) throws IllegalArgumentException{
-        setBandeira(bandeira);
+    public Cartao(String bandeira, Date dataValid, String numero, String titular, Tipo tipo) throws IllegalArgumentException {
+        Util.verificaStringNullVazia(bandeira);
+        
+        this.bandeira = bandeira;
         setDataValid(dataValid);
         setNumero(numero);
         setTipo(tipo);
@@ -51,27 +69,23 @@ public class Cartao {
         return bandeira;
     }
 
-    public final void setBandeira(String bandeira) throws IllegalArgumentException{
-        Util.verificaStringNullVazia(bandeira);
-        this.bandeira = bandeira;
-    }
-
-    public Date getDataValid() {
+    public final Date getDataValid() {
         return dataValid;
     }
 
-    public void setDataValid(Date dataValid) {
+    public final void setDataValid(Date dataValid) {
         Util.verificaIsObjNull(dataValid);
         this.dataValid = dataValid;
     }
 
-    public long getNumero() {
+    public String getNumero() {
         return numero;
     }
 
-    public final void setNumero(long numero) throws IllegalArgumentException{
-        if (numero <= 0 /*|| String.valueOf(numero).length() != 16*/) //TODO tem que trocar o tipo para string
+    public final void setNumero(String numero) throws IllegalArgumentException {
+        if (numero == null || numero.length() != 16) //TODO tem que trocar o tipo para string
             throw new IllegalArgumentException("Número do cartão inválido!");
+        
         this.numero = numero;
     }
 
@@ -79,20 +93,17 @@ public class Cartao {
         return titular;
     }
 
-    public final void setTitular(String titular) throws IllegalArgumentException{
+    public final void setTitular(String titular) throws IllegalArgumentException {
+        Util.verificaStringNullVazia(titular);
         this.titular = titular;
     }
 
-    public char getTipo() {
+    public Tipo getTipo() {
         return tipo;
     }
 
-    public final void setTipo(char tipo) throws IllegalArgumentException{
-        tipo = Character.toUpperCase(tipo);
-
-        if (tipo != 'C' && tipo != 'D') //char pode ser null?
-            throw new IllegalArgumentException("Tipo de cartão inválido");
-        
+    public final void setTipo(Tipo tipo) throws IllegalArgumentException {
+        Util.verificaIsObjNull(tipo);
         this.tipo = tipo;
     }
 }

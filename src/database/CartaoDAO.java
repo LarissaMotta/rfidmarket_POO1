@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modelo.cliente.Cartao;
+import modelo.cliente.Cartao.Tipo;
 import modelo.cliente.Cliente;
 
 public abstract class CartaoDAO extends CoreDAO {
@@ -32,8 +33,8 @@ public abstract class CartaoDAO extends CoreDAO {
         st.setString(1, cartao.getTitular());
         st.setDate(2, new Date(cartao.getDataValid().getTime()));
         st.setString(3, cartao.getBandeira());
-        st.setLong(4, cartao.getNumero());
-        st.setString(5, String.valueOf(cartao.getTipo()));
+        st.setString(4, cartao.getNumero());
+        st.setString(5, String.valueOf(cartao.getTipo().toChar()));
 
         // Execute o INSERT e receba o ID do cartão cadastrado no BD;
         st.executeUpdate();
@@ -75,11 +76,15 @@ public abstract class CartaoDAO extends CoreDAO {
             int id = rs.getInt("id");
             String bandeira = rs.getString("bandeira");
             Date dataValid = rs.getDate("validade");
-            long numero = rs.getLong("numero");
+            String numero = rs.getString("numero");
             String titular = rs.getString("nome_titular");
             char tipo = rs.getString("tipo").charAt(0);
+            
+            Tipo type = null;
+            if (tipo == 'C') type = Tipo.CREDITO;
+            else type = Tipo.DEBITO;
 
-            cartoes.add(new Cartao(id, bandeira, dataValid, numero, titular, tipo));
+            cartoes.add(new Cartao(id, bandeira, dataValid, numero, titular, type));
         }
 
         st.close();

@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import modelo.pessoa.Endereco;
+import modelo.pessoa.Endereco.Estado;
 import modelo.pessoa.Pessoa;
 
 /**
@@ -38,7 +39,7 @@ public abstract class PessoaDAO extends CoreDAO{
         st.setString(4, endereco.getCep());
         st.setString(5, endereco.getBairro());
         st.setString(6, endereco.getCidade());
-        st.setString(7, endereco.getEstado());
+        st.setString(7, endereco.getEstado().toString());
 
         st.executeUpdate();
         int id = getIdAtCreate(st);
@@ -71,6 +72,14 @@ public abstract class PessoaDAO extends CoreDAO{
         String cidade = rs.getString("cidade");
         String estado = rs.getString("estado");
         
-        return new Endereco(bairro, cep, cidade, estado, numero, ruaAvenida);
+        Estado state = null;
+        for (Estado e : Estado.values()){
+            if (e.toString().equals(estado)){
+                state = e;
+                break;
+            }
+        }
+        
+        return new Endereco(bairro, cep, cidade, state, numero, ruaAvenida);
     }
 }

@@ -34,7 +34,7 @@ public abstract class PessoaFisicaDAO extends CoreDAO {
         PreparedStatement st = conn.prepareStatement(sql);
         st.setString(1, pessoaFisica.getCpf());
         st.setDate(2, new Date(pessoaFisica.getDataNasc().getTime()));
-        st.setString(3, String.valueOf(pessoaFisica.getGenero()));
+        st.setString(3, String.valueOf(pessoaFisica.getGenero().toChar()));
         st.setString(4, pessoaFisica.getLogin());
         st.setString(5, pessoaFisica.getSenha());
         st.setInt(6, id);

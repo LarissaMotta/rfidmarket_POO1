@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import modelo.pessoa.Endereco;
+import modelo.pessoa.PessoaFisica;
+import modelo.pessoa.PessoaFisica.Genero;
 
 import modelo.supermercado.Funcionario;
 
@@ -89,7 +91,7 @@ public abstract class FuncionarioDAO extends CoreDAO {
             String setor = rs.getString("setor");
             String cpf = rs.getString("cpf");
             Date dataNasc = rs.getDate("data_nasc");
-            char genero = rs.getString("genero").charAt(0);
+            char gen = rs.getString("genero").charAt(0);
             String login = rs.getString("login");
             String senha = rs.getString("senha");
             int id = rs.getInt("id");
@@ -97,6 +99,9 @@ public abstract class FuncionarioDAO extends CoreDAO {
    
             Endereco endereco = PessoaDAO.getEndereco(rs);
             
+            Genero genero = null;
+            if (gen == 'M') genero = PessoaFisica.Genero.M;
+            else genero = PessoaFisica.Genero.F;
 
             funcionarios.add(new Funcionario(cargo,setor,cpf,dataNasc,genero,login,senha,id,nome,endereco));
         }

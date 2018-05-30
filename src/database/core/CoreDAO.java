@@ -22,7 +22,7 @@ public abstract class CoreDAO {
         String nome_user_postgre = "postgres";
 
         // Senha para acessar sua base de dados;
-        String senha = "";
+        String senha = "Pianobsiwill1";
 
         String driver = "org.postgresql.Driver";
         String url = "jdbc:postgresql://localhost:5432/" + nome_base_dados;

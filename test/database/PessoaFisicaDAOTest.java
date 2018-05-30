@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import modelo.cliente.Cliente;
 import modelo.pessoa.Endereco;
+import modelo.pessoa.PessoaFisica;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -43,8 +44,8 @@ public class PessoaFisicaDAOTest {
         ResetTable.cleanAllTables();
         System.out.println("create");
         
-        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", "ES", 75, "Rua Xablau");
-        cliente = new Cliente("216.856.707-76", new Date(), 'M', "joel@hotmail.com", "testedesenha", "Joel", endereco);
+        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
+        cliente = new Cliente("216.856.707-76", new Date(), PessoaFisica.Genero.M, "joel@hotmail.com", "testedesenha", "Joel", endereco);
         
         int result = ClienteDAO.create(cliente);
         

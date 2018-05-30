@@ -13,6 +13,7 @@ import java.util.List;
 import modelo.cliente.Cartao;
 import modelo.cliente.Cliente;
 import modelo.pessoa.Endereco;
+import modelo.pessoa.PessoaFisica.Genero;
 import modelo.supermercado.Supermercado;
 import util.Util;
 
@@ -86,8 +87,12 @@ public abstract class ClienteDAO extends CoreDAO{
         int id = rs.getInt("id");
         String nome = rs.getString("nome");
         Endereco end = PessoaDAO.getEndereco(rs);
+        
+        Genero genero = null;
+        if (gen == 'M') genero = Genero.M;
+        else genero = Genero.F;
 
-        return new Cliente(cpf, dtNasc, gen, login, senha, id, nome, end);
+        return new Cliente(cpf, dtNasc, genero, login, senha, id, nome, end);
     }
 
     /**
