@@ -49,7 +49,7 @@ public class FilterTest {
         Clause clause = new Clause("nome","%Joel%", Clause.ILIKE);
         filter.addClause(clause);
         
-        clause = new Clause("validade", new Date(), Clause.MAIOR_IGUAL);
+        clause = new Clause("validade", new Date("2018/05/28"), Clause.MAIOR_IGUAL);
         filter.addClause(clause);
         
         clause = new Clause("salario",5000.00, Clause.DIFERENTE);
