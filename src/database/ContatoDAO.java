@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modelo.pessoa.Contato;
+import modelo.pessoa.Endereco;
 import modelo.pessoa.Pessoa;
 
 /**
@@ -33,7 +34,7 @@ public abstract class ContatoDAO extends CoreDAO {
 
         PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         st.setString(1, contato.getDescricao());
-        st.setString(2, contato.getTipo());
+        st.setString(2, contato.getTipo().toString());
         st.setInt(3, pessoa.getId());
 
         st.executeUpdate();
@@ -63,8 +64,16 @@ public abstract class ContatoDAO extends CoreDAO {
             int id = rs.getInt("id");
             String descricao = rs.getString("descricao");
             String tipo = rs.getString("tipo");
+            
+            Contato.Tipo type = null;
+            for (Contato.Tipo t : Contato.Tipo.values()){
+                if (t.toString().equals(tipo)){
+                    type = t;
+                    break;
+                }
+            }
            
-            lstContatos.add(new Contato(id,descricao,tipo));
+            lstContatos.add(new Contato(id,descricao,type));
         }
 
         st.close();

@@ -10,10 +10,25 @@ import util.Util;
 public class Contato {
     private int id;             //não pode ser <= 0
     private String descricao;   //não pode ser null
-    private String tipo;        //não pode ser null
+    private Tipo tipo;        //não pode ser null
 
+    public enum Tipo {
+        EMAIL("Email"),CELULAR("Celular"),TELEFONE("Telefone");
+
+        private final String type;
+
+        Tipo(String type) {
+            this.type = type;
+        }
+
+        @Override
+        public String toString() {
+            return type;
+        }
+    }
+    
     // Pode ser usada quando para instanciar a partir de dados do BD
-    public Contato(int id, String descricao, String tipo) throws IllegalArgumentException{
+    public Contato(int id, String descricao, Tipo tipo) throws IllegalArgumentException{
         Util.verificaID(id);
         
         this.id = id;
@@ -22,7 +37,7 @@ public class Contato {
     }
 
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
-    public Contato(String descricao, String tipo) throws IllegalArgumentException{
+    public Contato(String descricao, Tipo tipo) throws IllegalArgumentException{
         setDescricao(descricao);
         setTipo(tipo);
     }
@@ -41,12 +56,12 @@ public class Contato {
         this.descricao = descricao;
     }
 
-    public String getTipo() {
+    public Tipo getTipo() {
         return tipo;
     }
 
-    public final void setTipo(String tipo) throws IllegalArgumentException{
-        Util.verificaStringNullVazia(tipo);
+    public final void setTipo(Tipo tipo) throws IllegalArgumentException{
+        Util.verificaIsObjNull(tipo);
         
         this.tipo = tipo;
     }
