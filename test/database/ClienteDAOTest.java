@@ -15,6 +15,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import database.supermercado.CompraDAO;
+import database.supermercado.mercadoria.ProdutoDAO;
+import database.supermercado.SupermercadoDAO;
+import database.usuarios.ClienteDAO;
 import modelo.supermercado.mercadoria.ItemProduto;
 import modelo.pagamento.Cartao;
 import modelo.usuarios.Cliente;

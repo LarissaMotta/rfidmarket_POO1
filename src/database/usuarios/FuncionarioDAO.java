@@ -1,4 +1,4 @@
-package database;
+package database.usuarios;
 
 import database.core.CoreDAO;
 
@@ -11,6 +11,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import database.usuarios.PessoaDAO;
+import database.usuarios.PessoaFisicaDAO;
 import modelo.usuarios.Endereco;
 import modelo.usuarios.PessoaFisica;
 import modelo.usuarios.PessoaFisica.Genero;

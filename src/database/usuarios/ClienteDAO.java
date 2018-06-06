@@ -1,4 +1,4 @@
-package database;
+package database.usuarios;
 
 import database.core.CoreDAO;
 import database.filter.Clause;

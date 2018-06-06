@@ -15,6 +15,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+
+import database.usuarios.ClienteDAO;
+import database.usuarios.PessoaDAO;
+import database.usuarios.PessoaFisicaDAO;
 import modelo.usuarios.Cliente;
 import modelo.usuarios.Endereco;
 import modelo.usuarios.PessoaFisica;

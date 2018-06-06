@@ -5,7 +5,7 @@
  */
 package modelo.supermercado;
 
-import database.ItemProdutoDAO;
+import database.supermercado.mercadoria.ItemProdutoDAO;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;

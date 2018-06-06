@@ -1,4 +1,4 @@
-package database;
+package database.supermercado.mercadoria;
 
 import database.core.CoreDAO;
 import modelo.supermercado.Supermercado;

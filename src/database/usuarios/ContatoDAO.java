@@ -1,4 +1,4 @@
-package database;
+package database.usuarios;
 
 import database.core.CoreDAO;
 import java.sql.Connection;

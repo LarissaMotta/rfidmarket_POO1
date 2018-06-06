@@ -11,6 +11,9 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.Date;
+
+import database.usuarios.ClienteDAO;
+import database.usuarios.PessoaFisicaDAO;
 import modelo.usuarios.Cliente;
 import modelo.usuarios.Endereco;
 import modelo.usuarios.PessoaFisica;

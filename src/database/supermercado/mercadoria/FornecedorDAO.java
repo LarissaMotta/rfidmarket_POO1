@@ -1,10 +1,13 @@
-package database;
+package database.supermercado.mercadoria;
 
 import database.core.CoreDAO;
 import java.sql.Connection;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
+import database.usuarios.PessoaDAO;
+import database.usuarios.PessoaJuridicaDAO;
 import modelo.supermercado.mercadoria.Fornecedor;
 import java.sql.SQLException;
 import java.util.ArrayList;
