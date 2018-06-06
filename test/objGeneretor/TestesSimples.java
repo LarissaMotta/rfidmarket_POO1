@@ -1,5 +1,6 @@
+package objGeneretor;
+
 import modelo.pagamento.Cartao;
-import util.rand.RandObjects;
 
 import java.io.IOException;
 

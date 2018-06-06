@@ -1,4 +1,4 @@
-package util.rand;
+package objGeneretor;
 
 import java.io.*;
 
