@@ -10,10 +10,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import modelo.cliente.Cartao;
-import modelo.cliente.Cliente;
-import modelo.pessoa.Endereco;
-import modelo.pessoa.PessoaFisica.Genero;
+import modelo.pagamento.Cartao;
+import modelo.usuarios.Cliente;
+import modelo.usuarios.Endereco;
+import modelo.usuarios.PessoaFisica.Genero;
 import modelo.supermercado.Supermercado;
 import util.Util;
 
@@ -132,7 +132,7 @@ public abstract class ClienteDAO extends CoreDAO{
                 "p.estado, p.cidade, pf.data_nasc, pf.genero, pf.login, pf.senha," +
                 "pf.cpf FROM hist_compra as hc " +
                 "INNER JOIN fisica as pf ON hc.fk_cliente = pf.fk_pessoa " +
-                "INNER JOIN pessoa as p ON pf.fk_pessoa = p.id "
+                "INNER JOIN usuarios as p ON pf.fk_pessoa = p.id "
                 + "WHERE hc.fk_supermercado = ? " + filter.getFilter();
         
         // Substitua a '?' pelo valor da coluna;

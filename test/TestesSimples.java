@@ -1,5 +1,5 @@
-import modelo.cliente.Cartao;
-import rand.RandObjects;
+import modelo.pagamento.Cartao;
+import util.rand.RandObjects;
 
 import java.io.IOException;
 

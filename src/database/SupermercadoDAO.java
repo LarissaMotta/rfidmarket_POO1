@@ -7,9 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import modelo.cliente.Compra;
-import modelo.pessoa.Endereco;
-import modelo.supermercado.Funcionario;
+import modelo.supermercado.Compra;
+import modelo.usuarios.Endereco;
+import modelo.usuarios.Funcionario;
 
 import modelo.supermercado.Supermercado;
 import modelo.supermercado.mercadoria.Fornecedor;
@@ -65,10 +65,10 @@ public abstract class SupermercadoDAO extends CoreDAO {
         Connection conexao = getConnection();
 
         // Forme a string sql;
-        String sql = "SELECT pessoa.id, latitude, longitude, unidade, cnpj, nome, numero, rua, cep, bairro, estado, cidade FROM funcionario "
+        String sql = "SELECT usuarios.id, latitude, longitude, unidade, cnpj, nome, numero, rua, cep, bairro, estado, cidade FROM funcionario "
                 + "INNER JOIN supermercado ON funcionario.fk_supermercado = supermercado.fk_pessoa_juridica "
                 + "INNER JOIN juridica ON supermercado.fk_pessoa_juridica = juridica.fk_pessoa "
-                + "INNER JOIN pessoa ON juridica.fk_pessoa = pessoa.id "
+                + "INNER JOIN usuarios ON juridica.fk_pessoa = usuarios.id "
                 + "WHERE funcionario.fk_pessoa_fisica = ?";
 
         PreparedStatement st = conexao.prepareStatement(sql);
@@ -88,10 +88,10 @@ public abstract class SupermercadoDAO extends CoreDAO {
         Connection conexao = getConnection();
 
         // Forme a string sql;
-        String sql = "SELECT pessoa.id, latitude, longitude, unidade, cnpj, nome, numero, rua, cep, bairro, estado, cidade FROM hist_compra "
+        String sql = "SELECT usuarios.id, latitude, longitude, unidade, cnpj, nome, numero, rua, cep, bairro, estado, cidade FROM hist_compra "
                 + "INNER JOIN supermercado ON hist_compra.fk_supermercado = supermercado.fk_pessoa_juridica "
                 + "INNER JOIN juridica ON supermercado.fk_pessoa_juridica = juridica.fk_pessoa "
-                + "INNER JOIN pessoa ON juridica.fk_pessoa = pessoa.id "
+                + "INNER JOIN usuarios ON juridica.fk_pessoa = usuarios.id "
                 + "WHERE hist_compra.id = ?";
 
         PreparedStatement st = conexao.prepareStatement(sql);
@@ -111,10 +111,10 @@ public abstract class SupermercadoDAO extends CoreDAO {
         Connection conexao = getConnection();
 
         // Forme a string sql;
-        String sql = "SELECT pessoa.id, latitude, longitude, unidade, cnpj, nome, numero, rua, cep, bairro, estado, cidade FROM fornecimento "
+        String sql = "SELECT usuarios.id, latitude, longitude, unidade, cnpj, nome, numero, rua, cep, bairro, estado, cidade FROM fornecimento "
                 + "INNER JOIN supermercado ON fornecimento.fk_supermercado = supermercado.fk_pessoa_juridica "
                 + "INNER JOIN juridica ON supermercado.fk_pessoa_juridica = juridica.fk_pessoa "
-                + "INNER JOIN pessoa ON juridica.fk_pessoa = pessoa.id "
+                + "INNER JOIN usuarios ON juridica.fk_pessoa = usuarios.id "
                 + "WHERE fornecimento.fk_fornecedor = ?";
 
         PreparedStatement st = conexao.prepareStatement(sql);
@@ -139,10 +139,10 @@ public abstract class SupermercadoDAO extends CoreDAO {
         Connection conexao = getConnection();
 
         // Forme a string sql;
-        String sql = "SELECT pessoa.id, latitude, longitude, unidade, cnpj, nome, pessoa.numero, rua, cep, bairro, estado, cidade FROM lote "
+        String sql = "SELECT usuarios.id, latitude, longitude, unidade, cnpj, nome, usuarios.numero, rua, cep, bairro, estado, cidade FROM lote "
                 + "INNER JOIN supermercado ON lote.fk_supermercado = supermercado.fk_pessoa_juridica "
                 + "INNER JOIN juridica ON supermercado.fk_pessoa_juridica = juridica.fk_pessoa "
-                + "INNER JOIN pessoa ON juridica.fk_pessoa = pessoa.id "
+                + "INNER JOIN usuarios ON juridica.fk_pessoa = usuarios.id "
                 + "WHERE lote.id = ?";
 
         PreparedStatement st = conexao.prepareStatement(sql);
@@ -162,10 +162,10 @@ public abstract class SupermercadoDAO extends CoreDAO {
         Connection conexao = getConnection();
 
         // Forme a string sql;
-        String sql = "SELECT pessoa.id, latitude, longitude, unidade, cnpj, pessoa.nome, numero, rua, cep, bairro, estado, cidade FROM produto "
+        String sql = "SELECT usuarios.id, latitude, longitude, unidade, cnpj, usuarios.nome, numero, rua, cep, bairro, estado, cidade FROM produto "
                 + "INNER JOIN supermercado ON produto.fk_supermercado = supermercado.fk_pessoa_juridica "
                 + "INNER JOIN juridica ON supermercado.fk_pessoa_juridica = juridica.fk_pessoa "
-                + "INNER JOIN pessoa ON juridica.fk_pessoa = pessoa.id "
+                + "INNER JOIN usuarios ON juridica.fk_pessoa = usuarios.id "
                 + "WHERE produto.id = ?";
 
         PreparedStatement st = conexao.prepareStatement(sql);

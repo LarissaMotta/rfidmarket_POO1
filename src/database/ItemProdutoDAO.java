@@ -14,8 +14,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import modelo.ItemProduto;
-import modelo.cliente.Compra;
+import modelo.supermercado.mercadoria.ItemProduto;
+import modelo.supermercado.Compra;
 import modelo.supermercado.mercadoria.Produto;
 
 /**

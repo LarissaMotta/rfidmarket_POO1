@@ -5,8 +5,8 @@
  */
 package modelo.supermercado;
 
-import modelo.pessoa.PessoaJuridica;
-import modelo.pessoa.Endereco;
+import modelo.usuarios.PessoaJuridica;
+import modelo.usuarios.Endereco;
 import util.Util;
 
 /**

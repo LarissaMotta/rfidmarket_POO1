@@ -9,9 +9,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import modelo.pessoa.Contato;
-import modelo.pessoa.Endereco;
-import modelo.pessoa.Pessoa;
+import modelo.usuarios.Contato;
+import modelo.usuarios.Pessoa;
 
 /**
  * Created by 20162bsi0511 on 21/05/2018.
@@ -21,7 +20,7 @@ public abstract class ContatoDAO extends CoreDAO {
     /**
      * Insere um contato na base de dados;
      * @param contato contato a ser gravado na base de dados;
-     * @param pessoa pessoa relacionada ao contato recebido;
+     * @param pessoa usuarios relacionada ao contato recebido;
      * @return Inteiro que representa o ID do contato inserido no BD;
      * @throws java.sql.SQLException
      * @throws java.lang.ClassNotFoundException

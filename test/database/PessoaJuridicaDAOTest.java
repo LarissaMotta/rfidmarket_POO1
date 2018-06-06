@@ -7,8 +7,8 @@ package database;
 
 import controlTest.ResetTable;
 import java.sql.SQLException;
-import modelo.pessoa.Endereco;
-import modelo.pessoa.PessoaJuridica;
+import modelo.usuarios.Endereco;
+import modelo.usuarios.PessoaJuridica;
 import modelo.supermercado.mercadoria.Fornecedor;
 import org.junit.After;
 import org.junit.AfterClass;

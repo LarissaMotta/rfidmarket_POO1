@@ -7,9 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import modelo.pessoa.Endereco;
-import modelo.pessoa.Endereco.Estado;
-import modelo.pessoa.Pessoa;
+import modelo.usuarios.Endereco;
+import modelo.usuarios.Endereco.Estado;
+import modelo.usuarios.Pessoa;
 
 /**
  *
@@ -18,16 +18,16 @@ import modelo.pessoa.Pessoa;
 public abstract class PessoaDAO extends CoreDAO{
 
     /**
-     * Insere uma pessoa na base de dados;
-     * @param pessoa pessoa a ser gravada na base de dados;
-     * @return Inteiro que representa o ID da pessoa inserida no BD;
+     * Insere uma usuarios na base de dados;
+     * @param pessoa usuarios a ser gravada na base de dados;
+     * @return Inteiro que representa o ID da usuarios inserida no BD;
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      */
     public static int create(Pessoa pessoa) throws ClassNotFoundException, SQLException {
 
         Connection conn = getConnection();
-        String sql = "INSERT INTO pessoa (nome,numero,rua,cep,bairro,cidade,estado) "
+        String sql = "INSERT INTO usuarios (nome,numero,rua,cep,bairro,cidade,estado) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         Endereco endereco = pessoa.getEndereco();
@@ -50,11 +50,11 @@ public abstract class PessoaDAO extends CoreDAO{
     }
     
     // tem que perguntar ao professor se pode deixar como argumento o id ou
-    // se tem que ser obrigatoriamente um objeto do tipo pessoa, pois pode infligir,
+    // se tem que ser obrigatoriamente um objeto do tipo usuarios, pois pode infligir,
     // algumas regras de POO e do modelo DAO
     public static void delete(int id) throws ClassNotFoundException, SQLException{
         Connection conn = getConnection();
-        String sql = "DELETE FROM pessoa WHERE id = ?";
+        String sql = "DELETE FROM usuarios WHERE id = ?";
         
         PreparedStatement st = conn.prepareStatement(sql);
         st.setInt(1, id);

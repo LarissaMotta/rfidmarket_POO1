@@ -15,9 +15,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
-import modelo.cliente.Cliente;
-import modelo.pessoa.Endereco;
-import modelo.pessoa.PessoaFisica;
+import modelo.usuarios.Cliente;
+import modelo.usuarios.Endereco;
+import modelo.usuarios.PessoaFisica;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -82,7 +82,7 @@ public class PessoaDAOTest {
         Connection conexao = getConnection();
 
         // Forme a string sql;
-        String sql = "SELECT numero, rua, cep, bairro, estado, cidade FROM pessoa";
+        String sql = "SELECT numero, rua, cep, bairro, estado, cidade FROM usuarios";
         
         // Substitua a '?' pelo valor da coluna;
         PreparedStatement ps = conexao.prepareStatement(sql);

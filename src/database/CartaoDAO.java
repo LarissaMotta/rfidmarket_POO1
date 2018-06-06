@@ -11,9 +11,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import modelo.cliente.Cartao;
-import modelo.cliente.Cartao.Tipo;
-import modelo.cliente.Cliente;
+import modelo.pagamento.Cartao;
+import modelo.pagamento.Cartao.Tipo;
+import modelo.usuarios.Cliente;
 
 public abstract class CartaoDAO extends CoreDAO {
 

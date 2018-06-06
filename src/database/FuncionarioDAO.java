@@ -11,11 +11,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import modelo.pessoa.Endereco;
-import modelo.pessoa.PessoaFisica;
-import modelo.pessoa.PessoaFisica.Genero;
+import modelo.usuarios.Endereco;
+import modelo.usuarios.PessoaFisica;
+import modelo.usuarios.PessoaFisica.Genero;
 
-import modelo.supermercado.Funcionario;
+import modelo.usuarios.Funcionario;
 
 import modelo.supermercado.Supermercado;
 import org.postgresql.util.PSQLException;
@@ -34,7 +34,7 @@ public abstract class FuncionarioDAO extends CoreDAO {
      * @throws java.lang.ClassNotFoundException
      */
     public static int create(Funcionario funcionario, Supermercado supermercado) throws SQLException, ClassNotFoundException {
-        int id = PessoaFisicaDAO.create(funcionario); // insere primeiro os dados da pessoa
+        int id = PessoaFisicaDAO.create(funcionario); // insere primeiro os dados da usuarios
 
         Connection conn = getConnection();
 
@@ -77,7 +77,7 @@ public abstract class FuncionarioDAO extends CoreDAO {
         // Forme a string sql;
         String sql = "SELECT * FROM funcionario "
                 + "INNER JOIN fisica on fisica.fk_pessoa = funcionario.fk_pessoa_fisica "
-                + "INNER JOIN pessoa on pessoa.id = funcionario.fk_pessoa_fisica "
+                + "INNER JOIN usuarios on usuarios.id = funcionario.fk_pessoa_fisica "
                 + "WHERE fk_supermercado = ?"; 
 
         PreparedStatement st = conexao.prepareStatement (sql);

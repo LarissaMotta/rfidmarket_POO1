@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import modelo.pessoa.PessoaFisica;
+import modelo.usuarios.PessoaFisica;
 import org.postgresql.util.PSQLException;
 
 /**
@@ -16,7 +16,7 @@ import org.postgresql.util.PSQLException;
 public abstract class PessoaFisicaDAO extends CoreDAO {
 
     /**
-     * Insere uma pessoa física na base de dados;
+     * Insere uma usuarios física na base de dados;
      * @param pessoaFisica PF a ser gravada na base de dados;
      * @return Inteiro que representa o ID da PF inserida no BD;
      * @throws java.lang.ClassNotFoundException
@@ -24,7 +24,7 @@ public abstract class PessoaFisicaDAO extends CoreDAO {
      */
     public static int create(PessoaFisica pessoaFisica) throws ClassNotFoundException, SQLException {
 
-        int id = PessoaDAO.create(pessoaFisica); // insere primeiro os dados da pessoa
+        int id = PessoaDAO.create(pessoaFisica); // insere primeiro os dados da usuarios
         
         Connection conn = getConnection();
 
@@ -55,8 +55,8 @@ public abstract class PessoaFisicaDAO extends CoreDAO {
     }
 
     /**
-     * Remove uma pessoa da base de dados;
-     * @param id id da pessoa a ser removida da base;
+     * Remove uma usuarios da base de dados;
+     * @param id id da usuarios a ser removida da base;
      * @throws java.sql.SQLException
      * @throws java.lang.ClassNotFoundException
      */

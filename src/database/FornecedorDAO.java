@@ -9,7 +9,7 @@ import modelo.supermercado.mercadoria.Fornecedor;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import modelo.pessoa.Endereco;
+import modelo.usuarios.Endereco;
 
 import modelo.supermercado.Supermercado;
 import modelo.supermercado.mercadoria.Lote;
@@ -25,7 +25,7 @@ public abstract class FornecedorDAO extends CoreDAO{
      */
     public static int create(Fornecedor fornecedor) throws ClassNotFoundException, SQLException {
 
-        // Retorne o id da pessoa jurídica que corresponde ao fornecedor;
+        // Retorne o id da usuarios jurídica que corresponde ao fornecedor;
         return PessoaJuridicaDAO.create(fornecedor);
     }
     
@@ -40,9 +40,9 @@ public abstract class FornecedorDAO extends CoreDAO{
         Connection conexao = getConnection();
 
         // Forme a string sql;
-        String sql = "SELECT pessoa.id, cnpj, nome, numero, rua, cep, bairro, estado, cidade FROM fornecimento "
+        String sql = "SELECT usuarios.id, cnpj, nome, numero, rua, cep, bairro, estado, cidade FROM fornecimento "
                 + "INNER JOIN juridica ON fornecimento.fk_fornecedor = juridica.fk_pessoa "
-                + "INNER JOIN pessoa ON juridica.fk_pessoa = pessoa.id "
+                + "INNER JOIN usuarios ON juridica.fk_pessoa = usuarios.id "
                 + "WHERE fornecimento.fk_supermercado = ?";
 
         PreparedStatement st = conexao.prepareStatement (sql);
@@ -65,7 +65,7 @@ public abstract class FornecedorDAO extends CoreDAO{
         // Obtenha a conexão com o BD;
         Connection conexao = getConnection();
         // Forme a string sql;
-        String sql = "SELECT pessoa.id, cnpj, nome, numero, rua, cep, bairro, estado, cidade FROM lote " //em duvida
+        String sql = "SELECT usuarios.id, cnpj, nome, numero, rua, cep, bairro, estado, cidade FROM lote " //em duvida
                     + "INNER JOIN juridica as fornecedor ON fornecedor.fk_pessoa = lote.fk_fornecedor "
                     + "WHERE lote.id = ? ";
         PreparedStatement st = conexao.prepareStatement (sql);
