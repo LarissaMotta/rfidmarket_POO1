@@ -5,7 +5,6 @@
  */
 package modelo.supermercado.mercadoria;
 
-import modelo.supermercado.mercadoria.Produto;
 import util.Util;
 
 /**
@@ -21,10 +20,9 @@ public class ItemProduto {
     // Pode ser usada quando para instanciar a partir de dados do BD
     public ItemProduto(int id, double precoCompra, int quantidade, Produto produto) throws IllegalArgumentException{
         Util.verificaID(id);
-        Util.verificaIsObjNull(produto);
-        
-        if (precoCompra <= 0 || quantidade <= 0)
-            throw new IllegalArgumentException("Algum argumento inválido!");
+        Util.verificaIsObjNull(produto, "Produto");
+        if (precoCompra <= 0) throw new IllegalArgumentException("Preço de compra menor ou igual a 0!");
+        if (quantidade <= 0)  throw new IllegalArgumentException("Quantidade menor ou igual a 0!");
         
         this.id = id;
         this.precoCompra = precoCompra;
@@ -34,9 +32,9 @@ public class ItemProduto {
 
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
     public ItemProduto(double precoCompra, int quantidade, Produto produto) throws IllegalArgumentException{
-         Util.verificaIsObjNull(produto);
-        if (precoCompra <= 0 || quantidade <= 0)
-            throw new IllegalArgumentException("Algum argumento inválido!");
+        Util.verificaIsObjNull(produto, "Produto");
+        if (precoCompra <= 0) throw new IllegalArgumentException("Preço de compra menor ou igual a 0!");
+        if (quantidade <= 0)  throw new IllegalArgumentException("Quantidade menor ou igual a 0!");
         
         this.precoCompra = precoCompra;
         this.quantidade = quantidade;

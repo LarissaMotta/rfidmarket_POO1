@@ -40,7 +40,7 @@ public class Cartao {
     // Pode ser usada quando para instanciar a partir de dados do BD
     public Cartao(int id, String bandeira, Date dataValid, String numero, String titular, Tipo tipo) throws IllegalArgumentException {
         Util.verificaID(id);
-        Util.verificaStringNullVazia(bandeira);
+        Util.verificaStringNullVazia(bandeira, "Bandeira");
         
         this.id = id;
         this.bandeira = bandeira;
@@ -52,7 +52,7 @@ public class Cartao {
 
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
     public Cartao(String bandeira, Date dataValid, String numero, String titular, Tipo tipo) throws IllegalArgumentException {
-        Util.verificaStringNullVazia(bandeira);
+        Util.verificaStringNullVazia(bandeira, "Bandeira");
         
         this.bandeira = bandeira;
         setDataValid(dataValid);
@@ -74,7 +74,7 @@ public class Cartao {
     }
 
     public final void setDataValid(Date dataValid) {
-        Util.verificaIsObjNull(dataValid);
+        Util.verificaIsObjNull(dataValid, "Data de Validade");
         this.dataValid = dataValid;
     }
 
@@ -94,7 +94,7 @@ public class Cartao {
     }
 
     public final void setTitular(String titular) throws IllegalArgumentException {
-        Util.verificaStringNullVazia(titular);
+        Util.verificaStringNullVazia(titular, "Titular");
         this.titular = titular;
     }
 
@@ -103,7 +103,7 @@ public class Cartao {
     }
 
     public final void setTipo(Tipo tipo) throws IllegalArgumentException {
-        Util.verificaIsObjNull(tipo);
+        Util.verificaIsObjNull(tipo, "Tipo");
         this.tipo = tipo;
     }
 }

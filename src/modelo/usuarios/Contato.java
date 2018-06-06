@@ -51,7 +51,7 @@ public class Contato {
     }
 
     public final void setDescricao(String descricao) throws IllegalArgumentException{
-        Util.verificaStringNullVazia(descricao);
+        Util.verificaStringNullVazia(descricao, "Contato");
         
         this.descricao = descricao;
     }
@@ -61,7 +61,7 @@ public class Contato {
     }
 
     public final void setTipo(Tipo tipo) throws IllegalArgumentException{
-        Util.verificaIsObjNull(tipo);
+        Util.verificaIsObjNull(tipo,"Tipo do contato");
         
         this.tipo = tipo;
     }

@@ -21,7 +21,7 @@ public class Supermercado extends PessoaJuridica{
     // Pode ser usada quando para instanciar a partir de dados do BD
     public Supermercado(int id, double latitude, double longitude, String unidade, String cnpj, String nome, Endereco endereco) throws IllegalArgumentException {
         super(cnpj, id, nome, endereco);
-        Util.verificaStringNullVazia(unidade);
+        Util.verificaStringNullVazia(unidade, "Unidade");
         
         this.latitude = latitude;
         this.longitude = longitude;
@@ -31,7 +31,7 @@ public class Supermercado extends PessoaJuridica{
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
     public Supermercado(double latitude, double longitude, String unidade, String cnpj, String nome, Endereco endereco) throws IllegalArgumentException {
         super(cnpj, nome, endereco);
-        Util.verificaStringNullVazia(unidade);
+        Util.verificaStringNullVazia(unidade, "Unidade");
         
         this.latitude = latitude;
         this.longitude = longitude;

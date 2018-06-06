@@ -38,7 +38,7 @@ public abstract class PessoaFisica extends Pessoa{
         
         if (!Util.isCpfValido(cpf)) throw new IllegalArgumentException("CPF não é válido");
         if (!Util.isLoginValido(login)) throw new IllegalArgumentException("Login inválido");
-        Util.verificaIsObjNull(dataNasc);
+        Util.verificaIsObjNull(dataNasc, "Data de nascimento");
         
         this.cpf = cpf;
         this.dataNasc = dataNasc;
@@ -52,7 +52,7 @@ public abstract class PessoaFisica extends Pessoa{
         super(nome, endereco);
         if (!Util.isCpfValido(cpf)) throw new IllegalArgumentException("CPF não é válido");
         if (!Util.isLoginValido(login)) throw new IllegalArgumentException("Login inválido");
-        Util.verificaIsObjNull(dataNasc);
+        Util.verificaIsObjNull(dataNasc, "Data de nascimento");
         
         this.cpf = cpf;
         this.dataNasc = dataNasc;
@@ -62,7 +62,7 @@ public abstract class PessoaFisica extends Pessoa{
     }
     
     public final void setSenha(String senha) throws IllegalArgumentException, NoSuchAlgorithmException, UnsupportedEncodingException{
-        Util.verificaStringNullVazia(senha);
+        Util.verificaStringNullVazia(senha, "Senha");
         
         if (senha.length() < 6)
             throw new IllegalArgumentException("Senha deve ter pelo menos 6 caracteres");

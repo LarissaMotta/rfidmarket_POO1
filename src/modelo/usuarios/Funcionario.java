@@ -1,8 +1,5 @@
 package modelo.usuarios;
 
-import modelo.usuarios.PessoaFisica;
-import modelo.usuarios.Endereco;
-
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
@@ -28,13 +25,13 @@ public class Funcionario extends PessoaFisica{
     }
     
     public final void setCargo(String cargo) throws IllegalArgumentException{
-        Util.verificaStringNullVazia(cargo);
+        Util.verificaStringNullVazia(cargo, "Cargo");
         
         this.cargo = cargo;
     }
 
     public final void setSetor(String setor) throws IllegalArgumentException{
-        Util.verificaStringNullVazia(setor);
+        Util.verificaStringNullVazia(setor, "Setor");
         
         this.setor = setor;
     }

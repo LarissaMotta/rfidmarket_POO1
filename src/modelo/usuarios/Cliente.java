@@ -9,9 +9,6 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
-import modelo.usuarios.Endereco;
-import modelo.usuarios.PessoaFisica;
-
 public class Cliente extends PessoaFisica {
 
     // Pode ser usada quando para instanciar a partir de dados do BD

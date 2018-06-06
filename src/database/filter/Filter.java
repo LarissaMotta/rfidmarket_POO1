@@ -6,16 +6,14 @@
 package database.filter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
  * @author joel-
  */
 public class Filter {
-    private List<Clause> clauses;
+    private final List<Clause> clauses;
 
     public Filter() {
         clauses = new ArrayList<>();

@@ -24,14 +24,14 @@ public class Compra {
     // Pode ser usada quando para instanciar a partir de dados do BD
     public Compra(int id, Date dataHora) throws IllegalArgumentException{
         Util.verificaID(id);
-        Util.verificaIsObjNull(dataHora);
+        Util.verificaIsObjNull(dataHora, "Data e Hora");
         this.id = id;
         this.dataHora = dataHora;
     }
     
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
     public Compra(Date dataHora, List<ItemProduto> itens) throws IllegalArgumentException{
-        Util.verificaIsObjNull(dataHora);
+        Util.verificaIsObjNull(dataHora, "Data e Hora");
         
         this.dataHora = dataHora;
         setItens(itens);
@@ -55,7 +55,7 @@ public class Compra {
     }
 
     public final void setItens(List<ItemProduto> itens) {
-        Util.verificaIsObjNull(itens);
+        Util.verificaIsObjNull(itens, "Itens");
         
         this.itens = itens;
     }

@@ -45,13 +45,13 @@ public class Endereco {
     }
 
     public final void setBairro(String bairro) throws IllegalArgumentException {
-        Util.verificaStringNullVazia(bairro);
+        Util.verificaStringNullVazia(bairro, "Bairro");
 
         this.bairro = bairro;
     }
 
     public final void setCep(String cep) throws IllegalArgumentException {
-        Util.verificaStringNullVazia(cep);
+        Util.verificaStringNullVazia(cep, "CEP");
 
         if (cep.length() < 9) {
             throw new IllegalArgumentException("CEP inválido!");
@@ -61,12 +61,12 @@ public class Endereco {
     }
 
     public final void setCidade(String cidade) throws IllegalArgumentException {
-        Util.verificaStringNullVazia(cidade);
+        Util.verificaStringNullVazia(cidade, "Cidade");
         this.cidade = cidade;
     }
 
     public final void setEstado(Estado estado) throws IllegalArgumentException {
-        Util.verificaIsObjNull(estado);
+        Util.verificaIsObjNull(estado, "Estado");
         this.estado = estado;
     }
 
@@ -78,7 +78,7 @@ public class Endereco {
     }
 
     public final void setRuaAvenida(String ruaAvenida) throws IllegalArgumentException {
-        Util.verificaStringNullVazia(ruaAvenida);
+        Util.verificaStringNullVazia(ruaAvenida, "Rua/Avenida");
 
         this.ruaAvenida = ruaAvenida;
     }

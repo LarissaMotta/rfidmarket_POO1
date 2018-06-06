@@ -43,7 +43,7 @@ public abstract class Pessoa {
     }
     
     public final void setNome(String nome) {
-        Util.verificaStringNullVazia(nome);
+        Util.verificaStringNullVazia(nome, "Nome");
         this.nome = nome;
     }
 
@@ -52,7 +52,7 @@ public abstract class Pessoa {
     }
 
     public final void setEndereco(Endereco endereco) throws IllegalArgumentException{
-        Util.verificaIsObjNull(endereco);
+        Util.verificaIsObjNull(endereco, "Endereço");
         
         this.endereco = endereco;
     }

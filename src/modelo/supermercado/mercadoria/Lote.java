@@ -22,15 +22,14 @@ public class Lote {
     // Pode ser usada quando para instanciar a partir de dados do BD
     public Lote(int id, String codigoProd, Date dataCompra, Date dataFabricacao, Date dataValidade, int numUnidades, String identificador, Produto produto) throws IllegalArgumentException{
         Util.verificaID(id);
-        Util.verificaStringNullVazia(codigoProd);
-        Util.verificaIsObjNull(dataCompra);
-        Util.verificaIsObjNull(dataFabricacao);
-        Util.verificaIsObjNull(dataValidade);
-        Util.verificaStringNullVazia(identificador);
-        Util.verificaIsObjNull(produto);
+        Util.verificaStringNullVazia(codigoProd, "Código do produto");
+        Util.verificaIsObjNull(dataCompra, "Data de compra");
+        Util.verificaIsObjNull(dataFabricacao, "Data de fabricação");
+        Util.verificaIsObjNull(dataValidade, "Data de validade");
+        Util.verificaStringNullVazia(identificador, "Identificador");
+        Util.verificaIsObjNull(produto, "Produto");
         
-        if (numUnidades <= 0)
-            throw new IllegalArgumentException("Algum argumento inválido!");
+        if (numUnidades <= 0) throw new IllegalArgumentException("Número de unidade menor ou igual a 0!");
         
         this.id = id;
         this.codigoProd = codigoProd;
@@ -44,15 +43,14 @@ public class Lote {
     
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
     public Lote(String codigoProd, Date dataCompra, Date dataFabricacao, Date dataValidade, int numUnidades, String identificador, Produto produto) throws IllegalArgumentException{
-        Util.verificaStringNullVazia(codigoProd);
-        Util.verificaIsObjNull(dataCompra);
-        Util.verificaIsObjNull(dataFabricacao);
-        Util.verificaIsObjNull(dataValidade);
-        Util.verificaStringNullVazia(identificador);
-        Util.verificaIsObjNull(produto);
+        Util.verificaStringNullVazia(codigoProd, "Código do produto");
+        Util.verificaIsObjNull(dataCompra, "Data de compra");
+        Util.verificaIsObjNull(dataFabricacao, "Data de fabricação");
+        Util.verificaIsObjNull(dataValidade, "Data de validade");
+        Util.verificaStringNullVazia(identificador, "Identificador");
+        Util.verificaIsObjNull(produto, "Produto");
          
-        if (numUnidades <= 0)
-            throw new IllegalArgumentException("Algum argumento inválido!");
+        if (numUnidades <= 0) throw new IllegalArgumentException("Número de unidade menor ou igual a 0!");
         
         this.codigoProd = codigoProd;
         this.dataCompra = dataCompra;

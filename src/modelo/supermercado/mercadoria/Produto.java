@@ -23,9 +23,9 @@ public class Produto {
     // Pode ser usada quando para instanciar a partir de dados do BD
     public Produto(int id, String codigo, double custo, String descricao, String marca, String nome, double precoVenda, int qtdPrateleira, int qtdEstoque, String tipo) throws IllegalArgumentException{
         Util.verificaID(id);
-        Util.verificaStringNullVazia(marca);
-        Util.verificaStringNullVazia(nome);
-        Util.verificaStringNullVazia(tipo);
+        Util.verificaStringNullVazia(marca, "Marca");
+        Util.verificaStringNullVazia(nome, "Nome");
+        Util.verificaStringNullVazia(tipo, "Tipo");
        
         this.id = id;
         this.codigo = codigo;
@@ -41,9 +41,9 @@ public class Produto {
 
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
     public Produto(String codigo, double custo, String descricao, String marca, String nome, double precoVenda, int qtdPrateleira, int qtdEstoque, String tipo) throws IllegalArgumentException{
-        Util.verificaStringNullVazia(marca);
-        Util.verificaStringNullVazia(nome);
-        Util.verificaStringNullVazia(tipo);
+        Util.verificaStringNullVazia(marca, "Marca");
+        Util.verificaStringNullVazia(nome, "Nome");
+        Util.verificaStringNullVazia(tipo, "Tipo");
         
         this.codigo = codigo;
         setCusto(custo);
@@ -64,7 +64,7 @@ public class Produto {
     }
 
     public final void setDescricao(String descricao) throws IllegalArgumentException{
-        Util.verificaStringNullVazia(descricao);
+        Util.verificaIsObjNull(descricao, "Descrição");
         this.descricao = descricao;
     }
 
