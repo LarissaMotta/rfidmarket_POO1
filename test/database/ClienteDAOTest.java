@@ -7,6 +7,7 @@ package database;
  */
 
 
+import database.pagamento.CartaoDAO;
 import controlTest.ResetTable;
 
 import java.io.UnsupportedEncodingException;

@@ -64,7 +64,7 @@ public abstract class PessoaDAO extends CoreDAO{
         conn.close();
     }
     
-    protected static Endereco getEndereco(ResultSet rs) throws SQLException{
+    public static Endereco getEndereco(ResultSet rs) throws SQLException{
         int numero = rs.getInt("numero");
         String ruaAvenida = rs.getString("rua");
         String cep = rs.getString("cep");
