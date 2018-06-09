@@ -43,9 +43,9 @@ public abstract class FornecedorDAO extends CoreDAO{
         Connection conexao = getConnection();
 
         // Forme a string sql;
-        String sql = "SELECT usuarios.id, cnpj, nome, numero, rua, cep, bairro, estado, cidade FROM fornecimento "
+        String sql = "SELECT pessoa.id, cnpj, nome, numero, rua, cep, bairro, estado, cidade FROM fornecimento "
                 + "INNER JOIN juridica ON fornecimento.fk_fornecedor = juridica.fk_pessoa "
-                + "INNER JOIN usuarios ON juridica.fk_pessoa = usuarios.id "
+                + "INNER JOIN pessoa ON juridica.fk_pessoa = pessoa.id "
                 + "WHERE fornecimento.fk_supermercado = ?";
 
         PreparedStatement st = conexao.prepareStatement (sql);
@@ -68,7 +68,7 @@ public abstract class FornecedorDAO extends CoreDAO{
         // Obtenha a conexão com o BD;
         Connection conexao = getConnection();
         // Forme a string sql;
-        String sql = "SELECT usuarios.id, cnpj, nome, numero, rua, cep, bairro, estado, cidade FROM lote " //em duvida
+        String sql = "SELECT pessoa.id, cnpj, nome, numero, rua, cep, bairro, estado, cidade FROM lote " //em duvida
                     + "INNER JOIN juridica as fornecedor ON fornecedor.fk_pessoa = lote.fk_fornecedor "
                     + "WHERE lote.id = ? ";
         PreparedStatement st = conexao.prepareStatement (sql);

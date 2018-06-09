@@ -27,7 +27,7 @@ public abstract class PessoaDAO extends CoreDAO{
     public static int create(Pessoa pessoa) throws ClassNotFoundException, SQLException {
 
         Connection conn = getConnection();
-        String sql = "INSERT INTO usuarios (nome,numero,rua,cep,bairro,cidade,estado) "
+        String sql = "INSERT INTO pessoa (nome,numero,rua,cep,bairro,cidade,estado) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         Endereco endereco = pessoa.getEndereco();
@@ -54,7 +54,7 @@ public abstract class PessoaDAO extends CoreDAO{
     // algumas regras de POO e do modelo DAO
     public static void delete(int id) throws ClassNotFoundException, SQLException{
         Connection conn = getConnection();
-        String sql = "DELETE FROM usuarios WHERE id = ?";
+        String sql = "DELETE FROM pessoa WHERE id = ?";
         
         PreparedStatement st = conn.prepareStatement(sql);
         st.setInt(1, id);

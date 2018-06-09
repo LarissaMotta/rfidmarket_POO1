@@ -132,7 +132,7 @@ public abstract class ClienteDAO extends CoreDAO{
                 "p.estado, p.cidade, pf.data_nasc, pf.genero, pf.login, pf.senha," +
                 "pf.cpf FROM hist_compra as hc " +
                 "INNER JOIN fisica as pf ON hc.fk_cliente = pf.fk_pessoa " +
-                "INNER JOIN usuarios as p ON pf.fk_pessoa = p.id "
+                "INNER JOIN pessoa as p ON pf.fk_pessoa = p.id "
                 + "WHERE hc.fk_supermercado = ? " + filter.getFilter();
         
         // Substitua a '?' pelo valor da coluna;
