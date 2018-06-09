@@ -28,7 +28,7 @@ public abstract class ResetTable {
     
     public static void cleanAllTables() throws ClassNotFoundException, SQLException{
         String[] tables = 
-        {"compra","lote","produto","hist_compra","utiliza","fornecimento","cartao","funcionario","fisica","supermercado","juridica","pessoa","contato"};
+        {"compra","lote","produto","hist_compra","utiliza","fornecimento","cartao","funcionario","fisica","supermercado","juridica","contato", "pessoa"};
         
         for (String table : tables){
             cleanTable(table);
