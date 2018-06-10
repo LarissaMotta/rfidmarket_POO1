@@ -83,7 +83,7 @@ public class Cartao {
     }
 
     public final void setNumero(String numero) throws IllegalArgumentException {
-        if (numero == null || numero.length() != 16) //TODO tem que trocar o tipo para string
+        if (numero == null || numero.length() != 16)
             throw new IllegalArgumentException("Número do cartão inválido!");
         
         this.numero = numero;
