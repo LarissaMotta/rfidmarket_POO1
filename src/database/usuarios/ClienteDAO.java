@@ -108,6 +108,8 @@ public abstract class ClienteDAO extends CoreDAO{
      * @throws SQLException
      * @throws ClassNotFoundException
      * @throws IllegalArgumentException
+     * @throws java.io.UnsupportedEncodingException
+     * @throws java.security.NoSuchAlgorithmException
      */
     public static List<Cliente> readClientesBySupermercado(Supermercado superm, String nome, String cpf)
             throws SQLException, ClassNotFoundException, IllegalArgumentException, UnsupportedEncodingException, NoSuchAlgorithmException {
