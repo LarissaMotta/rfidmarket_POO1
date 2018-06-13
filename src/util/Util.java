@@ -39,8 +39,6 @@ public abstract class Util {
         char charCpf;
         int contDigit = 0;
 
-        Util.verificaStringNullVazia(cpf,"CPF");
-
         //Garanta que só haverá dígitos, '.' ou '-';
         String expression = "^[0-9]{3}.?[0-9]{3}.?[0-9]{3}-?[0-9]{2}$";
         Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
@@ -77,8 +75,6 @@ public abstract class Util {
     }
     
     public static boolean isLoginValido(String login){ // verifica se o login pode ser usado
-        verificaStringNullVazia(login, "Login");
-        
         String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
         Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(login);
@@ -92,8 +88,6 @@ public abstract class Util {
      * @return true se o cnpj for válido, senão, false;
      */
     public static boolean isCnpjValido(String cnpj) {
-        verificaStringNullVazia(cnpj, "CNPJ");
-        
         //Garanta que só haverá dígitos, '.' ou '-';
         String expression = "^[0-9]{2}.?[0-9]{3}.?[0-9]{3}/?[0-9]{4}-?[0-9]{2}$";
         Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
