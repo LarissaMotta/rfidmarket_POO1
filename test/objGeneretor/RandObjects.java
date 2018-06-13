@@ -28,6 +28,6 @@ public class RandObjects {
 
     public static void main() throws IOException {
 
-        getString("/home/x/Área de Trabalho/POO1/trab_integrado/rfidmarket_POO1/src/rand/cart_bandeiras.txt");
+        getString("/home/x/Área de Trabalho/POO1/trab_integrado/rfidmarket_POO1/src/rand/cartao_bandeiras.txt");
     }
 }
