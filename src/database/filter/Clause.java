@@ -36,7 +36,7 @@ public class Clause {
     
     public String getClause(){
         if (valor == null) return null;
-        
+        // TODO Verificar se funcionar com char
         String clause = campo + getOpLogStr();
         
         if (valor instanceof String){

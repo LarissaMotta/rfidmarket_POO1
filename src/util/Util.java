@@ -31,7 +31,7 @@ public abstract class Util {
     public static void verificaStringNullVazia(String string, String nomeParametro) throws IllegalArgumentException{
         verificaIsObjNull(string, nomeParametro);
         if (string.trim().isEmpty())
-            throw new IllegalArgumentException(nomeParametro + "não informado (vazio)");
+            throw new IllegalArgumentException(nomeParametro + " não informado (vazio)");
     }
     
     public static boolean isCpfValido(String cpf) {
