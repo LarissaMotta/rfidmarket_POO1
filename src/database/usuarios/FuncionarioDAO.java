@@ -8,7 +8,9 @@ import modelo.usuarios.Endereco;
 import modelo.usuarios.Funcionario;
 import modelo.usuarios.PessoaFisica.Genero;
 import org.postgresql.util.PSQLException;
+import util.Util;
 
+import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.login.LoginException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
@@ -126,7 +128,8 @@ public abstract class FuncionarioDAO extends CoreDAO {
     }
 
     public static Funcionario SignIn(String login, String senha)
-            throws SQLException, ClassNotFoundException, LoginException{
+            throws SQLException, ClassNotFoundException, LoginException,
+            UnsupportedEncodingException, NoSuchAlgorithmException {
 
         //Conecte-se ao banco de dados;
         Connection conexao = getConnection();
@@ -134,7 +137,8 @@ public abstract class FuncionarioDAO extends CoreDAO {
         //A seleção será filtrada pelo login da pessoa física;
         //Login e senha recebidos devem ser IGUAIS aos de uma PF que seja funcionária;
         Filter filter = new Filter();
-        Clause clause = new Clause("pf.senha", senha, Clause.IGUAL);
+        String senha_sha512 = Util.criptografar(senha);
+        Clause clause = new Clause("pf.senha", senha_sha512, Clause.IGUAL);
         filter.addClause(clause);
 
         String sql = "SELECT func.cargo, func.setor, func.fk_pessoa_fisica, pf.login,"
@@ -151,11 +155,10 @@ public abstract class FuncionarioDAO extends CoreDAO {
         ResultSet rs = ps.executeQuery();
 
         //Se não encontrou alguém com esse login e senha, lance uma exceção de login;
-        if (rs.getFetchSize() == 0) {
+        if (!rs.next()) {
             throw new LoginException("Falha ao logar, login ou senha inválidos");
         }
 
-        rs.next();
         Funcionario funcionario = readFuncionario(rs);
 
         ps.close();
