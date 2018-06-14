@@ -47,10 +47,8 @@ public class SupermercadoDAOTest {
         System.out.println("create");
         
         Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        //double latitude, double longitude, String unidade, String cnpj, String nome, Endereco endereco
         supermercado = new Supermercado(-52.2471,-2.5297,"serra 03","44.122.623/0001-02", "EPA", endereco);
         int result = PessoaJuridicaDAO.create(supermercado);
-        //int id, double latitude, double longitude, String unidade, String cnpj, String nome, Endereco endereco
         supermercado = new Supermercado(result,supermercado.getLatitude(),supermercado.getLongitude(),supermercado.getUnidade(),supermercado.getCnpj(), supermercado.getNome(), endereco);
         
         System.out.println("id = "+result);
@@ -58,22 +56,17 @@ public class SupermercadoDAOTest {
     
     
     @After
-    public void tearDown() {
+    public void tearDown() throws ClassNotFoundException, SQLException {
+        ResetTable.cleanAllTables();
+    }
+    
+    @Test
+    public void testDelete() throws Exception {
+        System.out.println("delete");
+        int id = supermercado.getId();
+        PessoaJuridicaDAO.delete(id);
     }
 
-    /**
-     * Test of create method, of class SupermercadoDAO.
-     */
-    @Test
-    public void testCreate() throws Exception {
-        System.out.println("create");
-        Supermercado supermercado = null;
-        int expResult = 0;
-        int result = SupermercadoDAO.create(supermercado);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
     /**
      * Test of readSupermercadoByFuncionario method, of class SupermercadoDAO.
