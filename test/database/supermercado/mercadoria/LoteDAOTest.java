@@ -6,12 +6,16 @@
 package database.supermercado.mercadoria;
 
 import controlTest.ResetTable;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import modelo.supermercado.Supermercado;
 import modelo.supermercado.mercadoria.Fornecedor;
 import modelo.supermercado.mercadoria.Lote;
 import modelo.supermercado.mercadoria.Produto;
+import modelo.usuarios.Endereco;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -29,16 +33,24 @@ public class LoteDAOTest {
     public LoteDAOTest() {
     }
     
-    @BeforeClass
-    public static void setUpClass() {
-    }
+   
     
-    @AfterClass
-    public static void tearDownClass() {
-    }
+ 
     
     @Before
-    public void setUp() {
+    public void setUp()throws ClassNotFoundException, SQLException, UnsupportedEncodingException, NoSuchAlgorithmException {
+         ResetTable.cleanAllTables();
+        System.out.println("create");
+        
+        Produto produto = new Produto (2,"6666",127.66,"Ta pegando fogo","top","Churras",356.56,12,15,"npox");
+        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 76, "Rua Xablau");
+        Fornecedor fornecedor = new Fornecedor("44.122.623/0001-02", "EPA", endereco);
+        lote = new Lote(1, "666", new Date(), new Date(),new Date(), 333,"Churrasqueira do Faustop",produto);
+        Supermercado supermercado = new Supermercado(1,12,13,"Vila Velha","85685","Carone",endereco);
+       
+        int result = LoteDAO.create(lote,fornecedor,produto,supermercado);
+        lote = new Lote(lote.getId(),lote.getCodigoProd(),lote.getDataCompra(),lote.getDataFabricacao(),lote.getDataValidade(),lote.getNumUnidades(),lote.getIdentificador(), lote.getProduto());
+        System.out.println("id = "+result);
     }
     
   @After
