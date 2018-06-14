@@ -61,13 +61,13 @@ public abstract class PessoaFisica extends Pessoa{
         setSenha(senha);
     }
     
-    public final void setSenha(String senha) throws IllegalArgumentException, NoSuchAlgorithmException, UnsupportedEncodingException{
+    public final void setSenha(String senha) throws IllegalArgumentException{
         Util.verificaStringNullVazia(senha, "Senha");
         
         if (senha.length() < 6)
             throw new IllegalArgumentException("Senha deve ter pelo menos 6 caracteres");
         
-        this.senha = Util.criptografar(senha);
+        this.senha = senha;
     }
 
     public String getCpf() {

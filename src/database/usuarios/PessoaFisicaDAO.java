@@ -1,6 +1,8 @@
 package database.usuarios;
 
 import database.core.CoreDAO;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -8,6 +10,7 @@ import java.sql.SQLException;
 
 import modelo.usuarios.PessoaFisica;
 import org.postgresql.util.PSQLException;
+import util.Util;
 
 /**
  *
@@ -22,7 +25,7 @@ public abstract class PessoaFisicaDAO extends CoreDAO {
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      */
-    public static int create(PessoaFisica pessoaFisica) throws ClassNotFoundException, SQLException {
+    public static int create(PessoaFisica pessoaFisica) throws ClassNotFoundException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
 
         int id = PessoaDAO.create(pessoaFisica); // insere primeiro os dados da usuarios
         
@@ -36,7 +39,7 @@ public abstract class PessoaFisicaDAO extends CoreDAO {
         st.setDate(2, new Date(pessoaFisica.getDataNasc().getTime()));
         st.setString(3, String.valueOf(pessoaFisica.getGenero().toChar()));
         st.setString(4, pessoaFisica.getLogin());
-        st.setString(5, pessoaFisica.getSenha());
+        st.setString(5, Util.criptografar(pessoaFisica.getSenha()));
         st.setInt(6, id);
         
         try{

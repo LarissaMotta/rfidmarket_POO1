@@ -34,7 +34,7 @@ public abstract class FuncionarioDAO extends CoreDAO {
      * @throws java.sql.SQLException
      * @throws java.lang.ClassNotFoundException
      */
-    public static int create(Funcionario funcionario, Supermercado supermercado) throws SQLException, ClassNotFoundException {
+    public static int create(Funcionario funcionario, Supermercado supermercado) throws SQLException, ClassNotFoundException, NoSuchAlgorithmException, UnsupportedEncodingException {
         int id = PessoaFisicaDAO.create(funcionario); // insere primeiro os dados da usuarios
 
         Connection conn = getConnection();
@@ -118,25 +118,6 @@ public abstract class FuncionarioDAO extends CoreDAO {
 
         ResultSet rs = st.executeQuery();
         while (rs.next()) {
-
-            //TODO apanhar e ser xingado pelo Joel nesse método
-//            String cargo = rs.getString("cargo");
-//            String setor = rs.getString("setor");
-//            String cpf = rs.getString("cpf");
-//            Date dataNasc = rs.getDate("data_nasc");
-//            char gen = rs.getString("genero").charAt(0);
-//            String login = rs.getString("login");
-//            String senha = rs.getString("senha");
-//            int id = rs.getInt("id");
-//            String nome = rs.getString("nome");
-//
-//            Endereco endereco = PessoaDAO.getEndereco(rs);
-
-//            Genero genero = null;
-//            if (gen == 'M') genero = PessoaFisica.Genero.M;
-//            else genero = PessoaFisica.Genero.F;
-
-//            funcionarios.add(new Funcionario(cargo, setor, cpf, dataNasc, genero, login, senha, id, nome, endereco));
             funcionarios.add(FuncionarioDAO.readFuncionario(rs));
         }
 

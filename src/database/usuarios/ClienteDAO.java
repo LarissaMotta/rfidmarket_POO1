@@ -27,7 +27,7 @@ public abstract class ClienteDAO extends CoreDAO{
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      */
-    public static int create(Cliente cliente) throws ClassNotFoundException, SQLException {
+    public static int create(Cliente cliente) throws ClassNotFoundException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
         return PessoaFisicaDAO.create(cliente);
     }
 
