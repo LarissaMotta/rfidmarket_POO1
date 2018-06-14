@@ -69,12 +69,9 @@ public abstract class FuncionarioDAO extends CoreDAO {
      * @param rs ResultSet com todos dados do funcionário;
      * @return Funcionário criado a partir do result set
      * @throws SQLException
-     * @throws UnsupportedEncodingException
-     * @throws NoSuchAlgorithmException
      */
     private static Funcionario readFuncionario(ResultSet rs)
-            throws SQLException, UnsupportedEncodingException, NoSuchAlgorithmException {
-
+            throws SQLException{
         //TODO apanhar e ser xingado pelo Joel nesse método
         String cargo = rs.getString("cargo");
         String setor = rs.getString("setor");
@@ -101,7 +98,7 @@ public abstract class FuncionarioDAO extends CoreDAO {
     //TODO: Fazer melhoria Query usando filtros uteis
     //Filtros devem ser baseados nas telas do prototipo e o que se pede no git
     //Seguir o modelo de filtro da função ClienteDAO.readClientesBySupermercado(...);
-    public static List<Funcionario> readFuncionariosBySupermercado(Supermercado supermercado) throws SQLException, ClassNotFoundException, UnsupportedEncodingException, NoSuchAlgorithmException {
+    public static List<Funcionario> readFuncionariosBySupermercado(Supermercado supermercado) throws SQLException, ClassNotFoundException {
         List<Funcionario> funcionarios = new ArrayList<>();
 
         // Obtenha a conexão com o BD;
@@ -129,7 +126,7 @@ public abstract class FuncionarioDAO extends CoreDAO {
     }
 
     public static Funcionario SignIn(String login, String senha)
-            throws SQLException, ClassNotFoundException, LoginException, UnsupportedEncodingException, NoSuchAlgorithmException {
+            throws SQLException, ClassNotFoundException, LoginException{
 
         //Conecte-se ao banco de dados;
         Connection conexao = getConnection();

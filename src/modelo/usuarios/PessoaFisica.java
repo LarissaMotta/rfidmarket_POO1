@@ -33,7 +33,7 @@ public abstract class PessoaFisica extends Pessoa{
     }
     
     // Pode ser usada quando para instanciar a partir de dados do BD
-    public PessoaFisica(String cpf, Date dataNasc, Genero genero, String login, String senha, int id, String nome, Endereco endereco) throws IllegalArgumentException, NoSuchAlgorithmException, UnsupportedEncodingException{
+    public PessoaFisica(String cpf, Date dataNasc, Genero genero, String login, String senha, int id, String nome, Endereco endereco) throws IllegalArgumentException{
         super(id, nome, endereco);
         
         if (!Util.isCpfValido(cpf)) throw new IllegalArgumentException("CPF não é válido");
@@ -48,7 +48,7 @@ public abstract class PessoaFisica extends Pessoa{
     }
 
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
-    public PessoaFisica(String cpf, Date dataNasc, Genero genero, String login, String senha, String nome, Endereco endereco) throws IllegalArgumentException, NoSuchAlgorithmException, UnsupportedEncodingException{
+    public PessoaFisica(String cpf, Date dataNasc, Genero genero, String login, String senha, String nome, Endereco endereco) throws IllegalArgumentException{
         super(nome, endereco);
         if (!Util.isCpfValido(cpf)) throw new IllegalArgumentException("CPF não é válido");
         if (!Util.isLoginValido(login)) throw new IllegalArgumentException("Login inválido");

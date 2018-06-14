@@ -61,7 +61,7 @@ public abstract class ClienteDAO extends CoreDAO{
     }
 
     private static Cliente readCliente(PreparedStatement ps)
-            throws SQLException, UnsupportedEncodingException, NoSuchAlgorithmException {
+            throws SQLException {
 
         ResultSet rs = ps.executeQuery();
         rs.next();
@@ -77,7 +77,7 @@ public abstract class ClienteDAO extends CoreDAO{
      * @throws SQLException
      */
     private static Cliente readCliente(ResultSet rs)
-            throws SQLException, UnsupportedEncodingException, NoSuchAlgorithmException {
+            throws SQLException{
 
         String cpf = rs.getString("cpf");
         Date dtNasc = new Date(rs.getDate("data_nasc").getTime());
@@ -108,11 +108,9 @@ public abstract class ClienteDAO extends CoreDAO{
      * @throws SQLException
      * @throws ClassNotFoundException
      * @throws IllegalArgumentException
-     * @throws java.io.UnsupportedEncodingException
-     * @throws java.security.NoSuchAlgorithmException
      */
     public static List<Cliente> readClientesBySupermercado(Supermercado superm, String nome, String cpf)
-            throws SQLException, ClassNotFoundException, IllegalArgumentException, UnsupportedEncodingException, NoSuchAlgorithmException {
+            throws SQLException, ClassNotFoundException, IllegalArgumentException{
 
         // Crie e inicialize a lista, e abra uma conexão com o BD;
         List<Cliente> clientes = new ArrayList<>();
