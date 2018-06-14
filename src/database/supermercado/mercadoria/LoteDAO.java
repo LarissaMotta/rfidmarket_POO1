@@ -198,4 +198,19 @@ public abstract class LoteDAO extends CoreDAO {
 
         return lotes;
     }
+    
+    public static void delete(int id) throws SQLException, ClassNotFoundException {
+
+        Connection conn = getConnection();
+        String sql = "DELETE FROM contato WHERE id = ?";
+
+        PreparedStatement st = conn.prepareStatement(sql);
+        st.setInt(1, id);
+
+        st.executeUpdate();
+        st.close();
+        conn.close();
+
+        LoteDAO.delete(id);
+    }
 }

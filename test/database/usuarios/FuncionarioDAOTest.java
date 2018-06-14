@@ -5,8 +5,14 @@
  */
 package database.usuarios;
 
+import controlTest.ResetTable;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import modelo.supermercado.Supermercado;
+import modelo.usuarios.Endereco;
 import modelo.usuarios.Funcionario;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -20,6 +26,7 @@ import static org.junit.Assert.*;
  * @author 20162bsi0147
  */
 public class FuncionarioDAOTest {
+    private Funcionario funcionario;
     
     public FuncionarioDAOTest() {
     }
@@ -28,31 +35,37 @@ public class FuncionarioDAOTest {
     public static void setUpClass() {
     }
     
-    @AfterClass
-    public static void tearDownClass() {
-    }
     
     @Before
-    public void setUp() {
+    public void setUp()throws ClassNotFoundException, SQLException, UnsupportedEncodingException, NoSuchAlgorithmException {
+         ResetTable.cleanAllTables();
+        System.out.println("create");
+        
+        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
+        funcionario = new Funcionario("estagiario", "atendente","216.856.707-76", new Date(), Funcionario.Genero.M, "joel@hotmail.com", "testedesenha", "Joel", endereco);
+        Supermercado supermercado = new Supermercado(1,12,13,"Vila Velha","85685","Carone",endereco);
+        //int id, double latitude, double longitude, String unidade, String cnpj, String nome, Endereco endereco
+        
+        int result = FuncionarioDAO.create(funcionario,supermercado);
+        
+        funcionario = new Funcionario(funcionario.getCargo(),funcionario.getSetor(),funcionario.getCpf(), funcionario.getDataNasc(), funcionario.getGenero(), funcionario.getLogin(), funcionario.getSenha(),result, funcionario.getNome(), endereco);
+        System.out.println("id = "+result);
     }
     
     @After
-    public void tearDown() {
+    public void tearDown() throws ClassNotFoundException, SQLException {
+        ResetTable.cleanAllTables();
     }
 
-    /**
-     * Test of create method, of class FuncionarioDAO.
-     */
+      
     @Test
-    public void testCreate() throws Exception {
-        System.out.println("create");
-        Funcionario funcionario = null;
-        Supermercado supermercado = null;
-        int expResult = 0;
-        int result = FuncionarioDAO.create(funcionario, supermercado);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testDelete() throws Exception {
+        System.out.println("delete");
+        int id = funcionario.getId();
+        FuncionarioDAO.delete(id);
+        PessoaFisicaDAO.delete(id);
+        PessoaDAO.delete(id);
+       
     }
 
     /**

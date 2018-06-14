@@ -5,9 +5,19 @@
  */
 package database.usuarios;
 
+import controlTest.ResetTable;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
+import modelo.pagamento.Cartao;
+import modelo.usuarios.Cliente;
 import modelo.usuarios.Contato;
+import modelo.usuarios.Contato.Tipo;
+import modelo.usuarios.Endereco;
 import modelo.usuarios.Pessoa;
+import modelo.usuarios.PessoaFisica;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -20,13 +30,31 @@ import static org.junit.Assert.*;
  * @author 20162bsi0147
  */
 public class ContatoDAOTest {
+    private Contato contato;
+  
     
     public ContatoDAOTest() {
     }
     
+    /*
     @BeforeClass
-    public static void setUpClass() {
+    public static void setUpClass()throws ClassNotFoundException, SQLException, UnsupportedEncodingException, NoSuchAlgorithmException  {
+         ResetTable.cleanAllTables();
+        System.out.println("create");
+        // RELACIONAR CONTATO COM A PESSOA PELO FK_PESSOA   
+        //int id, String descricao, Tipo tipo
+        contato = new Contato(2, "telefone", "98765432");
+        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
+        cliente = new Cliente("216.856.707-76", new Date(), PessoaFisica.Genero.M, "joel@hotmail.com", "testedesenha", "Joel", endereco);
+        
+        int id = ContatoDAO.create(contato,cliente);
+        int result = ContatoDAO.create(contato, cliente);
+        
+        contato = new Contato(id, contato.getDescricao(), contato.getTipo());
+        
+        System.out.println("id = "+result);
     }
+    */
     
     @AfterClass
     public static void tearDownClass() {
@@ -36,23 +64,19 @@ public class ContatoDAOTest {
     public void setUp() {
     }
     
-    @After
-    public void tearDown() {
+     @After
+    public void tearDown() throws ClassNotFoundException, SQLException {
+        ResetTable.cleanAllTables();
     }
-
-    /**
-     * Test of create method, of class ContatoDAO.
-     */
+   
+      
     @Test
-    public void testCreate() throws Exception {
-        System.out.println("create");
-        Contato contato = null;
-        Pessoa pessoa = null;
-        int expResult = 0;
-        int result = ContatoDAO.create(contato, pessoa);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testDelete() throws Exception {
+        System.out.println("delete");
+        int id = contato.getId();
+        ContatoDAO.delete(id);
+        
+       
     }
 
     /**

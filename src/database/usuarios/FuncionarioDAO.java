@@ -163,4 +163,19 @@ public abstract class FuncionarioDAO extends CoreDAO {
 
         return funcionario;
     }
+    
+     public static void delete(int id) throws SQLException, ClassNotFoundException {
+
+        Connection conn = getConnection();
+        String sql = "DELETE FROM funcionario WHERE fk_pessoa_fisica = ?";
+
+        PreparedStatement st = conn.prepareStatement(sql);
+        st.setInt(1, id);
+
+        st.executeUpdate();
+        st.close();
+        conn.close();
+
+        PessoaFisicaDAO.delete(id);
+    }
 }

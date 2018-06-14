@@ -5,6 +5,8 @@
  */
 package database.supermercado.mercadoria;
 
+import controlTest.ResetTable;
+import java.sql.SQLException;
 import java.util.List;
 import modelo.supermercado.Supermercado;
 import modelo.supermercado.mercadoria.Fornecedor;
@@ -22,6 +24,7 @@ import static org.junit.Assert.*;
  * @author 20162bsi0147
  */
 public class LoteDAOTest {
+    private Lote lote;
     
     public LoteDAOTest() {
     }
@@ -38,26 +41,11 @@ public class LoteDAOTest {
     public void setUp() {
     }
     
-    @After
-    public void tearDown() {
+  @After
+    public void tearDown() throws ClassNotFoundException, SQLException {
+        ResetTable.cleanAllTables();
     }
 
-    /**
-     * Test of create method, of class LoteDAO.
-     */
-    @Test
-    public void testCreate() throws Exception {
-        System.out.println("create");
-        Lote lote = null;
-        Fornecedor forn = null;
-        Produto prod = null;
-        Supermercado superm = null;
-        int expResult = 0;
-        int result = LoteDAO.create(lote, forn, prod, superm);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
     /**
      * Test of readLotesBySupermercado method, of class LoteDAO.
@@ -100,5 +88,15 @@ public class LoteDAOTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
+    
+    @Test
+    public void testDelete() throws Exception {
+        System.out.println("delete");
+        int id = lote.getId();
+        LoteDAO.delete(id);
+        
+       
+    }
+
     
 }

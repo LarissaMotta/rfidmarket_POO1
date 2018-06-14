@@ -65,4 +65,5 @@ public class Contato {
         
         this.tipo = tipo;
     }
+     
 }

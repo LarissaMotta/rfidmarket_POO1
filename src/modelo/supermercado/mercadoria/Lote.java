@@ -92,4 +92,6 @@ public class Lote {
     public Produto getProduto() {
         return produto;
     }
+    
+    
 }
