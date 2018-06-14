@@ -16,24 +16,24 @@ from extra_python_popular_base.modelo.Supermercado import Supermercado
 from extra_python_popular_base.randomBase.Util import Util
 
 # Caminho dos arquivos de dados usados para criar os objetos randômicos;
-dir_corrente = path.dirname(path.abspath(__file__))
-path_cartao_bandeiras = path.join(dir_corrente, "cartao_bandeiras.txt")
-path_contato_ddd = path.join(dir_corrente, "contato_ddd.txt")
-path_contato_cel_tel = path.join(dir_corrente, "contato_cel_tel.csv")
-path_fisica_nome = path.join(dir_corrente, "pessoas_fisicas_nomes.txt")
-path_fisica_nome_sexo = path.join(dir_corrente, "nome_sexo.csv")
-path_fornecedor_nome = path.join(dir_corrente, "fornecedores_nomes.txt")
-path_pessoa_cidades = path.join(dir_corrente, "endereco_cidades.txt")
-path_pessoa_estados = path.join(dir_corrente, "endereco_estados_siglas.txt")
-path_pessoa_bairros = path.join(dir_corrente, "endereco_bairros.txt")
-path_pessoa_ruas = path.join(dir_corrente, "endereco_ruas.txt")
-path_produtos = path.join(dir_corrente, "produtos.txt")
-path_supermercado_nome = path.join(dir_corrente, "supermercado_nomes.txt")
+_dir_corrente = path.dirname(path.abspath(__file__))
+_path_cartao_bandeiras = path.join(_dir_corrente, "cartao_bandeiras.txt")
+_path_contato_ddd = path.join(_dir_corrente, "contato_ddd.txt")
+_path_contato_cel_tel = path.join(_dir_corrente, "contato_cel_tel.csv")
+_path_fisica_nome = path.join(_dir_corrente, "pessoas_fisicas_nomes.txt")
+_path_fisica_nome_sexo = path.join(_dir_corrente, "nome_sexo.csv")
+_path_fornecedor_nome = path.join(_dir_corrente, "fornecedores_nomes.txt")
+_path_pessoa_cidades = path.join(_dir_corrente, "endereco_cidades.txt")
+_path_pessoa_estados = path.join(_dir_corrente, "endereco_estados_siglas.txt")
+_path_pessoa_bairros = path.join(_dir_corrente, "endereco_bairros.txt")
+_path_pessoa_ruas = path.join(_dir_corrente, "endereco_ruas.txt")
+_path_produtos = path.join(_dir_corrente, "produtos.txt")
+_path_supermercado_nome = path.join(_dir_corrente, "supermercado_nomes.txt")
 
 # Classes 'abstratas', bases;
-class _PessoaRandom(Pessoa):
-
-	__estados = ["AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS",
+class PessoaRandom(Pessoa):
+	
+	_estados = ["AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS",
 	           "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC",
 	           "SP", "SE", "TO"]
 
@@ -46,10 +46,10 @@ class _PessoaRandom(Pessoa):
 		_tipos = ["telefone", "celular"]
 
 		self.contatos = [ContatoRandom(self.nome, choice(_tipos)) for i in range(_qtd)]
-		self.rua = Util.get_linha_random(path_pessoa_ruas).strip()
-		self.bairro = Util.get_linha_random(path_pessoa_bairros).strip()
-		self.cidade = Util.get_linha_random(path_pessoa_cidades).strip()
-		self.estado = choice(self.__estados)
+		self.rua = Util.get_linha_random(_path_pessoa_ruas).strip()
+		self.bairro = Util.get_linha_random(_path_pessoa_bairros).strip()
+		self.cidade = Util.get_linha_random(_path_pessoa_cidades).strip()
+		self.estado = choice(self._estados)
 		self.cep = self.get_cep_random()
 
 		Pessoa.__init__(self, self.nome, self.estado, self.cidade, self.bairro, self.rua, self.numero, self.cep)
@@ -60,16 +60,16 @@ class _PessoaRandom(Pessoa):
 			"".join([str(randint(0, 9)) for i in range(3)]), "".join([str(randint(0, 9)) for i in range(3)]))
 
 
-class _FisicaRandom(_PessoaRandom, PFisica):
+class PFisicaRandom(PessoaRandom, PFisica):
 
 	def __init__(self, nome="", sexo=''):
 
 		if (not nome or not sexo or sexo not in ['f', 'F', 'm', 'M']):
-			nome_sexo = Util.get_linha_random(path_fisica_nome_sexo).split(';')
+			nome_sexo = Util.get_linha_random(_path_fisica_nome_sexo).split(';')
 			nome = nome_sexo[0]
 			sexo = nome_sexo[1]
 
-		_PessoaRandom.__init__(self, nome)
+		PessoaRandom.__init__(self, nome)
 
 		self.senha = self.get_senha_random()
 		self.data_nasc = Util.get_data_random()
@@ -115,10 +115,10 @@ class _FisicaRandom(_PessoaRandom, PFisica):
 		super().print()
 
 
-class _JuridicaRandom(_PessoaRandom, PJuridica):
+class PJuridicaRandom(PessoaRandom, PJuridica):
 
 	def __init__(self, nome):
-		_PessoaRandom.__init__(self, nome)
+		PessoaRandom.__init__(self, nome)
 
 		self.cnpj = self.get_cnpj_random()
 		PJuridica.__init__(self, self.cnpj, self.nome, self.estado, self.cidade,
@@ -163,7 +163,7 @@ class CartaoRandom(Cartao):
 
 	@staticmethod
 	def _get_bandeira_random():
-		with open(path_cartao_bandeiras, 'r') as arq:
+		with open(_path_cartao_bandeiras, 'r') as arq:
 			bandeiras = [linha.strip() for linha in arq]
 
 		return choice(bandeiras)
@@ -181,7 +181,7 @@ class CartaoRandom(Cartao):
 
 	@staticmethod
 	def _get_titular_random():
-		with open(path_fisica_nome, 'r') as arq:
+		with open(_path_fisica_nome, 'r') as arq:
 			bandeiras = [linha.strip() for linha in arq]
 
 		return choice(bandeiras)
@@ -205,7 +205,7 @@ class ContatoRandom(Contato):
 		# Se for celular ou telefone;
 		if (self.tipo.lower() in ["telefone", "celular"]):
 
-			ddd = Util.get_linha_random(path_contato_ddd)
+			ddd = Util.get_linha_random(_path_contato_ddd)
 
 			#Pegue o(s) primeiro(s) dígito(s);
 			if (self.tipo.lower() == "telefone"): num_str = "3"
@@ -227,10 +227,10 @@ class ContatoRandom(Contato):
 	def _get_tipo_random():
 		return choice(["telefone", "celular", "email"])
 
-class ClienteRandom(_FisicaRandom, Cliente):
+class ClienteRandom(PFisicaRandom, Cliente):
 
 	def __init__(self, nome="", sexo=''):
-		_FisicaRandom.__init__(self, nome, sexo)
+		PFisicaRandom.__init__(self, nome, sexo)
 
 	def print(self):
 		super().print()
@@ -247,10 +247,18 @@ class ClienteRandom(_FisicaRandom, Cliente):
 			      % (i + 1, contato.tipo, jmp, contato.valor))
 
 
-class FuncionarioRandom(_FisicaRandom, Funcionario):
+class FuncionarioRandom(PFisicaRandom, Funcionario):
 
-	def __init__(self):
-		_FisicaRandom.__init__(self)
+	def __init__(self, nome="", sexo=""):
+
+		if (not nome or not sexo or sexo not in ['f', 'F', 'm', 'M']):
+			PFisicaRandom.__init__(self)
+
+		else:
+			self.nome = nome
+			self.genero = sexo
+			PFisicaRandom.__init__(self, self.nome, self.genero)
+
 		self.set_setor_cargo()
 
 	def set_setor_cargo(self):
@@ -284,18 +292,30 @@ class FuncionarioRandom(_FisicaRandom, Funcionario):
 		self.setor = setores[escolha]
 
 
-class FornecedorRandom(_JuridicaRandom, Fornecedor):
+class FornecedorRandom(PJuridicaRandom, Fornecedor):
 
-	def __init__(self):
-		self.nome = Util.get_linha_random(path_fornecedor_nome)
-		_JuridicaRandom.__init__(self, self.nome)
+	def __init__(self, nome=""):
+
+		if (not nome):
+			self.nome = Util.get_linha_random(_path_fornecedor_nome)
+
+		else:
+			self.nome = nome
+
+		PJuridicaRandom.__init__(self, self.nome)
 
 
-class SupermercadoRandom(_JuridicaRandom, Supermercado):
+class SupermercadoRandom(PJuridicaRandom, Supermercado):
 
-	def __init__(self):
-		self.nome = Util.get_linha_random(path_supermercado_nome)
-		_JuridicaRandom.__init__(self, self.nome)
+	def __init__(self, nome=""):
+
+		if (not nome):
+			self.nome = Util.get_linha_random(_path_supermercado_nome)
+
+		else:
+			self.nome = nome
+
+		PJuridicaRandom.__init__(self, self.nome)
 		self.unidade = self.bairro
 		self.latitude = uniform(-45, 45)
 		self.longitude = uniform(-45, 45)
@@ -322,18 +342,28 @@ class ProdutoRandom(Produto):
 
 	# CODIGO PADRÃO UPC
 
-	def __init__(self, numero_lotes=1, unid_por_lote=50,
-	             min_prateleira=0, max_prateleira=500):
-		nome_preco_marca_categ = Util.get_linha_random(path_produtos).split(";")
-		self.nome = nome_preco_marca_categ[0]
-		self.preco = float(nome_preco_marca_categ[1])
+	def __init__(self, nome="", marca="", categ="", preco=0.0, numero_lotes=1,
+	             unid_por_lote=50, min_prateleira=0, max_prateleira=500):
+
+		if (not nome or not marca or not categ or (not preco or type(preco) != float)):
+			print("'%s', '%s', '%s', %.2f -->" %(nome, marca, categ, preco))
+			nome_preco_marca_categ = Util.get_linha_random(_path_produtos).split(";")
+			self.nome = nome_preco_marca_categ[0]
+			self.preco = float(nome_preco_marca_categ[1])
+			self.marca = nome_preco_marca_categ[2]
+			self.categ = nome_preco_marca_categ[3]
+
+		else:
+			self.nome = nome
+			self.preco = preco
+			self.marca = marca
+			self.tipo = categ
+
 		self.codigo = Util.get_codigo_barras()
 		self.descricao = ""
-		self.estoque = 0
+		self.estoque = numero_lotes*unid_por_lote
 		self.custo = self.porc_custo * self.preco
-		self.tipo = nome_preco_marca_categ[3]
 		self.quant_prateleira = randint(min_prateleira, max_prateleira)
-		self.marca = nome_preco_marca_categ[2]
 		self.lotes = self._gerar_lotes(numero_lotes, unid_por_lote)
 		super().__init__(self.nome, self.preco, self.codigo, self.descricao, self.custo,
 		                 self.estoque, self.tipo, self.quant_prateleira, self.marca)

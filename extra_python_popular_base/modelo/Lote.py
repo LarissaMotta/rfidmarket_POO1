@@ -1,11 +1,12 @@
 class Lote():
 
+	id = int
 	data_compra = str
 	fabricacao = str
 	validade = str
 	quantidade = int
 	identificador = str
-	id = int
+	fk_produto = int
 
 	def __init__(self, data_compra, fabricacao, validade, quantidade,
 	             codigo):

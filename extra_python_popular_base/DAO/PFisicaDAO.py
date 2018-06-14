@@ -7,6 +7,45 @@ from extra_python_popular_base.modelo.PFisica import PFisica
 
 class PFisicaDAO():
 
+	__cols = ["data_nasc", "cpf", "senha", "fk_pessoa", "genero", "login"]
+	__nome_tabela = "fisica"
+
+	# Obtém sql única com todos valores formatados;
+	@staticmethod
+	def get_insert_all_sql(pfisicas=[PFisica]):
+
+		cols = PFisicaDAO.get_nome_colunas()
+		nome_tab = PFisicaDAO.get_nome_tabela()
+		sql = "INSERT INTO %s (%s) VALUES" % (nome_tab, (', '.join(cols)))
+		sqls_value = []
+
+		# Para cada pessoa, obtenha suas tuplas de valores já formatada;
+		for pf in pfisicas:
+			vals = [pf.data_nasc, pf.cpf, pf.senha, pf.id, pf.genero, pf.login]
+			sqls_value.append(DBCore.format_sql_value(vals))
+
+		sql = sql + '\n' + (',\n'.join(sqls_value)) + ';'
+		return sql
+
+	@staticmethod
+	def insert_n(data_base, pfisicas=[PFisica]):
+
+		try:
+			pessoas_ids = PessoaDAO.insert_n(data_base, pfisicas)
+			sql_n_pf = PFisicaDAO.get_insert_all_sql(pfisicas)
+			nome_tab = PFisicaDAO.get_nome_tabela()
+			pfs_ids = data_base.insert_all(sql_n_pf, nome_tab, "fk_pessoa", 3)
+
+			for i in range(len(pfs_ids)):
+				pfisicas[i].id = pfs_ids[i]
+
+			print('\n', sql_n_pf)
+
+			return pfs_ids
+
+		except psycopg2.ProgrammingError:
+			raise
+
 	@staticmethod
 	def insert(data_base, pf=PFisica):
 		pf.id = PessoaDAO.insert(data_base, pf)
@@ -34,3 +73,11 @@ class PFisicaDAO():
 
 		data_base.execute(get_remove_sql(pessoa_fisica_id))
 		PessoaDAO.remove(data_base, pessoa_fisica_id)
+
+	@staticmethod
+	def get_nome_tabela():
+		return PFisicaDAO.__nome_tabela
+
+	@staticmethod
+	def get_nome_colunas():
+		return PFisicaDAO.__cols

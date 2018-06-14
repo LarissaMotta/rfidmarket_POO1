@@ -1,0 +1,400 @@
+Alameda Joaquim Nabuco
+Alameda Jorge Monteiro de Carvalho
+Alameda Piracicaba
+Alameda São Francisco
+Alameda São Nicolau
+Alameda Tom Jobim
+Alameda das Avencas
+Alameda das Hortênsias
+Alameda das Orquídeas
+Alameda das Violetas
+Alameda dos Gerânios
+Avenida 15 de Novembro
+Avenida 23 de Maio
+Avenida 8 de Setembro
+Avenida A
+Avenida A B
+Avenida Abido Saad
+Avenida Acesso Rodoviário
+Avenida Albatroz
+Avenida Alfredo Calmon
+Avenida Alpheu Ribeiro
+Avenida Anchieta
+Avenida Anita Garibaldi
+Avenida Antônio Azevedo Rodrigues
+Avenida Antônio Dias
+Avenida Anápolis
+Avenida Arapongas
+Avenida Argentina
+Avenida Aroeira
+Avenida Asteca
+Avenida Atapoã
+Avenida August Saint Hilare
+Avenida Augusto Ruschi
+Avenida BNH
+Avenida Badejo
+Avenida Bartolomeu de Las Casas
+Avenida Beatles
+Avenida Beira Mar
+Avenida Beira Rio
+Avenida Bela Vista
+Avenida Belo Horizonte
+Avenida Bengala
+Avenida Bengalach
+Avenida Bicanga
+Avenida Bico Torto
+Avenida Blumenau
+Avenida Boa Vista
+Avenida Brasil
+Avenida Brasília
+Avenida Braúna
+Avenida Brigadeiro Eduardo Gomes
+Avenida Burle Marx
+Avenida C D
+Avenida Cachoeiro de Itapemirim
+Avenida Campinas
+Avenida Campos
+Avenida Carapebus
+Avenida Carlito Gomes Freire
+Avenida Carolina
+Avenida Castro Alves
+Avenida Cataguases
+Avenida Cem
+Avenida Central
+Avenida Central B
+Avenida China
+Avenida Civit
+Avenida Colares Júnior
+Avenida Colatina
+Avenida Contorno
+Avenida Copacabana
+Avenida Coronel Manoel Nunes
+Avenida Coronel Walfredo Paiva
+Avenida Corsanto
+Avenida Corumbá
+Avenida Curitiba
+Avenida Desembargador Cassiano Castelo
+Avenida Desembargador Edson Queiroz do Vale
+Avenida Desembargador Mário da Silva Nunes
+Avenida Diamante
+Avenida Diamantina
+Avenida Dido Fontes
+Avenida Dois
+Avenida Dom João Batista
+Avenida Domingos José Martins
+Avenida Doutor José Maria Miguel Feu Rosa
+Avenida Doutor Milton David
+Avenida Doutor Naly da Encarnação Miranda
+Avenida Durval Aguiar Franco
+Avenida Duzentos
+Avenida E
+Avenida Edvaldo Lima
+Avenida Engenheiro Ceciliano Abel de Almeida
+Avenida Espírito Santo
+Avenida Eucalípto
+Avenida Eudes Scherrer de Souza
+Avenida Europipe
+Avenida Fernando Viana Martins
+Avenida Florianópolis
+Avenida Fortaleza
+Avenida Gentila Frinhami Pereira
+Avenida Getúlio Vargas
+Avenida Ghandi
+Avenida Goiatuba
+Avenida Goitacazes
+Avenida Goiânia
+Avenida Gramsci
+Avenida Graça Aranha
+Avenida Guaianazes
+Avenida Guarani
+Avenida Guarapari
+Avenida Hilário Soneghet
+Avenida Ho Shi Min
+Avenida Honolulu
+Avenida Ilhéus
+Avenida Interventor Bley
+Avenida Ipê
+Avenida Iriri
+Avenida Itabuna
+Avenida Jabuticaba
+Avenida Jacarandá
+Avenida Jacaraípe
+Avenida Jacunem
+Avenida Jambo
+Avenida Japão
+Avenida Jerusalém
+Avenida Jones dos Santos Neves
+Avenida José Martins M Rato
+Avenida João Miguel
+Avenida João Palácios
+Avenida João da Silva Lopes
+Avenida Kmer
+Avenida Laranjeiras
+Avenida Lenin
+Avenida Leste
+Avenida Limoeiro
+Avenida Lourival Nunes
+Avenida Luiz Dalla Bernardina
+Avenida Macanaíba
+Avenida Mangueira
+Avenida Manguinhos
+Avenida Manhuaçu
+Avenida Manoel Bermudes
+Avenida Manoel Gomes Carneiro
+Avenida Manoel Jacinto da Silva
+Avenida Mar Vermelho
+Avenida Marlim
+Avenida Martim Pescador
+Avenida Martin Pescador
+Avenida Mckong
+Avenida Meridional
+Avenida Mestre Álvaro
+Avenida Metropolitano
+Avenida Minas Gerais
+Avenida Miramar
+Avenida Monlevade
+Avenida Montanha
+Avenida Monte Carmelo
+Avenida Monte Líbano
+Avenida Monte das Oliveiras
+Avenida Monteiro Lobato
+Avenida Montes Claros
+Avenida Muriaé
+Avenida Mário Batalha
+Avenida Namorado
+Avenida Nelson Mandela
+Avenida Nogueira
+Avenida Norelina Maria dos Santos
+Avenida Nossa Senhora da Penha
+Avenida Nossa Senhora da Saúde
+Avenida Nossa Senhora dos Navegantes
+Avenida Nova Venécia
+Avenida Oitocentos
+Avenida Olinda
+Avenida Padre Ezequiel Ramim
+Avenida Padre Mattos
+Avenida Palma
+Avenida Papua
+Avenida Paranavaí
+Avenida Pau Brasil
+Avenida Pau Verde
+Avenida Paulo Miguel Bohomoletz
+Avenida Paulo Pereira Gomes
+Avenida Pedra Azul
+Avenida Peixe Espada
+Avenida Pelotas
+Avenida Perimental
+Avenida Petrolina
+Avenida Petrópolis
+Avenida Petrônio Portela
+Avenida Pico do Alto Jequitibá
+Avenida Porto Canoa
+Avenida Porto Seguro
+Avenida Praga
+Avenida Presidente Castelo Branco
+Avenida Presidente Dutra
+Avenida Presidente Kennedy
+Avenida Presidente Vargas
+Avenida Primavera
+Avenida Primeira Avenida
+Avenida Principal
+Alameda Bela Vista
+Alameda Elcio Álvares
+Alameda Maria Damiana
+Alameda Soldado Eli Pereira
+Alameda da Frincasa
+Avenida A
+Avenida Afonso Schwab
+Avenida Alice Coutinho Santos
+Avenida Almir Cruz Amorim
+Avenida Alzira Ramos
+Avenida Amazonas
+Avenida América
+Avenida Antenor Nelson Brandão
+Avenida Antônio Peixoto
+Avenida Antônio Teixeira de Almeida
+Avenida Arco Íris
+Avenida Argeu Moreira da Cunha
+Avenida Ayrton Senna
+Avenida Bahia
+Avenida Beira Rio
+Avenida Beira Rio Formate
+Avenida Boa Vista
+Avenida Bragança
+Avenida Brasil
+Avenida Brasilina Santos
+Avenida Campo Grande
+Avenida Canaã
+Avenida Cariacica
+Avenida Carlos Lindemberg
+Avenida Cassimiro Castelo
+Avenida Central
+Avenida Congo
+Avenida Costa Brandão
+Avenida D
+Avenida Darcy Nalasco Ferreira
+Avenida Dezenove
+Avenida Divino Espírito Santo
+Avenida Dois
+Avenida Dois Sentidos
+Avenida Domingos Marques
+Avenida Domingos Martins
+Avenida Domingos Sávio Marques
+Avenida Doutor Afonso Schwab
+Avenida ESCELSA
+Avenida Edgar Gonçalves
+Avenida Eloi da Penha
+Avenida Ernesto Chê Guevara
+Avenida Especial
+Avenida Espírito Santo
+Avenida Eucalipto
+Avenida Expedito Garcia
+Avenida Fernando Antônio
+Avenida Getúlio Vargas
+Avenida Glauber Rocha
+Avenida Governador Gerson Camata
+Avenida Iracy da Silva
+Avenida Itamaraty
+Avenida Jardim dos Palmares
+Avenida Jerusalém
+Avenida Jocarly Gomes Salles
+Avenida José Carlos Favalessa
+Avenida João Albanez
+Avenida Juiz de Fora
+Avenida Leopoldina
+Avenida Lopes Loureiro
+Avenida Luiz Souza Tarden
+Avenida Luiz de Souza Tarden
+Avenida Maria da Glória Torezani
+Avenida Mariano Firme
+Avenida Minas Gerais
+Avenida Ministro Eurico Salles de Aguiar
+Avenida Moxuara
+Avenida Nazaré
+Avenida Nestor Gomes
+Avenida Nossa Senhora Aparecida
+Avenida Nossa Senhora da Penha
+Avenida Nova Canaã
+Avenida Padre Gabriel Maire
+Avenida Pau Brasil
+Avenida Pedro Fontes
+Avenida Perimetral
+Avenida Presidente Dutra
+Avenida Presidente Florentino Avidos
+Avenida Principal
+Avenida Quatro
+Avenida Rio Marinho
+Avenida Rosa da Penha
+Avenida Santa Luzia
+Avenida Santo Rangel
+Avenida Santos Rangel
+Avenida São Domingos
+Avenida São José
+Avenida São João Batista
+Avenida São Paulo
+Avenida Três
+Avenida Tucano
+Avenida Tuiuty
+Avenida Um
+Avenida União
+Avenida Valadares
+Avenida Vale do Rio Doce
+Avenida Vandelino Santos
+Avenida Vascolândia
+Avenida Vila Velha
+Avenida Vinte e Três de Dezembro
+Avenida Virgílio Francisco Schwab
+Avenida Virgínia Mallini Ramos
+Avenida Vitória
+Avenida Zanotti
+Avenida da Rolinha
+Avenida das Acácias
+Avenida dos Camarás
+Avenida dos Lagos
+Avenida dos Trabalhadores
+Beco Adalberto Simão Nader
+Beco Alfredo Couto Teixeira
+Beco Alves Ramalho
+Beco Antônio Coutinho
+Beco Antônio Pereira Silva
+Beco Apolo II
+Beco Boa Vista
+Beco Chacamel
+Beco Cinco
+Beco Claudina Francisca da Cruz
+Beco Dois
+Beco Dom Bosco
+Beco Dom Pedro II
+Beco Domingos Martins
+Beco Dona Enalba Klippel
+Beco Floriano Peixoto
+Beco Francisco Cuoco
+Beco Gelciro
+Beco Hilário Rangel
+Beco Horizombo José Rodrigues
+Beco Hugo Viola
+Beco Inaldis Simões
+Beco Itamarati
+Beco Itapegipe
+Beco Josefino Simões
+Beco José Grijó
+Beco João Oliveira Mattos
+Beco João Rangel
+Beco Manoel Coutinho
+Beco Moisés
+Beco P Um
+Beco Pedro Lopes Faria
+Beco Pedro Pereira Silva
+Beco Presidente Getúlio Vargas
+Beco Presidente Médici
+Beco Quatro
+Beco Ramom Batista
+Beco Sagrada Família
+Beco Santa Fé
+Beco Santa Marta
+Beco Santa Terezinha
+Beco Santo Agostinho
+Beco Santo Antônio
+Beco Sete
+Beco Sete Estrelas
+Beco São Cristovão
+Beco São Domingos
+Beco São Felipe
+Beco São Jorge
+Beco São Jorge I
+Beco São Jorge II
+Beco São José
+Beco São João
+Beco São Luiz
+Beco São Marcos
+Beco São Mateus
+Beco São Paulo
+Beco São Pedro
+Beco São Vicente
+Beco Tabajara
+Beco Tancredo Neves
+Beco Treze de Maio
+Beco Um
+Beco Vitória
+Beco da Assembléia
+Beco da Miséria
+Beco da Paz
+Beco das Flores
+Beco do Andrade
+Beco do Cemintério
+Beco do Sossego
+Conjunto José Maria Ferreira
+Escada Granja
+Escadaria Aldo Alves Prudêncio
+Escadaria Américo Siqueira
+Escadaria Anírio Salles Garcia
+Escadaria Dois Poderes
+Escadaria Luiz Rosalém
+Escadaria Mário Passos Costa
+Escadaria Neves Siqueira
+Escadaria Prefeito Vicente Santório Fantini
+Escadaria São Jorge
+Escadaria da Delegacia
+Escadaria do Céu
+Estrada Cangaiba
+Estrada Fazenda Santana

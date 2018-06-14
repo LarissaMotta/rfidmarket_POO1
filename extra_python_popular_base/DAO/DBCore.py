@@ -42,6 +42,26 @@ class DBCore():
 		id = self.__ponteiro.fetchone()[0]
 		return id
 
+	def insert_all(self, sql, nome_tabela, nome_pk, index_pk):
+		self.execute("select * from %s;" %nome_tabela)
+
+		results  = self.__ponteiro.fetchall()
+		ultimo_id = 0
+
+		if (results): ultimo_id =  results[-1][index_pk]
+
+		self.execute(sql)
+		sql_fetch = "select * from %s where %s > %s;" %(nome_tabela, nome_pk, ultimo_id)
+		self.execute(sql_fetch)
+
+		results = self.__ponteiro.fetchall()
+		ids = []
+
+		for tupla in results:
+			ids.append(tupla[index_pk])
+
+		return ids
+
 	@staticmethod
 	def format_sql_insert(nome_tabela, nome_colunas, valores, nome_col_retorno):
 
@@ -74,6 +94,7 @@ class DBCore():
 				vals_str.append("$txt$%s$txt$" % valor)
 
 			else:
+				print(type(valor))
 				raise ValueError("Tipo inválido, somente float, int e str aceitos")
 
 		sql = "(%s)" %(', '.join(vals_str))

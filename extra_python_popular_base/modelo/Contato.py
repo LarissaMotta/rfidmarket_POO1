@@ -3,6 +3,7 @@ class Contato():
 	valor = str
 	tipo = str
 	id = int
+	fk_pessoa = 0
 
 	__default = ("email", "celular", "telefone")
 
