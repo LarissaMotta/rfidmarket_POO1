@@ -36,6 +36,7 @@ public class ContatoDAOTest {
     public ContatoDAOTest() {
     }
     
+    
     /*
     @BeforeClass
     public static void setUpClass()throws ClassNotFoundException, SQLException, UnsupportedEncodingException, NoSuchAlgorithmException  {
@@ -45,24 +46,22 @@ public class ContatoDAOTest {
         //int id, String descricao, Tipo tipo
         contato = new Contato(2, "telefone", "98765432");
         Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        cliente = new Cliente("216.856.707-76", new Date(), PessoaFisica.Genero.M, "joel@hotmail.com", "testedesenha", "Joel", endereco);
-        
-        int id = ContatoDAO.create(contato,cliente);
-        int result = ContatoDAO.create(contato, cliente);
+        Pessoa pessoa = new Pessoa(1,"Teste", endereco) {};
+        //int id, String nome, Endereco endereco
+        int id = ContatoDAO.create(contato,pessoa);
+        int result = ContatoDAO.create(contato, pessoa);
         
         contato = new Contato(id, contato.getDescricao(), contato.getTipo());
         
         System.out.println("id = "+result);
-    }
     */
+    
     
     @AfterClass
     public static void tearDownClass() {
     }
     
-    @Before
-    public void setUp() {
-    }
+ 
     
      @After
     public void tearDown() throws ClassNotFoundException, SQLException {
