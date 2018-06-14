@@ -5,18 +5,16 @@
  */
 package modelo.usuarios;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import util.Util;
 
 public abstract class PessoaFisica extends Pessoa{
     // nenhum atributo pode ser null
-    private final String cpf;     // deve ter length igual a 14 e ser válido. Ex: 541.578.176-19
+    private final String cpf;       // deve ter length igual a 14 e ser válido. Ex: 541.578.176-19
     private final Date dataNasc;  
     private final Genero genero;    // deve ser M para masculino e F para feminino
-    private final String login;   // deve seguir o padrao: example@servidor.com
-    private String senha;   // deve ter no length >= 6
+    private final String login;     // deve seguir o padrao: example@servidor.com
+    private String senha;           // deve ter no length >= 6
 
     public enum Genero {
         M('M'),F('F');
@@ -39,6 +37,8 @@ public abstract class PessoaFisica extends Pessoa{
         if (!Util.isCpfValido(cpf)) throw new IllegalArgumentException("CPF não é válido");
         if (!Util.isLoginValido(login)) throw new IllegalArgumentException("Login inválido");
         Util.verificaIsObjNull(dataNasc, "Data de nascimento");
+        Util.verificaIsObjNull(genero, "Gênero");
+        
         
         this.cpf = cpf;
         this.dataNasc = dataNasc;
@@ -53,6 +53,7 @@ public abstract class PessoaFisica extends Pessoa{
         if (!Util.isCpfValido(cpf)) throw new IllegalArgumentException("CPF não é válido");
         if (!Util.isLoginValido(login)) throw new IllegalArgumentException("Login inválido");
         Util.verificaIsObjNull(dataNasc, "Data de nascimento");
+        Util.verificaIsObjNull(genero, "Gênero");
         
         this.cpf = cpf;
         this.dataNasc = dataNasc;

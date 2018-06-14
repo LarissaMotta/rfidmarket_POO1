@@ -5,8 +5,6 @@
  */
 package modelo.usuarios;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 public class Cliente extends PessoaFisica {
