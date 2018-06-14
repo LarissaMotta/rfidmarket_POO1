@@ -1,4 +1,4 @@
- INSERT INTO cartao (nome_titular, validade, bandeira, numero, tipo) VALUES
+INSERT INTO cartao (nome_titular, validade, bandeira, numero, tipo) VALUES
 ('Fausto Nonato Peixe Alvarenga', '01/10/2019', 'American Express', '2026053084644685', 'd'),
 ('Rafael Cruz De Carvalho', '01/12/2023', 'American Express', '2388536811766071', 'd'),
 ('Nicolas Gammarano Simões', '01/03/2020', 'CredSystem', '2377676484197442', 'd'),

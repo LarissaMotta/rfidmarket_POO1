@@ -51,7 +51,7 @@ public class SupermercadoDAOTest {
         supermercado = new Supermercado(-52.2471,-2.5297,"serra 03","44.122.623/0001-02", "EPA", endereco);
         int result = PessoaJuridicaDAO.create(supermercado);
         //int id, double latitude, double longitude, String unidade, String cnpj, String nome, Endereco endereco
-        supermercado = new (result,supermercado.getLatitude(),supermercado.getLongitude(),supermercado.getUnidade(),supermercado.getCnpj(), supermercado.getNome(), endereco);
+        supermercado = new Supermercado(result,supermercado.getLatitude(),supermercado.getLongitude(),supermercado.getUnidade(),supermercado.getCnpj(), supermercado.getNome(), endereco);
         
         System.out.println("id = "+result);
     }

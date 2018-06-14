@@ -1,4 +1,4 @@
- INSERT INTO pessoa (nome, numero, rua, cep, bairro, cidade, estado) VALUES
+INSERT INTO pessoa (nome, numero, rua, cep, bairro, cidade, estado) VALUES
 ('Abilio Myashiki Filho', 764, 'Avenida A', '29015-245', 'Ilha do Frade', 'Joao Neiva', 'RJ'),
 ('Adilson Antonio Buss', 1558, 'Avenida Blumenau', '29275-063', 'Serra Dourada II', 'Serra', 'SE'),
 ('Adriana Breckman', 745, 'Avenida Presidente Castelo Branco', '29082-184', 'Ilha das Caieiras', 'Anchieta', 'GO'),

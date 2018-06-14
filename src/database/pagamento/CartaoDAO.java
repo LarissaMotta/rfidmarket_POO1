@@ -1,6 +1,7 @@
 package database.pagamento;
 
 import database.core.CoreDAO;
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -80,7 +81,7 @@ public abstract class CartaoDAO extends CoreDAO {
             String titular = rs.getString("nome_titular");
             char tipo = rs.getString("tipo").charAt(0);
             
-            Tipo type = null;
+            Tipo type;
             if (tipo == 'C') type = Tipo.CREDITO;
             else type = Tipo.DEBITO;
 
