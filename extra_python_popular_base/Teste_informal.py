@@ -27,7 +27,7 @@ def main():
 
 	print(path_corrente)
 	# Arquivo sql de criação do modelo físico;
-	sql_create_path = path.join(path_corrente, "sqls/TestBase_fisico4.0.sql")
+	sql_create_path = path.join(path_corrente, "sqls/modelo_fisico.sql")
 	base_dados = DBCore(database_nome="x", usuario="postgres", senha="antonio")
 
 	# Ative o banco, remova todas tabelas e recrie a base usando o arquivo acima;
@@ -41,17 +41,21 @@ def main():
 		CartaoDAO.insert_n(base_dados, cartoes)
 
 	# Máximo de 610 sem repetição;
-	def add_cliente(quantidade):
+	def add_cliente(quantidade, inic=0, fim=0):
 
 		with open(path_pessoa_nome_sexo_csv, "r") as arq:
 			clientes = []
 
-			for i, linha in enumerate(arq):
-				nome_sexo = linha.strip().split(";")
-				cliente = ClienteRandom(nome_sexo[0], nome_sexo[1])
-				clientes.append(cliente)
+			intervalo = True if (inic >= 0 and fim > 0) else False
 
-				if (i + 1 >= quantidade): break
+			for i, linha in enumerate(arq):
+
+				if (intervalo and i >= inic and i < fim):
+					nome_sexo = linha.strip().split(";")
+					cliente = ClienteRandom(nome_sexo[0], nome_sexo[1])
+					clientes.append(cliente)
+
+				elif (not intervalo and i + 1 >= quantidade): break
 
 			ClienteDAO.insert_n(base_dados, clientes)
 
@@ -69,17 +73,21 @@ def main():
 			FornecedorDAO.insert_n(base_dados, fornecedores)
 
 	# Máximo de 610 sem repetição;
-	def add_funcionario(quantidade):
+	def add_funcionario(quantidade, inic=0, fim=0):
 
 		with open(path_pessoa_nome_sexo_csv, "r") as arq:
 			funcionarios = []
 
-			for i, linha in enumerate(arq):
-				nome_sexo = linha.strip().split(";")
-				funcionario = FuncionarioRandom(nome_sexo[0], nome_sexo[1])
-				funcionarios.append(funcionario)
+			intervalo = True if (inic >= 0 and fim > 0) else False
 
-				if (i + 1 >= quantidade): break
+			for i, linha in enumerate(arq):
+
+				if (intervalo and i >= inic and i < fim):
+					nome_sexo = linha.strip().split(";")
+					funcionario = FuncionarioRandom(nome_sexo[0], nome_sexo[1])
+					funcionarios.append(funcionario)
+
+				elif (not intervalo and i + 1 >= quantidade): break
 
 			FuncionarioDAO.insert_n(base_dados, funcionarios)
 
@@ -122,9 +130,9 @@ def main():
 			SupermercadoDAO.insert_n(base_dados, supermercados)
 
 	# Adicione os objetos a base de dados
-	add_cliente(n_clientes)
+	add_cliente(n_clientes, inic=0, fim=n_clientes)
 	add_cartao(n_cartoes)
-	add_funcionario(n_funcionarios)
+	add_funcionario(n_funcionarios, inic=n_clientes, fim=600)
 	add_supermercado(n_supermercados)
 	add_fornecedor(n_fornecedores)
 	add_produto(n_produtos, n_lotes_min, n_lotes_max, min_prat=0, max_prat=100)
@@ -138,7 +146,7 @@ def main():
 # Número de cada objeto que será gerado na base de dados;
 n_cartoes = 1000
 n_clientes = 500
-n_funcionarios = 200
+n_funcionarios = 100
 n_supermercados = 50
 n_fornecedores = 200
 n_produtos = 725
