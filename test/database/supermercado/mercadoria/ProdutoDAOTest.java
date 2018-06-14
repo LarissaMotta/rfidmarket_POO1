@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.List;
 import modelo.supermercado.Supermercado;
 import modelo.supermercado.mercadoria.Produto;
+import modelo.usuarios.Endereco;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -38,13 +39,20 @@ public class ProdutoDAOTest {
     public void setUp() throws ClassNotFoundException, SQLException {
         ResetTable.cleanAllTables();
         System.out.println("create");
-        produto = new Produto('0000', 20.00,'Premium care', 'Pampers','Fralda XG', 35.00, 30, 40, String tipo);
-        int result = ProdutoDAO.Create(produto);
+        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
+        Supermercado supermercado = new Supermercado(-52.2471,-2.5297,"serra 03","44.122.623/0001-02", "EPA", endereco);
+        produto = new Produto("0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
+        int result = ProdutoDAO.create(produto,supermercado);
+        produto = new Produto(result, produto.getCodigo(),produto.getCusto(), produto.getDescricao(),produto.getMarca(), produto.getNome(),produto.getPrecoVenda(),produto.getQtdPrateleira(), produto.getQtdEstoque(), produto.getTipo());
+        
         System.out.println("id = "+result);
+        //int id, String codigo, double custo, String descricao, String marca, String nome, double precoVenda, int qtdPrateleira, int qtdEstoque, String tipo
+        
     }
     
     @After
-    public void tearDown() {
+    public void tearDown() throws ClassNotFoundException, SQLException {
+        ResetTable.cleanAllTables();
     }
 
 
