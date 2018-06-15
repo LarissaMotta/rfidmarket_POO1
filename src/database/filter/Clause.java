@@ -43,7 +43,8 @@ public class Clause {
         String clause = campo + getOpLogStr();
         
         if (valor instanceof String){
-            if (((String)valor).contains("null")) return null;
+            String valorStr = (String) valor;
+            if (valorStr.contains("null") || valorStr.isEmpty()) return null;
             else clause += "'" + valor + "'";
         }else if (valor instanceof Character){
             clause += "'" + valor + "'";
