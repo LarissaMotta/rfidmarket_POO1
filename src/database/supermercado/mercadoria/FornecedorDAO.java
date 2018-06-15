@@ -80,8 +80,7 @@ public abstract class FornecedorDAO extends CoreDAO{
         // Forme a string sql;
         String sql = "SELECT pessoa.id, cnpj, nome, numero, rua, cep, bairro, estado, cidade FROM fornecimento "
                 + "INNER JOIN juridica ON fornecimento.fk_fornecedor = juridica.fk_pessoa "
-                + "INNER JOIN pessoa ON juridica.fk_pessoa = pessoa.id "
-                + "WHERE fornecimento.fk_supermercado = ?";
+                + "INNER JOIN pessoa ON juridica.fk_pessoa = pessoa.id";
 
         PreparedStatement st = conexao.prepareStatement (sql);
         
