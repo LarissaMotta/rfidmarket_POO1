@@ -40,7 +40,7 @@ public class ProdutoDAOTest {
         ResetTable.cleanAllTables();
         System.out.println("create");
         Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        Supermercado supermercado = new Supermercado(-52.2471,-2.5297,"serra 03","44.122.623/0001-02", "EPA", endereco);
+        Supermercado supermercado = new Supermercado(1,-52.2471,-2.5297,"serra 03","44.122.623/0001-02", "EPA", endereco);
         produto = new Produto("0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
         int result = ProdutoDAO.create(produto,supermercado);
         produto = new Produto(result, produto.getCodigo(),produto.getCusto(), produto.getDescricao(),produto.getMarca(), produto.getNome(),produto.getPrecoVenda(),produto.getQtdPrateleira(), produto.getQtdEstoque(), produto.getTipo());
