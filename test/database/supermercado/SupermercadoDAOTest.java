@@ -7,6 +7,7 @@ package database.supermercado;
 
 import controlTest.ResetTable;
 import database.pagamento.CartaoDAO;
+import database.supermercado.mercadoria.LoteDAO;
 import database.supermercado.mercadoria.ProdutoDAO;
 import database.usuarios.ClienteDAO;
 import database.usuarios.FuncionarioDAO;
@@ -37,7 +38,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author 20162bsi0040
+ * @author Larissa
  */
 public class SupermercadoDAOTest {
     private Supermercado supermercado;
@@ -89,10 +90,10 @@ public class SupermercadoDAOTest {
         System.out.println("readSupermercadoByFuncionario");
         
         Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        Supermercado superm = new Supermercado(18.5774, 15.1741, "Serra", "35.415.363/0001-72", "Carone", endereco);
-        int idSuperm = SupermercadoDAO.create(superm);
-        superm = new Supermercado(idSuperm, superm.getLatitude(), superm.getLongitude(), superm.getUnidade(), superm.getCnpj(), superm.getNome(), endereco);
-        
+        supermercado = new Supermercado(18.5774, 15.1741, "Serra", "35.415.363/0001-72", "Carone", endereco);
+        int idSuperm = SupermercadoDAO.create(supermercado);
+        supermercado = new Supermercado(idSuperm, supermercado.getLatitude(), supermercado.getLongitude(), supermercado.getUnidade(), supermercado.getCnpj(), supermercado.getNome(), endereco);
+
         Funcionario funcionario = FuncionarioTDAO.readFuncionario();
         FuncionarioDAO.create(funcionario, supermercado);
         //Funcionario funcionario
@@ -109,11 +110,12 @@ public class SupermercadoDAOTest {
     @Test
     public void testReadSupermercadoByCompra() throws Exception {
         System.out.println("readSupermercadoByCompra");
-        
+
         Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        Supermercado superm = new Supermercado(18.5774, 15.1741, "Serra", "35.415.363/0001-72", "Carone", endereco);
-        int idSuperm = SupermercadoDAO.create(superm);
-        superm = new Supermercado(idSuperm, superm.getLatitude(), superm.getLongitude(), superm.getUnidade(), superm.getCnpj(), superm.getNome(), endereco);
+        supermercado = new Supermercado(18.5774, 15.1741, "Serra", "35.415.363/0001-72", "Carone", endereco);
+        int idSuperm = SupermercadoDAO.create(supermercado);
+        supermercado = new Supermercado(idSuperm, supermercado.getLatitude(), supermercado.getLongitude(), supermercado.getUnidade(), supermercado.getCnpj(), supermercado.getNome(), endereco);
+
         List<ItemProduto> itens = new ArrayList<>();
         Cliente cliente = ClienteTDAO.readCliente();
         Cartao cartao = CartaoTDAO.readCartao();
@@ -133,13 +135,26 @@ public class SupermercadoDAOTest {
      */
     @Test
     public void testReadSupermercadoByFornecedor() throws Exception {
+
         System.out.println("readSupermercadoByFornecedor");
-        Fornecedor fornecedor = null;
-        List<Supermercado> expResult = null;
+
+        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
+        supermercado = new Supermercado(18.5774, 15.1741, "Serra", "35.415.363/0001-72", "Carone", endereco);
+        int idSuperm = SupermercadoDAO.create(supermercado);
+        supermercado = new Supermercado(idSuperm, supermercado.getLatitude(), supermercado.getLongitude(), supermercado.getUnidade(), supermercado.getCnpj(), supermercado.getNome(), endereco);
+
+        Endereco ende = new Endereco("Jacaraípe", "29177-487", "SERRA", Endereco.Estado.ES, 80, "Rua Xablau");
+        Fornecedor fornecedor = new Fornecedor( "35.415.363/0001-72",2, "Carone", ende);
+
+        Produto produto = new Produto(3,"0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
+        Lote lote = new Lote("0000", new Date(2018,06,20), new Date(2018,02,11),new Date(2019,02,11), 100,"Fralda XG",produto);
+        LoteDAO.create(lote,fornecedor,produto,supermercado);
+
+
+
         List<Supermercado> result = SupermercadoDAO.readSupermercadoByFornecedor(fornecedor);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(result);
+
     }
 
     /**
@@ -148,12 +163,24 @@ public class SupermercadoDAOTest {
     @Test
     public void testReadSupermercadoByLote() throws Exception {
         System.out.println("readSupermercadoByLote");
-        Lote lote = null;
-        Supermercado expResult = null;
+
+        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
+        supermercado = new Supermercado(18.5774, 15.1741, "Serra", "35.415.363/0001-72", "Carone", endereco);
+        int idSuperm = SupermercadoDAO.create(supermercado);
+        supermercado = new Supermercado(idSuperm, supermercado.getLatitude(), supermercado.getLongitude(), supermercado.getUnidade(), supermercado.getCnpj(), supermercado.getNome(), endereco);
+        //(String cnpj, int id, String nome, Endereco endereco)
+        Endereco ende = new Endereco("Jacaraípe", "29177-487", "SERRA", Endereco.Estado.ES, 80, "Rua Xablau");
+        Fornecedor fornecedor = new Fornecedor( "35.415.363/0001-72",2, "Carone", ende);
+
+        Produto produto = new Produto(3,"0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
+        Lote lote = new Lote("0000", new Date(2018,06,20), new Date(2018,02,11),new Date(2019,02,11), 100,"Fralda XG",produto);
+        int idLote = LoteDAO.create(lote,fornecedor,produto,supermercado);
+        lote = new Lote(idLote,lote.getCodigoProd(),lote.getDataCompra(),lote.getDataFabricacao(),lote.getDataValidade(),lote.getNumUnidades(),lote.getIdentificador(), lote.getProduto());
+
+
         Supermercado result = SupermercadoDAO.readSupermercadoByLote(lote);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(result);
+
     }
 
     /**
@@ -162,12 +189,20 @@ public class SupermercadoDAOTest {
     @Test
     public void testReadSupermercadoByProduto() throws Exception {
         System.out.println("readSupermercadoByProduto");
-        Produto produto = null;
-        Supermercado expResult = null;
+
+
+        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
+        supermercado = new Supermercado(18.5774, 15.1741, "Serra", "35.415.363/0001-72", "Carone", endereco);
+        int idSuperm = SupermercadoDAO.create(supermercado);
+        supermercado = new Supermercado(idSuperm, supermercado.getLatitude(), supermercado.getLongitude(), supermercado.getUnidade(), supermercado.getCnpj(), supermercado.getNome(), endereco);
+
+        Produto produto = new Produto("0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
+        int idProd = ProdutoDAO.create(produto,supermercado);
+        produto = new Produto(idProd,produto.getCodigo(),produto.getCusto(),produto.getDescricao(),produto.getMarca(),produto.getNome(),produto.getPrecoVenda(),produto.getQtdPrateleira(),produto.getQtdEstoque(),produto.getTipo());
+
         Supermercado result = SupermercadoDAO.readSupermercadoByProduto(produto);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        System.out.println(result);
     }
     
 }
