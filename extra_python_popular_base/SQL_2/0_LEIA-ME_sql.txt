@@ -1,0 +1,25 @@
+Como os arquivos estão divididos:
+
+INSERT pessoa
+ID_pessoa	ENTIDADE
+1 - 500		fisica(cliente)
+501 - 600	fisica(funcionario)
+601 - 640	juridica(supermercado)
+641 - 840	juridica(fornecedor)
+
+INSERT contato
+ID_pessoa	ENTIDADE
+1 - 500		fisica(cliente)
+501 - 600	fisica(funcionario)
+601 - 640	juridica(supermercado)
+641 - 840	juridica(fornecedor)
+
+INSERT fisica
+ID_pessoa	ENTIDADE
+1 - 500		fisica(cliente)
+501 - 600	fisica(funcionario)
+
+INSERT juridica
+ID_pessoa	ENTIDADE
+601 - 640	juridica(supermercado)
+641 - 840	juridica(fornecedor)
