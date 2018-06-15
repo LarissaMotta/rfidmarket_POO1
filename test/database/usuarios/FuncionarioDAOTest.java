@@ -42,7 +42,7 @@ public class FuncionarioDAOTest {
         System.out.println("create");
         
         Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        funcionario = new Funcionario("estagiario", "atendente","216.856.707-76", new Date(), Funcionario.Genero.M, "joel@hotmail.com", "testedesenha", "Joel", endereco);
+        funcionario = new Funcionario("estagiario", "atendente","216.856.707-76", new Date(11,06,2018), Funcionario.Genero.M, "joel@hotmail.com", "testedesenha", "Joel", endereco);
         Supermercado supermercado = new Supermercado(1,12,13,"Vila Velha","85685","Carone",endereco);
         //int id, double latitude, double longitude, String unidade, String cnpj, String nome, Endereco endereco
         
