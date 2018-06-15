@@ -86,16 +86,11 @@ public abstract class FornecedorDAO extends CoreDAO{
         filter.addClause(clause);
         
         // Forme a string sql;
-        String sql = "SELECT pessoa.id, cnpj, nome, numero, rua, cep, bairro, estado, cidade FROM fornecimento "
-                + "INNER JOIN juridica ON fornecimento.fk_fornecedor = juridica.fk_pessoa "
-                + "INNER JOIN pessoa ON juridica.fk_pessoa = pessoa.id";
+        String sql = "SELECT pessoa.id, cnpj, nome, numero, rua, cep, bairro, estado, cidade FROM juridica "
+                + "INNER JOIN pessoa ON juridica.fk_pessoa = pessoa.id "
+                + "LEFT OUTER JOIN supermercado ON juridica.fk_pessoa = supermercado.fk_pessoa_juridica "
+                + "WHERE supermercado.fk_pessoa_juridica is null " + filter.getFilter();
 
-        String filtro = filter.getFilter();
-        
-        if (!filtro.isEmpty()){
-            sql += " WHERE " + filtro.substring(4);
-        }
-        
         PreparedStatement st = conexao.prepareStatement (sql);
         
         ResultSet rs = st.executeQuery();
@@ -144,6 +139,5 @@ public abstract class FornecedorDAO extends CoreDAO{
         Endereco endereco = PessoaDAO.getEndereco(rs);
        
         return new Fornecedor(cnpj,id,nome,endereco);
-        
     }
 }
