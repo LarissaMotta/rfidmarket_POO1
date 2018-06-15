@@ -3,20 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package database;
+package database.usuarios;
 
 import controlTest.ResetTable;
-
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import java.util.Date;
 
-import database.usuarios.ClienteDAO;
-import database.usuarios.PessoaFisicaDAO;
-import modelo.usuarios.Cliente;
 import modelo.usuarios.Endereco;
-import modelo.usuarios.PessoaFisica;
+import modelo.usuarios.PessoaJuridica;
+import modelo.supermercado.mercadoria.Fornecedor;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -28,10 +22,10 @@ import static org.junit.Assert.*;
  *
  * @author joel-
  */
-public class PessoaFisicaDAOTest {
-    private Cliente cliente;
+public class PessoaJuridicaDAOTest {
+    private PessoaJuridica pessoaJuridica;
     
-    public PessoaFisicaDAOTest() {
+    public PessoaJuridicaDAOTest() {
     }
     
     @BeforeClass
@@ -43,16 +37,16 @@ public class PessoaFisicaDAOTest {
     }
     
     @Before
-    public void setUp() throws ClassNotFoundException, SQLException, UnsupportedEncodingException, NoSuchAlgorithmException {
+    public void setUp() throws ClassNotFoundException, SQLException {
         ResetTable.cleanAllTables();
         System.out.println("create");
         
         Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        cliente = new Cliente("216.856.707-76", new Date(), PessoaFisica.Genero.M, "joel@hotmail.com", "testedesenha", "Joel", endereco);
+        pessoaJuridica = new Fornecedor("44.122.623/0001-02", "Coca-Cola", endereco);
+        int result = PessoaJuridicaDAO.create(pessoaJuridica);
         
-        int result = ClienteDAO.create(cliente);
+        pessoaJuridica = new Fornecedor(pessoaJuridica.getCnpj(),result, pessoaJuridica.getNome(), endereco);
         
-        cliente = new Cliente(cliente.getCpf(), cliente.getDataNasc(), cliente.getGenero(), cliente.getLogin(), cliente.getSenha(),result, cliente.getNome(), endereco);
         System.out.println("id = "+result);
     }
     
@@ -60,15 +54,14 @@ public class PessoaFisicaDAOTest {
     public void tearDown() throws ClassNotFoundException, SQLException {
         ResetTable.cleanAllTables();
     }
-
     /**
-     * Test of delete method, of class PessoaFisicaDAO.
+     * Test of delete method, of class PessoaJuridicaDAO.
      */
     @Test
     public void testDelete() throws Exception {
         System.out.println("delete");
-        int id = cliente.getId();
-        PessoaFisicaDAO.delete(id);
+        int id = pessoaJuridica.getId();
+        PessoaJuridicaDAO.delete(id);
     }
     
 }

@@ -6,10 +6,8 @@
 package database.supermercado;
 
 import controlTest.ResetTable;
-import database.pagamento.CartaoDAO;
 import database.supermercado.mercadoria.LoteDAO;
 import database.supermercado.mercadoria.ProdutoDAO;
-import database.usuarios.ClienteDAO;
 import database.usuarios.FuncionarioDAO;
 import database.usuarios.PessoaJuridicaDAO;
 import java.sql.SQLException;
@@ -147,7 +145,7 @@ public class SupermercadoDAOTest {
         Fornecedor fornecedor = new Fornecedor( "35.415.363/0001-72",2, "Carone", ende);
 
         Produto produto = new Produto(3,"0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
-        Lote lote = new Lote("0000", new Date(2018,06,20), new Date(2018,02,11),new Date(2019,02,11), 100,"Fralda XG",produto);
+        Lote lote = new Lote(new Date(2018,06,20), new Date(2018,02,11),new Date(2019,02,11), 100,"Fralda XG",produto);
         LoteDAO.create(lote,fornecedor,produto,supermercado);
 
 
@@ -173,9 +171,9 @@ public class SupermercadoDAOTest {
         Fornecedor fornecedor = new Fornecedor( "35.415.363/0001-72",2, "Carone", ende);
 
         Produto produto = new Produto(3,"0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
-        Lote lote = new Lote("0000", new Date(2018,06,20), new Date(2018,02,11),new Date(2019,02,11), 100,"Fralda XG",produto);
+        Lote lote = new Lote(new Date(2018,06,20), new Date(2018,02,11),new Date(2019,02,11), 100,"Fralda XG",produto);
         int idLote = LoteDAO.create(lote,fornecedor,produto,supermercado);
-        lote = new Lote(idLote,lote.getCodigoProd(),lote.getDataCompra(),lote.getDataFabricacao(),lote.getDataValidade(),lote.getNumUnidades(),lote.getIdentificador(), lote.getProduto());
+        lote = new Lote(idLote,lote.getDataCompra(),lote.getDataFabricacao(),lote.getDataValidade(),lote.getNumUnidades(),lote.getIdentificador(), lote.getProduto());
 
 
         Supermercado result = SupermercadoDAO.readSupermercadoByLote(lote);

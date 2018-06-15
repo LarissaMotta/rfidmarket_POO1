@@ -11,6 +11,9 @@ import java.util.Date;
 /**
  *
  * @author joel-
+ * Esta classe auxilia a criar a string de query do sql
+ * Seu principal metodo é o getClause q retorna uma string se o valor for != null
+ * Ela trabala em conjunto com a Classe database.Filter para ligar as clausulas
  */
 public class Clause {
     private final String campo;
@@ -42,6 +45,8 @@ public class Clause {
         if (valor instanceof String){
             if (((String)valor).contains("null")) return null;
             else clause += "'" + valor + "'";
+        }else if (valor instanceof Character){
+            clause += "'" + valor + "'";
         }else if (valor instanceof Date){
             clause += "'" + getDateValorStr() + "'";
         }else {

@@ -6,15 +6,12 @@
 package database.pagamento;
 
 import controlTest.ResetTable;
-import database.usuarios.ClienteDAO;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 import modelo.pagamento.Cartao;
 import modelo.usuarios.Cliente;
-import modelo.usuarios.PessoaFisica;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

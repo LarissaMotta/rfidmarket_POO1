@@ -1,6 +1,8 @@
 package database.supermercado.mercadoria;
 
 import database.core.CoreDAO;
+import database.filter.Clause;
+import database.filter.Filter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -51,18 +53,29 @@ public abstract class ProdutoDAO extends CoreDAO{
     }
 
     //Jennifer
-    //TODO: Fazer melhoria na Query usando filtros uteis
-    //Filtros devem ser baseados nas telas do prototipo e o que se pede no git
-    //Seguir o modelo de filtro da função ClienteDAO.readClientesBySupermercado(...);
-    public static List<Produto> readProdutosBySupermercado(Supermercado supermercado)throws SQLException, ClassNotFoundException{
+    public static List<Produto> readProdutosBySupermercado(Supermercado supermercado, String nome, String marca, String tipo, String cod)throws SQLException, ClassNotFoundException{
         List<Produto> produtos = new ArrayList<>();
 
         // Obtenha a conexão com o BD;
         Connection conexao = getConnection();
  
+        Filter filter = new Filter();
+        
+        Clause clause = new Clause("nome", nome+"%", Clause.ILIKE);
+        filter.addClause(clause);
+        
+        clause = new Clause("marca", marca+"%", Clause.ILIKE);
+        filter.addClause(clause);
+        
+        clause = new Clause("tipo", tipo+"%", Clause.ILIKE);
+        filter.addClause(clause);
+        
+        clause = new Clause("codigo", cod+"%", Clause.ILIKE);
+        filter.addClause(clause);
+        
         // Forme a string sql;
         String sql = "SELECT * from produto "
-                + "WHERE fk_supermercado = ?"; //REVER SE ESTA CERTO !
+                + "WHERE fk_supermercado = ? " + filter.getFilter(); //REVER SE ESTA CERTO !
 
         PreparedStatement st = conexao.prepareStatement (sql);
         st.setInt(1, supermercado.getId());

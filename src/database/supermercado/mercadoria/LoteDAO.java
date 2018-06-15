@@ -1,6 +1,8 @@
 package database.supermercado.mercadoria;
 
 import database.core.CoreDAO;
+import database.filter.Clause;
+import database.filter.Filter;
 import modelo.supermercado.Supermercado;
 import modelo.supermercado.mercadoria.Fornecedor;
 import modelo.supermercado.mercadoria.Lote;
@@ -78,38 +80,65 @@ public abstract class LoteDAO extends CoreDAO {
         if (prod == null) prod = ProdutoDAO.readProdutosById(rs.getInt("fk_produto"));
         
         int id = rs.getInt("id");
-        String codProd = prod.getCodigo();
         java.util.Date dtComp = new java.util.Date(rs.getDate("data_compra").getTime());
         java.util.Date dtFab = new java.util.Date(rs.getDate("fabricacao").getTime());
         java.util.Date dtVal = new java.util.Date(rs.getDate("validade").getTime());
         int numUnid = rs.getInt("quantidade");
         String ident = rs.getString("identificador");
 
-        return new Lote(id, codProd, dtComp, dtFab, dtVal, numUnid, ident, prod);
+        return new Lote(id,dtComp, dtFab, dtVal, numUnid, ident, prod);
     }
 
     //Jubileu
     /**
      * Dado um supermercado, retorna um conjunto de lotes associados ao supermercado;
      * @param superm supermercado detentor dos lotes de produtos;
+     * @param ident
+     * @param dataFabMin
+     * @param dataFabMax
+     * @param dataValMin
+     * @param dataValMax
+     * @param dataCompraMin
+     * @param dataCompraMax
      * @return Lista com todos lotes associados ao supermercado;
      * @throws SQLException
      * @throws ClassNotFoundException
      */
-    //TODO: Fazer melhoria Query usando filtros uteis
-    //Filtros devem ser baseados nas telas do prototipo e o que se pede no git
-    //Seguir o modelo de filtro da função ClienteDAO.readClientesBySupermercado(...);
-    public static List<Lote> readLotesBySupermercado(Supermercado superm)
+    public static List<Lote> readLotesBySupermercado(Supermercado superm, String ident, Date dataFabMin, 
+            Date dataFabMax, Date dataValMin, Date dataValMax, Date dataCompraMin, Date dataCompraMax)
             throws SQLException, ClassNotFoundException {
 
         // Crie e inicialize a lista, e abra uma conexão com o BD;
         List<Lote> lotes = new ArrayList<>();
 
         Connection conexao = getConnection();
+        
+        Filter filter = new Filter();
+        
+        Clause clause = new Clause("identificador", ident, Clause.IGUAL);
+        filter.addClause(clause);
+        
+        clause = new Clause("fabricacao", dataFabMin, Clause.MAIOR_IGUAL);
+        filter.addClause(clause);
+        
+        clause = new Clause("fabricacao", dataFabMax, Clause.MENOR_IGUAL);
+        filter.addClause(clause);
+        
+        clause = new Clause("validade", dataValMin, Clause.MAIOR_IGUAL);
+        filter.addClause(clause);
+        
+        clause = new Clause("validade", dataValMax, Clause.MENOR_IGUAL);
+        filter.addClause(clause);
+        
+        clause = new Clause("data_compra", dataCompraMin, Clause.MAIOR_IGUAL);
+        filter.addClause(clause);
+        
+        clause = new Clause("data_compra", dataCompraMax, Clause.MENOR_IGUAL);
+        filter.addClause(clause);
 
         // Forme a string sql;
         String sql = "SELECT id, fk_produto, data_compra, fabricacao, validade, " +
-                "quantidade, identificador FROM lote WHERE fk_supermercado = ?";
+                "quantidade, identificador FROM lote WHERE fk_supermercado = ? " + filter.getFilter();
 
         // Substitua a '?' pelo valor da coluna;
         PreparedStatement ps = conexao.prepareStatement(sql);
@@ -134,8 +163,6 @@ public abstract class LoteDAO extends CoreDAO {
      * @throws SQLException
      * @throws ClassNotFoundException
      */
-    //Filtros devem ser baseados nas telas do prototipo e o que se pede no git
-    //Seguir o modelo de filtro da função ClienteDAO.readClientesBySupermercado(...);
     public static List<Lote> readLotesByProduto(Produto produto)
             throws SQLException, ClassNotFoundException {
 

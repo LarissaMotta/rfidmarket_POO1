@@ -65,7 +65,7 @@ public class FornecedorDAOTest {
         System.out.println("readFornecedoresBySupermercado");
         Supermercado supermercado = null;
         List<Fornecedor> expResult = null;
-        List<Fornecedor> result = FornecedorDAO.readFornecedoresBySupermercado(supermercado);
+        List<Fornecedor> result = FornecedorDAO.readFornecedoresBySupermercado(supermercado,null,null);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

@@ -11,6 +11,9 @@ import java.util.List;
 /**
  *
  * @author joel-
+ * Esta classe ajuda a criar query dinamicas, controlando os filtros que devem ou não ser adicionados a query
+ * Principal metodo é o getFilter que retorna uma string com a clausula
+ * A clausulas são concatenas com AND, sendo que somente as que retornarem != null no getClause serão adicionadas a string
  */
 public class Filter {
     private final List<Clause> clauses;

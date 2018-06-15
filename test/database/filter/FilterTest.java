@@ -6,6 +6,7 @@
 package database.filter;
 
 import java.util.Date;
+import modelo.usuarios.PessoaFisica;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -60,8 +61,11 @@ public class FilterTest {
         
         clause = new Clause("numero", null, Clause.MENOR);
         filter.addClause(clause);
+        
+        clause = new Clause("genero", PessoaFisica.Genero.F.toChar(), Clause.IGUAL);
+        filter.addClause(clause);
 
-        String expected = "AND nome ILIKE '%Joel%' AND validade >= '2018-05-28' AND salario != 5000.0 AND idade = 18 ";
+        String expected = "AND nome ILIKE '%Joel%' AND validade >= '2018-05-28' AND salario != 5000.0 AND idade = 18 AND genero = 'F' ";
 
         String result = filter.getFilter();
         

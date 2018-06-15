@@ -6,8 +6,6 @@
 package database.supermercado;
 
 import controlTest.ResetTable;
-import database.supermercado.mercadoria.ItemProdutoDAO;
-import database.usuarios.PessoaJuridicaDAO;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;

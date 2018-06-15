@@ -11,7 +11,6 @@ import util.Util;
 public class Lote {
     // nenhum dos atributos pode ser null
     private int id;               //não pode ser alterado depois de instanciado e nem <= 0
-    private final String codigoProd;
     private final Date dataCompra;
     private final Date dataFabricacao;
     private final Date dataValidade;
@@ -20,9 +19,8 @@ public class Lote {
     private final Produto produto;      // deve ser carregado e não passado para construtor
 
     // Pode ser usada quando para instanciar a partir de dados do BD
-    public Lote(int id, String codigoProd, Date dataCompra, Date dataFabricacao, Date dataValidade, int numUnidades, String identificador, Produto produto) throws IllegalArgumentException{
+    public Lote(int id, Date dataCompra, Date dataFabricacao, Date dataValidade, int numUnidades, String identificador, Produto produto) throws IllegalArgumentException{
         Util.verificaID(id);
-        Util.verificaStringNullVazia(codigoProd, "Código do produto");
         Util.verificaIsObjNull(dataCompra, "Data de compra");
         Util.verificaIsObjNull(dataFabricacao, "Data de fabricação");
         Util.verificaIsObjNull(dataValidade, "Data de validade");
@@ -32,7 +30,6 @@ public class Lote {
         if (numUnidades <= 0) throw new IllegalArgumentException("Número de unidade menor ou igual a 0!");
         
         this.id = id;
-        this.codigoProd = codigoProd;
         this.dataCompra = dataCompra;
         this.dataFabricacao = dataFabricacao;
         this.dataValidade = dataValidade;
@@ -42,8 +39,7 @@ public class Lote {
     }
     
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
-    public Lote(String codigoProd, Date dataCompra, Date dataFabricacao, Date dataValidade, int numUnidades, String identificador, Produto produto) throws IllegalArgumentException{
-        Util.verificaStringNullVazia(codigoProd, "Código do produto");
+    public Lote(Date dataCompra, Date dataFabricacao, Date dataValidade, int numUnidades, String identificador, Produto produto) throws IllegalArgumentException{
         Util.verificaIsObjNull(dataCompra, "Data de compra");
         Util.verificaIsObjNull(dataFabricacao, "Data de fabricação");
         Util.verificaIsObjNull(dataValidade, "Data de validade");
@@ -52,7 +48,6 @@ public class Lote {
          
         if (numUnidades <= 0) throw new IllegalArgumentException("Número de unidade menor ou igual a 0!");
         
-        this.codigoProd = codigoProd;
         this.dataCompra = dataCompra;
         this.dataFabricacao = dataFabricacao;
         this.dataValidade = dataValidade;
@@ -63,10 +58,6 @@ public class Lote {
     
     public int getId() {
         return id;
-    }
-
-    public String getCodigoProd() {
-        return codigoProd;
     }
 
     public Date getDataCompra() {

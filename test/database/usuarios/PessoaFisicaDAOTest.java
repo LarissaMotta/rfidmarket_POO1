@@ -3,22 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package database;
+package database.usuarios;
 
 import controlTest.ResetTable;
-import static database.core.CoreDAO.getConnection;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 
-import database.usuarios.ClienteDAO;
-import database.usuarios.PessoaDAO;
-import database.usuarios.PessoaFisicaDAO;
 import modelo.usuarios.Cliente;
 import modelo.usuarios.Endereco;
 import modelo.usuarios.PessoaFisica;
@@ -27,15 +20,16 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  *
  * @author joel-
  */
-public class PessoaDAOTest {
+public class PessoaFisicaDAOTest {
     private Cliente cliente;
     
-    public PessoaDAOTest() {
+    public PessoaFisicaDAOTest() {
     }
     
     @BeforeClass
@@ -66,35 +60,13 @@ public class PessoaDAOTest {
     }
 
     /**
-     * Test of delete method, of class PessoaDAO.
+     * Test of delete method, of class PessoaFisicaDAO.
      */
     @Test
     public void testDelete() throws Exception {
         System.out.println("delete");
         int id = cliente.getId();
         PessoaFisicaDAO.delete(id);
-        PessoaDAO.delete(id);
-    }
-
-    /**
-     * Test of getEndereco method, of class PessoaDAO.
-     */
-    @Test
-    public void testGetEndereco() throws Exception {
-        System.out.println("getEndereco");
-        Connection conexao = getConnection();
-
-        // Forme a string sql;
-        String sql = "SELECT numero, rua, cep, bairro, estado, cidade FROM usuarios";
-        
-        // Substitua a '?' pelo valor da coluna;
-        PreparedStatement ps = conexao.prepareStatement(sql);
-        ps.executeQuery();
-        ResultSet rs = ps.getResultSet();
-        rs.next();
-        
-        Endereco expResult = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        Endereco result = PessoaDAO.getEndereco(rs);
     }
     
 }

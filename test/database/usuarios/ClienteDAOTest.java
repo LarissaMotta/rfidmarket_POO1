@@ -1,4 +1,4 @@
-package database;
+package database.usuarios;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -20,7 +20,6 @@ import java.util.List;
 import database.supermercado.CompraDAO;
 import database.supermercado.mercadoria.ProdutoDAO;
 import database.supermercado.SupermercadoDAO;
-import database.usuarios.ClienteDAO;
 import modelo.supermercado.mercadoria.ItemProduto;
 import modelo.pagamento.Cartao;
 import modelo.usuarios.Cliente;
@@ -120,7 +119,7 @@ public class ClienteDAOTest {
         
         CompraDAO.create(compra, cliente, cartao, superm);
         
-        List<Cliente> result = ClienteDAO.readClientesBySupermercado(superm,"J","216.856.707-76");
+        List<Cliente> result = ClienteDAO.readClientesBySupermercado(superm,null,null,null);
         System.out.println(result);//pus pra tirar o erro do "result"
     }
 }

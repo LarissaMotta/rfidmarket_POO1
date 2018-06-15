@@ -15,7 +15,6 @@ import modelo.supermercado.Supermercado;
 import modelo.usuarios.Endereco;
 import modelo.usuarios.Funcionario;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -76,7 +75,7 @@ public class FuncionarioDAOTest {
         System.out.println("readFuncionariosBySupermercado");
         Supermercado supermercado = null;
         List<Funcionario> expResult = null;
-        List<Funcionario> result = FuncionarioDAO.readFuncionariosBySupermercado(supermercado);
+        List<Funcionario> result = FuncionarioDAO.readFuncionariosBySupermercado(supermercado,null,null,null,null,null);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

@@ -104,12 +104,13 @@ public abstract class ClienteDAO extends CoreDAO{
      * @param superm supermercado que contém os clientes buscados;
      * @param nome usado para filtro de clientes que comecam com esse nome
      * @param cpf usado para filtro do cliente que tenha este cpf 
+     * @param genero 
      * @return lista de clientes compradores no supermercado recebido;
      * @throws SQLException
      * @throws ClassNotFoundException
      * @throws IllegalArgumentException
      */
-    public static List<Cliente> readClientesBySupermercado(Supermercado superm, String nome, String cpf)
+    public static List<Cliente> readClientesBySupermercado(Supermercado superm, String nome, String cpf, Genero genero)
             throws SQLException, ClassNotFoundException, IllegalArgumentException{
 
         // Crie e inicialize a lista, e abra uma conexão com o BD;
@@ -121,10 +122,13 @@ public abstract class ClienteDAO extends CoreDAO{
         
         Filter filter = new Filter();
         
-        Clause clause = new Clause("p.nome",nome+"%", Clause.ILIKE);
+        Clause clause = new Clause("pessoa.nome", nome+"%", Clause.ILIKE);
         filter.addClause(clause);
         
-        clause = new Clause("pf.cpf",cpf, Clause.IGUAL);
+        clause = new Clause("fisica.cpf", cpf, Clause.IGUAL);
+        filter.addClause(clause);
+        
+        clause = new Clause("fisica.genero", genero.toChar(), Clause.IGUAL);
         filter.addClause(clause);
         
         // Forme a string sql;
