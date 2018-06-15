@@ -121,5 +121,6 @@ public class ClienteDAOTest {
         CompraDAO.create(compra, cliente, cartao, superm);
         
         List<Cliente> result = ClienteDAO.readClientesBySupermercado(superm,"J","216.856.707-76");
+        System.out.println(result);//pus pra tirar o erro do "result"
     }
 }
