@@ -71,17 +71,31 @@ public abstract class FornecedorDAO extends CoreDAO{
         return fornecedores;
     }
     
-    public static List<Fornecedor> readAllFornecedores() throws SQLException, ClassNotFoundException{
+    public static List<Fornecedor> readAllFornecedores(String nome, String cnpj) throws SQLException, ClassNotFoundException{
         List<Fornecedor> fornecedores = new ArrayList<>();
       
         // Obtenha a conexão com o BD;
         Connection conexao = getConnection();
 
+        Filter filter = new Filter();
+        
+        Clause clause = new Clause("pessoa.nome", nome+"%", Clause.ILIKE);
+        filter.addClause(clause);
+        
+        clause = new Clause("juridica.cnpj", cnpj, Clause.IGUAL);
+        filter.addClause(clause);
+        
         // Forme a string sql;
         String sql = "SELECT pessoa.id, cnpj, nome, numero, rua, cep, bairro, estado, cidade FROM fornecimento "
                 + "INNER JOIN juridica ON fornecimento.fk_fornecedor = juridica.fk_pessoa "
                 + "INNER JOIN pessoa ON juridica.fk_pessoa = pessoa.id";
 
+        String filtro = filter.getFilter();
+        
+        if (!filtro.isEmpty()){
+            sql += " WHERE " + filtro.substring(4);
+        }
+        
         PreparedStatement st = conexao.prepareStatement (sql);
         
         ResultSet rs = st.executeQuery();
