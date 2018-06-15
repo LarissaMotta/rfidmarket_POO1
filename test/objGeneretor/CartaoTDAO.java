@@ -6,7 +6,7 @@ import modelo.pagamento.Cartao.Tipo;
 import java.sql.*;
 import java.util.Random;
 
-class CartaoTDAO extends BaseTDAO {
+public class CartaoTDAO extends BaseTDAO {
 
     public static Cartao readCartao()
             throws SQLException, ClassNotFoundException {
