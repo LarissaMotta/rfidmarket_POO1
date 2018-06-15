@@ -38,28 +38,22 @@ public class ContatoDAOTest {
     
     
     @BeforeClass
-    public static void setUpClass()throws ClassNotFoundException, SQLException, UnsupportedEncodingException, NoSuchAlgorithmException  {
-         ResetTable.cleanAllTables();
+    public void setUpClass()throws ClassNotFoundException, SQLException, UnsupportedEncodingException, NoSuchAlgorithmException  {
+        ResetTable.cleanAllTables();
         System.out.println("create");
-        // RELACIONAR CONTATO COM A PESSOA PELO FK_PESSOA   
-        //int id, String descricao, Tipo tipo
-        //(String descricao, Tipo tipo)
-        contato = new Contato("98765432", "Contato");
+        contato = new Contato("98765432", Tipo.CELULAR);
         Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
         Pessoa pessoa = new Pessoa(1,"Teste", endereco){};
-        //int id, String nome, Endereco endereco    
-        //int id = ContatoDAO.create(contato,pessoa);
-        //create(Contato contato, Pessoa pessoa)
         int result = ContatoDAO.create(contato,pessoa);
         
-        contato = new Contato(id, contato.getDescricao(), contato.getTipo());
+        contato = new Contato(result, contato.getDescricao(), contato.getTipo());
         
         System.out.println("id = "+result);
     }
     
     
     @AfterClass
-    public static void tearDownClass() throws ClassNotFoundException, SQLException {
+    public void tearDownClass() throws ClassNotFoundException, SQLException {
         ResetTable.cleanAllTables();
     }
     
