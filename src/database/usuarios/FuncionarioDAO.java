@@ -8,9 +8,7 @@ import modelo.usuarios.Endereco;
 import modelo.usuarios.Funcionario;
 import modelo.usuarios.PessoaFisica.Genero;
 import org.postgresql.util.PSQLException;
-import util.Util;
 
-import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.login.LoginException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
@@ -74,7 +72,6 @@ public abstract class FuncionarioDAO extends CoreDAO {
      */
     private static Funcionario readFuncionario(ResultSet rs)
             throws SQLException{
-        //TODO apanhar e ser xingado pelo Joel nesse método
         String cargo = rs.getString("cargo");
         String setor = rs.getString("setor");
         int id = rs.getInt("fk_pessoa_fisica");
@@ -97,20 +94,36 @@ public abstract class FuncionarioDAO extends CoreDAO {
     }
 
     //Jennifer
-    //TODO: Fazer melhoria Query usando filtros uteis
-    //Filtros devem ser baseados nas telas do prototipo e o que se pede no git
-    //Seguir o modelo de filtro da função ClienteDAO.readClientesBySupermercado(...);
-    public static List<Funcionario> readFuncionariosBySupermercado(Supermercado supermercado) throws SQLException, ClassNotFoundException {
+    public static List<Funcionario> readFuncionariosBySupermercado(Supermercado supermercado, String nome, String cpf, 
+            Genero genero, String setor, String cargo) throws SQLException, ClassNotFoundException {
+        
         List<Funcionario> funcionarios = new ArrayList<>();
 
         // Obtenha a conexão com o BD;
         Connection conexao = getConnection();
+        
+        Filter filter = new Filter();
+        
+        Clause clause = new Clause("pessoa.nome", nome+"%", Clause.ILIKE);
+        filter.addClause(clause);
+        
+        clause = new Clause("fisica.cpf", cpf, Clause.IGUAL);
+        filter.addClause(clause);
+        
+        clause = new Clause("fisica.genero", genero.toChar(), Clause.IGUAL);
+        filter.addClause(clause);
+        
+        clause = new Clause("funcionario.setor", setor+"%", Clause.ILIKE);
+        filter.addClause(clause);
+        
+        clause = new Clause("funcionario.cargo", cargo+"%", Clause.ILIKE);
+        filter.addClause(clause);
 
         // Forme a string sql;
         String sql = "SELECT * FROM funcionario "
                 + "INNER JOIN fisica on fisica.fk_pessoa = funcionario.fk_pessoa_fisica "
                 + "INNER JOIN pessoa on pessoa.id = funcionario.fk_pessoa_fisica "
-                + "WHERE fk_supermercado = ?";
+                + "WHERE fk_supermercado = ? " + filter.getFilter();
 
         PreparedStatement st = conexao.prepareStatement(sql);
         st.setInt(1, supermercado.getId());
@@ -137,8 +150,9 @@ public abstract class FuncionarioDAO extends CoreDAO {
         //A seleção será filtrada pelo login da pessoa física;
         //Login e senha recebidos devem ser IGUAIS aos de uma PF que seja funcionária;
         Filter filter = new Filter();
-        String senha_sha512 = Util.criptografar(senha);
-        Clause clause = new Clause("pf.senha", senha_sha512, Clause.IGUAL);
+        //String senha_sha512 = Util.criptografar(senha);
+        //Clause clause = new Clause("pf.senha", senha_sha512, Clause.IGUAL);
+        Clause clause = new Clause("pf.senha", senha, Clause.IGUAL);
         filter.addClause(clause);
 
         String sql = "SELECT func.cargo, func.setor, func.fk_pessoa_fisica, pf.login,"

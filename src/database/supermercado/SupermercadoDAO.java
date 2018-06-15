@@ -25,8 +25,7 @@ import org.postgresql.util.PSQLException;
  * @author joel-
  */
 public abstract class SupermercadoDAO extends CoreDAO {
-    
-    
+
     /**
      * Insere um supermercado na base de dados;
      *
@@ -61,7 +60,21 @@ public abstract class SupermercadoDAO extends CoreDAO {
 
         return id;
     }
-    
+
+    public static void addFornecedor(Fornecedor fornecedor, Supermercado supermercado) throws ClassNotFoundException, SQLException {
+        Connection conn = getConnection();
+        String sql = "INSERT INTO fornecimento (fk_supermercado,fk_fornecedor) VALUES (?, ?)";
+
+        PreparedStatement st = conn.prepareStatement(sql);
+        st.setInt(1, supermercado.getId());
+        st.setInt(2, fornecedor.getId());
+
+        st.executeUpdate();
+
+        st.close();
+        conn.close();
+    }
+
     //Joel
     public static Supermercado readSupermercadoByFuncionario(Funcionario funcionario) throws SQLException, ClassNotFoundException {
         // Obtenha a conexão com o BD;
@@ -76,15 +89,15 @@ public abstract class SupermercadoDAO extends CoreDAO {
 
         PreparedStatement st = conexao.prepareStatement(sql);
         st.setInt(1, funcionario.getId());
-        
+
         Supermercado supermercado = readSupermercado(st);
-        
+
         st.close();
         conexao.close();
 
         return supermercado;
     }
-    
+
     //Joel
     public static Supermercado readSupermercadoByCompra(Compra compra) throws SQLException, ClassNotFoundException {
         // Obtenha a conexão com o BD;
@@ -99,15 +112,15 @@ public abstract class SupermercadoDAO extends CoreDAO {
 
         PreparedStatement st = conexao.prepareStatement(sql);
         st.setInt(1, compra.getId());
-        
+
         Supermercado supermercado = readSupermercado(st);
-        
+
         st.close();
         conexao.close();
 
         return supermercado;
     }
-    
+
     //Joel
     public static List<Supermercado> readSupermercadoByFornecedor(Fornecedor fornecedor) throws SQLException, ClassNotFoundException {
         // Obtenha a conexão com o BD;
@@ -122,20 +135,20 @@ public abstract class SupermercadoDAO extends CoreDAO {
 
         PreparedStatement st = conexao.prepareStatement(sql);
         st.setInt(1, fornecedor.getId());
-        
+
         ResultSet rs = st.executeQuery();
-        
+
         List<Supermercado> supermercados = new ArrayList<>();
-        while (rs.next()){
+        while (rs.next()) {
             supermercados.add(readSupermercado(rs));
         }
-        
+
         st.close();
         conexao.close();
 
         return supermercados;
     }
-    
+
     //Joel
     public static Supermercado readSupermercadoByLote(Lote lote) throws SQLException, ClassNotFoundException {
         // Obtenha a conexão com o BD;
@@ -150,15 +163,15 @@ public abstract class SupermercadoDAO extends CoreDAO {
 
         PreparedStatement st = conexao.prepareStatement(sql);
         st.setInt(1, lote.getId());
-        
+
         Supermercado supermercado = readSupermercado(st);
-        
+
         st.close();
         conexao.close();
 
         return supermercado;
     }
-    
+
     //Joel
     public static Supermercado readSupermercadoByProduto(Produto produto) throws SQLException, ClassNotFoundException {
         // Obtenha a conexão com o BD;
@@ -173,26 +186,26 @@ public abstract class SupermercadoDAO extends CoreDAO {
 
         PreparedStatement st = conexao.prepareStatement(sql);
         st.setInt(1, produto.getId());
-        
+
         Supermercado supermercado = readSupermercado(st);
-        
+
         st.close();
         conexao.close();
 
         return supermercado;
     }
-   
+
     //Joel
     //Esse metodo deve ser pode ser usado em todos os outros readSupermecados... para instaciar o supermercado
-    private static Supermercado readSupermercado(PreparedStatement st) throws SQLException{
+    private static Supermercado readSupermercado(PreparedStatement st) throws SQLException {
         ResultSet rs = st.executeQuery();
         rs.next();
         return readSupermercado(rs);
     }
-    
+
     //Joel
     //Esse metodo deve ser pode ser usado em todos os outros readSupermecados... para instaciar o supermercado
-    private static Supermercado readSupermercado(ResultSet rs) throws SQLException{
+    private static Supermercado readSupermercado(ResultSet rs) throws SQLException {
         int id = rs.getInt("id");
         double latitude = rs.getDouble("latitude");
         double longitude = rs.getDouble("longitude");
@@ -200,7 +213,7 @@ public abstract class SupermercadoDAO extends CoreDAO {
         String cnpj = rs.getString("cnpj");
         String nome = rs.getString("nome");
         Endereco endereco = PessoaDAO.getEndereco(rs);
-        
+
         return new Supermercado(id, latitude, longitude, unidade, cnpj, nome, endereco);
     }
 }
