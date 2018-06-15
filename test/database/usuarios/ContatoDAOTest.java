@@ -12,8 +12,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import modelo.pagamento.Cartao;
-import modelo.usuarios.Cliente;
-import modelo.usuarios.Contato;
+import modelo.usuarios.*;
 import modelo.usuarios.Contato.Tipo;
 import modelo.usuarios.Endereco;
 import modelo.usuarios.Pessoa;
@@ -37,28 +36,31 @@ public class ContatoDAOTest {
     }
     
     
-    /*
+    
     @BeforeClass
     public static void setUpClass()throws ClassNotFoundException, SQLException, UnsupportedEncodingException, NoSuchAlgorithmException  {
          ResetTable.cleanAllTables();
         System.out.println("create");
         // RELACIONAR CONTATO COM A PESSOA PELO FK_PESSOA   
         //int id, String descricao, Tipo tipo
-        contato = new Contato(2, "telefone", "98765432");
+        //(String descricao, Tipo tipo)
+        contato = new Contato("98765432", "Contato");
         Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        Pessoa pessoa = new Pessoa(1,"Teste", endereco) {};
-        //int id, String nome, Endereco endereco
-        int id = ContatoDAO.create(contato,pessoa);
-        int result = ContatoDAO.create(contato, pessoa);
+        Pessoa pessoa = new Pessoa(1,"Teste", endereco){};
+        //int id, String nome, Endereco endereco    
+        //int id = ContatoDAO.create(contato,pessoa);
+        //create(Contato contato, Pessoa pessoa)
+        int result = ContatoDAO.create(contato,pessoa);
         
         contato = new Contato(id, contato.getDescricao(), contato.getTipo());
         
         System.out.println("id = "+result);
-    */
+    }
     
     
     @AfterClass
-    public static void tearDownClass() {
+    public static void tearDownClass() throws ClassNotFoundException, SQLException {
+        ResetTable.cleanAllTables();
     }
     
  
