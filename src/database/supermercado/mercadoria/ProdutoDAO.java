@@ -70,7 +70,7 @@ public abstract class ProdutoDAO extends CoreDAO{
         clause = new Clause("tipo", tipo+"%", Clause.ILIKE);
         filter.addClause(clause);
         
-        clause = new Clause("codigo", cod+"%", Clause.ILIKE);
+        clause = new Clause("codigo", cod, Clause.IGUAL);
         filter.addClause(clause);
         
         // Forme a string sql;
