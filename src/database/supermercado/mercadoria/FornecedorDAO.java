@@ -71,6 +71,31 @@ public abstract class FornecedorDAO extends CoreDAO{
         return fornecedores;
     }
     
+    public static List<Fornecedor> readAllFornecedores() throws SQLException, ClassNotFoundException{
+        List<Fornecedor> fornecedores = new ArrayList<>();
+      
+        // Obtenha a conexão com o BD;
+        Connection conexao = getConnection();
+
+        // Forme a string sql;
+        String sql = "SELECT pessoa.id, cnpj, nome, numero, rua, cep, bairro, estado, cidade FROM fornecimento "
+                + "INNER JOIN juridica ON fornecimento.fk_fornecedor = juridica.fk_pessoa "
+                + "INNER JOIN pessoa ON juridica.fk_pessoa = pessoa.id "
+                + "WHERE fornecimento.fk_supermercado = ?";
+
+        PreparedStatement st = conexao.prepareStatement (sql);
+        
+        ResultSet rs = st.executeQuery();
+        while (rs.next()) {
+            fornecedores.add(readFornecedor(rs));
+        }
+
+        st.close();
+        conexao.close();
+
+        return fornecedores;
+    }
+    
     //Larissa
     public static Fornecedor readFornecedorByLote(Lote lote) throws ClassNotFoundException, SQLException{
         Fornecedor fornecedor = null;
