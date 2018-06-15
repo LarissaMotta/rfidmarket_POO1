@@ -45,7 +45,7 @@ public class LoteDAOTest {
         Produto produto = new Produto (2,"6666",127.66,"Ta pegando fogo","top","Churras",356.56,12,15,"npox");
         Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 76, "Rua Xablau");
         Fornecedor fornecedor = new Fornecedor("44.122.623/0001-02", "EPA", endereco);
-        lote = new Lote(1, "666", new Date(), new Date(),new Date(), 333,"Churrasqueira do Faustop",produto);
+        lote = new Lote("666", new Date(20,06,2018), new Date(11,02,2018),new Date(11,02,2019), 333,"Churrasqueira do Faustop",produto);
         Supermercado supermercado = new Supermercado(1,12,13,"Vila Velha","85685","Carone",endereco);
        
         int result = LoteDAO.create(lote,fornecedor,produto,supermercado);
