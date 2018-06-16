@@ -6,6 +6,7 @@
 package database.usuarios;
 
 import controlTest.ResetTable;
+import database.supermercado.SupermercadoDAO;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
@@ -14,6 +15,7 @@ import java.util.List;
 import modelo.supermercado.Supermercado;
 import modelo.usuarios.Endereco;
 import modelo.usuarios.Funcionario;
+import objGeneretor.FuncionarioTDAO;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -73,12 +75,16 @@ public class FuncionarioDAOTest {
     @Test
     public void testReadFuncionariosBySupermercado() throws Exception {
         System.out.println("readFuncionariosBySupermercado");
-        Supermercado supermercado = null;
-        List<Funcionario> expResult = null;
-        List<Funcionario> result = FuncionarioDAO.readFuncionariosBySupermercado(supermercado,null,null,null,null,null);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
+        Supermercado supermercado = new Supermercado(18.5774, 15.1741, "Serra", "35.415.363/0001-72", "Carone", endereco);
+        int idSuperm = SupermercadoDAO.create(supermercado);
+        supermercado = new Supermercado(idSuperm, supermercado.getLatitude(), supermercado.getLongitude(), supermercado.getUnidade(), supermercado.getCnpj(), supermercado.getNome(), endereco);
+        
+        funcionario = FuncionarioTDAO.readFuncionario();
+       
+        List<Funcionario> result = FuncionarioDAO.readFuncionariosBySupermercado(supermercado,funcionario.getNome(),funcionario.getCpf(),funcionario.getGenero(),funcionario.getSetor(),funcionario.getCargo());
+        System.out.println(result);//vai printar vazio
     }
     
 }
