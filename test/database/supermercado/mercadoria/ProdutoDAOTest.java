@@ -6,6 +6,7 @@
 package database.supermercado.mercadoria;
 
 import controlTest.ResetTable;
+import database.supermercado.SupermercadoDAO;
 import java.sql.SQLException;
 import java.util.List;
 import modelo.supermercado.Supermercado;
@@ -63,12 +64,19 @@ public class ProdutoDAOTest {
     @Test
     public void testReadProdutosBySupermercado() throws Exception {
         System.out.println("readProdutosBySupermercado");
-        Supermercado supermercado = null;
-        List<Produto> expResult = null;
-        List<Produto> result = ProdutoDAO.readProdutosBySupermercado(supermercado,null,null,null,null);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
+        Supermercado supermercado = new Supermercado(18.5774, 15.1741, "Serra", "35.415.363/0001-72", "Carone", endereco);
+        int idSuperm = SupermercadoDAO.create(supermercado);
+        supermercado = new Supermercado(idSuperm, supermercado.getLatitude(), supermercado.getLongitude(), supermercado.getUnidade(), supermercado.getCnpj(), supermercado.getNome(), endereco);
+
+        produto = new Produto("0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
+        int idProd = ProdutoDAO.create(produto,supermercado);
+        produto = new Produto(idProd,produto.getCodigo(),produto.getCusto(),produto.getDescricao(),produto.getMarca(),produto.getNome(),produto.getPrecoVenda(),produto.getQtdPrateleira(),produto.getQtdEstoque(),produto.getTipo());
+
+
+        List<Produto> result = ProdutoDAO.readProdutosBySupermercado(supermercado,"Fralda XG","Pampers","fralda","0000");
+        System.out.println(result);
     }
 
     /**
@@ -77,12 +85,17 @@ public class ProdutoDAOTest {
     @Test
     public void testReadProdutosById() throws Exception {
         System.out.println("readProdutosById");
-        int id = 0;
-        Produto expResult = null;
-        Produto result = ProdutoDAO.readProdutosById(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
+        Supermercado supermercado = new Supermercado(18.5774, 15.1741, "Serra", "35.415.363/0001-72", "Carone", endereco);
+        int idSuperm = SupermercadoDAO.create(supermercado);
+        supermercado = new Supermercado(idSuperm, supermercado.getLatitude(), supermercado.getLongitude(), supermercado.getUnidade(), supermercado.getCnpj(), supermercado.getNome(), endereco);
+        produto = new Produto("0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
+        int idProd = ProdutoDAO.create(produto,supermercado);
+        produto = new Produto(idProd,produto.getCodigo(),produto.getCusto(),produto.getDescricao(),produto.getMarca(),produto.getNome(),produto.getPrecoVenda(),produto.getQtdPrateleira(),produto.getQtdEstoque(),produto.getTipo());
+
+        Produto result = ProdutoDAO.readProdutosById(idProd);
+        System.out.println(result);
+   
     }
     
 }
