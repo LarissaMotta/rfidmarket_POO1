@@ -94,3 +94,83 @@ public abstract class CartaoDAO extends CoreDAO {
         return cartoes;
     }
 }
+
+
+/*
+public static void main(String args[]) {
+      //-- Qual o meio de pagamento mais utilizado?
+        // criacao do hashmap
+        HashMap<Cartao, String> map3 = new HashMap<Cartao, String>();
+        
+        Statement st = null;
+        ResultSet rs = null;
+        Connection con = getConnection();
+        Cartao card;
+        //int id, String bandeira, Date dataValid, String numero, String titular, Tipo tipo) 
+        try{
+            st = con.createStatement();
+            rs = st.executeQuery("select c.tipo, count(c.tipo) numero_usuarios  from hist_compra inner join cartao c on c.id = hist_compra.id where hist_compra.fk_supermercado = 101 and hist_compra.timestamp >= '14-06-2018' and hist_compra.timestamp <= '17-06-2018' group by (c.tipo) ");
+            while(rs.next()){
+               //nome,preco,codigo,descricao,custo,id,estoque, tipo, quant_pratelereira, marca,fk_supermercado
+                
+                int id = rs.getInt("id");
+                Date dataValid = rs.getDate("validade");
+                String bandeira = rs.getString("bandeira");
+                String numero = rs.getString("numero");
+                String titular = rs.getString("titular");
+                String tipo = rs.getString("tipo");
+                //int id, String codigo, double custo, String descricao, String marca, String nome, double precoVenda, int qtdPrateleira, int qtdEstoque, String tipo)
+                
+                card = new Cartao(id,dataValid,bandeira,numero,titular,tipo);
+                
+         
+                map3.put(card,tipo);
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        
+   
+        }
+
+
+    public static void main(String args[]) {
+     // --Quais meio de pagamento mais lucrativo
+        // criacao do hashmap
+        HashMap<Cartao, String> map4 = new HashMap<Cartao, String>();
+        
+        Statement st = null;
+        ResultSet rs = null;
+        Connection con = getConnection();
+        Cartao card;
+        //int id, String bandeira, Date dataValid, String numero, String titular, Tipo tipo) 
+        try{
+            st = con.createStatement();
+            rs = st.executeQuery(" select c.tipo, sum(com.preco_compra) lucro  from cartao c inner join hist_compra on hist_compra.fk_cartao = c.id inner join compra com on com.fk_hist_compra = hist_compra.id where hist_compra.fk_supermercado = 101 and hist_compra.timestamp >= '14-06-2018' and hist_compra.timestamp <= '17-06-2018' group by (c.tipo)");
+            while(rs.next()){
+               //nome,preco,codigo,descricao,custo,id,estoque, tipo, quant_pratelereira, marca,fk_supermercado
+                
+                int id = rs.getInt("id");
+                Date dataValid = rs.getDate("validade");
+                String bandeira = rs.getString("bandeira");
+                String numero = rs.getString("numero");
+                String titular = rs.getString("titular");
+                String tipo = rs.getString("tipo");
+                //int id, String codigo, double custo, String descricao, String marca, String nome, double precoVenda, int qtdPrateleira, int qtdEstoque, String tipo)
+                
+                card = new Cartao(id,dataValid,bandeira,numero,titular,tipo);
+                
+         
+                map4.put(card,tipo);
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        
+   
+        }
+*/
+
+
+
+

@@ -154,3 +154,84 @@ public abstract class ClienteDAO extends CoreDAO{
         return clientes;
     }
 }
+
+/*
+
+public static void main(String args[]) {
+        // criacao do hashmap
+        //--Quais são os clientes que mais consumiram?
+        HashMap<Cliente, String> map5 = new HashMap<Cliente, String>();
+        
+        Statement st = null;
+        ResultSet rs = null;
+        Connection con = getConnection();
+        Cliente c;
+        
+        try{
+            st = con.createStatement();
+            rs = st.executeQuery(" select  pe.nome,f.cpf,f.data_nasc,f.genero,f.login,f.senha,pe.id,pe.numero,pe.rua,pe.cep,pe.bairro,pe.estado,pe,cidade, c.preco_compra, SUM(c.preco_compra) as valor_gasto from pessoa pe inner join fisica f on f.fk_pessoa = pe.id inner join hist_compra h on h.id = f.fk_pessoa inner join compra c on c.fk_hist_compra = h.id where h.fk_supermercado = 101 and h.timestamp >= '14-06-2018' and h.timestamp <= '17-06-2018' group by (pe.nome,f.cpf,f.data_nasc,f.genero,f.login,f.senha,pe.id,pe.numero,pe.rua,pe.cep,pe.bairro,pe.estado,pe,cidade, c.preco_compra)");
+            while(rs.next()){
+               //nome,preco,codigo,descricao,custo,id,estoque, tipo, quant_pratelereira, marca,fk_supermercado
+               String cpf = rs.getString("cpf");
+               Date dtNasc = new Date(rs.getDate("data_nasc").getTime());
+               char gen = rs.getString("genero").charAt(0);
+                String login = rs.getString("login");
+                String senha = rs.getString("senha");
+                int id = rs.getInt("id");
+                String nome = rs.getString("nome");
+                Endereco end = PessoaDAO.getEndereco(rs);
+                //int id, String codigo, double custo, String descricao, String marca, String nome, double precoVenda, int qtdPrateleira, int qtdEstoque, String tipo)
+                
+                c= new Cliente(cpf, dtNasc, gen, login, senha, id, nome, end);
+                
+         
+                map5.put(c,cpf);
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        
+   
+        }
+
+
+
+public static void main(String args[]) {
+        // criacao do hashmap
+        //--Quais são os clientes que mais consumiram?
+        HashMap<Cliente, String> map6 = new HashMap<Cliente, String>();
+        
+        Statement st = null;
+        ResultSet rs = null;
+        Connection con = getConnection();
+        Cliente c;
+        
+        try{
+            st = con.createStatement();
+            rs = st.executeQuery(" select  pe.nome, c.preco_compra, avg(c.preco_compra) as media_gasta from pessoa pe inner join fisica f on f.fk_pessoa = pe.id inner join hist_compra h on h.id = f.fk_pessoa inner join compra c on c.fk_hist_compra = h.id where h.fk_supermercado = 101 and h.timestamp >= '14-06-2018' and h.timestamp <= '17-06-2018' group by (pe.nome, c.preco_compra)");
+            while(rs.next()){
+               //nome,preco,codigo,descricao,custo,id,estoque, tipo, quant_pratelereira, marca,fk_supermercado
+               String cpf = rs.getString("cpf");
+               Date dtNasc = new Date(rs.getDate("data_nasc").getTime());
+               char gen = rs.getString("genero").charAt(0);
+                String login = rs.getString("login");
+                String senha = rs.getString("senha");
+                int id = rs.getInt("id");
+                String nome = rs.getString("nome");
+                Endereco end = PessoaDAO.getEndereco(rs);
+                //int id, String codigo, double custo, String descricao, String marca, String nome, double precoVenda, int qtdPrateleira, int qtdEstoque, String tipo)
+                
+                c= new Cliente(cpf, dtNasc, gen, login, senha, id, nome, end);
+                
+         
+                map6.put(c,cpf);
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        
+   
+        }
+
+
+*/
