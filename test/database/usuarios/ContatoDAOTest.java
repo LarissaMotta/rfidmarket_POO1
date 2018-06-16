@@ -14,6 +14,7 @@ import modelo.usuarios.*;
 import modelo.usuarios.Contato.Tipo;
 import modelo.usuarios.Endereco;
 import modelo.usuarios.Pessoa;
+import objGeneretor.ClienteTDAO;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -76,12 +77,11 @@ public class ContatoDAOTest {
     @Test
     public void testReadContatosByPessoa() throws Exception {
         System.out.println("readContatosByPessoa");
-        Pessoa pessoa = null;
-        List<Contato> expResult = null;
-        List<Contato> result = ContatoDAO.readContatosByPessoa(pessoa);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        Cliente cliente = ClienteTDAO.readCliente();
+        ContatoDAO.create(new Contato("98765432", Tipo.CELULAR),cliente);
+        List<Contato> result = ContatoDAO.readContatosByPessoa(cliente);
+        System.out.println(result);
     }
     
 }
