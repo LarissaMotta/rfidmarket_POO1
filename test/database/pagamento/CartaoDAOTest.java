@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.util.List;
 import modelo.pagamento.Cartao;
 import modelo.usuarios.Cliente;
+import objGeneretor.CartaoTDAO;
+import objGeneretor.ClienteTDAO;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -58,10 +60,6 @@ public class CartaoDAOTest {
     public void tearDown() throws ClassNotFoundException, SQLException {
         ResetTable.cleanAllTables();
     }
-    /**
-     * Test of create method, of class CartaoDAO.
-     */
-   
 
     /**
      * Test of readCartoesByCliente method, of class CartaoDAO.
@@ -69,13 +67,13 @@ public class CartaoDAOTest {
     @Test
     public void testReadCartoesByCliente() throws Exception {
         System.out.println("readCartoesByCliente");
-        Cliente cliente = null;
-        List<Cartao> expResult = null;
+        
+        cartao = CartaoTDAO.readCartao();
+        Cliente cliente = ClienteTDAO.readCliente();
+        cliente.setNome(cartao.getTitular());
+        
         List<Cartao> result = CartaoDAO.readCartoesByCliente(cliente);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        // FALTA TERMINAR
-        fail("The test case is a prototype.");
+        System.out.println(result);
     }
     
     /**
