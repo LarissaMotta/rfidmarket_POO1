@@ -93,30 +93,6 @@ public abstract class ProdutoDAO extends CoreDAO{
         
     }
     
-    //Jennifer
-    public static Produto readProdutosById(int id)throws SQLException, ClassNotFoundException{
-        Produto prod = null;
-         // Obtenha a conexão com o BD;
-        Connection conexao = getConnection();
-            
-  
-        // Forme a string sql;
-        String sql = "SELECT * from produto "
-                + "WHERE id = ?"; //REVER SE ESTA CERTO
-
-        PreparedStatement st = conexao.prepareStatement (sql);
- 
-
-        prod = readProdutos(st);
-
-        conexao.close();
-
-        return prod;
-        
-
-        
-    }
-    
     private static Produto readProdutos(PreparedStatement st) throws SQLException{
         ResultSet rs = st.executeQuery();
         rs.next();
@@ -124,7 +100,7 @@ public abstract class ProdutoDAO extends CoreDAO{
     }
     
     //Jennifer
-    private static Produto readProdutos(ResultSet rs) throws SQLException{
+    static Produto readProdutos(ResultSet rs) throws SQLException{
  
         int id = rs.getInt("id");
         String codigo = rs.getString("codigo");
