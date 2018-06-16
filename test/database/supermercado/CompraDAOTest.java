@@ -58,7 +58,7 @@ public class CompraDAOTest {
         Produto produto = new Produto("0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
         ItemProduto itemProduto = new ItemProduto(35.00,02,produto);
         itens.add(itemProduto);
-        compra = new Compra(new Date(14,06,2018),itens);
+        compra = new Compra(new Date(2018,06,20),itens);
         int result = CompraDAO.create(compra,cliente,cartao,supermercado);
         compra = new Compra(result, compra.getDataHora());
         
