@@ -142,7 +142,7 @@ public class SupermercadoDAOTest {
         supermercado = new Supermercado(idSuperm, supermercado.getLatitude(), supermercado.getLongitude(), supermercado.getUnidade(), supermercado.getCnpj(), supermercado.getNome(), endereco);
 
         Endereco ende = new Endereco("Jacaraípe", "29177-487", "SERRA", Endereco.Estado.ES, 80, "Rua Xablau");
-        Fornecedor fornecedor = new Fornecedor( "35.415.363/0001-72",2, "Carone", ende);
+        Fornecedor fornecedor = new Fornecedor( "35.415.363/0001-84",2, "Paul", ende);
 
         Produto produto = new Produto(3,"0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
         Lote lote = new Lote(new Date(2018,06,20), new Date(2018,02,11),new Date(2019,02,11), 100,"Fralda XG",produto);
@@ -168,7 +168,7 @@ public class SupermercadoDAOTest {
         supermercado = new Supermercado(idSuperm, supermercado.getLatitude(), supermercado.getLongitude(), supermercado.getUnidade(), supermercado.getCnpj(), supermercado.getNome(), endereco);
         //(String cnpj, int id, String nome, Endereco endereco)
         Endereco ende = new Endereco("Jacaraípe", "29177-487", "SERRA", Endereco.Estado.ES, 80, "Rua Xablau");
-        Fornecedor fornecedor = new Fornecedor( "35.415.363/0001-72",2, "Carone", ende);
+        Fornecedor fornecedor = new Fornecedor( "35.415.363/0001-84",2, "Paul", ende);
 
         Produto produto = new Produto(3,"0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
         Lote lote = new Lote(new Date(2018,06,20), new Date(2018,02,11),new Date(2019,02,11), 100,"Fralda XG",produto);
