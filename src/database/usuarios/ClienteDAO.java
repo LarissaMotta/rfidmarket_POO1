@@ -169,7 +169,7 @@ public static void main(String args[]) {
         
         try{
             st = con.createStatement();
-            rs = st.executeQuery(" select  pe.nome,f.cpf,f.data_nasc,f.genero,f.login,f.senha,pe.id,pe.numero,pe.rua,pe.cep,pe.bairro,pe.estado,pe,cidade, c.preco_compra, SUM(c.preco_compra) as valor_gasto from pessoa pe inner join fisica f on f.fk_pessoa = pe.id inner join hist_compra h on h.id = f.fk_pessoa inner join compra c on c.fk_hist_compra = h.id where h.fk_supermercado = 101 and h.timestamp >= '14-06-2018' and h.timestamp <= '17-06-2018' group by (pe.nome,f.cpf,f.data_nasc,f.genero,f.login,f.senha,pe.id,pe.numero,pe.rua,pe.cep,pe.bairro,pe.estado,pe,cidade, c.preco_compra)");
+            rs = st.executeQuery("SELECT p.nome "Nome do cliente", SUM(c.preco_compra) \"Total comprado\" FROM pessoa p INNER JOIN fisica f ON f.fk_pessoa = p.id INNER JOIN hist_compra hc ON hc.id = f.fk_pessoa INNER JOIN compra c ON c.fk_hist_compra = hc.id WHERE hc.fk_supermercado = ? AND hc.timestamp >= ? AND hc.timestamp <= ? GROUP BY p.nome ORDER BY 2 DESC;");
             while(rs.next()){
                //nome,preco,codigo,descricao,custo,id,estoque, tipo, quant_pratelereira, marca,fk_supermercado
                String cpf = rs.getString("cpf");
@@ -198,7 +198,7 @@ public static void main(String args[]) {
 
 public static void main(String args[]) {
         // criacao do hashmap
-        //--Quais são os clientes que mais consumiram?
+        //--MEDIA
         HashMap<Cliente, String> map6 = new HashMap<Cliente, String>();
         
         Statement st = null;
@@ -208,7 +208,7 @@ public static void main(String args[]) {
         
         try{
             st = con.createStatement();
-            rs = st.executeQuery(" select  pe.nome, c.preco_compra, avg(c.preco_compra) as media_gasta from pessoa pe inner join fisica f on f.fk_pessoa = pe.id inner join hist_compra h on h.id = f.fk_pessoa inner join compra c on c.fk_hist_compra = h.id where h.fk_supermercado = 101 and h.timestamp >= '14-06-2018' and h.timestamp <= '17-06-2018' group by (pe.nome, c.preco_compra)");
+            rs = st.executeQuery(" SELECT SUM(c.preco_compra) AS "Média de consumo" FROM hist_compra h INNER JOIN compra c ON c.fk_hist_compra = h.id WHERE h.fk_supermercado = 401 AND h.timestamp >= '2018-05-01' AND h.timestamp <= '2018-06-01';");
             while(rs.next()){
                //nome,preco,codigo,descricao,custo,id,estoque, tipo, quant_pratelereira, marca,fk_supermercado
                String cpf = rs.getString("cpf");

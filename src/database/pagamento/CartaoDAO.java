@@ -1,6 +1,7 @@
 package database.pagamento;
 
 import database.core.CoreDAO;
+import static database.core.CoreDAO.getConnection;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -10,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import modelo.pagamento.Cartao;
@@ -47,6 +49,9 @@ public abstract class CartaoDAO extends CoreDAO {
         return id;
     }
 
+  
+    
+   
     /**
      * Retorna um conjunto de cartões relacionados a um cliente;
      * @param cliente cliente usuário do(s) cartão(ões);
@@ -95,9 +100,8 @@ public abstract class CartaoDAO extends CoreDAO {
     }
 }
 
-
 /*
-public static void main(String args[]) {
+  public static void main(String args[]) {
       //-- Qual o meio de pagamento mais utilizado?
         // criacao do hashmap
         HashMap<Cartao, String> map3 = new HashMap<Cartao, String>();
@@ -109,7 +113,7 @@ public static void main(String args[]) {
         //int id, String bandeira, Date dataValid, String numero, String titular, Tipo tipo) 
         try{
             st = con.createStatement();
-            rs = st.executeQuery("select c.tipo, count(c.tipo) numero_usuarios  from hist_compra inner join cartao c on c.id = hist_compra.id where hist_compra.fk_supermercado = 101 and hist_compra.timestamp >= '14-06-2018' and hist_compra.timestamp <= '17-06-2018' group by (c.tipo) ");
+            rs = st.executeQuery("SELECT c.tipo "Tipo de cartão", COUNT(c.tipo) "Numero de usuários" FROM hist_compra AS hc INNER JOIN cartao c ON hc.id = c.id WHERE hc.fk_supermercado = ? AND hc.timestamp >= ? AND hc.timestamp <= ? GROUP BY (c.tipo)");
             while(rs.next()){
                //nome,preco,codigo,descricao,custo,id,estoque, tipo, quant_pratelereira, marca,fk_supermercado
                 
@@ -121,7 +125,7 @@ public static void main(String args[]) {
                 String tipo = rs.getString("tipo");
                 //int id, String codigo, double custo, String descricao, String marca, String nome, double precoVenda, int qtdPrateleira, int qtdEstoque, String tipo)
                 
-                card = new Cartao(id,dataValid,bandeira,numero,titular,tipo);
+                card = new Cartao(id,dataValid,bandeira,numero,titular,Tipo.tipo);
                 
          
                 map3.put(card,tipo);
@@ -132,6 +136,8 @@ public static void main(String args[]) {
         
    
         }
+
+ 
 
 
     public static void main(String args[]) {
@@ -146,7 +152,7 @@ public static void main(String args[]) {
         //int id, String bandeira, Date dataValid, String numero, String titular, Tipo tipo) 
         try{
             st = con.createStatement();
-            rs = st.executeQuery(" select c.tipo, sum(com.preco_compra) lucro  from cartao c inner join hist_compra on hist_compra.fk_cartao = c.id inner join compra com on com.fk_hist_compra = hist_compra.id where hist_compra.fk_supermercado = 101 and hist_compra.timestamp >= '14-06-2018' and hist_compra.timestamp <= '17-06-2018' group by (c.tipo)");
+            rs = st.executeQuery(" SELECT c.tipo "Tipo de cartão", SUM(com.preco_compra) "Lucro" FROM cartao c INNER JOIN hist_compra ON hist_compra.fk_cartao = c.id INNER JOIN compra com ON com.fk_hist_compra = hist_compra.id WHERE hist_compra.fk_supermercado = 401 AND hist_compra.timestamp >= '2018-05-01' AND hist_compra.timestamp <= '2018-06-01' GROUP BY (c.tipo)" );
             while(rs.next()){
                //nome,preco,codigo,descricao,custo,id,estoque, tipo, quant_pratelereira, marca,fk_supermercado
                 
@@ -169,8 +175,8 @@ public static void main(String args[]) {
         
    
         }
+
+
 */
-
-
 
 

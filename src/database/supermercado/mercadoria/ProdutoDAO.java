@@ -1,6 +1,7 @@
 package database.supermercado.mercadoria;
 
 import database.core.CoreDAO;
+import static database.core.CoreDAO.getConnection;
 import database.filter.Clause;
 import database.filter.Filter;
 import java.sql.Connection;
@@ -9,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import modelo.supermercado.Supermercado;
@@ -51,6 +53,7 @@ public abstract class ProdutoDAO extends CoreDAO{
 
         return id;
     }
+   
 
     //Jennifer
     public static List<Produto> readProdutosBySupermercado(Supermercado supermercado, String nome, String marca, String tipo, String cod)throws SQLException, ClassNotFoundException{
@@ -92,6 +95,10 @@ public abstract class ProdutoDAO extends CoreDAO{
         return produtos;
         
     }
+    
+  
+
+
     
     //Jennifer
     public static Produto readProdutosById(int id)throws SQLException, ClassNotFoundException{
@@ -142,56 +149,10 @@ public abstract class ProdutoDAO extends CoreDAO{
 }
 
 
+
+
 /*
 
- -- PRODUTOS PERTO DO VENCIMENTO
-
-public static void main(String args[]) {
-        // criacao do hashmap
-        HashMap<Produto, String> map = new HashMap<Produto, String>();
-        
-        Statement st = null;
-        ResultSet rs = null;
-        Connection con = getConnection();
-        Produto prod;
-        
-        try{
-            st = con.createStatement();
-            rs = st.executeQuery("select produto.nome, l.validade  from lote inner join lote l on l.fk_produto = produto.id where l.validade >= ? and lote.fk_supermercado = ? and l.validade <= ? order by 2 ; ");
-            while(rs.next()){
-               //nome,preco,codigo,descricao,custo,id,estoque, tipo, quant_pratelereira, marca,fk_supermercado
-                String nome = rs.getString("nome");
-                double preco = rs.getDouble("preco");
-                String codigo = rs.getString("codigo");
-                String descricao = rs.getString("descricao");
-                double custo = rs.getDouble("custo");
-                int id = rs.getInt("id");
-                int estoque = rs.getInt("esroque");
-                String tipo = rs.getString("tipo");
-                int quant_prateleira = rs.getInt("quant_prateleira");
-                String marca = rs.getString("marca");
-                int fk_supermercado = rs.getInt("fk_supermercado");
-                //int id, String codigo, double custo, String descricao, String marca, String nome, double precoVenda, int qtdPrateleira, int qtdEstoque, String tipo)
-                
-                prod = new Produto(id,codigo,custo,descricao,marca,nome,preco,quant_prateleira,estoque,tipo);
-                
-         
-                map.put(prod,nome);
-            }
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
-        
-   
-        }
-
-
-
-
-
-
--- PRODUTOS MAIS VENDIDOS
-    
 public static void main(String args[]) {
      
         // criacao do hashmap
@@ -204,7 +165,7 @@ public static void main(String args[]) {
         
         try{
             st = con.createStatement();
-            rs = st.executeQuery("select prod.nome,prod.preco,prod.codigo,prod.descricao,prod.custo,prod.id,prod.estoque,prod.tipo,prod.quant_prateleira,prod.marca, SUM(c.quant) as numero_vendas from produto prod inner join compra c on c.fk_produto = prod.id inner join hist_compra h on h.id = c.fk_hist_compra  where h.fk_supermercado = 101 and h.timestamp >= '14-06-2018' and h.timestamp <= '17-06-2018' group by (prod.nome,prod.preco,prod.codigo,prod.descricao,prod.custo,prod.id,prod.estoque,prod.tipo,prod.quant_prateleira,prod.marca, c.quant)");
+            rs = st.executeQuery("SELECT p.nome "Nome produto", c.quant AS "Unidades vendidas" FROM produto p INNER JOIN compra c ON c.fk_produto = p.id INNER JOIN hist_compra h ON h.id = c.fk_hist_compra  WHERE h.fk_supermercado = ? AND h.timestamp >= ? AND h.timestamp <= ? GROUP BY (p.nome, c.quant) ORDER BY 2 DESC;");
             while(rs.next()){
                //nome,preco,codigo,descricao,custo,id,estoque, tipo, quant_pratelereira, marca,fk_supermercado
                 String nome = rs.getString("nome");
@@ -231,4 +192,48 @@ public static void main(String args[]) {
         
    
         }
+
+
+
+
+
+   public static void main(String args[]) {
+        // PRODUTOS PERTO DO VENCIMENTO
+        HashMap<Produto, String> map = new HashMap<Produto, String>();
+        
+        Statement st = null;
+        ResultSet rs = null;
+        Connection con = getConnection();
+        Produto prod;
+        
+        try{
+            st = con.createStatement();
+            rs = st.executeQuery("SELECT p.nome "Produto", l.validade "Data validade", l.identificador "Ident. Lote", l.fk_fornecedor \"Fornecedor\" FROM produto p INNER JOIN lote l ON l.fk_produto = p.id WHERE p.fk_supermercado = ? AND l.validade >= CURRENT_DATE ORDER BY 2;");
+               //nome,preco,codigo,descricao,custo,id,estoque, tipo, quant_pratelereira, marca,fk_supermercado
+                String nome = rs.getString("nome");
+                double preco = rs.getDouble("preco");
+                String codigo = rs.getString("codigo");
+                String descricao = rs.getString("descricao");
+                double custo = rs.getDouble("custo");
+                int id = rs.getInt("id");
+                int estoque = rs.getInt("esroque");
+                String tipo = rs.getString("tipo");
+                int quant_prateleira = rs.getInt("quant_prateleira");
+                String marca = rs.getString("marca");
+                int fk_supermercado = rs.getInt("fk_supermercado");
+                //int id, String codigo, double custo, String descricao, String marca, String nome, double precoVenda, int qtdPrateleira, int qtdEstoque, String tipo)
+                
+                prod = new Produto(id,codigo,custo,descricao,marca,nome,preco,quant_prateleira,estoque,tipo);
+                
+         
+                map.put(prod,nome);
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        
+   
+        }
+
+    
 */
