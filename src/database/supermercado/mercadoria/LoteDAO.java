@@ -236,15 +236,14 @@ public abstract class LoteDAO extends CoreDAO {
     public static void delete(int id) throws SQLException, ClassNotFoundException {
 
         Connection conn = getConnection();
-        String sql = "DELETE FROM contato WHERE id = ?";
+        String sql = "DELETE FROM lote WHERE id = ?";
 
         PreparedStatement st = conn.prepareStatement(sql);
         st.setInt(1, id);
 
         st.executeUpdate();
+        
         st.close();
         conn.close();
-
-        LoteDAO.delete(id);
     }
 }

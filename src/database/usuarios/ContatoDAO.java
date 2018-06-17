@@ -92,8 +92,6 @@ public abstract class ContatoDAO extends CoreDAO {
         st.executeUpdate();
         st.close();
         conn.close();
-
-        ContatoDAO.delete(id);
     }
     
 
