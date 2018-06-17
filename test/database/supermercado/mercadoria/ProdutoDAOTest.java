@@ -80,22 +80,16 @@ public class ProdutoDAOTest {
     }
 
     /**
-     * Test of readProdutosById method, of class ProdutoDAO.
+     * Test of create method, of class ProdutoDAO.
      */
     @Test
-    public void testReadProdutosById() throws Exception {
-        System.out.println("readProdutosById");
-        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        Supermercado supermercado = new Supermercado(18.5774, 15.1741, "Serra", "35.415.363/0001-72", "Carone", endereco);
-        int idSuperm = SupermercadoDAO.create(supermercado);
-        supermercado = new Supermercado(idSuperm, supermercado.getLatitude(), supermercado.getLongitude(), supermercado.getUnidade(), supermercado.getCnpj(), supermercado.getNome(), endereco);
-        produto = new Produto("0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
-        int idProd = ProdutoDAO.create(produto,supermercado);
-        produto = new Produto(idProd,produto.getCodigo(),produto.getCusto(),produto.getDescricao(),produto.getMarca(),produto.getNome(),produto.getPrecoVenda(),produto.getQtdPrateleira(),produto.getQtdEstoque(),produto.getTipo());
-
-        Produto result = ProdutoDAO.readProdutosById(idProd);
-        System.out.println(result);
-   
+    public void testCreate() throws Exception {
     }
-    
+
+    /**
+     * Test of readProdutos method, of class ProdutoDAO.
+     */
+    @Test
+    public void testReadProdutos() throws Exception {
+    }
 }

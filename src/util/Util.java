@@ -8,6 +8,7 @@ package util;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,10 +35,13 @@ public abstract class Util {
             throw new IllegalArgumentException(nomeParametro + " não informado (vazio)");
     }
     
+    public static boolean isIntervalValid(Date dataMin, Date dataMax){
+        if (dataMin == null || dataMax == null) return true;
+        else if (dataMin.before(dataMax) || dataMin.equals(dataMax)) return true;
+        else return false;
+    }
+    
     public static boolean isCpfValido(String cpf) {
-
-        char charCpf;
-        int contDigit = 0;
 
         //Garanta que só haverá dígitos, '.' ou '-';
         String expression = "^[0-9]{3}.?[0-9]{3}.?[0-9]{3}-?[0-9]{2}$";
@@ -49,6 +53,8 @@ public abstract class Util {
         String digitos;
         int multip = 10;
         int somaDigitos = 0;
+        int resto;
+        int digVerificador;
         digitos = cpf.replace(".","").replace("-","");
 
         //Primeira verificação:
@@ -57,8 +63,11 @@ public abstract class Util {
             multip--;
         }
 
-        //A soma final deve ser igual ao primeiro digito verificador;
-        if (somaDigitos * 10 % 11 != Character.getNumericValue(digitos.charAt(9)))
+        resto = somaDigitos % 11;
+        digVerificador = resto < 2 ? 0 : 11 - resto;
+
+        //Se o digVerificador calculador for igual ao primeiro digito verificador;
+        if (digVerificador != Character.getNumericValue(digitos.charAt(9)))
             return false;
 
         //Segunda verificação:
@@ -70,8 +79,11 @@ public abstract class Util {
             multip--;
         }
 
-        //A soma final agora deve ser igual ao segundo digito verificador;
-        return somaDigitos * 10 % 11 == Character.getNumericValue(digitos.charAt(10));
+        resto = somaDigitos % 11;
+        digVerificador = resto < 2 ? 0 : 11 - resto;
+
+        //Se o digVerificador calculador for igual ao segundo digito verificador;
+        return digVerificador == Character.getNumericValue(digitos.charAt(10));
     }
     
     public static boolean isLoginValido(String login){ // verifica se o login pode ser usado
@@ -96,13 +108,12 @@ public abstract class Util {
         if (!matcher.matches()) return false;
         
         int somaDigitos;
-        int resultado;
+        int digVerificador;
+        int peso;
+        int resto;
 
         // Na primeira etapa serão verificados os 12 primeiros dígitos;
-        int numDigitos = 12;
-
-        // Peso que multip. cada dig. do cnpj, menor val. é 2, maior 9, inicia c/ 5;
-        int pesoFixo = 5;
+        int numDigitos = 11;
 
         // Pegue os dígitos que estão depois do traço, os dígitos verificadores;
         String digVerif = cnpj.split("-")[1];
@@ -113,23 +124,23 @@ public abstract class Util {
         // Para cada dígito verificador;
         for (int i = 0; i < digVerif.length(); i++){
             somaDigitos = 0;
+            peso = 2;
 
             // Guarde na soma a multiplicação (peso * dígito comum [j]);
-            for(int j = 0, pesoLocal = pesoFixo; j < numDigitos; j++){
-                somaDigitos += pesoLocal * Character.getNumericValue(digitos.charAt(j));
+            for(int j = numDigitos; j >= 0; j--){
+                somaDigitos += peso * Character.getNumericValue(digitos.charAt(j));
 
-                //Se pesoLocal for 2, reinicie-o para 9, senão, decremente-o;
-                pesoLocal = (pesoLocal == 2) ? 9 : --pesoLocal;
+                //Se peso chegar como 9, reinicie-o para 2, senão, incremente-o;
+                peso = (peso == 9) ? 2 : ++peso;
             }
 
-            // O resto da (soma * 10) por 11 deve ser igual ao digito verificador;
-            resultado = somaDigitos * 10 % 11;
+            // Calcule o resto da soma por 11;
+            resto = somaDigitos % 11;
+            digVerificador = resto < 2 ? 0 : (11 - resto);
 
-            if (resultado != Character.getNumericValue(digVerif.charAt(i)))
+            //Se o digVerificador calculador for igual ao verificador do cnpj de entrada;
+            if (digVerificador != Character.getNumericValue(digVerif.charAt(i)))
                 return false;
-
-            //Se peso for menor que 9, incremente-o, senão, defina-o como 2;
-            pesoFixo = (pesoFixo < 9) ? ++pesoFixo : 2;
 
             //Incremente o número de digitos a serem verificados;
             numDigitos++;

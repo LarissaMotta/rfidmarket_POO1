@@ -64,7 +64,6 @@ public class Produto {
     }
 
     public final void setDescricao(String descricao) throws IllegalArgumentException{
-        Util.verificaIsObjNull(descricao, "Descrição");
         this.descricao = descricao;
     }
 
@@ -76,15 +75,15 @@ public class Produto {
     }
 
     public final void setQtdPrateleira(int qtdPrateleira) throws IllegalArgumentException{
-        if (qtdPrateleira <= 0) 
-            throw new IllegalArgumentException("Quantidade na prateleira inválida: menor ou igual à 0!");
+        if (qtdPrateleira < 0) 
+            throw new IllegalArgumentException("Quantidade na prateleira inválida: menor que 0!");
         else
             this.qtdPrateleira = qtdPrateleira;
     }
 
     public final void setQtdEstoque(int qtdEstoque) throws IllegalArgumentException{
-        if (qtdEstoque <= 0) 
-            throw new IllegalArgumentException("Quantidade em estoque inválida: menor ou igual à 0!");
+        if (qtdEstoque < 0) 
+            throw new IllegalArgumentException("Quantidade em estoque inválida: menor que 0!");
         else
             this.qtdEstoque = qtdEstoque;
     }

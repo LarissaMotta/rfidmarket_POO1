@@ -3,14 +3,20 @@ package database.supermercado.mercadoria;
 import database.core.CoreDAO;
 import database.filter.Clause;
 import database.filter.Filter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import modelo.supermercado.Supermercado;
 import modelo.supermercado.mercadoria.Fornecedor;
 import modelo.supermercado.mercadoria.Lote;
 import modelo.supermercado.mercadoria.Produto;
 
-import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import util.Util;
 
 public abstract class LoteDAO extends CoreDAO {
 
@@ -38,11 +44,11 @@ public abstract class LoteDAO extends CoreDAO {
         PreparedStatement ps = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
         // Defina os valores que ocuparão as '?' na ordem acima;
-        ps.setDate(1, new Date(lote.getDataCompra().getTime()));
+        ps.setDate(1, new java.sql.Date(lote.getDataCompra().getTime()));
         ps.setString(2, lote.getIdentificador());
-        ps.setDate(3, new Date(lote.getDataFabricacao().getTime()));
+        ps.setDate(3, new java.sql.Date(lote.getDataFabricacao().getTime()));
         ps.setInt(4, lote.getNumUnidades());
-        ps.setDate(5, new Date(lote.getDataValidade().getTime()));
+        ps.setDate(5, new java.sql.Date(lote.getDataValidade().getTime()));
         ps.setInt(6, forn.getId());
         ps.setInt(7, prod.getId());
         ps.setInt(8, superm.getId());
@@ -77,7 +83,7 @@ public abstract class LoteDAO extends CoreDAO {
     private static Lote readLote(ResultSet rs,Produto prod)
             throws SQLException, ClassNotFoundException {
 
-        if (prod == null) prod = ProdutoDAO.readProdutosById(rs.getInt("fk_produto"));
+        if (prod == null) prod = ProdutoDAO.readProdutos(rs);
         
         int id = rs.getInt("id");
         java.util.Date dtComp = new java.util.Date(rs.getDate("data_compra").getTime());
@@ -110,6 +116,18 @@ public abstract class LoteDAO extends CoreDAO {
 
         // Crie e inicialize a lista, e abra uma conexão com o BD;
         List<Lote> lotes = new ArrayList<>();
+        
+        if (!Util.isIntervalValid(dataFabMin,dataFabMax)){
+            throw new IllegalArgumentException("Intervalo de data de fabricação inválido!");
+        }
+        
+        if (!Util.isIntervalValid(dataValMin,dataValMax)){
+            throw new IllegalArgumentException("Intervalo de data de validade inválido!");
+        }
+        
+        if (!Util.isIntervalValid(dataCompraMin,dataCompraMax)){
+            throw new IllegalArgumentException("Intervalo de data de compra inválido!");
+        }
 
         Connection conexao = getConnection();
         
@@ -137,8 +155,10 @@ public abstract class LoteDAO extends CoreDAO {
         filter.addClause(clause);
 
         // Forme a string sql;
-        String sql = "SELECT id, fk_produto, data_compra, fabricacao, validade, " +
-                "quantidade, identificador FROM lote WHERE fk_supermercado = ? " + filter.getFilter();
+        String sql = "SELECT lote.id, data_compra, fabricacao, validade, quantidade, identificador, " + 
+                     "produto.id, nome, preco, codigo, descricao, custo, estoque, tipo, quant_prateleira, marca FROM lote " +
+                     "INNER JOIN produto ON (lote.fk_produto = produto.id) " +
+                     "WHERE lote.fk_supermercado = ? " + filter.getFilter();
 
         // Substitua a '?' pelo valor da coluna;
         PreparedStatement ps = conexao.prepareStatement(sql);
@@ -229,15 +249,14 @@ public abstract class LoteDAO extends CoreDAO {
     public static void delete(int id) throws SQLException, ClassNotFoundException {
 
         Connection conn = getConnection();
-        String sql = "DELETE FROM contato WHERE id = ?";
+        String sql = "DELETE FROM lote WHERE id = ?";
 
         PreparedStatement st = conn.prepareStatement(sql);
         st.setInt(1, id);
 
         st.executeUpdate();
+        
         st.close();
         conn.close();
-
-        LoteDAO.delete(id);
     }
 }

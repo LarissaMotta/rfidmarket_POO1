@@ -113,13 +113,13 @@ public abstract class ClienteDAO extends CoreDAO{
     public static List<Cliente> readClientesBySupermercado(Supermercado superm, String nome, String cpf, Genero genero)
             throws SQLException, ClassNotFoundException, IllegalArgumentException{
 
+        if (cpf != null && !Util.isCpfValido(cpf)) throw new IllegalArgumentException("CPF inválido!");
+        
         // Crie e inicialize a lista, e abra uma conexão com o BD;
         List<Cliente> clientes = new ArrayList<>();
 
         Connection conexao = getConnection();
 
-        if (cpf != null && !Util.isCpfValido(cpf)) throw new IllegalArgumentException("CPF inválido!");
-        
         Filter filter = new Filter();
         
         Clause clause = new Clause("pessoa.nome", nome+"%", Clause.ILIKE);
@@ -128,8 +128,10 @@ public abstract class ClienteDAO extends CoreDAO{
         clause = new Clause("fisica.cpf", cpf, Clause.IGUAL);
         filter.addClause(clause);
         
-        clause = new Clause("fisica.genero", genero.toChar(), Clause.IGUAL);
-        filter.addClause(clause);
+        if (genero != null) {
+            clause = new Clause("fisica.genero", genero.toChar(), Clause.IGUAL);
+            filter.addClause(clause);
+        }
         
         // Forme a string sql;
         String sql = "SELECT p.id, p.nome, p.numero, p.rua, p.cep, p.bairro," +
