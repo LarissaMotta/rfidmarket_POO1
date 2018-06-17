@@ -164,9 +164,9 @@ public abstract class FuncionarioDAO extends CoreDAO {
         //A seleção será filtrada pelo login da pessoa física;
         //Login e senha recebidos devem ser IGUAIS aos de uma PF que seja funcionária;
         Filter filter = new Filter();
-        //String senha_sha512 = Util.criptografar(senha);
-        //Clause clause = new Clause("pf.senha", senha_sha512, Clause.IGUAL);
-        Clause clause = new Clause("pf.senha", senha, Clause.IGUAL);
+        
+        String senha_sha512 = Util.criptografar(senha);
+        Clause clause = new Clause("pf.senha", senha_sha512, Clause.IGUAL);
         filter.addClause(clause);
 
         String sql = "SELECT func.cargo, func.setor, func.fk_pessoa_fisica, pf.login,"
