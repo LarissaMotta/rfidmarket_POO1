@@ -77,8 +77,11 @@ public abstract class Util {
             multip--;
         }
 
+        int resto = somaDigitos % 11;
+        int ultDigVerif = resto < 2 ? 0 : resto;
+
         //A soma final agora deve ser igual ao segundo digito verificador;
-        return somaDigitos * 10 % 11 == Character.getNumericValue(digitos.charAt(10));
+        return ultDigVerif == Character.getNumericValue(digitos.charAt(10));
     }
     
     public static boolean isLoginValido(String login){ // verifica se o login pode ser usado
@@ -103,13 +106,12 @@ public abstract class Util {
         if (!matcher.matches()) return false;
         
         int somaDigitos;
-        int resultado;
+        int digVerificador;
+        int peso;
+        int resto;
 
         // Na primeira etapa serão verificados os 12 primeiros dígitos;
-        int numDigitos = 12;
-
-        // Peso que multip. cada dig. do cnpj, menor val. é 2, maior 9, inicia c/ 5;
-        int pesoFixo = 5;
+        int numDigitos = 11;
 
         // Pegue os dígitos que estão depois do traço, os dígitos verificadores;
         String digVerif = cnpj.split("-")[1];
@@ -120,23 +122,22 @@ public abstract class Util {
         // Para cada dígito verificador;
         for (int i = 0; i < digVerif.length(); i++){
             somaDigitos = 0;
+            peso = 2;
 
             // Guarde na soma a multiplicação (peso * dígito comum [j]);
-            for(int j = 0, pesoLocal = pesoFixo; j < numDigitos; j++){
-                somaDigitos += pesoLocal * Character.getNumericValue(digitos.charAt(j));
+            for(int j = numDigitos; j >= 0; j--){
+                somaDigitos += peso * Character.getNumericValue(digitos.charAt(j));
 
-                //Se pesoLocal for 2, reinicie-o para 9, senão, decremente-o;
-                pesoLocal = (pesoLocal == 2) ? 9 : --pesoLocal;
+                //Se peso chegar como 9, reinicie-o para 2, senão, incremente-o;
+                peso = (peso == 9) ? 2 : ++peso;
             }
 
-            // O resto da (soma * 10) por 11 deve ser igual ao digito verificador;
-            resultado = somaDigitos * 10 % 11;
+            // O resto da soma por 11 deve ser igual ao digito verificador;
+            resto = somaDigitos % 11;
+            digVerificador = resto < 2 ? 0 : (11 - resto);
 
-            if (resultado != Character.getNumericValue(digVerif.charAt(i)))
+            if (digVerificador != Character.getNumericValue(digVerif.charAt(i)))
                 return false;
-
-            //Se peso for menor que 9, incremente-o, senão, defina-o como 2;
-            pesoFixo = (pesoFixo < 9) ? ++pesoFixo : 2;
 
             //Incremente o número de digitos a serem verificados;
             numDigitos++;
