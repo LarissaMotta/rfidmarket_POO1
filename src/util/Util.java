@@ -8,6 +8,7 @@ package util;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,6 +33,12 @@ public abstract class Util {
         verificaIsObjNull(string, nomeParametro);
         if (string.trim().isEmpty())
             throw new IllegalArgumentException(nomeParametro + " não informado (vazio)");
+    }
+    
+    public static boolean isIntervalValid(Date dataMin, Date dataMax){
+        if (dataMin == null || dataMax == null) return true;
+        else if (dataMin.before(dataMax) || dataMin.equals(dataMax)) return true;
+        else return false;
     }
     
     public static boolean isCpfValido(String cpf) {

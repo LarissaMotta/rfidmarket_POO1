@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import util.Util;
 
 /**
  * Created by 20162bsi0511 on 21/05/2018.
@@ -28,7 +29,7 @@ public abstract class FuncionarioDAO extends CoreDAO {
     /**
      * Insere um funcionário na base de dados;
      *
-     * @param funcionario  funcionário a ser gravado na base de dados;
+     * @param funcionario funcionário a ser gravado na base de dados;
      * @param supermercado supermercado em que o funcionário trabalha;
      * @return Inteiro que representa o ID do funcionário inserido no BD;
      * @throws java.sql.SQLException
@@ -64,14 +65,15 @@ public abstract class FuncionarioDAO extends CoreDAO {
     }
 
     /**
-     * Dado um resultSet com os dados do funcionário, constrói um objeto funcionário
-     * já preenchido;
+     * Dado um resultSet com os dados do funcionário, constrói um objeto
+     * funcionário já preenchido;
+     *
      * @param rs ResultSet com todos dados do funcionário;
      * @return Funcionário criado a partir do result set
      * @throws SQLException
      */
     private static Funcionario readFuncionario(ResultSet rs)
-            throws SQLException{
+            throws SQLException {
         String cargo = rs.getString("cargo");
         String setor = rs.getString("setor");
         int id = rs.getInt("fk_pessoa_fisica");
@@ -83,8 +85,11 @@ public abstract class FuncionarioDAO extends CoreDAO {
         String genStr = rs.getString("genero");
         Genero genero = null;
 
-        if ("m".equalsIgnoreCase(genStr)) genero = Genero.M;
-        else if ("f".equalsIgnoreCase(genStr)) genero = Genero.F;
+        if ("m".equalsIgnoreCase(genStr)) {
+            genero = Genero.M;
+        } else if ("f".equalsIgnoreCase(genStr)) {
+            genero = Genero.F;
+        }
 
         String nome = rs.getString("nome");
         Endereco endereco = PessoaDAO.getEndereco(rs);
@@ -94,29 +99,35 @@ public abstract class FuncionarioDAO extends CoreDAO {
     }
 
     //Jennifer
-    public static List<Funcionario> readFuncionariosBySupermercado(Supermercado supermercado, String nome, String cpf, 
-            Genero genero, String setor, String cargo) throws SQLException, ClassNotFoundException {
-        
+    public static List<Funcionario> readFuncionariosBySupermercado(Supermercado supermercado, String nome, String cpf,
+            Genero genero, String setor, String cargo) throws SQLException, ClassNotFoundException, IllegalArgumentException {
+
         List<Funcionario> funcionarios = new ArrayList<>();
+
+        if (cpf != null && !Util.isCpfValido(cpf)) {
+            throw new IllegalArgumentException("CPF inválido!");
+        }
 
         // Obtenha a conexão com o BD;
         Connection conexao = getConnection();
-        
+
         Filter filter = new Filter();
-        
-        Clause clause = new Clause("pessoa.nome", nome+"%", Clause.ILIKE);
+
+        Clause clause = new Clause("pessoa.nome", nome + "%", Clause.ILIKE);
         filter.addClause(clause);
-        
+
         clause = new Clause("fisica.cpf", cpf, Clause.IGUAL);
         filter.addClause(clause);
-        
-        clause = new Clause("fisica.genero", genero.toChar(), Clause.IGUAL);
+
+        if (genero != null) {
+            clause = new Clause("fisica.genero", genero.toChar(), Clause.IGUAL);
+            filter.addClause(clause);
+        }
+
+        clause = new Clause("funcionario.setor", setor + "%", Clause.ILIKE);
         filter.addClause(clause);
-        
-        clause = new Clause("funcionario.setor", setor+"%", Clause.ILIKE);
-        filter.addClause(clause);
-        
-        clause = new Clause("funcionario.cargo", cargo+"%", Clause.ILIKE);
+
+        clause = new Clause("funcionario.cargo", cargo + "%", Clause.ILIKE);
         filter.addClause(clause);
 
         // Forme a string sql;
@@ -142,8 +153,11 @@ public abstract class FuncionarioDAO extends CoreDAO {
 
     public static Funcionario SignIn(String login, String senha)
             throws SQLException, ClassNotFoundException, LoginException,
-            UnsupportedEncodingException, NoSuchAlgorithmException {
+            UnsupportedEncodingException, NoSuchAlgorithmException, IllegalArgumentException {
 
+        if (!Util.isLoginValido(login)) throw new IllegalArgumentException("Email inválido");
+        if (senha.length() < 6) throw new IllegalArgumentException("Senha com menos de 6 caracteres");
+        
         //Conecte-se ao banco de dados;
         Connection conexao = getConnection();
 
@@ -180,8 +194,8 @@ public abstract class FuncionarioDAO extends CoreDAO {
 
         return funcionario;
     }
-    
-     public static void delete(int id) throws SQLException, ClassNotFoundException {
+
+    public static void delete(int id) throws SQLException, ClassNotFoundException {
 
         Connection conn = getConnection();
         String sql = "DELETE FROM funcionario WHERE fk_pessoa_fisica = ?";

@@ -16,6 +16,7 @@ import modelo.supermercado.mercadoria.Produto;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import util.Util;
 
 public abstract class LoteDAO extends CoreDAO {
 
@@ -115,6 +116,18 @@ public abstract class LoteDAO extends CoreDAO {
 
         // Crie e inicialize a lista, e abra uma conexão com o BD;
         List<Lote> lotes = new ArrayList<>();
+        
+        if (!Util.isIntervalValid(dataFabMin,dataFabMax)){
+            throw new IllegalArgumentException("Intervalo de data de fabricação inválido!");
+        }
+        
+        if (!Util.isIntervalValid(dataValMin,dataValMax)){
+            throw new IllegalArgumentException("Intervalo de data de validade inválido!");
+        }
+        
+        if (!Util.isIntervalValid(dataCompraMin,dataCompraMax)){
+            throw new IllegalArgumentException("Intervalo de data de compra inválido!");
+        }
 
         Connection conexao = getConnection();
         

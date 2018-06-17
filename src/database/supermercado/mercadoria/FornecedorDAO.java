@@ -18,6 +18,7 @@ import modelo.usuarios.Endereco;
 
 import modelo.supermercado.Supermercado;
 import modelo.supermercado.mercadoria.Lote;
+import util.Util;
 
 public abstract class FornecedorDAO extends CoreDAO{
 
@@ -37,7 +38,11 @@ public abstract class FornecedorDAO extends CoreDAO{
     //Larissa
     //Filtros devem ser baseados nas telas do prototipo e o que se pede no git
     //Seguir o modelo de filtro da função ClienteDAO.readClientesBySupermercado(...);
-    public static List<Fornecedor> readFornecedoresBySupermercado(Supermercado supermercado, String nome, String cnpj)throws ClassNotFoundException, SQLException{
+    public static List<Fornecedor> readFornecedoresBySupermercado(Supermercado supermercado, String nome, String cnpj)throws ClassNotFoundException, SQLException, IllegalArgumentException{
+        if (cnpj != null && !Util.isCnpjValido(cnpj)){
+            throw new IllegalArgumentException("CNPJ inválido!");
+        }
+        
         List<Fornecedor> fornecedores = new ArrayList<>();
       
         // Obtenha a conexão com o BD;
@@ -71,9 +76,13 @@ public abstract class FornecedorDAO extends CoreDAO{
         return fornecedores;
     }
     
-    public static List<Fornecedor> readAllFornecedores(String nome, String cnpj) throws SQLException, ClassNotFoundException{
+    public static List<Fornecedor> readAllFornecedores(String nome, String cnpj) throws SQLException, ClassNotFoundException, IllegalArgumentException{
+        if (cnpj != null && !Util.isCnpjValido(cnpj)){
+            throw new IllegalArgumentException("CNPJ inválido!");
+        }
+        
         List<Fornecedor> fornecedores = new ArrayList<>();
-      
+        
         // Obtenha a conexão com o BD;
         Connection conexao = getConnection();
 
