@@ -122,7 +122,7 @@ public class LoteDAOTest {
         lote = new Lote(new Date(2018,06,20), new Date(2018,02,11),new Date(2019,02,11), 100,"Fralda XG",produto);
         LoteDAO.create(lote,fornecedor,produto,supermercado);
   
-        List<Lote> result = LoteDAO.readLotesByFornecedor(fornecedor);
+        List<Lote> result = LoteDAO.readLotesByFornecedor(fornecedor,supermercado);
         System.out.println(result);
     }
     

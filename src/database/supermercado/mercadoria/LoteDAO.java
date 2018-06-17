@@ -214,11 +214,12 @@ public abstract class LoteDAO extends CoreDAO {
     /**
      * Dado um fornecedor, retorna uma lista de lotes oferecidos por essa entidade;
      * @param fornecedor entidade que fornece os lotes de produtos;
+     * @param supermercado
      * @return Lista de lotes produzidos pelo fornecedor;
      * @throws SQLException
      * @throws ClassNotFoundException
      */
-    public static List<Lote> readLotesByFornecedor(Fornecedor fornecedor)
+    public static List<Lote> readLotesByFornecedor(Fornecedor fornecedor, Supermercado supermercado)
             throws SQLException, ClassNotFoundException {
 
         // Crie e inicialize a lista, e abra uma conexão com o BD;
@@ -227,13 +228,15 @@ public abstract class LoteDAO extends CoreDAO {
         Connection conexao = getConnection();
 
         // Forme a string sql;
-        String sql = "SELECT l.id, l.fk_produto, l.data_compra, l.fabricacao," +
-                "l.validade, l.quantidade, l.identificador FROM lote as l" +
-                "WHERE l.fk_fornecedor = ?";
+        String sql = "SELECT lote.id, data_compra, fabricacao, validade, quantidade, identificador, " + 
+                     "produto.id, nome, preco, codigo, descricao, custo, estoque, tipo, quant_prateleira, marca FROM lote " +
+                     "INNER JOIN produto ON (lote.fk_produto = produto.id) " +
+                     "WHERE lote.fk_fornecedor = ? AND lote.fk_supermercado = ?";
 
         // Substitua a '?' pelo valor da coluna;
         PreparedStatement ps = conexao.prepareStatement(sql);
         ps.setInt(1, fornecedor.getId());
+        ps.setInt(2, supermercado.getId());
 
         ResultSet rs = ps.executeQuery();
 

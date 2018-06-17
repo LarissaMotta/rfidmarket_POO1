@@ -115,7 +115,7 @@ public abstract class FornecedorDAO extends CoreDAO{
     
     //Larissa
     public static Fornecedor readFornecedorByLote(Lote lote) throws ClassNotFoundException, SQLException{
-        Fornecedor fornecedor = null;
+        Fornecedor fornecedor;
         // Obtenha a conexão com o BD;
         Connection conexao = getConnection();
         // Forme a string sql;
