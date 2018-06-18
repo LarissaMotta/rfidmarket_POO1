@@ -1,236 +1,233 @@
-DROP SCHEMA public CASCADE;
-
-CREATE SCHEMA PUBLIC;
-
 CREATE TABLE FUNCIONARIO (
-	cargo VARCHAR(50),
-	setor VARCHAR(50),
-	fk_pessoa_fisica INTEGER,
-	fk_supermercado INTEGER
+    cargo VARCHAR(50),
+    setor VARCHAR(50),
+    fk_pessoa_fisica INTEGER,
+    fk_supermercado INTEGER
 );
- 
+
 ALTER TABLE FUNCIONARIO ADD CONSTRAINT id_funcionario PRIMARY KEY (fk_pessoa_fisica);
- 
+
 CREATE TABLE PESSOA (
-	nome VARCHAR(75),
-	id SERIAL,
-	numero INTEGER,
-	rua VARCHAR(80),
-	cep CHAR(9),
-	bairro VARCHAR(50),
-	estado CHAR(2),
-	cidade VARCHAR(50)
+    nome VARCHAR(75),
+    id SERIAL,
+    numero INTEGER,
+    rua VARCHAR(80),
+    cep CHAR(9),
+    bairro VARCHAR(50),
+    estado CHAR(2),
+    cidade VARCHAR(50)
 );
- 
+
 ALTER TABLE PESSOA ADD CONSTRAINT id_pessoa PRIMARY KEY (id);
- 
+
 CREATE TABLE CARTAO (
-	id SERIAL,
-	nome_titular VARCHAR(75),
-	validade DATE,
-	bandeira VARCHAR(35),
-	numero CHAR(16),
-	tipo CHAR
+    id SERIAL,
+    nome_titular VARCHAR(75),
+    validade DATE,
+    bandeira VARCHAR(35),
+    numero CHAR(16),
+    tipo CHAR
 );
- 
+
 ALTER TABLE CARTAO ADD CONSTRAINT id_cartao PRIMARY KEY (id);
 ALTER TABLE CARTAO ADD CONSTRAINT numero UNIQUE (numero);
- 
+
 CREATE TABLE PRODUTO (
-	nome VARCHAR(75),
-	preco FLOAT8,
-	codigo VARCHAR(85),
-	descricao TEXT,
-	custo FLOAT8,
-	id SERIAL,
-	estoque INTEGER,
-	tipo VARCHAR(50),
-	quant_prateleira INTEGER,
-	marca VARCHAR(50),
-	fk_supermercado INTEGER
+    nome VARCHAR(75),
+    preco FLOAT8,
+    codigo VARCHAR(85),
+    descricao TEXT,
+    custo FLOAT8,
+    id SERIAL,
+    estoque INTEGER,
+    tipo VARCHAR(50),
+    quant_prateleira INTEGER,
+    marca VARCHAR(50),
+    fk_supermercado INTEGER
 );
- 
- 
+
+
 ALTER TABLE PRODUTO ADD CONSTRAINT id_produto PRIMARY KEY (id);
- 
+
 CREATE TABLE SUPERMERCADO (
-	longitude FLOAT8,
-	latitude FLOAT8,
-	unidade VARCHAR(50),
-	fk_pessoa_juridica INTEGER
+    longitude FLOAT8,
+    latitude FLOAT8,
+    unidade VARCHAR(50),
+    fk_pessoa_juridica INTEGER
 );
- 
+
 ALTER TABLE SUPERMERCADO ADD CONSTRAINT id_supermercado PRIMARY KEY (fk_pessoa_juridica);
- 
+
 CREATE TABLE CONTATO (
-	id SERIAL,
-	descricao VARCHAR(150),
-	tipo VARCHAR(20),
-	fk_pessoa INTEGER,
-	CONSTRAINT descricao_tipo UNIQUE (descricao, tipo)
+    id SERIAL,
+    descricao VARCHAR(150),
+    tipo VARCHAR(20),
+    fk_pessoa INTEGER,
+    CONSTRAINT descricao_tipo UNIQUE (descricao, tipo)
 );
- 
+
 ALTER TABLE CONTATO ADD CONSTRAINT id_contato PRIMARY KEY (id);
- 
+
 CREATE TABLE HIST_COMPRA (
-	timestamp TIMESTAMP,
-	id SERIAL,
-	fk_cartao INTEGER,
-	fk_supermercado INTEGER,
-	fk_cliente INTEGER
+    timestamp TIMESTAMP,
+    id SERIAL,
+    fk_cartao INTEGER,
+    fk_supermercado INTEGER,
+    fk_cliente INTEGER
 );
- 
+
 ALTER TABLE HIST_COMPRA ADD CONSTRAINT id_hist_compra PRIMARY KEY (id);
- 
+
 CREATE TABLE JURIDICA (
-	cnpj CHAR(18),
-	fk_pessoa INTEGER
+    cnpj CHAR(18),
+    fk_pessoa INTEGER
 );
- 
-ALTER TABLE JURIDICA ADD CONSTRAINT id_pessoa_juridica PRIMARY KEY (fk_pessoa);
+
+ALTER TABLE JURIDICA ADD CONSTRAINT id_pessoa_juridica PRIMARY KEY (fk_pessoa); 
 ALTER TABLE JURIDICA ADD CONSTRAINT cnpj UNIQUE (cnpj);
- 
+
 CREATE TABLE Lote (
-	id SERIAL,
-	data_compra DATE,
-	identificador CHAR(30),
-	fabricacao DATE,
-	quantidade INTEGER,
-	validade DATE,
-	fk_fornecedor INTEGER,
-	fk_produto INTEGER,
-	fk_supermercado INTEGER
+    id SERIAL,
+    data_compra DATE,
+    identificador CHAR(30),
+    fabricacao DATE,
+    quantidade INTEGER,
+    validade DATE,
+    fk_fornecedor INTEGER,
+    fk_produto INTEGER,
+    fk_supermercado INTEGER
 );
- 
+
 ALTER TABLE LOTE ADD CONSTRAINT id_lote PRIMARY KEY (id);
 ALTER TABLE LOTE ADD CONSTRAINT numero_fk_produto UNIQUE (identificador, fk_produto);
- 
+
 CREATE TABLE Compra (
-	id SERIAL,
-	preco_compra FLOAT8,
-	quant INTEGER,
-	fk_produto INTEGER,
-	fk_hist_compra INTEGER
+    id SERIAL,
+    preco_compra FLOAT8,
+    quant INTEGER,
+    fk_produto INTEGER,
+    fk_hist_compra INTEGER
 );
- 
+
 ALTER TABLE Compra ADD CONSTRAINT id_compra PRIMARY KEY (id);
- 
+
 CREATE TABLE FISICA (
-	login VARCHAR(150),
-	data_nasc DATE,
-	cpf CHAR(14),
-	senha VARCHAR(255),
-	fk_pessoa INTEGER,
-	genero CHAR
+    login VARCHAR(150),
+    data_nasc DATE,
+    cpf CHAR(14),
+    senha VARCHAR(255),
+    fk_pessoa INTEGER,
+    genero CHAR
 );
- 
+
 ALTER TABLE FISICA ADD CONSTRAINT id_pessoa_fisica PRIMARY KEY (fk_pessoa);
 ALTER TABLE FISICA ADD CONSTRAINT login UNIQUE (login);
- 
+
 CREATE TABLE Utiliza (
-	fk_cartao INTEGER,
-	fk_cliente INTEGER
+    fk_cartao INTEGER,
+    fk_cliente INTEGER
 );
- 
+
 CREATE TABLE FORNECIMENTO (
-	fk_supermercado INTEGER,
-	fk_fornecedor INTEGER
+    fk_supermercado INTEGER,
+    fk_fornecedor INTEGER,
+    UNIQUE (fk_supermercado,fk_fornecedor)	
 );
  
 ALTER TABLE FUNCIONARIO ADD CONSTRAINT fk_pessoa_fisica
-	FOREIGN KEY (fk_pessoa_fisica)
-	REFERENCES FISICA (fk_pessoa)
-	ON DELETE RESTRICT ON UPDATE RESTRICT;
+    FOREIGN KEY (fk_pessoa_fisica)
+    REFERENCES FISICA (fk_pessoa)
+    ON DELETE RESTRICT ON UPDATE RESTRICT;
  
 ALTER TABLE FUNCIONARIO ADD CONSTRAINT fk_supermercado
-	FOREIGN KEY (fk_supermercado)
-	REFERENCES SUPERMERCADO (fk_pessoa_juridica)
-	ON DELETE RESTRICT ON UPDATE RESTRICT;
+    FOREIGN KEY (fk_supermercado)
+    REFERENCES SUPERMERCADO (fk_pessoa_juridica)
+    ON DELETE RESTRICT ON UPDATE RESTRICT;
  
 ALTER TABLE PRODUTO ADD CONSTRAINT fk_supermercado
-	FOREIGN KEY (fk_supermercado)
-	REFERENCES SUPERMERCADO (fk_pessoa_juridica)
-	ON DELETE RESTRICT ON UPDATE RESTRICT;
+    FOREIGN KEY (fk_supermercado)
+    REFERENCES SUPERMERCADO (fk_pessoa_juridica)
+    ON DELETE RESTRICT ON UPDATE RESTRICT;
  
 ALTER TABLE SUPERMERCADO ADD CONSTRAINT fk_pessoa_juridica
-	FOREIGN KEY (fk_pessoa_juridica)
-	REFERENCES JURIDICA (fk_pessoa)
-	ON DELETE RESTRICT ON UPDATE RESTRICT;
+    FOREIGN KEY (fk_pessoa_juridica)
+    REFERENCES JURIDICA (fk_pessoa)
+    ON DELETE RESTRICT ON UPDATE RESTRICT;
  
 ALTER TABLE CONTATO ADD CONSTRAINT fk_pessoa
-	FOREIGN KEY (fk_pessoa)
-	REFERENCES PESSOA (id)
-	ON DELETE RESTRICT ON UPDATE RESTRICT;
+    FOREIGN KEY (fk_pessoa)
+    REFERENCES PESSOA (id)
+    ON DELETE RESTRICT ON UPDATE RESTRICT;
  
 ALTER TABLE HIST_COMPRA ADD CONSTRAINT fk_cartao
-	FOREIGN KEY (fk_cartao)
-	REFERENCES CARTAO (id)
-	ON DELETE RESTRICT ON UPDATE RESTRICT;
+    FOREIGN KEY (fk_cartao)
+    REFERENCES CARTAO (id)
+    ON DELETE RESTRICT ON UPDATE RESTRICT;
  
 ALTER TABLE HIST_COMPRA ADD CONSTRAINT fk_supermercado
-	FOREIGN KEY (fk_supermercado)
-	REFERENCES SUPERMERCADO (fk_pessoa_juridica)
-	ON DELETE RESTRICT ON UPDATE RESTRICT;
+    FOREIGN KEY (fk_supermercado)
+    REFERENCES SUPERMERCADO (fk_pessoa_juridica)
+    ON DELETE RESTRICT ON UPDATE RESTRICT;
  
 ALTER TABLE HIST_COMPRA ADD CONSTRAINT fk_cliente
-	FOREIGN KEY (fk_cliente)
-	REFERENCES FISICA (fk_pessoa)
-	ON DELETE RESTRICT ON UPDATE RESTRICT;
+    FOREIGN KEY (fk_cliente)
+    REFERENCES FISICA (fk_pessoa)
+    ON DELETE RESTRICT ON UPDATE RESTRICT;
  
 ALTER TABLE JURIDICA ADD CONSTRAINT fk_pessoa
-	FOREIGN KEY (fk_pessoa)
-	REFERENCES PESSOA (id)
-	ON DELETE RESTRICT ON UPDATE RESTRICT;
+    FOREIGN KEY (fk_pessoa)
+    REFERENCES PESSOA (id)
+    ON DELETE RESTRICT ON UPDATE RESTRICT;
  
 ALTER TABLE Lote ADD CONSTRAINT fk_fornecedor
-	FOREIGN KEY (fk_fornecedor)
-	REFERENCES JURIDICA (fk_pessoa)
-	ON DELETE RESTRICT ON UPDATE RESTRICT;
+    FOREIGN KEY (fk_fornecedor)
+    REFERENCES JURIDICA (fk_pessoa)
+    ON DELETE RESTRICT ON UPDATE RESTRICT;
  
 ALTER TABLE Lote ADD CONSTRAINT fk_produto
-	FOREIGN KEY (fk_produto)
-	REFERENCES PRODUTO (id)
-	ON DELETE RESTRICT ON UPDATE RESTRICT;
+    FOREIGN KEY (fk_produto)
+    REFERENCES PRODUTO (id)
+    ON DELETE RESTRICT ON UPDATE RESTRICT;
  
 ALTER TABLE Lote ADD CONSTRAINT fk_supermercado
-	FOREIGN KEY (fk_supermercado)
-	REFERENCES SUPERMERCADO (fk_pessoa_juridica)
-	ON DELETE RESTRICT ON UPDATE RESTRICT;
+    FOREIGN KEY (fk_supermercado)
+    REFERENCES SUPERMERCADO (fk_pessoa_juridica)
+    ON DELETE RESTRICT ON UPDATE RESTRICT;
  
 ALTER TABLE Compra ADD CONSTRAINT fk_produto
-	FOREIGN KEY (fk_produto)
-	REFERENCES PRODUTO (id)
-	ON DELETE RESTRICT ON UPDATE RESTRICT;
+    FOREIGN KEY (fk_produto)
+    REFERENCES PRODUTO (id)
+    ON DELETE RESTRICT ON UPDATE RESTRICT;
  
 ALTER TABLE Compra ADD CONSTRAINT fk_hist_compra
-	FOREIGN KEY (fk_hist_compra)
-	REFERENCES HIST_COMPRA (id)
-	ON DELETE RESTRICT ON UPDATE RESTRICT;
+    FOREIGN KEY (fk_hist_compra)
+    REFERENCES HIST_COMPRA (id)
+    ON DELETE RESTRICT ON UPDATE RESTRICT;
  
 ALTER TABLE FISICA ADD CONSTRAINT fk_pessoa
-	FOREIGN KEY (fk_pessoa)
-	REFERENCES PESSOA (id)
-	ON DELETE RESTRICT ON UPDATE RESTRICT;
+    FOREIGN KEY (fk_pessoa)
+    REFERENCES PESSOA (id)
+    ON DELETE RESTRICT ON UPDATE RESTRICT;
  
 ALTER TABLE Utiliza ADD CONSTRAINT fk_cartao
-	FOREIGN KEY (fk_cartao)
-	REFERENCES CARTAO (id)
-	ON DELETE RESTRICT ON UPDATE RESTRICT;
+    FOREIGN KEY (fk_cartao)
+    REFERENCES CARTAO (id)
+    ON DELETE RESTRICT ON UPDATE RESTRICT;
  
 ALTER TABLE Utiliza ADD CONSTRAINT fk_cliente
-	FOREIGN KEY (fk_cliente)
-	REFERENCES FISICA (fk_pessoa)
-	ON DELETE RESTRICT ON UPDATE RESTRICT;
+    FOREIGN KEY (fk_cliente)
+    REFERENCES FISICA (fk_pessoa)
+    ON DELETE RESTRICT ON UPDATE RESTRICT;
  
 ALTER TABLE FORNECIMENTO ADD CONSTRAINT fk_supermercado
-	FOREIGN KEY (fk_supermercado)
-	REFERENCES SUPERMERCADO (fk_pessoa_juridica)
-	ON DELETE RESTRICT ON UPDATE RESTRICT;
+    FOREIGN KEY (fk_supermercado)
+    REFERENCES SUPERMERCADO (fk_pessoa_juridica)
+    ON DELETE RESTRICT ON UPDATE RESTRICT;
  
 ALTER TABLE FORNECIMENTO ADD CONSTRAINT fk_fornecedor
-	FOREIGN KEY (fk_fornecedor)
-	REFERENCES JURIDICA (fk_pessoa)
-	ON DELETE RESTRICT ON UPDATE RESTRICT;
+    FOREIGN KEY (fk_fornecedor)
+    REFERENCES JURIDICA (fk_pessoa)
+    ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 INSERT INTO pessoa (nome, numero, rua, cep, bairro, cidade, estado) VALUES
 ('Abilio Myashiki Filho', 764, 'Avenida A', '29015-245', 'Ilha do Frade', 'Joao Neiva', 'RJ'),
@@ -1075,406 +1072,406 @@ INSERT INTO pessoa (nome, numero, rua, cep, bairro, cidade, estado) VALUES
 ('Supermercado Argolo', 1871, 'Avenida Primeira Avenida', '29714-613', 'Bicanga', 'Anchieta', 'SC');
 
 INSERT INTO fisica(login, data_nasc, cpf, senha, fk_pessoa, genero) VALUES
-('abilio-mf452@live.com', '1963-06-07', '091.101.076-90', 'x0ssoGiTK', 1, 'M'),
-('adilson_ab442@r7.com', '1957-07-21', '645.575.015-24', 'krk0MP4M', 2, 'M'),
-('adriana_b386@icloud.com', '1978-04-27', '666.210.226-11', '4MIIA4a', 3, 'F'),
-('adriana.lm503@gmail.com', '1976-03-15', '389.442.745-09', '0MtyXRGEihCD', 4, 'F'),
-('adriana_lttm627@hotmail.com', '1966-01-24', '388.256.392-36', 'FQxbm3WX04E', 5, 'F'),
-('adriana_m624@outlook.com', '1991-10-06', '100.098.868-69', 'j91svmX5geP', 6, 'F'),
-('adrianatdoe400@protonmail.com', '1990-04-29', '290.471.109-00', 'e8IMbpxXC9', 7, 'F'),
-('adriane.r70@protonmail.com', '1981-01-06', '991.734.803-47', '3ZpSzHq', 8, 'F'),
-('adrianesm308@bol.com.br', '1978-05-21', '351.979.710-02', 'tNF6bUb', 9, 'F'),
-('adriano.dlb372@protonmail.com', '1960-01-22', '507.143.390-75', 'KxQ0Wmh', 10, 'M'),
-('airam-jt148@live.com', '1957-01-16', '372.112.377-83', 'H5oL4xET', 11, 'F'),
-('albertinodff47@yahoo.com', '1958-11-05', '273.296.341-07', 'UhXg0C1j2M', 12, 'M'),
-('albertino_jdon91@yahoo.com', '1964-07-07', '486.436.867-86', 'swwjoaFcauZ', 13, 'M'),
-('alcides.edrj504@hushmail.com', '1982-02-10', '527.612.494-96', 'xL5O1qyIrc', 14, 'M'),
-('alessandro_bb205@hushmail.com', '1962-05-03', '271.422.248-00', 'rhLVYkGeph', 15, 'M'),
-('alessandro.cff29@yahoo.com', '1972-06-03', '880.182.889-68', 'ZOoaqGDfRl', 16, 'M'),
-('alex-dbm376@yahoo.com', '1951-02-19', '693.931.635-37', '59V3BfLl5Jt', 17, 'M'),
-('alexandre-il318@fastmail.com', '1995-12-26', '003.398.486-77', 'kgjHLiNF3eL', 18, 'M'),
-('alexandrelaz262@live.com.br', '1976-02-26', '617.760.772-10', '4HSBZtxG3m', 19, 'M'),
-('alexandre_ms71@yahoo.com', '1986-12-14', '622.136.909-60', 'D8rBV4cmy', 20, 'M'),
-('alexandre_ta134@hushmail.com', '1981-06-25', '732.235.422-21', '1wm0GDA', 21, 'M'),
-('alexsandro_ss218@live.com', '1969-05-07', '571.375.090-61', 'zPqT8NmIMZ', 22, 'M'),
-('aline_cds242@live.com', '1970-05-05', '740.341.697-02', '3OBLwddQ1BtD', 23, 'F'),
-('aline-cs67@live.com.br', '1958-07-26', '824.007.972-50', '7O0WXD', 24, 'F'),
-('alineha377@hotmail.com', '1967-01-03', '806.540.505-38', 'GOrmfApFT3pH', 25, 'F'),
-('aline-lda347@r7.com', '1964-06-15', '932.647.851-37', 'x8NiQcDu7r', 26, 'F'),
-('amanda_cds487@protonmail.com', '1993-06-15', '481.193.886-07', 'AW7RIGVQx', 27, 'F'),
-('amanda_k495@outlook.com', '1963-10-28', '661.323.113-43', 'r0zOGmexcU', 28, 'F'),
-('amanda.ms530@hushmail.com', '2000-09-09', '713.300.676-65', '3xVbMSxkMGw', 29, 'F'),
-('amanda-vv639@live.com', '1989-06-09', '603.356.573-89', 'WYI6Q07c1b5', 30, 'F'),
-('amauri-ods393@live.com', '1988-11-05', '378.167.751-64', 'S2epZYctL8N', 31, 'M'),
-('anacs431@bol.com.br', '1952-01-30', '149.547.613-87', 'fqoQf0vw', 32, 'F'),
-('anacdsd262@fastmail.com', '1960-04-19', '996.620.239-09', '1vHNLumW4Ix', 33, 'F'),
-('ana-lkg659@protonmail.com', '1995-05-07', '235.613.566-99', 'UpfnEd', 34, 'F'),
-('ana_pb460@yahoo.com', '1992-10-12', '266.030.807-10', '6UefAZ', 35, 'F'),
-('anapdsm481@r7.com', '1957-06-01', '329.718.509-00', 'AyhTbfUQMuUW', 36, 'F'),
-('ana.pdsv596@live.com', '1970-02-10', '043.040.657-69', 'mb9sqn', 37, 'F'),
-('anarpbds337@protonmail.com', '1996-08-11', '353.820.946-40', 'YIPf9N9d7', 38, 'F'),
-('anderson-fbdc430@r7.com', '2000-07-04', '001.903.313-30', 'QJE9dpYOe', 39, 'M'),
-('anderson_lsds439@icloud.com', '1959-04-27', '468.774.815-50', 'Z6yWWsi', 40, 'M'),
-('anderson_rdp455@bol.com.br', '1998-07-28', '635.130.862-37', 'EFrfHNv6lCx', 41, 'M'),
-('andre_cc165@hushmail.com', '2001-09-22', '669.623.852-26', 'AJyF9r4GLA', 42, 'M'),
-('andre.cbm272@live.com', '1999-07-06', '539.858.410-39', 'Jdxm28C8vgo6', 43, 'M'),
-('andrelms365@live.com.br', '1979-12-04', '029.107.786-22', 'SbiRCQsAk0', 44, 'M'),
-('andre.m470@hotmail.com', '2001-01-19', '246.893.038-00', 'wPVmbuGF7bE', 45, 'M'),
-('andrerd168@yahoo.com', '1991-02-17', '730.904.737-04', 'yI5yXoCH7b', 46, 'M'),
-('andrea.b483@live.com', '1956-02-26', '949.013.499-61', 'MvNueQAVjS33', 47, 'F'),
-('andrea_gl437@outlook.com', '1987-10-17', '810.112.442-09', 'MW6TqfjeB', 48, 'F'),
-('andrea-m631@r7.com', '1970-01-23', '414.668.626-10', 'CrU9rV', 49, 'F'),
-('andressa.smp122@hotmail.com', '1979-11-29', '430.237.996-01', 'LEIAAdHXBTW', 50, 'F'),
-('andson_adg55@r7.com', '1958-01-12', '232.086.885-20', 'A1NXbLUD', 51, 'M'),
-('anelisa.etds587@live.com', '1963-02-19', '264.801.057-29', 'JdsHnxTYF', 52, 'F'),
-('angela.mds298@outlook.com', '1996-11-20', '378.444.489-03', '1AqWIZPo', 53, 'F'),
-('angela_tr385@icloud.com', '1981-12-05', '269.486.615-80', 'Ju9RHfjLa', 54, 'F'),
-('angelica.b576@bol.com.br', '1977-12-19', '998.973.629-40', 'eWkNKSTAy', 55, 'F'),
-('angelita-pmm319@icloud.com', '1971-11-02', '683.303.096-06', 'vUw8w589D', 56, 'F'),
-('antonio_aq405@bol.com.br', '1958-10-04', '358.710.373-99', 'u8WU07l94os', 57, 'M'),
-('antonio-cc56@bol.com.br', '1973-12-26', '821.537.806-40', 'ziYz0j', 58, 'M'),
-('antonio_cdar644@bol.com.br', '2001-10-03', '652.807.023-74', 'L0y1z4mi', 59, 'M'),
-('antoniodsb251@outlook.com', '1990-10-30', '999.646.735-07', 'QSt7u1CML9', 60, 'M'),
-('antonio_efc404@protonmail.com', '1959-02-02', '401.133.290-91', 'fRsbs1IY1iGE', 61, 'M'),
-('antonio_rpj451@outlook.com', '1974-12-03', '530.213.652-05', 'qP30pl', 62, 'M'),
-('arianadsf106@protonmail.com', '1968-12-28', '145.135.609-91', '1YU0SE4B', 63, 'F'),
-('ariane-adddb480@live.com.br', '1999-06-21', '495.685.508-79', '0CGaK146E8', 64, 'F'),
-('ariane.cp546@yahoo.com', '1988-09-12', '751.833.733-96', 'koHfYh', 65, 'F'),
-('ariane-s111@hushmail.com', '1978-03-04', '465.267.887-85', 'QDFUHqO', 66, 'F'),
-('armenia_mdsa370@gmail.com', '2002-02-05', '095.724.033-38', 'YPX7zUJOblbh', 67, 'F'),
-('arthur-dmh604@gmail.com', '1968-06-26', '715.778.695-83', 'Jq8E0S8HrP', 68, 'M'),
-('arturdpa563@icloud.com', '1953-06-25', '712.829.349-37', 'b84qZW7e', 69, 'M'),
-('augusto-cn483@outlook.com', '1989-10-25', '702.241.433-52', '9HJI3aty', 70, 'M'),
-('augusto_kafg39@bol.com.br', '1995-11-09', '085.717.182-88', 'RfLVEag5Ai', 71, 'M'),
-('augusto.vm234@hushmail.com', '2002-07-23', '455.130.839-06', 'pdHNi1', 72, 'M'),
-('barbara-ks51@protonmail.com', '1983-10-30', '800.974.888-95', 'ARrg5H8er', 73, 'F'),
-('barbara_nk660@icloud.com', '1967-10-16', '311.376.755-51', 'd5qein94GW14', 74, 'F'),
-('beatrizdf414@outlook.com', '1985-01-16', '291.156.201-15', '1dmb00g4MZ', 75, 'F'),
-('beatriz.f593@gmail.com', '1971-06-02', '781.595.169-40', '8h03X1v', 76, 'F'),
-('beatriz_h74@outlook.com', '2002-07-18', '250.077.448-16', 'ewlTwQ', 77, 'F'),
-('beatriz.pda256@outlook.com', '1959-03-09', '863.654.732-65', '8BzLSw9aIO', 78, 'F'),
-('beatriz-sdvm274@hushmail.com', '1989-03-04', '347.088.054-97', '1HFtcM', 79, 'F'),
-('bernadete_k346@protonmail.com', '1973-08-05', '155.553.458-95', '481OaN', 80, 'F'),
-('bianca_fdo229@fastmail.com', '1999-07-13', '331.342.480-50', 'oyv3nR', 81, 'F'),
-('bruce_rf51@fastmail.com', '1950-04-26', '417.689.635-33', 'fO3VOPmo47gk', 82, 'M'),
-('bruna.ab529@gmail.com', '1996-11-28', '768.312.591-11', 'kT1tKj6Ves', 83, 'F'),
-('bruna.dsc88@hushmail.com', '1991-07-19', '705.895.327-90', '3NUwuPOPIk', 84, 'F'),
-('bruna-ldr89@r7.com', '1958-07-18', '989.607.615-40', 'Pc2HRwO', 85, 'F'),
-('bruna-maf664@yahoo.com', '1958-07-18', '579.092.898-63', 'dx43zus9GEIN', 86, 'F'),
-('bruna-rdo284@protonmail.com', '1954-12-07', '316.867.646-26', '5t5kI8J', 87, 'F'),
-('bruno_am459@outlook.com', '1974-08-27', '003.310.957-50', 'qHsXAcY1', 88, 'M'),
-('bruno.bf551@fastmail.com', '1993-09-28', '164.698.629-69', 'kSek1bOZ', 89, 'M'),
-('bruno-cn110@yahoo.com', '1992-09-13', '013.880.918-60', '1DocdhzL7', 90, 'M'),
-('bruno-cm90@live.com.br', '1951-10-11', '501.338.799-09', 'cXeP0zYMnG', 91, 'M'),
-('brunofm471@gmail.com', '1983-04-17', '501.975.051-47', 'Ns2P4Fd', 92, 'M'),
-('brunogm602@bol.com.br', '1956-02-24', '183.077.651-70', 'QY9EFZ2C', 93, 'M'),
-('bruno_js181@hushmail.com', '1973-12-08', '296.628.112-06', 'pvNOrAK', 94, 'M'),
-('brunomds176@live.com.br', '1952-11-05', '973.887.568-41', 'Ql3sKjJJiDA', 95, 'M'),
-('brunords324@hushmail.com', '1956-02-17', '091.696.294-63', 'xJDVSb2eM', 96, 'M'),
-('bruno.r613@live.com.br', '1990-04-23', '604.288.682-74', 'GoAC8rL', 97, 'M'),
-('brunotd321@hotmail.com', '1954-11-06', '839.307.684-61', 'MKm0yHIiFOm', 98, 'M'),
-('bruno_um283@r7.com', '1963-12-25', '890.228.527-84', 'YfIF7ol', 99, 'M'),
-('caiofrs566@bol.com.br', '1964-06-20', '563.434.060-85', 'AOIpu8EPsA7', 100, 'M'),
-('caioms490@yahoo.com', '1964-02-10', '653.794.460-00', 'i99BwA', 101, 'M'),
-('caiovbdl449@yahoo.com', '1972-07-04', '003.179.959-01', 'ym6CQJJ5e', 102, 'M'),
-('camila_dfc650@fastmail.com', '1953-11-28', '176.930.263-80', 's8i7zpsr', 103, 'F'),
-('camiladsf592@live.com.br', '1996-10-12', '129.644.552-60', 'WNXeMXj2Y72l', 104, 'F'),
-('camila_k663@protonmail.com', '1954-01-08', '017.567.778-61', 'SIQLfA', 105, 'F'),
-('camilamr141@hushmail.com', '1995-10-01', '128.416.242-77', 'MdwgWoESD3y', 106, 'F'),
-('camila.sdo196@r7.com', '1958-05-10', '127.882.170-80', '8mT9jqkeUU7', 107, 'F'),
-('camila_vsdc619@icloud.com', '1954-09-19', '246.184.651-07', 'LgnmXoGoAQ', 108, 'F'),
-('carla_mb13@r7.com', '1978-04-12', '953.291.442-05', '6xUWVvwm', 109, 'F'),
-('carlos_hk90@r7.com', '1954-05-26', '301.207.444-90', 'wteyURXMKxbZ', 110, 'M'),
-('carolina-gig10@protonmail.com', '1961-04-29', '173.017.418-39', 'MKv4K2jzGBS', 111, 'F'),
-('carolina_mj651@icloud.com', '1988-11-05', '036.716.024-22', '0IBPsLky8SRr', 112, 'F'),
-('carolina-pa528@yahoo.com', '1966-08-30', '747.252.473-59', 'xb4xKuKoK3', 113, 'F'),
-('caroline-ga196@r7.com', '1950-09-19', '753.231.548-70', 'WHQMIAZq7SFP', 114, 'F'),
-('cassio-bs33@live.com.br', '1978-05-07', '971.037.633-05', 'c5Ppo1ls28o', 115, 'M'),
-('ceciliaat618@yahoo.com', '1998-02-19', '552.747.310-82', 'ujXq2r26yM7', 116, 'F'),
-('celiane_dsv178@gmail.com', '1967-07-15', '358.080.148-16', 'MRppG7', 117, 'F'),
-('celina-dr563@gmail.com', '1958-12-27', '403.717.526-63', 'Ha6WO60i7a', 118, 'F'),
-('cesar.dac354@yahoo.com', '1994-09-12', '490.571.007-38', '9uigRr', 119, 'M'),
-('cesarioltc238@yahoo.com', '1996-09-05', '114.816.023-06', 'lfpXZPvE5b', 120, 'M'),
-('christianapds21@live.com.br', '1981-01-15', '631.308.324-59', 'iVD069nqlb', 121, 'M'),
-('christiane-dls594@r7.com', '1952-11-29', '114.683.645-70', 'zanKkllSu', 122, 'F'),
-('christine.ttads217@r7.com', '1977-08-14', '125.882.452-34', '6Rpxh54DpZp', 123, 'F'),
-('cicero_ldo412@bol.com.br', '1991-10-28', '138.691.963-27', '16CI79L9Qg', 124, 'M'),
-('cid-rvf471@r7.com', '2001-03-11', '089.695.734-96', 'W7geJUdqP5I', 125, 'M'),
-('cinthia.nh327@hotmail.com', '1997-06-06', '545.847.173-38', '1aLAz5GsyYE', 126, 'F'),
-('clarissa_apm281@icloud.com', '1956-12-07', '945.825.745-05', 'TqLCdLVET6', 127, 'F'),
-('claudia-cp163@gmail.com', '1967-06-24', '707.233.293-62', 'X1kqfdqxTe', 128, 'F'),
-('claudia.rs555@r7.com', '1967-08-29', '682.443.732-88', '66FK6R5SKsBY', 129, 'F'),
-('claudia-rvm292@live.com.br', '1986-01-23', '596.449.106-56', 'PiVk5nD69d', 130, 'F'),
-('cleberdsa276@yahoo.com', '1955-11-03', '374.606.764-20', 'fXGnrAE', 131, 'M'),
-('cleide.ccdo262@r7.com', '1969-10-10', '022.181.163-08', 'Sm7vyGvAz', 132, 'F'),
-('cleiton.dsd647@live.com.br', '1980-01-20', '287.321.082-65', 'XjCzvfJ90Fca', 133, 'M'),
-('cleuzapd646@r7.com', '1972-07-09', '181.483.474-50', 'NTZLCvxB', 134, 'F'),
-('clovis-mdn211@gmail.com', '1968-08-28', '303.216.185-13', '0wB4k19T', 135, 'M'),
-('crislaine_fdo470@bol.com.br', '1987-11-24', '437.981.112-35', 'Lfniu8', 136, 'F'),
-('cristianeadg217@icloud.com', '1975-05-27', '538.331.864-02', 'ZqtEqoOod0u', 137, 'F'),
-('cristiano_as578@protonmail.com', '1959-10-19', '399.321.702-08', 'Wrsp0hP', 138, 'M'),
-('cristina-ads87@live.com', '1980-02-10', '710.431.451-25', '9YM30Y', 139, 'F'),
-('cyramdasv100@outlook.com', '1995-01-29', '474.102.065-78', 'UEzeZvt', 140, 'F'),
-('damiao-wr160@outlook.com', '1963-04-17', '868.400.835-94', 'iEuPbASx2dT', 141, 'M'),
-('dandara_mpdc113@hushmail.com', '1950-04-10', '394.231.583-15', 'Ir8aPeRVa8p', 142, 'F'),
-('daniel-dpf496@gmail.com', '1953-01-04', '987.513.407-47', 'SDtQLeJz9', 143, 'M'),
-('danielhmes94@bol.com.br', '1973-01-17', '204.725.241-51', 'PMfiVqiKGOD', 144, 'M'),
-('daniel_h580@live.com', '1998-10-29', '074.922.375-88', 'Jx4A1r7', 145, 'M'),
-('daniela_sw266@live.com.br', '1996-12-13', '838.366.980-13', '9DNuAaHYHa', 146, 'F'),
-('daniele-cmds92@live.com.br', '1950-03-13', '279.020.093-93', 'DKZKPZFu', 147, 'F'),
-('daniele_kn481@live.com.br', '1990-12-19', '327.441.866-86', 'JZGmwlo6', 148, 'F'),
-('daniellebfc293@outlook.com', '1989-12-05', '083.767.168-08', '643Z3BXwhmT', 149, 'F'),
-('danilo.dbm185@bol.com.br', '1956-09-26', '131.205.011-07', 'ogZlxJ88x', 150, 'M'),
-('danilo.rds611@live.com', '1969-07-06', '432.220.104-04', '6Zu0sQH2sYJU', 151, 'M'),
-('danny_dsl180@gmail.com', '1957-04-15', '175.108.626-71', 'AsaZm1XeE', 152, 'M'),
-('darcio.r547@bol.com.br', '1968-09-22', '743.056.655-30', 'pJIKo1', 153, 'M'),
-('dario.rb499@fastmail.com', '1999-09-24', '540.219.302-99', 'WQw5kSljMd', 154, 'M'),
-('darly_drl380@hotmail.com', '1967-10-19', '425.303.404-71', 'YWv17NYZS9aO', 155, 'F'),
-('david-sb433@hushmail.com', '1968-04-25', '924.624.782-56', 'hDHpmGn8', 156, 'M'),
-('dayanerdl30@outlook.com', '1956-05-07', '659.034.958-42', 'QLQS1FRi3', 157, 'F'),
-('debora.ma277@yahoo.com', '1957-12-26', '772.181.983-09', 'Y6sCQSz55QFB', 158, 'F'),
-('deni.ss404@gmail.com', '1983-06-17', '997.742.525-60', 'MobsSvS8BLo', 159, 'F'),
-('denilson-djp38@live.com.br', '1973-01-25', '488.599.579-58', 'xTmnv3nxeDP', 160, 'M'),
-('denise-ach454@hushmail.com', '1992-05-15', '731.604.826-34', 'UAssOEvQ', 161, 'F'),
-('denise.dsa205@live.com.br', '1967-02-16', '155.082.106-79', 'GAfqDScR4EyA', 162, 'F'),
-('denisek158@icloud.com', '1966-04-28', '528.930.453-32', 'xAXldoJ51E', 163, 'F'),
-('denisesf247@yahoo.com', '1974-04-21', '018.165.375-35', 'Y9PAql', 164, 'F'),
-('denise.tms512@bol.com.br', '1983-08-22', '691.142.996-07', '9shbAvoN3Irr', 165, 'F'),
-('diego_dr229@hushmail.com', '1958-08-06', '610.312.154-09', 'ozitsh5', 166, 'M'),
-('diego-fs120@icloud.com', '1990-11-21', '368.187.642-82', 'cjdCdt8g', 167, 'M'),
-('diego_fb486@live.com.br', '1987-04-16', '312.988.913-29', 'S7LiLLuy', 168, 'M'),
-('diego.m580@hushmail.com', '2002-02-03', '928.431.283-31', '1cAiG7Pskd', 169, 'M'),
-('dilmara_erg531@yahoo.com', '1959-05-23', '396.436.397-97', 'q5Is7ADwvxL', 170, 'F'),
-('dilson_lpn191@gmail.com', '1971-10-16', '194.646.469-42', '1ZL2NmB8', 171, 'M'),
-('dissica.tc298@protonmail.com', '1951-05-28', '738.129.251-33', 'Qc9TxX9AlQ8', 172, 'M'),
-('dolores-drds388@gmail.com', '1996-12-29', '611.890.654-87', 'gQKCNKm7', 173, 'F'),
-('donardcadm579@live.com', '1968-07-08', '119.626.098-20', 'X8QxSi7TN', 174, 'M'),
-('douglas-cx432@yahoo.com', '1993-08-04', '528.907.098-25', 'qKSISWPW', 175, 'M'),
-('douglas_mds330@gmail.com', '1955-01-01', '223.362.253-79', '9uaY9bH', 176, 'M'),
-('douglas.rds137@r7.com', '1999-03-12', '443.609.871-02', 'RUo8XcMnL', 177, 'M'),
-('driele-adl666@live.com.br', '1965-10-24', '448.567.568-85', '7IScOdW', 178, 'F'),
-('eder.cm45@protonmail.com', '1994-03-13', '952.673.005-43', '6ReaZeax', 179, 'M'),
-('edezior280@outlook.com', '1961-12-28', '420.609.276-17', 'IHxqlqstD', 180, 'M'),
-('edineide_sdc98@icloud.com', '1963-03-10', '703.802.163-02', 'lLUiwJw', 181, 'F'),
-('eduardomdc286@icloud.com', '1955-03-19', '595.191.214-80', 'QIm2Gx0mlr5g', 182, 'M'),
-('eduardords112@icloud.com', '1957-04-15', '043.611.675-83', 'tYr3KY7', 183, 'M'),
-('eduardo_t96@bol.com.br', '1976-01-10', '622.269.474-85', 'RVNJSSh', 184, 'M'),
-('edvalteral346@live.com', '1961-02-08', '918.405.020-96', 'AX8Otvs', 185, 'M'),
-('elainecl320@live.com.br', '1953-03-18', '805.778.654-04', '0Ty6rxPk', 186, 'F'),
-('elaine-gmda414@live.com', '1986-01-28', '202.397.993-56', 'DgKHkVJMN5X', 187, 'F'),
-('elcilene-dslr9@bol.com.br', '1973-03-12', '064.751.369-21', '4obUjU6oo9eZ', 188, 'F'),
-('eliane-ffl255@outlook.com', '1982-04-05', '149.458.610-05', '2O8E3uGjZGU', 189, 'F'),
-('eliane_sp272@protonmail.com', '1954-10-25', '094.427.774-83', 'I4XrpOyu', 190, 'F'),
-('elilde-dsm648@protonmail.com', '1971-04-27', '743.675.045-30', 'nRyYNV7K8vua', 191, 'F'),
-('elisangelaadn168@live.com.br', '1965-12-05', '333.153.486-26', 'Th4yqNGAoD', 192, 'F'),
-('elisson.mcs646@outlook.com', '1972-04-24', '217.992.468-25', 'cchLPluPci0d', 193, 'M'),
-('elizabete_ao251@yahoo.com', '1970-02-01', '571.357.640-05', 'fDY8X81m3OMH', 194, 'F'),
-('ellen_rsj655@r7.com', '1996-04-05', '441.284.660-18', 'BrwQnsb', 195, 'F'),
-('eltonhh263@r7.com', '1982-10-20', '564.871.283-92', '54Srp0HwAP', 196, 'M'),
-('emirmpds403@outlook.com', '1962-10-18', '406.473.305-39', 'bE1vpI7', 197, 'M'),
-('ericfb242@hotmail.com', '1996-06-07', '856.104.476-40', 'yY8luRYn2mG', 198, 'M'),
-('erickcdc301@live.com', '1985-05-15', '325.627.822-16', '1gkHbJV0P', 199, 'M'),
-('erik_tm483@r7.com', '1995-05-26', '229.830.756-30', 'cudGOd7rW', 200, 'M'),
-('eudes-saj553@fastmail.com', '1966-09-18', '428.358.803-21', 'Oqu42XZ47j', 201, 'M'),
-('eunice-mm305@bol.com.br', '1996-05-21', '125.862.663-23', 'wQgYG6RsbgyM', 202, 'F'),
-('evandro.dccj515@hushmail.com', '1970-01-29', '535.432.466-15', 'H5z1MRm25sC', 203, 'M'),
-('evelize-mds355@gmail.com', '1996-12-10', '576.613.487-80', 's9hfBql', 204, 'F'),
-('evelyn-dfm636@hushmail.com', '1985-08-18', '269.415.719-00', 'WOF5tNFfyH', 205, 'F'),
-('evelyn_doa96@live.com', '1950-10-09', '699.051.324-14', 'EuEsPHKFjyea', 206, 'F'),
-('everton_drd649@fastmail.com', '1960-07-13', '452.604.820-85', 'pISeG0kg8kDv', 207, 'M'),
-('everton_dsm261@live.com', '1973-10-13', '888.109.300-61', '35Ui1yN', 208, 'M'),
-('everton-sn133@r7.com', '1990-03-22', '481.927.849-59', '2Abx1j', 209, 'M'),
-('evianefs637@gmail.com', '1976-04-23', '525.775.018-03', 'Ey7acMn', 210, 'F'),
-('fabianagdon196@icloud.com', '2002-06-20', '704.975.890-60', 'hlDjP50FSddY', 211, 'F'),
-('fabiana.tp424@live.com.br', '1952-07-28', '474.637.610-70', '4zug5uegJy', 212, 'F'),
-('fabianoadbf209@fastmail.com', '1988-09-17', '665.844.593-14', '4CJIzHu', 213, 'M'),
-('fabiano.bf635@yahoo.com', '1965-06-07', '450.718.951-96', 'BCBdC22g', 214, 'M'),
-('fabio_fds419@fastmail.com', '1980-01-11', '396.503.903-24', 'ZNXUQCde7', 215, 'M'),
-('fabiohn357@gmail.com', '1986-12-21', '750.731.364-62', 'Ere8USH', 216, 'M'),
-('fabio_lt231@icloud.com', '1997-01-19', '371.880.237-60', '6f258WXJQyG', 217, 'M'),
-('fabio_ms271@icloud.com', '1998-06-18', '698.407.483-51', 'iMicw2Ffj5', 218, 'M'),
-('fabio_pc405@hushmail.com', '1986-02-16', '703.911.893-95', 'dnpOHsHFI', 219, 'M'),
-('fabio_rcb608@hotmail.com', '1980-08-02', '040.356.012-84', 'JTPBQyiH', 220, 'M'),
-('fabio_rym151@gmail.com', '1998-09-08', '105.228.200-85', '0s2cxnho0WPV', 221, 'M'),
-('fabiotma298@hotmail.com', '1992-01-19', '552.000.658-01', 'Zyb9V4Nvpa', 222, 'M'),
-('fabricio.sl382@outlook.com', '1990-08-22', '819.616.708-36', '0orpYaFY6DL', 223, 'M'),
-('fagner_dsc504@hotmail.com', '1977-08-24', '522.028.629-35', 'M0a9ez4mmX', 224, 'M'),
-('fatima.bg330@hotmail.com', '1974-04-26', '497.493.695-64', 'jNAOu6g15', 225, 'F'),
-('fausto-npa64@yahoo.com', '1962-03-16', '351.971.878-24', 'qKPgBQANFVB', 226, 'M'),
-('felipe-as5@outlook.com', '1985-05-15', '488.974.808-37', 'aA5AxU3N', 227, 'M'),
-('felipeaf142@protonmail.com', '1982-09-25', '217.577.957-23', 'tsk7b15', 228, 'M'),
-('felipe-bdo81@yahoo.com', '1998-09-01', '122.016.004-06', 'VTgwAJuMn', 229, 'M'),
-('felipec4@gmail.com', '1952-01-18', '070.030.919-50', 'Kmy41M8if', 230, 'F'),
-('felipe.fsg310@hushmail.com', '1954-11-27', '268.331.125-76', 'fFz1vyN3vbSH', 231, 'M'),
-('felipe.jl349@live.com', '1987-01-04', '074.359.804-04', 'ShJyNpMyjVmK', 232, 'M'),
-('felipems319@r7.com', '1982-07-13', '006.086.885-68', '3Zb3KFyG', 233, 'M'),
-('felipe_ppdc166@fastmail.com', '1978-11-30', '090.994.356-73', 'FEIaGdE', 234, 'M'),
-('fernanda_ccg491@live.com', '1950-05-07', '419.164.776-82', '85W6DV97O7w', 235, 'F'),
-('fernandaldco484@bol.com.br', '1957-07-06', '593.358.745-15', 'H8Lw7Q', 236, 'F'),
-('fernanda_pd74@gmail.com', '1988-10-11', '206.090.411-00', '3iRHrxV6b', 237, 'F'),
-('fernanda_sdsv185@bol.com.br', '1967-04-07', '413.155.859-95', '0rZKyFmNkGlr', 238, 'F'),
-('fernandoaa336@r7.com', '1991-10-16', '118.536.207-00', 'fbI3Qo5Ci', 239, 'M'),
-('fernandoac143@r7.com', '1952-01-04', '600.183.876-32', 'vSPmsWp4', 240, 'M'),
-('fernando.hgt79@live.com.br', '1962-11-30', '183.706.230-77', 'iXy4SVg', 241, 'M'),
-('fernandok480@protonmail.com', '1962-09-10', '521.234.209-05', '7Hozlcp', 242, 'M'),
-('fernandolb265@yahoo.com', '1987-11-30', '178.128.568-36', 'y1pl2ysR', 243, 'M'),
-('fernando.nr147@hotmail.com', '1993-06-08', '945.247.435-10', 'cLKjTQ3xm6c', 244, 'M'),
-('fernando-op65@bol.com.br', '1961-11-11', '146.496.056-95', 'JsO4Lodaa0o', 245, 'M'),
-('flavia_auk433@outlook.com', '1968-12-03', '940.169.428-10', 'eeuCs6X', 246, 'F'),
-('flavialb399@fastmail.com', '1976-01-18', '606.521.203-26', 'ov9GOiI', 247, 'F'),
-('flaviamds431@hushmail.com', '1961-03-22', '123.716.215-79', 'fdiA8bJ', 248, 'F'),
-('flavio-d491@gmail.com', '1998-03-17', '393.589.084-24', 'TNK2go3KRg1', 249, 'M'),
-('flavioms518@r7.com', '1982-02-28', '079.527.138-76', 'oGpXKbfjw9', 250, 'M'),
-('franciele_r483@hotmail.com', '1984-10-09', '674.593.358-60', 'bPjNouOB', 251, 'F'),
-('francine.a404@outlook.com', '2002-07-11', '159.458.612-86', 'HZFRaA1KYBk7', 252, 'F'),
-('francis_cda646@live.com', '1953-11-19', '891.952.532-38', 'rbJLTjo', 253, 'M'),
-('francisca.pda607@hotmail.com', '1973-08-08', '639.181.177-66', 'fjgpJ4fsK7e', 254, 'F'),
-('francisco_cg531@icloud.com', '1996-04-30', '832.533.943-87', '6ZRVs5Mi', 255, 'M'),
-('gabrieldgs302@protonmail.com', '1959-11-25', '252.063.683-18', 'reWiAFZ1U', 256, 'M'),
-('gabriela.ba115@fastmail.com', '1953-06-19', '403.511.511-84', 'S8wQXzVhzjUo', 257, 'F'),
-('gabriela.pz32@hushmail.com', '1979-02-22', '651.364.607-33', '4XDHWkmdocx7', 258, 'F'),
-('geraldo-orrs309@hushmail.com', '1973-07-25', '010.669.555-06', 'RmdXBGci', 259, 'M'),
-('geraldo_sa288@protonmail.com', '1980-02-03', '671.436.016-91', '8Oybw3', 260, 'M'),
-('gesiele.cp56@outlook.com', '1986-11-10', '464.612.887-08', 'T0FKXAgFieSY', 261, 'F'),
-('geter.gp235@protonmail.com', '1988-07-22', '982.821.643-48', '8eTXEE4vX', 262, 'M'),
-('giglian-drs194@live.com.br', '1986-09-05', '236.323.176-74', '0Z38ajmh', 263, 'F'),
-('gisele-dsb156@r7.com', '1961-03-25', '041.442.693-29', 'bbgy0ODoj6wM', 264, 'F'),
-('graciene_ddo176@icloud.com', '1958-03-19', '156.569.930-00', 'NCInsQ3', 265, 'F'),
-('gregor_hvs393@fastmail.com', '1964-01-22', '266.472.187-93', 'NkX7e4bg', 266, 'M'),
-('guilherme_aads237@fastmail.com', '1978-06-28', '896.661.788-34', '8VRH0DQ', 267, 'M'),
-('guilherme.cl619@yahoo.com', '1994-03-05', '846.550.194-76', 'p6rW1e1fKbm', 268, 'M'),
-('guilherme-das25@outlook.com', '1978-04-09', '105.548.068-43', 'rhBchNk', 269, 'M'),
-('guilhermedmm214@gmail.com', '1957-10-03', '357.723.629-92', 'k2RCYgfXI', 270, 'M'),
-('gustavo_an374@r7.com', '1989-09-04', '242.441.012-76', 'AeWRiA392', 271, 'M'),
-('gustavo_d280@bol.com.br', '1995-07-18', '549.233.815-31', 'FP5HqBDGgNzA', 272, 'M'),
-('hamim-sbb63@gmail.com', '1950-06-23', '429.560.708-86', 'GQI9vq31Jq', 273, 'M'),
-('harumi-tgst320@yahoo.com', '1996-06-06', '068.662.200-68', 'JZSXl9Yz', 274, 'F'),
-('helenamsds119@r7.com', '1997-02-14', '279.839.736-75', '4U9nAJG8hLj', 275, 'F'),
-('heloisa_gb231@hushmail.com', '1972-05-26', '680.327.284-22', 'siOEz1l', 276, 'F'),
-('helton-doc531@live.com', '1971-01-02', '965.613.196-72', 'v0EsKxs', 277, 'M'),
-('humberto.vf385@fastmail.com', '1999-12-30', '788.221.024-28', 'CfN1jsJ', 278, 'M'),
-('ianara-dlms350@icloud.com', '1999-06-07', '531.517.238-45', 'qexhfJ', 279, 'F'),
-('igorfdm479@fastmail.com', '1975-08-15', '449.672.718-80', 'bW4gQdU', 280, 'M'),
-('igorgv186@live.com', '1966-04-20', '767.146.922-00', 'h1tndVn6II', 281, 'M'),
-('igor.v146@r7.com', '1997-07-06', '045.344.310-90', 'Vimap71jDW8', 282, 'M'),
-('ilza.adm445@hushmail.com', '2000-05-16', '615.597.622-84', 'JIswAyNzA0Ss', 283, 'F'),
-('iolanda_tn306@fastmail.com', '1971-03-09', '868.338.794-19', '2rrTQhAx', 284, 'F'),
-('isabel_cp409@live.com', '1966-08-28', '823.169.162-60', 'tXAPg9Mlbc9j', 285, 'F'),
-('isabela-rds646@outlook.com', '1961-03-04', '832.675.372-66', 'hRkRHlT', 286, 'F'),
-('isadorafnr376@yahoo.com', '1966-07-21', '524.479.144-31', 'QJ23wS6IBem', 287, 'F'),
-('isadora-fda330@icloud.com', '1991-03-11', '362.021.752-14', 'oeC0caXYuo', 288, 'F'),
-('isaias.ldsj650@live.com.br', '1998-05-23', '618.646.966-21', 'hrI5vwzz', 289, 'M'),
-('israelhs369@live.com', '1956-10-29', '928.448.353-09', 'XpiZRoCSS', 290, 'M'),
-('israel.r168@r7.com', '1965-09-04', '180.011.464-80', 'wicURLF', 291, 'M'),
-('ivana-mc137@hushmail.com', '1974-11-13', '641.661.412-01', 'bvybvB', 292, 'F'),
-('jacksonldm15@yahoo.com', '1957-04-18', '397.294.187-05', '8giqKeUSH', 293, 'M'),
-('jaine-gs243@bol.com.br', '1970-05-11', '946.102.032-51', 'xdrSFQCVBT', 294, 'F'),
-('janete_k8@live.com', '1997-10-11', '394.397.749-83', '4Wl4Bz', 295, 'F'),
-('jansenmdo136@gmail.com', '1952-04-16', '378.749.166-03', 'ZPzVF0mc', 296, 'M'),
-('jany-tsc390@yahoo.com', '1967-10-29', '853.864.684-21', 'weg9A6jDGYYW', 297, 'F'),
-('jeferson_dr367@live.com', '1969-09-19', '486.757.700-65', 'EqHpXlI7Yo5k', 298, 'M'),
-('jeffersondso491@live.com.br', '1973-03-13', '834.387.452-83', 'vMcZmf', 299, 'M'),
-('jessica-an101@yahoo.com', '1960-07-01', '865.683.596-37', 'CwDDVbk8', 300, 'F'),
-('jessica-alds596@outlook.com', '1979-02-18', '014.706.220-92', '2HgPVs', 301, 'F'),
-('jessica-md522@r7.com', '1971-05-24', '645.928.581-07', '1fM3RwdnJCY3', 302, 'F'),
-('jhamersonasc594@yahoo.com', '1994-01-19', '401.625.155-96', 'n10HLb8', 303, 'M'),
-('joana_mg518@hushmail.com', '1986-09-25', '360.603.892-52', 'VZGkiFs86Gn', 304, 'F'),
-('joana-sh331@hushmail.com', '1992-07-24', '451.960.624-16', 'AUoy5xtva', 305, 'F'),
-('joao-grdvl444@live.com', '2000-04-19', '540.547.238-70', '4r2gBI', 306, 'M'),
-('joao_pap124@hotmail.com', '1998-06-15', '686.369.792-00', 'k3Rx1W0', 307, 'M'),
-('joao.pser569@outlook.com', '2001-05-25', '335.122.804-04', '4nMHS7iqgN37', 308, 'M'),
-('joao_rff85@fastmail.com', '1976-01-03', '070.242.093-05', 'MtG7OaM', 309, 'M'),
-('joao_vdob245@icloud.com', '1965-05-15', '219.201.802-90', 'ovxyx6wZTYew', 310, 'M'),
-('joaquim.ael487@protonmail.com', '2000-09-05', '776.617.296-87', '2gYaCf', 311, 'M'),
-('joceleia.rds36@gmail.com', '1988-02-16', '053.123.066-06', '8AgaZvl', 312, 'F'),
-('jonas-pads518@yahoo.com', '1981-08-03', '391.161.715-19', 'o2X6Imfz7x', 313, 'M'),
-('jonatas_tdm576@protonmail.com', '2002-07-20', '374.548.192-57', 'ZHEbUTV3tUlh', 314, 'M'),
-('jonathanasc100@bol.com.br', '1991-07-21', '812.011.539-21', '9pq05jJraR', 315, 'M'),
-('josecft27@yahoo.com', '1953-01-13', '416.943.644-02', '2oaBpUwPLms', 316, 'M'),
-('jose-da318@fastmail.com', '1992-06-28', '202.515.358-94', 'l5wTyl', 317, 'M'),
-('joselsrc592@yahoo.com', '1952-07-06', '286.472.709-91', 'U8KOJ6', 318, 'M'),
-('joserdsr572@r7.com', '1994-09-12', '529.387.760-71', '1s39Bn3g', 319, 'M'),
-('jose_vdsj130@hotmail.com', '1953-06-22', '760.831.961-59', '7pzJyCu', 320, 'M'),
-('josiane-dgb157@bol.com.br', '1960-09-25', '742.461.780-04', 'j94KtdR0HlIh', 321, 'F'),
-('joyceft384@hotmail.com', '1986-04-18', '498.839.907-90', 'wes9TRSU', 322, 'F'),
-('juan_aw342@bol.com.br', '1970-08-11', '576.510.494-03', 'RVN9eCxDIX', 323, 'M'),
-('julia-rdcm544@yahoo.com', '1978-07-01', '196.751.880-73', 'vPj9MOU4', 324, 'F'),
-('juliana.bf28@hushmail.com', '1978-11-06', '422.220.691-14', 'ccUhnmJvBs', 325, 'F'),
-('juliana-cs503@r7.com', '1968-05-02', '347.435.903-70', 'kNUNVT28JFiX', 326, 'F'),
-('juliana_gj73@icloud.com', '2001-06-08', '021.799.693-09', '0ONY7Do', 327, 'F'),
-('julianamd327@hotmail.com', '1962-07-21', '671.863.581-28', '24nvOEH91', 328, 'F'),
-('juliananp259@live.com', '1982-11-12', '609.277.636-72', 'w31pUxF', 329, 'F'),
-('juliana-ps33@yahoo.com', '1964-05-12', '162.057.598-10', '4BjsFXSB6RTf', 330, 'F'),
-('juliana.rt556@hotmail.com', '1953-05-21', '061.107.267-02', '7nqZIBC', 331, 'F'),
-('juliana_rm23@bol.com.br', '1982-06-20', '336.952.750-22', 'OVYWbcv', 332, 'F'),
-('julianarn282@icloud.com', '1956-10-10', '153.458.557-57', '5YazfNr7tGD', 333, 'F'),
-('juliana.ts245@hotmail.com', '1973-01-12', '374.971.088-08', 'WiFTfIiN951', 334, 'F'),
-('juliana_va665@icloud.com', '1996-03-27', '054.517.177-61', 'FBOQ0RJa', 335, 'F'),
-('juliane.fgm101@protonmail.com', '1990-04-15', '159.979.422-52', '2I18SRVfah', 336, 'F'),
-('juliane.g282@yahoo.com', '1999-01-11', '346.632.025-94', '0wdPQZ7J7d', 337, 'F'),
-('karin-el315@r7.com', '1992-03-24', '668.831.232-88', 'aULe3T', 338, 'F'),
-('karina_f283@yahoo.com', '1973-11-28', '336.309.297-02', 'wuSv0oYXTFJa', 339, 'F'),
-('karinagr208@yahoo.com', '1973-03-10', '881.913.225-79', 'Dj4cYoeIaY', 340, 'F'),
-('karina.pb27@r7.com', '1954-10-01', '238.849.647-04', 'rimoTb', 341, 'F'),
-('karine.lds160@r7.com', '1982-09-12', '612.399.977-01', 'nAjy6w', 342, 'F'),
-('katia.dos569@hotmail.com', '1970-09-22', '165.021.417-06', 'QkNTlo0', 343, 'F'),
-('kelen-k562@hotmail.com', '1978-07-04', '481.931.616-88', '83AML82odKOu', 344, 'F'),
-('kely-cacda561@yahoo.com', '1963-09-24', '216.256.373-81', 'ACWCY0UNzPD', 345, 'F'),
-('kharine.m432@protonmail.com', '1975-02-26', '886.187.260-36', 'mJPev3tE3J', 346, 'F'),
-('lais.mds292@live.com', '1965-07-22', '593.161.241-66', 'lpPGnpgDF', 347, 'F'),
-('lara-mdl293@live.com.br', '1976-05-23', '578.954.061-91', 'WiNyCqVobn', 348, 'F'),
-('larissa-ma192@live.com', '1981-01-12', '722.690.038-61', 'fIPCSSth8s', 349, 'F'),
-('larissa_vt283@hushmail.com', '1968-05-12', '757.959.894-95', '6rVjAZ', 350, 'F'),
-('larissa_xdfb665@outlook.com', '1985-03-16', '104.688.876-52', 'E47WdGNz', 351, 'F'),
-('laura_ca534@bol.com.br', '1964-04-18', '579.881.674-56', '2J6s9K6Mr', 352, 'F'),
-('laura-dfet329@hotmail.com', '1964-07-09', '930.317.245-00', 'VgE5sOiGb', 353, 'F'),
-('layza-fmf115@protonmail.com', '1965-08-28', '354.609.176-03', 'jnBhHu0sOJKM', 354, 'F'),
-('leandro_bs598@hushmail.com', '1957-07-16', '546.608.774-26', 'Sj5yyiN', 355, 'M'),
-('leandrocdo268@hotmail.com', '1950-12-29', '659.465.649-00', '3UwV3dY1N3', 356, 'M'),
-('leandrofp593@yahoo.com', '2000-04-06', '213.290.587-80', 'en4SLHH', 357, 'M'),
-('leandro-gs499@icloud.com', '1952-09-05', '198.690.230-70', '1SEUTEJssm', 358, 'M'),
-('leandro.ho413@protonmail.com', '1979-01-12', '049.761.140-66', '6mzhYOC', 359, 'M'),
-('leandro-ma665@gmail.com', '1968-07-30', '334.071.445-20', 'PZvPVBxt9s', 360, 'M'),
-('leila_br200@outlook.com', '1983-09-24', '838.523.871-91', 'adNAxtTdXo', 361, 'F'),
-('leilarb143@gmail.com', '1982-04-28', '368.636.539-15', 'VKXYDAb8BH', 362, 'F'),
-('leonardohl606@outlook.com', '1997-03-21', '681.825.171-41', 'nzDPxxgO8', 363, 'M'),
-('leonardo.jdc30@gmail.com', '1968-01-13', '752.283.815-03', 'd8nK4uAqxSX', 364, 'M'),
-('leone.acdmp57@live.com', '1953-04-30', '742.916.809-45', 'OyHptJv6VY', 365, 'F'),
-('leticia.mpr482@yahoo.com', '1969-10-26', '214.886.097-64', 'ZTyZKC', 366, 'F'),
-('ligia.fst71@outlook.com', '1969-10-22', '140.214.874-76', 'GV1wH7fp', 367, 'F'),
-('ligia.n156@live.com', '1970-10-15', '730.523.976-30', 'kRSjTG', 368, 'F'),
-('lilia_rsdb432@yahoo.com', '1967-10-15', '804.384.041-57', 'gSiMMnrQwB1', 369, 'F'),
-('lilian.vs443@protonmail.com', '1974-09-15', '869.822.540-38', 'dV21yqdi0', 370, 'F'),
-('liliane.pda320@bol.com.br', '1966-06-21', '919.089.695-55', 'Ky9uPixj7', 371, 'F'),
-('lincoln.dsbb45@bol.com.br', '1955-05-23', '296.560.220-84', 'QUb66q', 372, 'M'),
-('livia-fm172@r7.com', '1957-08-23', '664.372.966-15', 'gSlaePlx', 373, 'F'),
-('lucas.bds58@protonmail.com', '1998-02-27', '596.104.457-21', 'WvK3crU9', 374, 'M'),
-('lucas_hcdm623@live.com.br', '1952-08-03', '272.705.871-32', 'bRuYmc5MVH2', 375, 'M'),
-('lucas_ik217@protonmail.com', '1978-07-24', '720.476.578-81', 'PFdzwAc0ge', 376, 'M'),
-('lucaslds375@r7.com', '1980-04-11', '719.283.774-16', 'DmuYuZ', 377, 'M'),
-('luciana-daa254@hushmail.com', '1991-08-18', '543.481.158-50', 'puGIQvrrqJZm', 378, 'F'),
-('luciana-oc666@hushmail.com', '1992-10-11', '492.513.423-00', 'GWdbwwrVBlL', 379, 'F'),
-('luciana.ys463@fastmail.com', '1980-10-09', '952.571.041-64', 'wsoXkNFo', 380, 'F'),
-('luciane.df195@yahoo.com', '1974-07-10', '353.380.815-71', 'M36kgFZ7', 381, 'F'),
-('lucianeldl573@protonmail.com', '1962-08-18', '535.965.367-15', 'zuKa0m', 382, 'F'),
-('lucianomds267@hushmail.com', '1987-05-15', '001.135.224-87', 'UU6DiQSvPlv', 383, 'M'),
-('lucirene_ada200@outlook.com', '1991-06-18', '796.917.332-26', 'lktB0IhzkyIV', 384, 'F'),
-('luis.fp321@outlook.com', '2001-04-14', '253.774.134-07', 't7qSyF', 385, 'M'),
-('luistm17@hotmail.com', '1955-11-06', '872.916.994-10', 'p2W876', 386, 'M'),
-('luizfcb366@protonmail.com', '1951-04-29', '804.764.689-30', 'oyyxGfuzq', 387, 'M'),
-('luiz-gdtca100@hushmail.com', '1959-09-23', '802.155.068-63', '9OtQtry0Y', 388, 'M'),
-('luiz_gff39@icloud.com', '2002-11-17', '876.333.823-84', 'zZZbwv', 389, 'M'),
-('luiz.pdb30@live.com.br', '1976-04-14', '451.553.537-42', 'FesRjAj', 390, 'M'),
-('luzineide.rds641@r7.com', '1991-12-19', '893.080.862-00', 'VtAAHY53As', 391, 'F'),
-('maiara-bn17@gmail.com', '1987-09-24', '835.256.339-47', 'gp1AOUmci', 392, 'F'),
-('maira_vdps477@bol.com.br', '1976-04-18', '117.141.936-83', 'uvPgYMYDd', 393, 'F'),
-('marcelo_dc389@fastmail.com', '1990-04-18', '950.545.294-20', 'mgjMWF27', 394, 'M'),
-('marcelo-dls609@hotmail.com', '1997-01-01', '138.074.506-37', 'NhrOulhIdRPK', 395, 'M'),
-('marcelo.hsd623@fastmail.com', '1997-06-20', '278.711.736-85', 'I5bBlckynkD', 396, 'M'),
-('marcelohdds579@fastmail.com', '1981-03-01', '567.223.624-34', 'nmkt23atwZz5', 397, 'M'),
-('marcelolp353@protonmail.com', '1980-01-03', '715.389.649-02', 'Jyyw1cREH6rY', 398, 'M'),
-('marciabdsg226@protonmail.com', '1984-01-16', '610.873.802-27', 'Ut1KmrIWP', 399, 'F'),
-('marciok44@gmail.com', '1954-09-30', '633.696.494-97', '1q8eMAd0VydC', 400, 'M');
+('abilio-mf452@live.com', '1963-06-07', '091.101.076-90', '5B8CAF019562AC1EDD9C8C33FD15AE64555B7C1F09BCC9A2221F9F6475E9F090FAD5E41E14F26EC1B94DCFB4B791692FFB522B42B86E6C32C7ED393C7E68CF83', 1, 'M'),
+('adilson_ab442@r7.com', '1957-07-21', '645.575.015-24', '4D55C142B38B64BE9C9E7261E97883A27DAB6395F5CBFA8C4353FDE299DB58215B916E2A55D2E8CF0BCD94C17CE809C51E938924C48E514907349C2F41495310', 2, 'M'),
+('adriana_b386@icloud.com', '1978-04-27', '666.210.226-11', '0D32F1E217764C4CF4AB6F5BF83D43BD241833BEFA47592C92B305AB113534080C9B7013E0A5AB9B49EF97B45744E280EAB9131095A37AA16A77679965C55742', 3, 'F'),
+('adriana.lm503@gmail.com', '1976-03-15', '389.442.745-09', '60F5CB63BCDFD2C7C87117E81C5E5B5FF074E7EDEEFD8A66634C6F85541BFD613BF5240492468802046ACA7F67C6018F0D2EC49F73B723CF7D267781BEFD5576', 4, 'F'),
+('adriana_lttm627@hotmail.com', '1966-01-24', '388.256.392-36', '3E48B487885B0A3B70E03D7B6BBC5055776F08F7AFB36BECB461AF54843EB46021DE6DAB74B02302865D9826EC7A626ABE54EFDB6DF3081EE2A75B196EEFCF48', 5, 'F'),
+('adriana_m624@outlook.com', '1991-10-06', '100.098.868-69', 'D0AB5151DC898DA0E0DC28F769BEC34818B7DC16C6F56516E30E7452D61C9D710DEA5E24C88853FB94AAE0D520D7207B6035480775C422C999C34ADF024060BE', 6, 'F'),
+('adrianatdoe400@protonmail.com', '1990-04-29', '290.471.109-00', 'CF27D07AE4669E04187723BB32EFA9AA3DE8084CC35B6BD3C102CC69A4394820B7F8BC502AC35882474E35590DC918848BAF0C776F7212F3B2C10963D1D38B58', 7, 'F'),
+('adriane.r70@protonmail.com', '1981-01-06', '991.734.803-47', '3A0E7B6CA7F1DB04389E589BEBF24E7B606C7236A1677C560B84B9F82CCA32AD70DCC9681015AD91746321679D0470D71964AE6CA1D05C62E767383D5D8D4C19', 8, 'F'),
+('adrianesm308@bol.com.br', '1978-05-21', '351.979.710-02', 'AD2204129777D34EE33510C62DC7119AF3481FB4A491343B1DD93833206721037F7D56CB4C2D441B1203DDD02DAD6E8312A4870321AB7096CD6B162807C5B7EE', 9, 'F'),
+('adriano.dlb372@protonmail.com', '1960-01-22', '507.143.390-75', 'AB8DA13BF09D492370AE139EA46DDC49E08A9BCD94BD4F86F4B02F59F70C25E0317EE710AA8004519B8EA68F8456AF0662BE8F5FF10BEA7AEE42FC8209B2719E', 10, 'M'),
+('airam-jt148@live.com', '1957-01-16', '372.112.377-83', '32E8C0563B5FB7B713EF14BC5CFFE426CF6F452920BCFBCE17D068F0DA73CF2A2F4736CF65A6241D01D17167716D69FB9D227FD6BBBFDD3B6048941700EDF880', 11, 'F'),
+('albertinodff47@yahoo.com', '1958-11-05', '273.296.341-07', '489BE22E3447BF170D6AC0C53FF4C0C299023F709EC57F0DF5E880733F433C7B198683FBE88E971E8637D0FCFECE37E6BCF36C5E81B267F58BBC87D2FA7FC91A', 12, 'M'),
+('albertino_jdon91@yahoo.com', '1964-07-07', '486.436.867-86', '221304F3F0C4A54A2A33047A8CE3D77F0EBB3A598DE344D19A68983E98E58786B965DDB1762A4E1E49F5840AC4C82ABC5FB26A2389C7FB5AC23B8E4D9EE77590', 13, 'M'),
+('alcides.edrj504@hushmail.com', '1982-02-10', '527.612.494-96', 'E28FEDA5D962F0DED97D3C7057EEBB24E1BAC1D6CB2F4565FE1150C51AA5F8B29B7A5BF56CA3A856B9C4D1CBFF9BC2FB8F5CCC1CF75D01549E9FA3D0F293A98D', 14, 'M'),
+('alessandro_bb205@hushmail.com', '1962-05-03', '271.422.248-00', '73E88BC1244357EAE5EC3EE60014EE04FDE7A89AE7FC97A649BC3987CCFB002E40C25BC3DD67BB0165F0DB8C25CAA440D4CC90DCB6DEE3DDA29AF92C06BEDBBC', 15, 'M'),
+('alessandro.cff29@yahoo.com', '1972-06-03', '880.182.889-68', '849B6F278AE7ECFD788CB9A9F8F8E1F60058D2714F3102A4D0CF3F1A45BB3F3E173D5560E94ACD72C7466EA79C8D105E0D18C56EA4D200A7DABA5A9BC0C9994B', 16, 'M'),
+('alex-dbm376@yahoo.com', '1951-02-19', '693.931.635-37', '143E3D632FD5460A891B2BBA5D20FB33DB7819F7480CB4F16E71CCC251D1B623DC0594E421C69E01BAEB4857227AD678D9F44ECFE98A1CA90078FF154FA3BDE2', 17, 'M'),
+('alexandre-il318@fastmail.com', '1995-12-26', '003.398.486-77', '7BD604AE8F44C67D4A4734048603745D6958EC90DEBD0FDB2552FD612EBECFEB84ABF27D46A5228B6BCD96BD6EF873B73C7355A1FF3121816F077FC6B88B0B1A', 18, 'M'),
+('alexandrelaz262@live.com.br', '1976-02-26', '617.760.772-10', '65B204BAF5DA347D3326B530CB5A56D46C3A94B6389C4CC11B5DFB50FBA7CB6EBC5772B66064857E5480403B845E75006506B793BC4E1A710523EED35149A897', 19, 'M'),
+('alexandre_ms71@yahoo.com', '1986-12-14', '622.136.909-60', 'FEC077103AC94C94DB6D56651DB44CD9A7AE02DD14304964F8FCC2E6913A1EA8F228F054992EC1F7BD959A1B77BF0FAF189ACD4DA7F6DCA2A845589E3DCC0EEA', 20, 'M'),
+('alexandre_ta134@hushmail.com', '1981-06-25', '732.235.422-21', '6E198026B928D5EBE3B11E0F639C4BD3763556417C6D858DBB5EBEB8370559EA7AAF85FB95DB04DE812350BAE2560B7822BA8A2570F15D31ABCE668742FC516A', 21, 'M'),
+('alexsandro_ss218@live.com', '1969-05-07', '571.375.090-61', '749C84C8FA6949E7DDE34515D4D878AA0771C8A2E8D24ED8DEC5781C43F853488F8C210280A2EA87E81CE00B661060B91BE35B8ADB220CA9AC1A0EF7A1AECD35', 22, 'M'),
+('aline_cds242@live.com', '1970-05-05', '740.341.697-02', '0A19A26840DEA64E4BB13AADD601FC314D129394A027D9F299AE321E830595874798A6FF2DC26ABFF439E7F2EC2B4BB90F4A5B38F2FF29FC98797FBE87B6386A', 23, 'F'),
+('aline-cs67@live.com.br', '1958-07-26', '824.007.972-50', '4A40F79E099C95C035ECF90E057BAF402CBA341602B1D0AAC0F3A757D9D0C9AE490F94C6CF02604D2CBF3DBAE3AFCC686F8F5CDD006A98531B81C4114A9091EB', 24, 'F'),
+('alineha377@hotmail.com', '1967-01-03', '806.540.505-38', 'DC201ECB4788856A4F0889735B36ECDA380E4168905B243D76EB5D6CED60AE04588472A0B5F5A8718BB94661FDBF7D1791063F1B7EAF084DB407EC28E9A776B9', 25, 'F'),
+('aline-lda347@r7.com', '1964-06-15', '932.647.851-37', 'FD9A4BDF0BCB275BA30F3ED338F2B790546D319E3AB160135193AB9164EF99F36A7D1F0201F20E3CB9BE0AD2EFEDC0C8AB8F9543E770F277E8F448E09E4558DE', 26, 'F'),
+('amanda_cds487@protonmail.com', '1993-06-15', '481.193.886-07', 'C691CF6908D1BE5A537207ECC0764F46478F674F38DFE24544E2A81CCB2891D3B5D6064495E00250A838A7F6FEBA3F5079186541E468DAF5F6F36A40C5BD5779', 27, 'F'),
+('amanda_k495@outlook.com', '1963-10-28', '661.323.113-43', '940BC8AF3022F1463065EC4A89DE1FC133675638277D8B9D017F8444BD40FD1F8B39201BDD8263B3C10162DFA30543FFA6CFC7EEDB3EA978C39DEA45908E7380', 28, 'F'),
+('amanda.ms530@hushmail.com', '2000-09-09', '713.300.676-65', 'F4B69EE981EEFF5072BFBCB30CCA6000C15878587FE20D994DE669A698EC9FE93EA596AF894B6399936F48AB441250F251588F14A61D76EAFCCAE072CE70F295', 29, 'F'),
+('amanda-vv639@live.com', '1989-06-09', '603.356.573-89', '3CE3FB1E6569D7EE38DF715A7FF6BCD0D3FC51E0990DDDC824E3B0A0687B35C81D413C6052DAAD5FF54753B738B3CBAAEF70C3F8D3D5C568749ADC8417A6B3B4', 30, 'F'),
+('amauri-ods393@live.com', '1988-11-05', '378.167.751-64', 'A894300B36A426DB3B31DF819515CCCBFB79282B4D1E3B23EA253ED20E479762F7467F39D208BF792550E6E0247DBC17B6AAAB867609478BCDC8A218D6179DD6', 31, 'M'),
+('anacs431@bol.com.br', '1952-01-30', '149.547.613-87', '0DE9AC86A85F18D5D6906670DE4D801D8EE5770305EBF178677CBD07DD5079F750FCB95A2CA24640A5A17722A50ED2A2F037F1956269AB306B5C2CBF5C2FA8B4', 32, 'F'),
+('anacdsd262@fastmail.com', '1960-04-19', '996.620.239-09', '1DF87C94055D9EC162D3E7737A5A25FE0AAF3C1471B69C1C532B484A85B37C2E9575E49887F32354D597587F99D3C326A5A07D2A7C6F7623022C670393ECC6CE', 33, 'F'),
+('ana-lkg659@protonmail.com', '1995-05-07', '235.613.566-99', 'ED947116D065A82F68AEDC8362B8D8ED808E9BE0D1F65665C3D5F36DDA2D819D08725E3D1BDBBEF9E39E3360C3574916EC71CA5FDBEE1218342C4B1A56AB01DB', 34, 'F'),
+('ana_pb460@yahoo.com', '1992-10-12', '266.030.807-10', 'B209C5BD6C03E9F6E4B3FEB7E8EF869C87E08EB1F6368CB4C45F4A85240D864E848173BB4A5FB8CE193604D806353673AD64B66614DFDF8A466BC1DC8A13A201', 35, 'F'),
+('anapdsm481@r7.com', '1957-06-01', '329.718.509-00', '72033A8D99A3DCF1603DB6B43E8801D2C38AE231B3E045ADFF0DE0D2300D095B3640D55F179A9692796B92E1392221552BD55F2FDBF76C8E2FCA0E8EC3A0C6A3', 36, 'F'),
+('ana.pdsv596@live.com', '1970-02-10', '043.040.657-69', '092C034D927A42BB00E94F81446A2D022EDB05AB35B2849179DF009DBDF3D61613B89A35A2B2DFDCE64E66B1FD0CCCFAE6C39A25653BA239D8C883457A64CA86', 37, 'F'),
+('anarpbds337@protonmail.com', '1996-08-11', '353.820.946-40', 'CC144707C405245BE1E6FEEA86812A434D45192B1FDB1632675E5F7EF9561688DFCCEAFD6216BA570AAA2D62728E27611132091ED86DEF9FFCEB2F73E99E5EA9', 38, 'F'),
+('anderson-fbdc430@r7.com', '2000-07-04', '001.903.313-30', '89FDCD1360D2F88CA87E2C9D546437361DB55C96EEA01D4564E3072F5546C5C5E3F82BEE7EAE905B7CDF3874BFD053277FFE9EFA549F09FAB4096D5CCCCC6EE3', 39, 'M'),
+('anderson_lsds439@icloud.com', '1959-04-27', '468.774.815-50', '9E4C0F59329CD6E5EC1A8FED7C8013A03A1D5B31857FE4AF6635454B2C1A38BD600EDBAA275B6069B2DA4B9D0424308E0EC050B960567622B3BD20888907B583', 40, 'M'),
+('anderson_rdp455@bol.com.br', '1998-07-28', '635.130.862-37', '8A9C0F49ED088CE813BB6B72DD5EB6172A8D328CF72351CF2AC233472E68BF019785908A3CA533883BFC28F5EA1BE7CC1BF44AA0C8C94BF3A9756AB8D3FCC876', 41, 'M'),
+('andre_cc165@hushmail.com', '2001-09-22', '669.623.852-26', '4C00282CB8CA1850C95D4738632A5899F583649440D5EACA1D7E80E38CE9A05745E85D9DDF8E25FADF0203F64F25D81B952582293375C6642D512E55EB4BA485', 42, 'M'),
+('andre.cbm272@live.com', '1999-07-06', '539.858.410-39', '4C3EC74EEEF03D829106AF77C2D351B420BB58CC6F01EA617597D5FD0B625EC5774FFFE195286275216F871B1F89093B4D93046EF068CDD18E82A833471E0601', 43, 'M'),
+('andrelms365@live.com.br', '1979-12-04', '029.107.786-22', 'A681580215B06A24679837A8728B0E722C35A31EE4B11BFDFE5BC85E8B1F82E0B7C626107E6CBCF3A632C690E57B6B39BB7869C0DCFCFA8B70A90DA6656C7C43', 44, 'M'),
+('andre.m470@hotmail.com', '2001-01-19', '246.893.038-00', '15413E7D4193E167AE9B1D1046DF2C5828F5C710A5FC9A122C075A34236FB66EBE1FF0D9D763A08EA2FF4A2B94AE4C9D4F208978D0DA3EDA4EAAE9D2006A750F', 45, 'M'),
+('andrerd168@yahoo.com', '1991-02-17', '730.904.737-04', '6B54DC8C6E1879E243E2A2D055D98D3AA284F25F840A8E278EB7D4B5656E49190E95B81137B9270B7789A296973FFB99485100FD59C2A9341D9CDDE59573BE3F', 46, 'M'),
+('andrea.b483@live.com', '1956-02-26', '949.013.499-61', '6F3D04231AC19AEB39EB0D4E1C3E6598A9FD74CE10660C260391AE4E5F965EDDE1F95F68ACF9B7605CDFF9D967B33483B0EB54648F2E0275A71BA3ED4E21DA3B', 47, 'F'),
+('andrea_gl437@outlook.com', '1987-10-17', '810.112.442-09', '98EF90522FA78F39F26FE627BBE9F789CF9A5B98C22B01D0AE082A122FE8938AE4310FB7218F32A15C8C2F4A8D7B4FD05586007FF72B92B36A6E629742B7DCCF', 48, 'F'),
+('andrea-m631@r7.com', '1970-01-23', '414.668.626-10', '050231A5018A8536A06D83F50CA1A8387FA2F9E7E20C2EC318B71979EACDAB20ADFC9DE75325F569B00764599AD97343F28D67F02FF54FC62AD578712E91DC0B', 49, 'F'),
+('andressa.smp122@hotmail.com', '1979-11-29', '430.237.996-01', 'C0DBAFF422B59396CFEFBF5FD36FFDCA4ED8F82C55505AD1FC46D6336EA0815217D9F52D3C9FAE617F86464BE3B716D95490B51D2C7E9601F090BAC6F816EEBE', 50, 'F'),
+('andson_adg55@r7.com', '1958-01-12', '232.086.885-20', '16030828105319DAE95BB8D59283B4A3408187A8D539C4FE50ADD65E4FF22FCBAA917A27653EBEE141DC4437EC39C76951C3A08ECFBBA55096BF5FE20DF8AB50', 51, 'M'),
+('anelisa.etds587@live.com', '1963-02-19', '264.801.057-29', '23D42B25ACB6590F841E2EB16D59BFAB8733A65EF78E7C954CEDD3E42B8C35E8272872C9DF6FD00F28ECFABF642EBE479B5CDC503ADEB08D39B23389CD708532', 52, 'F'),
+('angela.mds298@outlook.com', '1996-11-20', '378.444.489-03', '6E6A3839A7FCDC53E39B842224D74FC930DD390556CD1438FFD04531477A4AB202FB0E54382872D6416EC36ED9164CD384771DEC14981F0084B4D4E713FD0F39', 53, 'F'),
+('angela_tr385@icloud.com', '1981-12-05', '269.486.615-80', 'D31A70599FEBE689F76DBD9C172868D963A150EC4DAAD7E104D9D6BDB497263D37F9B02705B47B483C8873FFE93DF91C66BCBB31DEADB978C9866792755AC7E4', 54, 'F'),
+('angelica.b576@bol.com.br', '1977-12-19', '998.973.629-40', 'F6558E18941BCBF249C05550EBE00B76F46DB5ACA7BE5A5E65150483B2424EE088EAAE062C0345260960F35C0651861AF1E0DA9068D6E298F2C5C41B624E159C', 55, 'F'),
+('angelita-pmm319@icloud.com', '1971-11-02', '683.303.096-06', '49DF955FDF69EA3BAD87B6E3B2515074DEFB391D2F465009F1907BFEC2D2CF34711D1FAAF33A7166631519C5BFC497C72D46D5BB41CA50C7E4328F19E852558C', 56, 'F'),
+('antonio_aq405@bol.com.br', '1958-10-04', '358.710.373-99', '2DF005C17B44C803B9A9F4DDD9C36DDC62DA1A371874D221BF719CD54D3BE0365D3F08A9D30F06DFBFB2023511DC0A453B43E031132316CB9104871BA8CBE17B', 57, 'M'),
+('antonio-cc56@bol.com.br', '1973-12-26', '821.537.806-40', '2528E9FDBA11594F2E55D72594498F36AE3ABBE17FC2E4EE8CF120B22BC5F105FEEA09BBFD5922DCAB47E750525B4F6143F8F219251B323F5D6F47B4F6A033CE', 58, 'M'),
+('antonio_cdar644@bol.com.br', '2001-10-03', '652.807.023-74', '7ED68687F6906AD429E3AB60B6FD2A327D561F7418B3D4518019CEA1C1288C3856769C94AA869A77CCD73946758CC1A773B37BF481B5FC81D8693E0A23D7CC49', 59, 'M'),
+('antoniodsb251@outlook.com', '1990-10-30', '999.646.735-07', '21277DE0C8B0D0E2630F38E32DD014D88B72E1A5110932AE4366BAAFCDF384010F869798AAC5DB7BE22850D3CC2134093FC37201E7C5CAD4CFC3452ED6C665EE', 60, 'M'),
+('antonio_efc404@protonmail.com', '1959-02-02', '401.133.290-91', 'C1A29A3DB723A6D1586BB5CFEB1AA96BD221568E0E9D8C9716FC4A9DCD7EA8B416D086E616519CFEF842D55B03B4746B6876DEF852769612265CE91ADB65CD39', 61, 'M'),
+('antonio_rpj451@outlook.com', '1974-12-03', '530.213.652-05', 'B9CAD85E063256A2BF2C103B9562051129AC015AD31B56F09ED320ACB57CB97B0C9FC2A8E0D13F3835C1C6DEC21DE09DB07591635E9C4CD31FFC47DE59E584AC', 62, 'M'),
+('arianadsf106@protonmail.com', '1968-12-28', '145.135.609-91', '46ABDF49F3B70321565467F5EEB70404861F60FE4BD6C512688F4F304E44B5984D847A9068C19B8908D8EB9E1A8F27B224D4AE840169659B58E0207466A515A5', 63, 'F'),
+('ariane-adddb480@live.com.br', '1999-06-21', '495.685.508-79', '3FDB901B747BC27C72C865B6B56241088E672B295150D1D4E21895383AA370E99B80B618AFC4A340B4F5DCE376E581ADE6532C33EB65D430F76F2D655AA4C7DD', 64, 'F'),
+('ariane.cp546@yahoo.com', '1988-09-12', '751.833.733-96', '2AB4A88D1D3BAAB0F6B132002D395F73A1FB4DED5202863AC9226A0DB30703639A8F08E733063E5011E1C1970B2CC0E61364ED949514EB9696E53A0D2E1057BB', 65, 'F'),
+('ariane-s111@hushmail.com', '1978-03-04', '465.267.887-85', 'A2B36A8F48543E2533196173438AEB593968658C3684F79B93CB4C23B4943AD2F4653C23380499E26EED2685A13BB0CFE8E7D0676CCDE97D87ADDA2DA2A88A4A', 66, 'F'),
+('armenia_mdsa370@gmail.com', '2002-02-05', '095.724.033-38', 'AE4B25F5F4E2C73F2C85197B8A69AF6A0E6778882549E2062421D722A3FCBAD32D1ADFA85F3DA27FEEABAADD0B1FC0F8E24A9B42F0A93C38B72CA87FEB8C9E23', 67, 'F'),
+('arthur-dmh604@gmail.com', '1968-06-26', '715.778.695-83', 'C18DD8BCEC44A6B8C587B1FD9F32D6AB65EC3B3CB0A21F0EA9483DF98949FB65FE24EB7917ABF9EEADA62C918568121600DDE35CC08F3ACA8C5EE4BDE06B01E0', 68, 'M'),
+('arturdpa563@icloud.com', '1953-06-25', '712.829.349-37', 'FBA209E0C6D3A304DA83801C6C415C7B222A1D060A475E0B0091C9F90F956FB72A9952D5314F56AEFD5AF7390E4CF21C50232923ED27CA5A0B1A6C32D6FF2107', 69, 'M'),
+('augusto-cn483@outlook.com', '1989-10-25', '702.241.433-52', 'B064552DDFCAD8DEB79028CF51A89FE6F815BE5C8F62898FE0FB38656502E9E34E52450F22968236330B68626D05543C1099497B074CEF5BA2D21E2960ADBEB1', 70, 'M'),
+('augusto_kafg39@bol.com.br', '1995-11-09', '085.717.182-88', '46E3BAF61D14B9F490C404C32BBFCBCBF9876BFD04EF3DA79126FD36B110DD533B780925208B7EF8D9EBF985FE1846392EDC51DCD1D701DFDAB99D57B9C97819', 71, 'M'),
+('augusto.vm234@hushmail.com', '2002-07-23', '455.130.839-06', '72F76AD40E982D6FDE4DA0A54C0D9AF9ACD92DFC0601141D26177DC879D126803B6778DBCF62BB40D493A1F998F286F5DD6ADC3FD137A7277335B1EE65940987', 72, 'M'),
+('barbara-ks51@protonmail.com', '1983-10-30', '800.974.888-95', 'FFFF07F89240C59F9F7A3A265E9C1DEBF042E44BB642924FF0C5E6B5F2EDB9D3C89B1E3B23230E6035C5CDAC7053D37FE154EF2BB6DEFAE450DF7CE0963E860D', 73, 'F'),
+('barbara_nk660@icloud.com', '1967-10-16', '311.376.755-51', 'E35A4F749A7967F1FF49FD5804737300015CB5568244CAB38129D80D15D1883740F719743B3682DE98C63812FB476EDEC97E1E467D9E8E1E4FFD90FB6B759DCD', 74, 'F'),
+('beatrizdf414@outlook.com', '1985-01-16', '291.156.201-15', 'B073576132E6197530237D087295B2ECE701C190E07CA75B5E2713974B63FA2F5F8A06DF0277132782E315CBD6A03361B978ED6673779DB6DE77977DFCC2414E', 75, 'F'),
+('beatriz.f593@gmail.com', '1971-06-02', '781.595.169-40', '2D9C5D2742D7F316C73391263E6EBA8BE070596E59C1915CE5282A8FBFC5DA371B4790CFAD99EA9B22C74EA263CF5E6077B0B0AE5341AA031A05E19D66766499', 76, 'F'),
+('beatriz_h74@outlook.com', '2002-07-18', '250.077.448-16', '0B209B969E35A64A4E59C202CF1A7A257DDCD4C4CC906CFF53BD92224F0D9925859B20A61F6FDFD91E918FBB81F6BA2A91E3831BC742546626F51EE3B39B8EB1', 77, 'F'),
+('beatriz.pda256@outlook.com', '1959-03-09', '863.654.732-65', 'A44ED22780F8A2DCCA46BC7B485E5F2ADFA7B3DC8A0C7918341945A3C880B7FA768A9C4B2BFD6C94558A99B0AAE057AD2061D065C21B48CDABEADB2DF7D19141', 78, 'F'),
+('beatriz-sdvm274@hushmail.com', '1989-03-04', '347.088.054-97', '1B611B15BCD51EDD00A6DB9EC9A69BB7F1D7B3FAFDC781BC21EE0A4963482E43DDC44BDD339E624BFEF97EA157CC3E5A6D0DADE867E8284F29ACBAC3A1098E1B', 79, 'F'),
+('bernadete_k346@protonmail.com', '1973-08-05', '155.553.458-95', 'F3B00CBF9FC64B053C4A2F5EC46F75CF5B01E31C7362A2E1E5DE63A4479283AFE2E783A862E1A9A0666E399F8CDDC75BFEB91B1EB4764DCD9401D378DF994773', 80, 'F'),
+('bianca_fdo229@fastmail.com', '1999-07-13', '331.342.480-50', 'DFEA6930262B9F23DF3EA01761BBD5F6BC04C10199DAB3388BBD6AD63969BF9EEC01B362D8FA202E1A4DB082F872A3A7A485B8F032F67B382F96E73FF8BD7FE0', 81, 'F'),
+('bruce_rf51@fastmail.com', '1950-04-26', '417.689.635-33', '23C788EF7CA15BEC548AB73DE7191BDBA3DCE4FCE7266CBBC6A4CC6FFB28999006C2F4A3EC309157C610A4BB52C95E72DFF138B8587624FBAF1F88559E667AE5', 82, 'M'),
+('bruna.ab529@gmail.com', '1996-11-28', '768.312.591-11', '3870648CCF2BA62316162E96D26FCF5E0B54BED652F6C860BA14FF4C1E3A8F5CA9209F022E22FEA59424555504CCD555D2402197197D5F0A8CA3096BC0958D6F', 83, 'F'),
+('bruna.dsc88@hushmail.com', '1991-07-19', '705.895.327-90', '4C4D841FD92FB0BD9541B3CD3D3B7220864421445CC5D3C76BF58127929B80404EB1DB3CC4C462B81941C86489568E8F0A996553DD60CC4682316DFF86A5C078', 84, 'F'),
+('bruna-ldr89@r7.com', '1958-07-18', '989.607.615-40', '9DD50C4E2886941CFDEE49323A3A72063077EB0451D7FDE72A241E130153FC7F40E23A54E1E26BECDA78594E4DBD1A865FA0EACE0B25D74F75EE87D92EF574FC', 85, 'F'),
+('bruna-maf664@yahoo.com', '1958-07-18', '579.092.898-63', 'D1405F05B527468BFAA9B2465974FB564361DBBE12175E324C8C5FEA70F508937818431CB49892C97DF33003F746168FE57C69D8ACC69B9BB6360ED5B4D0E1E2', 86, 'F'),
+('bruna-rdo284@protonmail.com', '1954-12-07', '316.867.646-26', '2B4D7892DAFD12F0A653E8707945007305256DC459E8F8CAA35F45F973F0A7AFF5393E60E0A9CCDFEAAED56037F558F29FBF84213ACF776D5292BA2286343D91', 87, 'F'),
+('bruno_am459@outlook.com', '1974-08-27', '003.310.957-50', '89C10770AFA20996F57A88D565A5F7D067302880CE5AF3CE2C6A25178E6AC464E570234735485D0F5D2EC57E8D09675A1D4D4AB8D0521A19C7C2B512903EA483', 88, 'M'),
+('bruno.bf551@fastmail.com', '1993-09-28', '164.698.629-69', '132F6A200CE75C766E8A1E350A901BFA0DFB24C06F38A7DA7C65EA2117BC4E4940C8E475AE30B200C2619806E4781833EC43E08D9E4403E8C8CC4A2E3616B7CA', 89, 'M'),
+('bruno-cn110@yahoo.com', '1992-09-13', '013.880.918-60', '4216DAED86C1F3AAA493330E84F2118CCD226949D00C701AE1869B5E499D2D3BE3EDA1295C0AA95BD98D27D5E27362C7BB1D81532029C7DA4B5DFEA402BC6464', 90, 'M'),
+('bruno-cm90@live.com.br', '1951-10-11', '501.338.799-09', '076D02274A46A42A9852C2558F95B4105D45F2E5748D81F27035340913F006379C2A5F1665728E6CDA1318C470C24D5CDA3E54F4F986653D833DCFB3BD4F106E', 91, 'M'),
+('brunofm471@gmail.com', '1983-04-17', '501.975.051-47', '4C694412A19363EACB76DC32BE75EA6A1346D0D90562A0049F252AF71F37CCACEC87B7ADA40CFE0EB88D19714DC291B33C740D74232AC401737E1C69783162A5', 92, 'M'),
+('brunogm602@bol.com.br', '1956-02-24', '183.077.651-70', '645A67137EC648D5FB5D2D3E51CD2B934D39A561B9B7F3244B41240C421BA3AC00505F258C477157B7DCA393350C0B1F7E7DE5C1A083C5A48959529BD2D7F7C8', 93, 'M'),
+('bruno_js181@hushmail.com', '1973-12-08', '296.628.112-06', '99392AC10EDEA9697D8319525B49A71A948603819E8252BF3098B0A148DB70E70017AB1ED6ABB911BCB7833EF88D08958EDFD0BB0F111DBB209694DE91113688', 94, 'M'),
+('brunomds176@live.com.br', '1952-11-05', '973.887.568-41', 'B167661563A457E4E058675EF0724918278A73A07410B19BFC966710EC4301B37848651AD6451087652DF0E89ED288A5E1A39640F3CF81E4A0CAAE66E308F4A6', 95, 'M'),
+('brunords324@hushmail.com', '1956-02-17', '091.696.294-63', 'E3FD0D86840E218C9A01CCE8144ECD6CBAB0A9DE258AD4D7C99235F65860EB83BEA08647B715860CB3EBD2B16DF94751A18755F140A8393A4F23C7D0AD170AE6', 96, 'M'),
+('bruno.r613@live.com.br', '1990-04-23', '604.288.682-74', 'CEB548FF68F49FD1266361D8A3F4EDE7B68FB95D62D8A062E57672ABC83FF91C8221CED1FA80B37A2A4011F3B9C0A04FDD2861AFC1F93A35C1C6DCF80666050B', 97, 'M'),
+('brunotd321@hotmail.com', '1954-11-06', '839.307.684-61', 'EC86929D6FFA4A97B3A8A22446D7A6DCFB02ABE10581A395645B383153756B2E00E383C60AD6698C08D94B5353A751B939A3FF70C7E0D8013F0370F27DA2332A', 98, 'M'),
+('bruno_um283@r7.com', '1963-12-25', '890.228.527-84', 'BD6275CD3B5B98EF9C4131F311D5454C884CFF8F368D76FEAC60CF044407E961439E1D9CADDE920867F444D957562FA78BC124686C6F7763BDD28D9470EC5005', 99, 'M'),
+('caiofrs566@bol.com.br', '1964-06-20', '563.434.060-85', '73A66A4D796D6C4F095A49188043CEE31CA155730E024ACFE1DDA63C4B52F136458633378B6F783D4DC7C7BF808F07820063C6A0036DDA0F6AE6BACFD94E9109', 100, 'M'),
+('caioms490@yahoo.com', '1964-02-10', '653.794.460-00', '640881226B57A4E369F20F65095A4C01C84B9FCA8CB213C7A3D16E47B4DA29AE5DAFC6E46C6906F7A37CCD52C1D384646E83E6DD833412A7FB735511343E3705', 101, 'M'),
+('caiovbdl449@yahoo.com', '1972-07-04', '003.179.959-01', '25E9FEA73CAD4E8FEA591674631B467C5FAB6376BE351231836EA9306D416E8D68F174537730D3F9BA382C3FE52FEFD860C8171908AD4E8E02FEA0D08B6E658E', 102, 'M'),
+('camila_dfc650@fastmail.com', '1953-11-28', '176.930.263-80', '8C26B2A6AEBE129DDD3EEAAC44086AB7EBBECC2DE92539AF712B117CB12517F92A3B2ADA8F7A5F1B9721926B3A4A26D556B5847F581DA44ECC4C9CDA972291EC', 103, 'F'),
+('camiladsf592@live.com.br', '1996-10-12', '129.644.552-60', 'A80CF7C8955C02723BD1C589C245C89F56D77E792908C51BA9C98FFE56A350115FBBDEF43C4AABC639B948A4F8BA83ACCBB343F9678023E58F04AEF1972E615E', 104, 'F'),
+('camila_k663@protonmail.com', '1954-01-08', '017.567.778-61', 'D9D8F5DE9F736568185BDD1BD6EE947BDDACD36194413C4675ED13AA8D3070B103F499B0596EFCB45999E77FE1F3AF187E4006587A4D15C2E8F8C24664C3CFBC', 105, 'F'),
+('camilamr141@hushmail.com', '1995-10-01', '128.416.242-77', 'E2207C51DFC7EF28D36F5C64EC48D597A4B141B30872CDD09CC2E1A9DC2CC8B6B6EF70C4BC2FF9306737C84E03778C110D6694E06EC82F72F0C3C904D86BFA55', 106, 'F'),
+('camila.sdo196@r7.com', '1958-05-10', '127.882.170-80', 'EE0E30EFDF1E2D6F22B38E5014DF7900E2ACFAE5123AB98D77C92473A70330B623D9CF50DF8B74353A7AC79F9FD46D0313E255FFD3E120C25558C0465D06A9F3', 107, 'F'),
+('camila_vsdc619@icloud.com', '1954-09-19', '246.184.651-07', 'CF033586D4530C15937EEC133314EDE90C0F18AF5B14F8A566A5A1A1C8B3C5F6DC3AA3C657C25A02FAF6BBF2E070D70FD5B0F573EB63CE8030A1CD83E2B2500D', 108, 'F'),
+('carla_mb13@r7.com', '1978-04-12', '953.291.442-05', '1B24B2E9A72C817C70CFB69D8C3809DC6C3AB30BA67390E415332EF002A5EA7BB174CAF9491B0F8EB7DE321CC28180C650B74892CAD763D4410E63FEEF2F8671', 109, 'F'),
+('carlos_hk90@r7.com', '1954-05-26', '301.207.444-90', 'FA9A29652EB2BF16E347E12406DDBDEFAF94DE6A66C38FDF4008F856340C367EC8B91F2E1E5AB9C3FECE0524407650B638D21D8EE149C4A5725C97A297F963C2', 110, 'M'),
+('carolina-gig10@protonmail.com', '1961-04-29', '173.017.418-39', '659BE3BAEE5264CFDB57B0E02D91F87021DB5A8D96CCE20CD01F3405BD9D12555215723F7CB73F072F212E5B07F8136CA96991FC14AB2272953F7756DC626E53', 111, 'F'),
+('carolina_mj651@icloud.com', '1988-11-05', '036.716.024-22', 'C0A45336634C2A11DD4AC0785BC1538674C90AD5B646E2CA877EE265FF5F1E3FCEAC2DC41C1EB72CD1ABB95C1A69AF73940AE54FEC708F5D1F0E597634BE49B0', 112, 'F'),
+('carolina-pa528@yahoo.com', '1966-08-30', '747.252.473-59', 'C8AD998D61483AA170EF678234753C88B4095B4B4F27E5C2F1E85E944F2775B20326AC48D550DE1FCB9471B27B2D2F320BDF6287EA43688D4573FAAD9FE71ED2', 113, 'F'),
+('caroline-ga196@r7.com', '1950-09-19', '753.231.548-70', 'F701C2D86515C9A6EDDBE99629C41681A8913C73CAEC1C903E1C164682B527A63368E290EA511B14CF6C6A3AC75BD1BB9AA4EB72EA92816D555CEB9998106CC9', 114, 'F'),
+('cassio-bs33@live.com.br', '1978-05-07', '971.037.633-05', 'F0265B8FAEC9ABD037D3095DA3F9D052906FB2A07C9575A8CF2ADD888DEC9BCC974DA1885B93A68866EC8C4C568B434DB4F6723F6B5B6CD5102C301AAFA53B9C', 115, 'M'),
+('ceciliaat618@yahoo.com', '1998-02-19', '552.747.310-82', '21CE8F2B239957B698B1B0D2F23E0C62C1B9B48CEBF60C9D6EDEEE7571C682BA76439C462B0C49C54518A6D18F2F1537118F36C14E6591EE043EF367C5274B10', 116, 'F'),
+('celiane_dsv178@gmail.com', '1967-07-15', '358.080.148-16', '85E3B78A79E5853C5A5447800D29E782A95B2EDA4818D5391EA180092DD5D3E703986B7484B7CFC53FB505E0BBE8362C2878F62F1F8C3B222EEE985BEBB14550', 117, 'F'),
+('celina-dr563@gmail.com', '1958-12-27', '403.717.526-63', 'AB451D96BAE5FA4398CBF041376510C8BE4B6B0A0E6D5AFB70EFD35E322ADA53259C13E4FA62D57FC4CDBD010DB06E92426259FBCEFF0F8763025E873463168F', 118, 'F'),
+('cesar.dac354@yahoo.com', '1994-09-12', '490.571.007-38', '065FA790ACBEF78D50BAC0AB2CA43147C3E6C2F34CCE0B4C6D8DDBC902023D8E58AA9FEA408E51BDF0728005A7D653F74A90B39A906907E4887D71BF4C7BA0B5', 119, 'M'),
+('cesarioltc238@yahoo.com', '1996-09-05', '114.816.023-06', '9BB50B3BCB6C7B9E8AEAAABDBDEE3BC92E6E91E3B8317C3D6CED6875AC56DF71A29F8E82BA7B510169F671570DF679DE02031B81BA6F8FEB74855FE4DC3E4C33', 120, 'M'),
+('christianapds21@live.com.br', '1981-01-15', '631.308.324-59', '8D0465EA0141EE1A7F297B26F8807528E92A224D53039AA32683D6746FD594DDB2BD80289CF70606AD7EB2FBAB65325676EBEC84DEA5ED6164EC20E48389F7AF', 121, 'M'),
+('christiane-dls594@r7.com', '1952-11-29', '114.683.645-70', '4B92C7E9EB03FB0792F41855AC64DAE7327B532BE719B1C628BD49536860216D3A36B57FC426DADE85D1083D3E363512083547F7E99D05E0D9E1B1486D566CAE', 122, 'F'),
+('christine.ttads217@r7.com', '1977-08-14', '125.882.452-34', '91C56D2F4027F297F98AC62BAB3808BA420CD44E46398E7DEE989708CFEAD0908EBC78E0941E949052FE3F58B82109812E499D2C5564E651D299DB47070F1671', 123, 'F'),
+('cicero_ldo412@bol.com.br', '1991-10-28', '138.691.963-27', 'D61A8BFE905BE8BB5FD01BD7A28DA558B70BBFC123209B2463605F7F6381DA095206AEC162CC5EB14B236462EC8506E7DB6259302A5C7FCAD0C7FAC994B6A0EA', 124, 'M'),
+('cid-rvf471@r7.com', '2001-03-11', '089.695.734-96', '056672A782A6E2CA2DBADF67FE8835ACB9082AD2FF98F4A371870574C083F360DB296879C3A17681527452EEAA3882FE445AEF70A1EDB7720900331A9DD3A436', 125, 'M'),
+('cinthia.nh327@hotmail.com', '1997-06-06', '545.847.173-38', '345D952C5833494BE6743546D7BB2891534E04625E721B133F53FA33F8DEFAB8F9D8E7C22750EC5B1704FF00CAA73D7097E03C54CDD537295A65888C2800B8B9', 126, 'F'),
+('clarissa_apm281@icloud.com', '1956-12-07', '945.825.745-05', '8459EAA2060E8226CB2FDA4E749A807073E34B99C0B2D81340F0D7D054BDCFDE3A7051A3B6B2E0C1588F47C51EDA59FA5AFCC815343C6F912A470C1C1CDDBEF1', 127, 'F'),
+('claudia-cp163@gmail.com', '1967-06-24', '707.233.293-62', 'ADD30A199D9540D0B843D8560E18FC7232EA9F08EDE10BFB577289D8FA371FEBA22D6A981F225E64732E8C755CEAFD0B79055C3102D72EEBBEC900066A8AD117', 128, 'F'),
+('claudia.rs555@r7.com', '1967-08-29', '682.443.732-88', '0F977A5AD949125F0E933DBE59E4FBE4392B9503CB170EE4484051CADDFE09F824864CAE5FF49F612C8885999147ED80BA9C747EB35CC8A4D09068F551B70F40', 129, 'F'),
+('claudia-rvm292@live.com.br', '1986-01-23', '596.449.106-56', '6FBC816639DD490F5AE205B88861A8FB68966E3AF742B730A1127CEB944E44DB6BBC4B0B74E429AA2F9B1CF9B932C66A44BBED5331C1BB799BCB9E1FD5C026B4', 130, 'F'),
+('cleberdsa276@yahoo.com', '1955-11-03', '374.606.764-20', '4C7F4A28CF8BE302C34308EC6B6CA0EC4B70B406595A9288A13B2DAC42ABDFA8B8DF83F959AE9B95BB32D806E800D2E1F8941964668E04FA70C98B59BCC8F94E', 131, 'M'),
+('cleide.ccdo262@r7.com', '1969-10-10', '022.181.163-08', '93CF0FE77295B73FD82303938EFEA39C5F63A88E829225586D9D8A4A13463728027A245EDE386DB5F485D86A9F2AFEA320C00C80238B8A769B4EB7E9EB84E243', 132, 'F'),
+('cleiton.dsd647@live.com.br', '1980-01-20', '287.321.082-65', '00141233B5E02AE9317BC7AE489A1D9A769F16E42DDEBF0684ABD146533F0F7D7B7C92C91294DB8C9A451AE04D910334BADED7D101CA8B026BAB7AF5F3F8227B', 133, 'M'),
+('cleuzapd646@r7.com', '1972-07-09', '181.483.474-50', '86CFEE681CC8019756185162FE5DB41F54B83AEC61CFAF9C994CF6CA658226F48EC3CE0C03F2520232D340D9F0827290C8777810E39243DF35539553461F3BC9', 134, 'F'),
+('clovis-mdn211@gmail.com', '1968-08-28', '303.216.185-13', 'C440548FADBDEE999660A16EC437887223BA404DD19B99B32B543A8F7067FEFFBAC05FC5F0930152712185EC2D096036A09B25FAFA3760FCCCF0C46EEB676BF1', 135, 'M'),
+('crislaine_fdo470@bol.com.br', '1987-11-24', '437.981.112-35', 'B580FDD7BF6CF9333090A62F3003CC1D4D34749F7A57941191617FDC5A29848BADC3583D0E254C576618973FC66387A27A1281299B4D43CE97DD55A65CEDBB07', 136, 'F'),
+('cristianeadg217@icloud.com', '1975-05-27', '538.331.864-02', '9E7235C4AA1FDAA64A8215517EA175E622C71A0FD8618E3F44C6AA4A75D091CDDFEEADDBA1CC8A81255FD83CEF53115E00827C9E359DC8AB31859EB6BD50C202', 137, 'F'),
+('cristiano_as578@protonmail.com', '1959-10-19', '399.321.702-08', 'C625C68E56A72482BD15952B4A3E1E7E2AA035D9BC31E7F5BC6B20648428CBB8622816E1DABE22D85F2E1E24C519C66E27531DC6579E944A816892147311B0BE', 138, 'M'),
+('cristina-ads87@live.com', '1980-02-10', '710.431.451-25', '892A42A9E2BF0064AC0DDB36BBC7CA7C0005CD66B56A4D8D0AF0D5AD2E7B23B68E48D3D345B4461FA397F3164267C4497F10FF6C6E36EF64132C91E4274DC7A6', 139, 'F'),
+('cyramdasv100@outlook.com', '1995-01-29', '474.102.065-78', '512AB18E6AA4D463FB85291C0B79CF4C469177833D928C1E290AC468B86C580BEB5D1DDDF953A206E4B38614E8F48458C736E2C43CEBF2713DD476707EE74B0F', 140, 'F'),
+('damiao-wr160@outlook.com', '1963-04-17', '868.400.835-94', '1483D98B3B9E76E683CE7464BDDA7B74B926B1FCFCF30F7A0668CCFCF520A31DD1515050C149A04F971D4E8FD8E26A4B9BA6FD070CFB36B043B1C88393B3E2DA', 141, 'M'),
+('dandara_mpdc113@hushmail.com', '1950-04-10', '394.231.583-15', '1E5EBF6B855970CF848F2B202DAA86482FD87540113279C99CA3E2C3C9D74387377425D72DFC1EBF613C818F10C5B99D326A39FD9A58654235BC07C697B79DC8', 142, 'F'),
+('daniel-dpf496@gmail.com', '1953-01-04', '987.513.407-47', '8020850EA2332DF800DF5173B6E70769862CDCCE8EDFBF88C9C6357FB10FA4AAF6F9D3376B1137D495F7354F8A1CD26313FDA900B94A9042C13959574677A69F', 143, 'M'),
+('danielhmes94@bol.com.br', '1973-01-17', '204.725.241-51', 'B4BE6CE6DF5CABFC224B4F6595C045230014775DCDC6272E8B50007B777F3FB0BD9776EA47BCE6A0A9DF1FF9F69FC9C65D4D2CB67453A3E5635A51419EC6A192', 144, 'M'),
+('daniel_h580@live.com', '1998-10-29', '074.922.375-88', '99D32E22A415A3D9C6244BE826D6C192EA2F54D81BAD1755CE385E546C8CEB542C32BD46FA70548601EA3F2FB535135041A0CA03C53BE70EFCF6B77A8D4B3DBF', 145, 'M'),
+('daniela_sw266@live.com.br', '1996-12-13', '838.366.980-13', '25A6CE28B01A74A11D850B252E6777D1CBEBB68AEF5371D67D386428B04BCF4A028FB216FFEE69DDACDEE68A14B90533F8D64E112A956D9A8B6C8B7FE69A8001', 146, 'F'),
+('daniele-cmds92@live.com.br', '1950-03-13', '279.020.093-93', '185A7334042A9B07D71785F6B5CFA8A38A6B1C47E0B9E07D3C0B38342120A7C500373B9A9488AE2EC41AB41B74D0EC495986BC1A8E99DD72CB13E45A64D38A82', 147, 'F'),
+('daniele_kn481@live.com.br', '1990-12-19', '327.441.866-86', '6CC85AFB4A2B7664EFCA5A7E1F4F1C737672898CF9613197EDCD0C3A25FB9F389227323F02EF9A23C63983C9775A4174085A3E469E6836435449FE30F99E0244', 148, 'F'),
+('daniellebfc293@outlook.com', '1989-12-05', '083.767.168-08', '83BCBE31A3AD36CA3ABE1F0B371D64572BA965642123BE3A4C4BCC645CC9BBE74828E9744A59691896CC1291D88995F3DFCC30548960D7C5CB0BA4ED3980B643', 149, 'F'),
+('danilo.dbm185@bol.com.br', '1956-09-26', '131.205.011-07', '312BBF34B1A79F3BF255172BEFB5EF5DF30F7B09488A465930269557118EE7A89A1FF509D2B22479B3A3382BCCDE7879068C2155F14BB93ACD146CB30C09ED71', 150, 'M'),
+('danilo.rds611@live.com', '1969-07-06', '432.220.104-04', 'B838932FEBD7A0F984E5CD191090CC1D29918D3893AF815184E49032289BDE62E8AB8F7282F15F65369CBCADDE0FB89B02D785C7D923F5C368092BF416DA559D', 151, 'M'),
+('danny_dsl180@gmail.com', '1957-04-15', '175.108.626-71', '8FA7838578778E15DA652C865F2A30CB72CD1E5B0AA8F8BD79ED1B715B303DDF4610D17EF53D6961356CBC830C516AB07637EE4F310646028244342568939A27', 152, 'M'),
+('darcio.r547@bol.com.br', '1968-09-22', '743.056.655-30', '2F48A0A42904A4A2CA519D10805A9B7DE3F6CDED2E5C22950DD69A1850A74AA401FDF2ACC4E0CAF0D4DA4433BE28A2D9710F127A1EA203B7E2329FBD7F39908B', 153, 'M'),
+('dario.rb499@fastmail.com', '1999-09-24', '540.219.302-99', '9A20AF494130B962008C6B43B7D4B9551CC1466807979C21786BA6469923336D7E6E14301D7366A1B95A767C6CF598404B3E4C9ED00B89606E516E24020AD267', 154, 'M'),
+('darly_drl380@hotmail.com', '1967-10-19', '425.303.404-71', '94E2ED9405E84F8966193840C0257B5A73081A10E549972081311963F2D0D345E0618E5FCC3B97A6E9B36A92C691601B5641D8A2E5A2794E3FF8C5B698D431B3', 155, 'F'),
+('david-sb433@hushmail.com', '1968-04-25', '924.624.782-56', 'CC5C434C1B203DB230A79B0D4E666C3C7277F712C8480E23CBF8A513A6F0F16230F62D546680CC4CF6581BA1254889973A62BB7E30B13D9D3735CE513A3CE9DD', 156, 'M'),
+('dayanerdl30@outlook.com', '1956-05-07', '659.034.958-42', '1F3DE0A309ED173DDB8B99C2063F418780392218C1540F0B2EA9EFB8802C0D03DD2CEBB9057FDA4241360C603694260A1AFF789908D94D885F230FE465F861CA', 157, 'F'),
+('debora.ma277@yahoo.com', '1957-12-26', '772.181.983-09', '0B7623C1B7ECAFAF09789BE20654DF26EA78D2492F4AF60E0E2CB84D168C077B186F826F0981FCC69976B3611E7F2FBB95218D447C5612D8280B44EE274E2C5E', 158, 'F'),
+('deni.ss404@gmail.com', '1983-06-17', '997.742.525-60', '66F179BFC7263E3ED8C043D9E278D610AE6ECA8122F91B701212DA8E76CE2E90DEC5CC16F1B46F1912F2777C640678016217BF978EF69086E51DB5B058ED7067', 159, 'F'),
+('denilson-djp38@live.com.br', '1973-01-25', '488.599.579-58', '4B870A4898F8F38928C0147FAC3C593F5041C20F79B03F33A01B27552424874E73E8E992B304D8287D0E3292058DDAC78110574357F6F8BE0AF6CB3593848300', 160, 'M'),
+('denise-ach454@hushmail.com', '1992-05-15', '731.604.826-34', 'E60086EB5B30220C318AE42E9CA6597419B472AC320511FD3B549484C540D05E2D5AF848FC6A4961891307F6694A59095784D2A803A257B93F40303CA92B8D1B', 161, 'F'),
+('denise.dsa205@live.com.br', '1967-02-16', '155.082.106-79', 'A4D10E99C82608401A598419B9F44A76C2E992E4B70D83AFF26F4FB580A6D598C8037C14F70C4F123076653F36A1F266A07D2BDAC873AF80E26D565EE030FAC3', 162, 'F'),
+('denisek158@icloud.com', '1966-04-28', '528.930.453-32', '12CC372753134587ADD828B5A4F552C9967C8F7857033FA79A60F8A9A2E4E11FBB6FCCAFBC52B17A022B20EBCF2D10DD82FC300F354C679656FA4B22C2B54D09', 163, 'F'),
+('denisesf247@yahoo.com', '1974-04-21', '018.165.375-35', '5BDEC78026A639C53A8EC7F3B1689C63A410EABDE54D1E1B029D64B18CB51EC03D19D0D88F7593B23A8883646563B2394F3EADB713B234B8AA1AAF4CCC305671', 164, 'F'),
+('denise.tms512@bol.com.br', '1983-08-22', '691.142.996-07', '9D324F4931E36052D4FD0B8435F1CBF73F722B8AFB68DAD80FD997E223CD76AEC420ACA0477CBB33BDBA96AC6B7C1E8E571CCD86D5E480AD76A5399242E7FA32', 165, 'F'),
+('diego_dr229@hushmail.com', '1958-08-06', '610.312.154-09', 'DEC0B46CBA7C7DB73D0EC7C1C0DDFB2988578AA292285BFC9D597255D2C7E6B9F5F49A24E39245429C0D1722C9C0D3801B930B3B440C9E840076EE46B241157F', 166, 'M'),
+('diego-fs120@icloud.com', '1990-11-21', '368.187.642-82', '2F47399227264F485CB56CD70D12CBA6F083626C8AC8DDF3C4A0C119445210C7C3D58DC4830DD68545C05EA7919765E4EEF7FEE44B0AC95D1D35D819C726087B', 167, 'M'),
+('diego_fb486@live.com.br', '1987-04-16', '312.988.913-29', 'E6B8D87D2B6AF1D1E4CA0F6BD9345F57CC681C9346DCE9EEEB0028AA07B49CAC4276561D71AA3D7C95E45109479AF0F49A59CE76A1C540FC03AEFD0429925D27', 168, 'M'),
+('diego.m580@hushmail.com', '2002-02-03', '928.431.283-31', '9B05F2A74A24B6D340C262B49D35100A0AC6B1C9DB678699F1F567F24BF39ADB777470D67AEFD249ADD94AC0380ACA6E52A9F96EAE379E16B7DF40C9A5E05A5B', 169, 'M'),
+('dilmara_erg531@yahoo.com', '1959-05-23', '396.436.397-97', '420EC55D95B80BF72F929FD489A43E3B7A7052396ABBFB42BA3FFEE7EAB606DB18030252F630BA252978FD40FB68FD02ED29A88E40BA79AB6817DE348874463E', 170, 'F'),
+('dilson_lpn191@gmail.com', '1971-10-16', '194.646.469-42', 'B0F05E5C138D7DFFA782B0C12383117E9C852FF45B3E0CC7172107B8851076564B6A7A005879935C0A3AF051442995364708C421B2B0E50BDE37C40BE99D3F99', 171, 'M'),
+('dissica.tc298@protonmail.com', '1951-05-28', '738.129.251-33', '87AEA71B047808F07CBF97A2D5A538437390B9885BCD1EBCF6750751063A93466781A28DEDFF97A9BD632217C41057E91C4CEFE26CFEB7C11A042C4BE17FC3DB', 172, 'M'),
+('dolores-drds388@gmail.com', '1996-12-29', '611.890.654-87', '59E93B2A51FCA7CB0602D1C24EC658B20319F243BE62EB82D06FEA7FD8F5E584F6B12AD152871C44AA340B299FD0FD85E5E91732E08435DEB6A3B51132C8C923', 173, 'F'),
+('donardcadm579@live.com', '1968-07-08', '119.626.098-20', 'B8BB1BF74679DB0AF9D038990E8A0C7D814FF16BC589738D10905AC10ADA3302D62BD8B6E325A18CE4EE2A8AAD931D1B8F67B670480ED128A29E08CA80B670CE', 174, 'M'),
+('douglas-cx432@yahoo.com', '1993-08-04', '528.907.098-25', 'DE166FF6B4FB0224B41721BCC2AE44D83E9E2FB9B861F080ABFD3AC8BC94E6B048CBA8FEA732210D764501E1B6A9C041DCAF4748998176323F03DDCFF2887E8D', 175, 'M'),
+('douglas_mds330@gmail.com', '1955-01-01', '223.362.253-79', 'BCEC3FFB3A5DEF6ACB6A657C66EF21CC1DC91A5EAF0E9FCF033BA4F31938E24768C868474B1A7905A2A1BEAB8BAB2E1B8F652DB31570651BBB1042BB335EB04F', 176, 'M'),
+('douglas.rds137@r7.com', '1999-03-12', '443.609.871-02', 'BFE6E6DE38964050C7AFC9A89FDD795ADB985A00F27840BC7CF3758698EABB81D98152596D661D9F1645BAF1B9ED8122259A947707E1E77B59CBCFA88C075245', 177, 'M'),
+('driele-adl666@live.com.br', '1965-10-24', '448.567.568-85', '8AA17CBE7C5242F498C7D52558E326BC99C7F793EC257A9E17187488FC2B278EBD46D328C6CAB43703034FB244CC317D0B6692A44DB5FAA2CF7322E329CB2B5A', 178, 'F'),
+('eder.cm45@protonmail.com', '1994-03-13', '952.673.005-43', '18DF31565D19D539075F9CC090812672A71258381358783EB7E302858C30812D0966040802029A12BA6F8450C104A68697CDBE54ACA9C061DA201F93C0A5D9DD', 179, 'M'),
+('edezior280@outlook.com', '1961-12-28', '420.609.276-17', '52D2FFA28B6E71A44C9D450FFD35723528898822D28D78D9ECBCC3BA9C08C01332EB357935FA499B747D8B30AD09AFFC9E6AF755EE13699F4CEDDC49F707A10F', 180, 'M'),
+('edineide_sdc98@icloud.com', '1963-03-10', '703.802.163-02', '273ADA4A0CDD8038196E7E948A83D3DE4DC46A43F7FAA02D15A8FD18D0F77E42F45520C220A8C499A5D67E2D79D5748A8D17F066A3AA4AF753E1C7F14FD224A7', 181, 'F'),
+('eduardomdc286@icloud.com', '1955-03-19', '595.191.214-80', 'E4DFA8E40E43DFB78FB23A830414838AD1CCD441BBCC69F7B5126A75771291B8BDE1CAEE6FA5B27E9C0C51E0A5FDBBE07B60E6B2C42DBC2817C1FCFBF8283D36', 182, 'M'),
+('eduardords112@icloud.com', '1957-04-15', '043.611.675-83', '5D0A89A7B2B60DE02880F182C7A360D83ED491DD736C1B797AF4AAAAD3010F8BA9DCAEFA8171C431FA6D0872B59B142B0A9B72C83CD7DAD6FCB99F124EE012FA', 183, 'M'),
+('eduardo_t96@bol.com.br', '1976-01-10', '622.269.474-85', 'F009AEC27709BB7DD9396DF0DCDE90F63805D699B57C9CD9A1CD18B62A03AF873040572A36A787A338A6B8419E04038DE4BD27ABAF5319A4C8114B887F5CFE65', 184, 'M'),
+('edvalteral346@live.com', '1961-02-08', '918.405.020-96', 'F844FABDCF049B344155042A37D9AEC7F7E3DEBAD155449B3F52CF210496BA78052615FC2DBBF8FDD6136C01606E82F43459BD7087B25B42F21147E17E2C5929', 185, 'M'),
+('elainecl320@live.com.br', '1953-03-18', '805.778.654-04', '73FEA4139FF7E862C570EE3A6408F9710DE32F193D8699638160BA05231690EF30A72ED967E8EF7A5FB6A73494B10812928656ED2402678501B96538EBE0B22C', 186, 'F'),
+('elaine-gmda414@live.com', '1986-01-28', '202.397.993-56', '2E75A5A3593CAA32756768A881D53E8771EBAF894A9C089E65A953E8BE8098670D810561C1C85D1B9F2FD8B1F184BBF6EDB47221955971EE63D2E8C09708A7EC', 187, 'F'),
+('elcilene-dslr9@bol.com.br', '1973-03-12', '064.751.369-21', 'BB0FCE4455B0336F082675B77CE1F790585836C3032D050C90C370D7C3BB62C9394E9852D53E0660B2D5A81EDB3AFE27FA5C940363A9D13EAC735DBDFEDE4ADD', 188, 'F'),
+('eliane-ffl255@outlook.com', '1982-04-05', '149.458.610-05', '23CA6A8922606DA3B8FBC768FA8660481FE2CA7E23BBBE58CD2277FF11531D49B1C92A372BA6FE136559D0BE32404F512E7062DE80FCAE09E1DEA927F45F205E', 189, 'F'),
+('eliane_sp272@protonmail.com', '1954-10-25', '094.427.774-83', '501D2639B51EBA6923BA9C84A3420496B17DB826D35F96C4901FD2967B7485082FECFBA522E850C2FCB8067E6A6A15EF7B43B22AB10AEEA787FBB101D17FA2CD', 190, 'F'),
+('elilde-dsm648@protonmail.com', '1971-04-27', '743.675.045-30', '2393D1598E1DCEA1177118662B8A295BD141E92832B27ACB1B82A5A841ECE16D7B8FC847B0923C2E6D6756E758C15A31FE0183DBE1FD8BE0E44B8A798551C626', 191, 'F'),
+('elisangelaadn168@live.com.br', '1965-12-05', '333.153.486-26', 'A15E633B01D2FDB2F06626E77F6133F0B085E53F4D6916FA785ADD2DA22B60044B3CC7CCA9B51E9BB93439C4A6EEEFDD0131E52CE6B043057B70DEE0A8E0FC0A', 192, 'F'),
+('elisson.mcs646@outlook.com', '1972-04-24', '217.992.468-25', 'CFAB26A18EE8476447C90D7C108B01D90783B2A533FA8E6192215729C9C2F6A7291FF6F432F6B5C3AA21F0822E3B36BFDBE0438FFF9006AF440EBE8BAD93F5AC', 193, 'M'),
+('elizabete_ao251@yahoo.com', '1970-02-01', '571.357.640-05', '185CB4DBB468D13731DCF4BB04E0D1BDC2673A9A4E8EE53102B688AC9A2BF5C2CEA9ACC2699CB35781F3C326F68631347E27B51E7B83BCA351357EE63DE40955', 194, 'F'),
+('ellen_rsj655@r7.com', '1996-04-05', '441.284.660-18', '94212B6CD9F845420B5815938898D8E61D819F68C6EB49EE64D57973B09BCF894066222851F8CB1ECC63B14A45B579278366F3EBA08EECC2245773458F698AD2', 195, 'F'),
+('eltonhh263@r7.com', '1982-10-20', '564.871.283-92', '930B95A61EEF8E890F77E10D84EC4EE00BFE192774EF972ACDF53C2F95F18D842F53398D3F727E620C1979C4071CE8FB8EA246B4B3B192F6478B5886EBC61900', 196, 'M'),
+('emirmpds403@outlook.com', '1962-10-18', '406.473.305-39', '03EE2E00B8A70E668AC8E3DC1B4F43C45BE6822386DA497014A3CDECE02DBC67A17A8FB48C152FD0BD7ADAAF82EEA83C9C3A45B41833D3E96A415F118ECAE46D', 197, 'M'),
+('ericfb242@hotmail.com', '1996-06-07', '856.104.476-40', '244FF987B7442C2BCD6DD1FC9DFF997BFF35CF3471219EE0593C2DF151E076B447D03F81984BB314DC6CBA6CB91EAC4F009B4A99F67446D200942875C440B3D5', 198, 'M'),
+('erickcdc301@live.com', '1985-05-15', '325.627.822-16', 'ADC978B6D7F6E404D3D31D0AF369245BFC8C30F37BF3926F7BD0436396DA3B7566C68AF3BBEA54CDB8F7665D8A3861AE8A6A505D6E2DC2E385D0A083B708364B', 199, 'M'),
+('erik_tm483@r7.com', '1995-05-26', '229.830.756-30', '7C6B78432BAF96E866A56250004605F9B0454A317A45DFC4800A536679BFFD660F1B84B0AFB8A8C269B8C0126092D45E3AA7DB4E22FFC73F26E7FA71181995DF', 200, 'M'),
+('eudes-saj553@fastmail.com', '1966-09-18', '428.358.803-21', 'CDCAD01BF4944166B6F82422C2D4FF7A7B873E4AEA712F3BA2FFD28E0F0D353EC599660D6D56D839E9E1C24A6B81DFF4A1A8DD196DB16B3D87FACD2006F6FB1B', 201, 'M'),
+('eunice-mm305@bol.com.br', '1996-05-21', '125.862.663-23', 'ED8E3A2F2CFEB3E27BEB1D1878BA4731F75EB88EA7C33949ADDB369BA4A4AE7FAC1A30EC2ECD77BCC61B914FC255A741B94A6A11430313F4CABE12C90FCE5845', 202, 'F'),
+('evandro.dccj515@hushmail.com', '1970-01-29', '535.432.466-15', '7003A1E91A6E253339F7606E8D05566288EE37D16AB771A1C93E810E53FDDF94F4E3FBEEE2F53FB7D325AB842AD1409A33E0DFEFB5CC56A25A8F5B650199BF42', 203, 'M'),
+('evelize-mds355@gmail.com', '1996-12-10', '576.613.487-80', 'AA086CF53422F14D69A19CA94FDFD66B934C73E31867F8F29AD9C52B23C43F172F17FAC756F18A42847E0BB901AC70027BA12C27F26DEC4F29AAD798FDC05A27', 204, 'F'),
+('evelyn-dfm636@hushmail.com', '1985-08-18', '269.415.719-00', 'A176D7D24334A8CA7C3F555086664F0203C2D8817EC773E0994C857D62ED4658CDE6AF2E628244625F0F3933736880DF98013AB1A0910DA2F5BE3EDB902A7D49', 205, 'F'),
+('evelyn_doa96@live.com', '1950-10-09', '699.051.324-14', '6CEDBF7A15D25E0B0FECA33E21CACFB311428EC6D8AF74B2A73A3A24F4B62D68C568000863AC044E2A321491D48E7E2FBEF4907FB91BCAEAED49A43787C747D2', 206, 'F'),
+('everton_drd649@fastmail.com', '1960-07-13', '452.604.820-85', '48A44394C1AA3B3496518A965F2A1ADB5EA27726E0708D8617717F28890661AFAE755C2D067E6991DE524EEBFDE068F310C7A8A5B24F2769C3926DFB10B72D10', 207, 'M'),
+('everton_dsm261@live.com', '1973-10-13', '888.109.300-61', '8D8FA890EF43AEA18A4C6D978ADA104F80D3039B47C94D914354FDCAAF0FDD4793465851F2C47C81D0F33A4BCAECCC4E8511E9CBA9217913E4C375C4BED35F57', 208, 'M'),
+('everton-sn133@r7.com', '1990-03-22', '481.927.849-59', '75F4DBE6E014A6337A5291234296CC9AA8F65CC2DB0F33E6633B8BA88EA00EA1BCBE4D446C6B31286FDF3B4ED111844760BA6D22FA4349485169C27BE4B53D0D', 209, 'M'),
+('evianefs637@gmail.com', '1976-04-23', '525.775.018-03', 'F6711CABB3FC0D6712C1E6C4C94227DA5317E07579F36072FA23440C199243272D782FF98827229BC985A8B38FAA410EEFC08E61A9803CEF1152957292B6B22B', 210, 'F'),
+('fabianagdon196@icloud.com', '2002-06-20', '704.975.890-60', 'F5922777BE2CEACE8BF39436457803181A67F362B3C36441BF82B93454C6F577CC51F382F89F973361AAF761C738EEE00E43090BC8947A27E696EAFE14ECDC7D', 211, 'F'),
+('fabiana.tp424@live.com.br', '1952-07-28', '474.637.610-70', '2AE0CBF0FB1A0A13569D7E2556431C0A2EA4F9BA2C80BE1441B45E9260890876E83ED9746182243A2C23FED835697178F2C1D652E73C8506455D2C94F261AA0D', 212, 'F'),
+('fabianoadbf209@fastmail.com', '1988-09-17', '665.844.593-14', 'A6A9C248FAF77818C6C98FE90F3DAB51BB2CB93580CE4CFAACC2EFDB9ABC8543A3869498FC4B7C59D89CB3438E7DA746B2287E0831BC6C5E798E2F52F7537CD5', 213, 'M'),
+('fabiano.bf635@yahoo.com', '1965-06-07', '450.718.951-96', '214306305FE2A153D6FD71E8D480ADC364A7AF94A5910A39DBA3BA039814DA355B82DBFC79F882AD5481674E3471724410000482662AF4095EEE74CF0D8D00C8', 214, 'M'),
+('fabio_fds419@fastmail.com', '1980-01-11', '396.503.903-24', '48C9EAC4873AD28B5035CB2C7BC54521157CC5C021777B3176F83D8D15D3BA53FA5BABC959F37F1AAC24E7D69589D798E9475478F96316EF765B81C2A35E0F93', 215, 'M'),
+('fabiohn357@gmail.com', '1986-12-21', '750.731.364-62', 'DA5AFA46DE7491DFFFC8A4281939570FCAAABF38610C513A5A25CEC59C41511918F1057C87076169CA93F336E55B30E726F8C8B607AB883006E79D5CB9AF399B', 216, 'M'),
+('fabio_lt231@icloud.com', '1997-01-19', '371.880.237-60', 'C2EC28AEF8E7565787AB2A9567818A9AA24DC7F317961D9E3665A558E5EC488E030DC3710219716121A19778D5739F6048C7E5CACC38F30E83424D3E5E932A69', 217, 'M'),
+('fabio_ms271@icloud.com', '1998-06-18', '698.407.483-51', '53319C68E51034C509D74C6A347B9F6D4A27257AA0632ED834214762320C02F23649D8CDE71049EE0C7FDA97EAF00C3554618402DA8AB681BC59634AEC4AFD2F', 218, 'M'),
+('fabio_pc405@hushmail.com', '1986-02-16', '703.911.893-95', 'CE0933B1E4033737CD409F123EC1D0E0B49D8ABED2A7EAAA5D12C62AAEA43EFB8E52F91E6BD01E91313CDE973DB273684115B6488F4A3C5483C23FFF720E6297', 219, 'M'),
+('fabio_rcb608@hotmail.com', '1980-08-02', '040.356.012-84', '2F41607D8D8CDF54FC218AB4D1E5F1DC30CA2A78B47D9829C7A72E225E50C822F913A90605840B6BB7EE62EFC091B980BFE9C21BF6CDD1C67E78E40E0A7A5538', 220, 'M'),
+('fabio_rym151@gmail.com', '1998-09-08', '105.228.200-85', '62911A33908B72E2069BC5E0F0B5642BE30573CB88E9B1AE6A24A8117E4D7D2C6DD6779A96A02E197CD464EEAB3CC08AA6CD61AC29A4D085A4F044350BF08E19', 221, 'M'),
+('fabiotma298@hotmail.com', '1992-01-19', '552.000.658-01', '44B14DDDCE28056650AA213590E22980F884915D1C31F836B575CE9C3700D9323BF65FCA659916676D8298769EBDF2BE69419F4AFF6EE29FF898F3FACECE0FA4', 222, 'M'),
+('fabricio.sl382@outlook.com', '1990-08-22', '819.616.708-36', 'F3667682BD262B60C168522780221760AC030114E5181BE5D6E0AF88D4946B31A1B61EE39A06D083DA15C83EF4B4BCD25082E66AAF796A2ED858454C9A616B89', 223, 'M'),
+('fagner_dsc504@hotmail.com', '1977-08-24', '522.028.629-35', 'AF92A12B861D32A5B593BB6535503AAB7F1CB0665C2990E7444AF681F61FFEA4117F91C78C21A4E4DD98BA8E9DE9D20D66558ACDE92483653C8A799E93E569C7', 224, 'M'),
+('fatima.bg330@hotmail.com', '1974-04-26', '497.493.695-64', '00782E27FA6AC52DD48E43F6715188211FD7F975847BBC13810FDE4DCE6BD2FAD4D29D0791881ACD5B5DD4811F94B1F069106CDEA47780B59C1C827FE5CA8A9C', 225, 'F'),
+('fausto-npa64@yahoo.com', '1962-03-16', '351.971.878-24', 'AA89348B7B97FFC61871DB8D0AE8969D2CDCEE51E887F6B81876604174F585D13EDAFC5FEA2E89AC4455DD94A4DD6C8C5CE7F5400C00EBF5EBF31999B2755950', 226, 'M'),
+('felipe-as5@outlook.com', '1985-05-15', '488.974.808-37', 'FD3FDC9739C970A70FA12826650DD2EDA150AF48749AC79BB0F0DADA32EF78CA5F4ADA06375A410AFC4C87A68916661435A01CF3EAC49B052822F241BF6858C0', 227, 'M'),
+('felipeaf142@protonmail.com', '1982-09-25', '217.577.957-23', '0F2CF5D68605E907D93892EFA484027A4B7C7B26FF358DE2AE753B94EA303676E8B3E5E70A15BA58EC9786160699E262470DF62CEBAFA7958D161106346A0B0B', 228, 'M'),
+('felipe-bdo81@yahoo.com', '1998-09-01', '122.016.004-06', '1D8723DC499825359ECC17A8021F2A0C292251C72ACE30C6595AFDDBB2DEC4B6E9EC4821B8A04281468A6816663C68EA6BD400882E4BD868D029523DE8FB1D4D', 229, 'M'),
+('felipec4@gmail.com', '1952-01-18', '070.030.919-50', '33716A2A4005D9E0973A5548AA922A894E2AE8924189E5962CD1D80BB6E8EA48D2692EB96ABB1E224A08A45DC9DC34F449E3EEB12CAF3F5CDBAF780A4C1AEDDF', 230, 'F'),
+('felipe.fsg310@hushmail.com', '1954-11-27', '268.331.125-76', '7F5AB1A3E4809D0EFA6D6D4E626A32280D83BD37AC2AB286080C51EDB0F504A4DB248ED1435E5B2415FE1889DC4CBDBF190DE970ED9D685A18DBA93EAB686B3C', 231, 'M'),
+('felipe.jl349@live.com', '1987-01-04', '074.359.804-04', '46720101CA437F72EE7269A7E2439EB5F1C2B41C7C03D4DD15BD0EDFDEB58BDE3FECD7E228CBC811BB7EEA8744CCB22968C0B44B1E9D17C9840734B8D4010B6E', 232, 'M'),
+('felipems319@r7.com', '1982-07-13', '006.086.885-68', '73EDDEC8F3F39BE7A6B9E1031119DCFEAC626CA55979D33D209A077D011E26140CC6A6F1888784A2B3E20F0CE1CB30C1EDF56F553A39D7177C2611CE989282A6', 233, 'M'),
+('felipe_ppdc166@fastmail.com', '1978-11-30', '090.994.356-73', '693454F88302929EBFC028006EFBCF844623AE17B8E69E6025C76815A4696BB6F4929B83146BABC8EB1ACB8A467A0DACE56941A1A8A0EC77369241FB830BE8DE', 234, 'M'),
+('fernanda_ccg491@live.com', '1950-05-07', '419.164.776-82', 'F48363D9BE3427791AD9CD47AB77DA032423B3BBCC0FC4D2E8618E04F4B35B3C942B3ACBF1F160F9F180EAA7773683C39DE6DD9832C28A8608E0D451F79A7680', 235, 'F'),
+('fernandaldco484@bol.com.br', '1957-07-06', '593.358.745-15', 'B5174C1C2E286B9D15DE70557EE8E2DBB180D8DD2869FDD96D17EBB49DEA41046DFFF8827801011E1EF551B6D3460E882D4AAFF22BD52EA0C4C13285AD58E4C3', 236, 'F'),
+('fernanda_pd74@gmail.com', '1988-10-11', '206.090.411-00', '332F28B7730B9E67DC0E83B7094611E3BED7BEA4F86B85D653CC9F741EDBB9FAC38D910F7AE9063F5C95BD1CCE7F0260652900A959BED26DF3CECA25EA1E02D2', 237, 'F'),
+('fernanda_sdsv185@bol.com.br', '1967-04-07', '413.155.859-95', 'FD7D66E499BAAB7BE5C9BB9F7335FAAEE7D099E3E26030D36AAB9302ECAD9EAF29E1821489CFAE1294D6FBDC5BB3364AA3455D2E487797A162B3202600322159', 238, 'F'),
+('fernandoaa336@r7.com', '1991-10-16', '118.536.207-00', '157CBC1C03F7AF1D92B5D463CC61225C5A402D256AC0F179FD7D8DEA493FAE4E4C443F52002B694C9C721246ECF8F45A9AB0E9A4058B1B98D711F75328866AAD', 239, 'M'),
+('fernandoac143@r7.com', '1952-01-04', '600.183.876-32', '49D4C5227BBCA44478F416DF894E34F5EA5AABE3D0C70B883D255BCEF4A85F197C4DB375737CA952D8D696575657554E6D5927056D1BDEB1E5BD9C5337B1298E', 240, 'M'),
+('fernando.hgt79@live.com.br', '1962-11-30', '183.706.230-77', '234C725756DA1B4C380BE3502C142B960B5D90D9E261D750286264556E4003C951C5607B9DD6874CDD1D6CB716BE02B1EE4A0AC38675A6E648C4DAACE4B90A32', 241, 'M'),
+('fernandok480@protonmail.com', '1962-09-10', '521.234.209-05', '0477EB783DB425B2C9949E4245A0A9B1A2A6CF2091F66263DF878C2CE2AF647C25B0E54F52AFBF8325F124AD1F75A59B3382DD10187453A74EFF17406527CF1E', 242, 'M'),
+('fernandolb265@yahoo.com', '1987-11-30', '178.128.568-36', 'DB9F13A6687785CFF4F208F09406AA0CA804D725814AC3434EAB3231C5A0A4DA36E87722F9F7782F325EC88C3C4DDC6490ECF5A3381728C64B1631880D23B0CC', 243, 'M'),
+('fernando.nr147@hotmail.com', '1993-06-08', '945.247.435-10', '1FE3AB13EACC33D99CD3E01F38A575EF1C641048376E5144EC7A64579CB53CFD9402528AA116D0FFB2D37E4603835A8C7081C149BBA0CE65D02DC0798434D84C', 244, 'M'),
+('fernando-op65@bol.com.br', '1961-11-11', '146.496.056-95', '9B2643990077DF08163DABAA866BF1D5D45751C36C9675AA4ECED15F45F8A6F36D9CC0A961DD5909B7804A9EC0B0A2E0F0B5D828DE3E420B383DAF7BC2DB4D82', 245, 'M'),
+('flavia_auk433@outlook.com', '1968-12-03', '940.169.428-10', '87E77353B8EE7BD3496A177A26B03B44BDB2E1AC3A7F11E160BA213771433EDDA6F892AA361E61DEC8802D79976B1789F47DDA6D1DEEF1E3A39AEF023006B16C', 246, 'F'),
+('flavialb399@fastmail.com', '1976-01-18', '606.521.203-26', '8072FC4EB3C55465FBEFDA543CEDBE1220D1A775B87835F43458DC96294F15C15616598E0F8820B3A9B696D1E76574B1841A778B089576568A9613AECA92F500', 247, 'F'),
+('flaviamds431@hushmail.com', '1961-03-22', '123.716.215-79', '6E93D942C461CBC6BEE74A2D99B088C904BD30B44E013EEE076277A49483DC4C80EA05DF221C1B5C3B2300DB1C295CEF4AFAF30B7513F89E6C168E71042445B5', 248, 'F'),
+('flavio-d491@gmail.com', '1998-03-17', '393.589.084-24', 'B006EE09C72DD202EE466AE9707A6072370E8884B2E466CF4A553A002A4166A282604F7F36939666E326A13066D41A197E816ED865D1836A8DB1192AF06F0FE8', 249, 'M'),
+('flavioms518@r7.com', '1982-02-28', '079.527.138-76', 'E2BFE4C5572683BE6477BAAE918A1D2710E33588B8F90A089C71551B1E2E4F50EEA331B21030D84199A0DE9E3C669323654F4C6F6D0DB3A0CDE958F75F77D8E2', 250, 'M'),
+('franciele_r483@hotmail.com', '1984-10-09', '674.593.358-60', '664FD082B8973C2AEB7FDDDB1307A1927C41D73AABE0E666092BD2D3A9FA7704BFCD00D43C0DA584460371AC7EDF6F20D10968B4D35E98DA91F81DEDE9767989', 251, 'F'),
+('francine.a404@outlook.com', '2002-07-11', '159.458.612-86', '22FE2FAAFA11465AEFD9DBD6F4E123012472883245548B9F3D0C3997CCA1559766E2C6B32DD728EB5B32C9D098E68117FD4E78586DA0EA92F1D044A5AA22AE9B', 252, 'F'),
+('francis_cda646@live.com', '1953-11-19', '891.952.532-38', 'A57655A28D291F09E887D875A0E7839F489A1E2CA0621EA8F8B84385867B15120EAEEB5A7D7E478A2F1AEC9EEB7F89989DDEA19E0B8173B9DD95A838A197EF08', 253, 'M'),
+('francisca.pda607@hotmail.com', '1973-08-08', '639.181.177-66', '54F1A87B90D77B7C3BAAEB7E69766FEBC154871D779838B7AD8A2B99AC19CD509EE6DEC94004AED29B4C5259CD8DEE0FF840B1757E3BD580B655966394A40CA4', 254, 'F'),
+('francisco_cg531@icloud.com', '1996-04-30', '832.533.943-87', 'CC217E7EEFA3B96113E038EA1B181EF9B8649B3A21CAFDB69BA1B2D830934E1CA43F710530F1BD44BAFCF20CF3A36116E1014259D68BD42A38880874AD614E58', 255, 'M'),
+('gabrieldgs302@protonmail.com', '1959-11-25', '252.063.683-18', 'C638BA68E6FDF94A994C815CC29C0F6796974EDAD0321867AA178AB68275DBC518F378F685315A9ED4316787657A9D49CB059216E2F9E0AA5E8B0F237465BC18', 256, 'M'),
+('gabriela.ba115@fastmail.com', '1953-06-19', '403.511.511-84', 'F6323A560863CEE8A1AE4CB2782AE2D065FF3CF34B0AC3BAC6186593CDF342134BED7FD8DE2922816C620643B2E8CAF07C84FBCF05F6733BD6B3ADB9CA5B0D26', 257, 'F'),
+('gabriela.pz32@hushmail.com', '1979-02-22', '651.364.607-33', '589EFF6C074823010E9C1BC282D2E94C51BC9E2499F12BB8142C919D8E55427FD90B2C68593BE52C5DED56E913CFD0EA397872837F803293266936D0570B704D', 258, 'F'),
+('geraldo-orrs309@hushmail.com', '1973-07-25', '010.669.555-06', '4D751C3AF5DA16061B889841F534A6AF9764F6D8C5D1510662C19156B34E119B0BDA37F84DBF64080F99987A7F759B6E055C396FA60BB7690CF782B8CFF3083D', 259, 'M'),
+('geraldo_sa288@protonmail.com', '1980-02-03', '671.436.016-91', '084FA3AB90AEBFE7974CEDCA130D4BF3857049246CF12E12D1416FB6529639D6DFDE81D7CA6AD1037A949CC67C8288DBC60E2ECE99B59E10371DEBDEB6E08BA5', 260, 'M'),
+('gesiele.cp56@outlook.com', '1986-11-10', '464.612.887-08', '4568245C0353CFE242F199AF366C7C5468BBBA83EFB994CBF3518D252D508EDF3C26D4DDFB99CA86EA9DC716D0E3CA71900CC29BA37691475B18842A16032BE6', 261, 'F'),
+('geter.gp235@protonmail.com', '1988-07-22', '982.821.643-48', '47F8B2B46D130E11AB9808B3994D57AF4A41CFDB3C78985D653FBAE78F017A84AE48DE5DC89087C4DADCF368A2D8A86E96EB17E949DD88C93BBA653E297A52D6', 262, 'M'),
+('giglian-drs194@live.com.br', '1986-09-05', '236.323.176-74', '2C25CBD07C582E5E9979FAE8D357C3CAB51AFC3B0AB2B56437552F192AAC8D50F73BFA38B3CE61DE933A43D8309AFD2025AB579B83D3A148E017526F82CA215C', 263, 'F'),
+('gisele-dsb156@r7.com', '1961-03-25', '041.442.693-29', '5B6DB6329A144B79C18778A454C6D3D6A6D68C0FEE6F9F5F037377A6022A951536F9A4365E7C1EF4BD7A9EB1722DB3DE98C948E3D3B61FE82BD873A8863CC629', 264, 'F'),
+('graciene_ddo176@icloud.com', '1958-03-19', '156.569.930-00', '95DFDFC9E1E325BAD4DE18F25BEDD66DC8C36C73D0A2A859132990C0368754B02D3C1A297A5ECFB6458432C5994968EA0830F4CF847A9E2C97DDEA6D610831C2', 265, 'F'),
+('gregor_hvs393@fastmail.com', '1964-01-22', '266.472.187-93', 'FF9B84E9834F5230212FCA13E82D3C6F9B0D2D0681ECE4052473AEEE82CA8C072B7D03AB25DF5ED19D7EC4BFB135F7175DFF3995918D3C28B10ED40974AA877B', 266, 'M'),
+('guilherme_aads237@fastmail.com', '1978-06-28', '896.661.788-34', '41C9F8A7A88EF5B55DA92F43394F3F7FD4010103E1D992582DFA33E96EA33E469721C33902112156544933D5C59AA816A6870EF9ABE207577994B91075A543B4', 267, 'M'),
+('guilherme.cl619@yahoo.com', '1994-03-05', '846.550.194-76', 'BC2B2F7C6BBC34132EBA2F5E855B97200E7B2F613F149280CC73557DEC6BC82AE8F3C2CE2E5AC393AA8C9643380894199DDCB6232FA82E72FB612CE2BC708FA4', 268, 'M'),
+('guilherme-das25@outlook.com', '1978-04-09', '105.548.068-43', '4994F3B0B38341913CB5B501604726008ECD3DE4BD232AE5A029E3E650B4630044C7E6928AEFDA3DEB1478DC2F77E0FDDB52D76F6CC14DAE28D384E135EC9B7A', 269, 'M'),
+('guilhermedmm214@gmail.com', '1957-10-03', '357.723.629-92', 'DF386CD5FECEA9AD6E8464AAF40E936B5A20C40433531896A6C25E1C6AF9FFA7129AAC041117D578C130EC9A0EEF80B993A3A04F737B345075A46594AC552B85', 270, 'M'),
+('gustavo_an374@r7.com', '1989-09-04', '242.441.012-76', '1CCC79A8B74AA33ECEEC432434BA0AB9D6901D6D0593564767D99B58CAE8809FA26C4645BC378C788548D5130DCEE5A1568EB16AB6FC268F838B0CC909C00805', 271, 'M'),
+('gustavo_d280@bol.com.br', '1995-07-18', '549.233.815-31', '92BDBB5E3F6CD5224F92AAAE925983DA8D18E2FD5D1631DF54AF00D92B5E22AD148A17D2B08EA483A49C677B21C49F841453ECF0D6BD8E0FC1CBBAE41F466DC9', 272, 'M'),
+('hamim-sbb63@gmail.com', '1950-06-23', '429.560.708-86', '0C999C0A32E0774D7FAC69B62307B76F53F606FD4235B84993FCB16CAA7C07A127ED18EEEC63846F04F36B837E55527D48096E5554C0439AC02207D8B107FAD0', 273, 'M'),
+('harumi-tgst320@yahoo.com', '1996-06-06', '068.662.200-68', 'A48165E68E9B1F2996889D6A5548542DEB56A3456FB9E58A6F93850BF7E4A5AD7A177B6EFC39E361FDFDCCC522F03AB66D057BFAF24ABAC324640294D116695A', 274, 'F'),
+('helenamsds119@r7.com', '1997-02-14', '279.839.736-75', '1E19E1614307CE5F9C51C3D8AA97056F48D647986871082DADA3F5D090E9A9EF42492769D197666FF9462C33D1B01A6AEFB1E05DA56C12B8084EF7AD3F9FD638', 275, 'F'),
+('heloisa_gb231@hushmail.com', '1972-05-26', '680.327.284-22', 'AC98F283B5157D925D6AA56C9331C2C62378A9B6C1BA66765585C6A4662F921D8E5D0A67EFB3B1F249692FDDEC51AA9B9D20DCF84EDB22A57A80390A1BF9F47E', 276, 'F'),
+('helton-doc531@live.com', '1971-01-02', '965.613.196-72', '5F9CA99B7EFB2ED73898C8CE76C3F5CFBF081A38B66C8971CC6301BA0E50409D9AF8AC8139E39794430D63BDFB51FED14DFF6586E3D08A4562AEA02B9CD6E9BC', 277, 'M'),
+('humberto.vf385@fastmail.com', '1999-12-30', '788.221.024-28', '492975FD4722C35372C285BEA01C464540F3A3F372F255D2EDD2CA44AB348B34F08A4F83346F9ED23CAA3CCD6F4CA17E50F07E0045A9DCC26CA5F85B0B434A23', 278, 'M'),
+('ianara-dlms350@icloud.com', '1999-06-07', '531.517.238-45', '1B9E9A557BDCB7DF63CAAF96C09B12EB591936DF1802E3B85E6701E1B141F210427EF17377B8D9C750212F07EA3BB333FF0629AA97A6D6B141158B155F478706', 279, 'F'),
+('igorfdm479@fastmail.com', '1975-08-15', '449.672.718-80', 'BD0C7722E500C1E692B00DF6779D48174892E6AEB7FD0CC255D9CC6FBD8A64CF60D00894490991C5708452BAF47B91FC110674BC4D2A4CDFD52510EE4D9930E1', 280, 'M'),
+('igorgv186@live.com', '1966-04-20', '767.146.922-00', '96EB62271476F61480172D6598C2213FC931CF5B7EA47F85F0E16CEEB673016BBB69E1165352AC2AF0A993B904D5CA6F9D32E1173BC6103C56AB84773CA03363', 281, 'M'),
+('igor.v146@r7.com', '1997-07-06', '045.344.310-90', 'FC7052EFE4AC9C424216A646AFE21BE1B09D35D453C47F49731AB722F62C75ED263C792813E56D498700FC43F2C7C2E8E29A82202412466677D313534D80A387', 282, 'M'),
+('ilza.adm445@hushmail.com', '2000-05-16', '615.597.622-84', 'E6C94D574F4AC56958B3121C5E08C964A5916B6311FD2F3BD273B91A6E148C4C53BFD205E2035C1D321A5DDA72CA2C9EB786A7B9CA10DA7DE48D792315A5BBE0', 283, 'F'),
+('iolanda_tn306@fastmail.com', '1971-03-09', '868.338.794-19', '1240DCF2785553384BE870355C33E4CCECA46257A14B16ADCCAFC107B394056E892473BE892B5E8DA416A67B86E0179D0B75ADD4F13A6376147ABF4870F4785F', 284, 'F'),
+('isabel_cp409@live.com', '1966-08-28', '823.169.162-60', 'D7DF904A1644D6352650D979B3987B189A4A4D3FE2FE533D487B9BBEE7CB0982AD9A38B2B09572B6A186C2457861A1B70AE70540077412BA4D96141F9AD14274', 285, 'F'),
+('isabela-rds646@outlook.com', '1961-03-04', '832.675.372-66', 'FC303CF172588C7BD074CA07BC7FECEF2C49D75EAA443241DA64FBE4E6DBC2C7DFFC3F6D6D880F9C22F7A03316E7D4849BBE1B71997C79C0CBC2BDC16C8B03DC', 286, 'F'),
+('isadorafnr376@yahoo.com', '1966-07-21', '524.479.144-31', 'EA6BB805A5875D37D2C66843C655B2C8B3A942F73886F46D32AEEB94518C8B0F9AEC9AC98AF45D6D802FAB8345359BC36E8F9C70580F9FA5F47540B214D37CE5', 287, 'F'),
+('isadora-fda330@icloud.com', '1991-03-11', '362.021.752-14', '626A1DF6688F96D7402C7E6D0DE401E096F066F7C0E4A01D2E6623AB9FEB904BD9F4D18C1B82A00C6D2E053DD5F4E97BA2AAEAD2A2A03D749EFE586945467629', 288, 'F'),
+('isaias.ldsj650@live.com.br', '1998-05-23', '618.646.966-21', '0E5E4DC280B5D9B955873A27877D99D04AFABFC4231BFAB2C18FE86313BFD77406682120AE93D8716E99ACD746A203270336950933F9928001EDA0BC50EC27F1', 289, 'M'),
+('israelhs369@live.com', '1956-10-29', '928.448.353-09', 'BEC047BD160E21E1B038C5DBB7D8F2CB2888A1F79B4F1E022CC0E57036EF6B23A65BEE9A0D8DBBBDD31E001908B4CEED5B34A44EA7A8A6BF0F7EB9CD20A90A3C', 290, 'M'),
+('israel.r168@r7.com', '1965-09-04', '180.011.464-80', '54D2996DFC4CCBCAFF97D49781133203A371A562A1B3C3121FCAB80263A56B265214C96D4FE50E265A1250264E4C142847E2D0B77EC3376FA08DD772D85E33B9', 291, 'M'),
+('ivana-mc137@hushmail.com', '1974-11-13', '641.661.412-01', 'A3E9123019EF43273E27FBB5D5B644141F088DA9B71DA8D7227913D0583A19F46F6B822C10A1A0419DEDBF51FCE5D545CE81FF3F0F9D78C549F123B2CB6FD649', 292, 'F'),
+('jacksonldm15@yahoo.com', '1957-04-18', '397.294.187-05', '62E8ADC6A20F31C4A25DB7E6EC5456C31F8444B37CF0E7B65DBE60E120F748A33BF3707A9484CFCD16E7B6BB0AC53FD3FE5E1BB5BB7A40F3212269C29E8794E0', 293, 'M'),
+('jaine-gs243@bol.com.br', '1970-05-11', '946.102.032-51', 'FF5EB15BF22CBC272CDAEADC8C68F016B28130F8D24FBE08E58E729DF43172B434181F8BEC824FD6769738347CE8F75C3FA4897918CC353F3D1CA4C9122689C7', 294, 'F'),
+('janete_k8@live.com', '1997-10-11', '394.397.749-83', '73C9AD2964D65A63A2CFA31C2CD2878096C867E00241768EF824F897603288357061FE3588AB7FBDA8ED2C5BD3679D5ECB5A1C334CC7D13425A76A30E4B624A8', 295, 'F'),
+('jansenmdo136@gmail.com', '1952-04-16', '378.749.166-03', 'F30FAC05B75E5F74154A52B1EAD7878909C8497A29B5957A750080AE53194BCF65260FB30B67C45734542992EA51A14CD2E7F9792AA65D505C9F7C00B4F5547E', 296, 'M'),
+('jany-tsc390@yahoo.com', '1967-10-29', '853.864.684-21', '0E1E881F2A3A9C3029B793074CA23374E5D342078523400A6D12B619A08F399EA6389C095450AEEF6E523F7D47AED262CEDDDA7B27BFE3155DB00C51B13947F4', 297, 'F'),
+('jeferson_dr367@live.com', '1969-09-19', '486.757.700-65', '7B75E6681EC7D2F0B7CD9EA65397635B2BCC3C9B6F3D6A28FD7D17F046B6DAAF002C36B19FE6AE1CA5BE2271B98D1F60B0E29653D382A037DC0E064D90E567DA', 298, 'M'),
+('jeffersondso491@live.com.br', '1973-03-13', '834.387.452-83', 'AA82A5C21AE3C346BB70E7D9D3C0FA49F757D64B34219262388F78B25145A75C13FDD9A24BBAA29D2E91E1D5A4DA01CAC735CB02E9232BF77BB6E488ABD9E53A', 299, 'M'),
+('jessica-an101@yahoo.com', '1960-07-01', '865.683.596-37', 'C50EE3D6AEAED2C34D4DF1868DCC8426CA1327D45DD53CBE97E54F98FCD0430FAF086C209E4353850541BE37211F55F06858369F85F5727FE33F3851F13E296B', 300, 'F'),
+('jessica-alds596@outlook.com', '1979-02-18', '014.706.220-92', '7FF6F85AC5AF3F7170D2723783C4715A078C85ADCD28950EF609B44D750FC7588355A1115813E23A2A5A97B31E3D62329139DAECEA951151D7E274C3434C8480', 301, 'F'),
+('jessica-md522@r7.com', '1971-05-24', '645.928.581-07', '362D677F2A92BBEAE773C304568BF7C22FF35308367C25AEC7A9AD91C47BEA488DA1942B2D6481921A0C18FF93026613636442A61C852ABBA8CDCC5A89645342', 302, 'F'),
+('jhamersonasc594@yahoo.com', '1994-01-19', '401.625.155-96', 'C367F62E809D93AB5D7BB2AF362D9D9DFF9B0BC552879F90121448938C2AF029526A9F793AC1B03C3C58C380208448C16AE6A8B8074440759D72BD24A9D1FCBD', 303, 'M'),
+('joana_mg518@hushmail.com', '1986-09-25', '360.603.892-52', '30C98C727386EECD47832057976FBD5A3866445BB9DBB961F8CF966296BA6AFD34822E5764E73A057F350E4ED615D91510821FA4B2618406C6C5B904558E9560', 304, 'F'),
+('joana-sh331@hushmail.com', '1992-07-24', '451.960.624-16', '929BDE35A2D5CB0058D12255465062AFF265CFEDF0175657CFAC33D13BB028B60A1F7EFD082D630AE49269069DD36E6AFB9E07218DB4F341B3CFBACCE2819469', 305, 'F'),
+('joao-grdvl444@live.com', '2000-04-19', '540.547.238-70', '20A8420D3525D77202B354EF9B9FCD8A2829C42CC9AFC9B03BC54BA8A2ABD7DE386BDDACF1B92B9AA9A4B51096BE0C6A7F82D49A3EA03DB28C7B7B6C63ECCDC2', 306, 'M'),
+('joao_pap124@hotmail.com', '1998-06-15', '686.369.792-00', '7EA4F385ACEB2329787AC3AF755CD4FCF7820247976D2C606D332A68F718F56EB573108590FAA56483A9656D272FFBD0BE26A5200D97656A6CB101F651B7DF75', 307, 'M'),
+('joao.pser569@outlook.com', '2001-05-25', '335.122.804-04', 'F3F88A8041CE054E9A147669D785E7963D17A608438BFC3850EF8EFAF0CE936BEEE14ADE7C577EAFBEE726D6B7D350DDFE31A89F98746C0264DC547F334173B9', 308, 'M'),
+('joao_rff85@fastmail.com', '1976-01-03', '070.242.093-05', '19658EFA8257F76F6608862232E393CFCBB9CBFD76894406A2C6A1CFEF169A661ABFA8D3FE17E3933EAB8B7F0412FF283169A27090888D6CE337288616C5298C', 309, 'M'),
+('joao_vdob245@icloud.com', '1965-05-15', '219.201.802-90', '849AF07C4B6EBAB3EC99F46CBC087A118BE7FBBFD6223F3FA7D3E278B04B311DD19C06D1351AAD4F33FBE268391E2264CCC90E37CB237CAC9B81288669A613C7', 310, 'M'),
+('joaquim.ael487@protonmail.com', '2000-09-05', '776.617.296-87', '107B5D97E5616D64690F39878521E9E6628DD16C112884C567563A8823465D1D7DE7CFBF594AD5BE4C64473D2C1CB76B37E481B04521FA2D91B6D97560D24D1E', 311, 'M'),
+('joceleia.rds36@gmail.com', '1988-02-16', '053.123.066-06', 'CFCB6F207E0F326718673CDBAC124B85DB2AEA8D9DA85E38B50FB44FFC44E773DB8FE5C1E50E07C6E5FE53998229707BDF493089EA156423869D190264B86F35', 312, 'F'),
+('jonas-pads518@yahoo.com', '1981-08-03', '391.161.715-19', 'F442E86FA9379AD198E4A3D2910440DB39134A64095B948914475E1710BA7384DCEC14134B66EC9E090BB9A33054A8AD60094FBABCCC404CC8959353889E3234', 313, 'M'),
+('jonatas_tdm576@protonmail.com', '2002-07-20', '374.548.192-57', 'B587621BB7B1D00F293D09C23AD31C0A0781492D5C4A5B4D67250ED7AB651A09892E6354D7A08AF97F3C4CC7D6731ABDC08DA47938C1C6EF42744724645C871B', 314, 'M'),
+('jonathanasc100@bol.com.br', '1991-07-21', '812.011.539-21', '94BB28DDF50301E45D43A955B9E529DBB7D0DC5562061F270F56FB168A66F66A04DF0FAA8F46BA502FB2ACF12BFCDFC1E0C96D1164C9793D719D79FBB00346B1', 315, 'M'),
+('josecft27@yahoo.com', '1953-01-13', '416.943.644-02', '602336FB6375F8F1B0E15EA8C14364353E1136EC3854298E69BF13EDC069DF6BD4EC49F4437A20BA20DFE2B36FD3F2C3FF5318946E77E6E442764B949D218CDB', 316, 'M'),
+('jose-da318@fastmail.com', '1992-06-28', '202.515.358-94', '7FB9889CD980545E77D7367108F5296344262064C5965AC319C715812F2ADF338B0DBC0DD5CBA4C0018A1230909C654340C59D3207DD64CC8AB24EF092564E63', 317, 'M'),
+('joselsrc592@yahoo.com', '1952-07-06', '286.472.709-91', '5D882BD7E970A3186C54815AF79F47379F4220F25420C7E0D94597241F5522116DBA9C16401DD7B5D475F0F5389A4281C1887F62E700FBDB77CA38676990D6CC', 318, 'M'),
+('joserdsr572@r7.com', '1994-09-12', '529.387.760-71', 'EFFD1E72D221F881BF230D7F826A2FA2FD1C73ED2658EDE45049EEB7FCF1C5C6DC44D7F4AB2F4784543BB7E73599EBA8D02F39EA171166B203AD1821489C5BC3', 319, 'M'),
+('jose_vdsj130@hotmail.com', '1953-06-22', '760.831.961-59', '06CF2F10F2DFAD39B73355B302B2C2C36B2E77D7F3E76D1A9696754007484E2B1FC29C85314B32900BF7AF208275F5ED54D20B8B161B64C52589670E537B862C', 320, 'M'),
+('josiane-dgb157@bol.com.br', '1960-09-25', '742.461.780-04', '73E6899A62E6208B119D26A2277EF66D5615F7B92D7A012EBE29203AD94921441E77FA834DB4820A8C9ABDFC6D35C2A3F1E4650078C74F3B1B1DF19C5ED78803', 321, 'F'),
+('joyceft384@hotmail.com', '1986-04-18', '498.839.907-90', 'B107965FD9DE81B01E080366DB265E681C03EE762BE925449DA7DA303D91818592B9532B28B1A3DC754CC892FDD683F76C3ADF80CB7A4B2016161B2554FD949B', 322, 'F'),
+('juan_aw342@bol.com.br', '1970-08-11', '576.510.494-03', 'CF6B95C93F097EA9E2BE849411C7FAA3DC5D16D517AF177CE96A5ACF5AF5E0989293B036CF79F660F1D77538F8BA882C1DA5371024194534A6A81F99A39501E5', 323, 'M'),
+('julia-rdcm544@yahoo.com', '1978-07-01', '196.751.880-73', '116AA81AC780C3C8281E0BDF9FD71F40FE861CB5BA2F6AF266A37933D368C90223C31F91E051922B1472C135A52410D7EC41A3F9ADCC487C0F7D971656EFE05A', 324, 'F'),
+('juliana.bf28@hushmail.com', '1978-11-06', '422.220.691-14', '97F0E120F77FB347E1F9DC38D3D659CEE81E4845D72B13917AC1EF39F6D77DA075E02CF7902076754F648ACD23BBF2F924CE30B0F38E75666C804D667109EBF8', 325, 'F'),
+('juliana-cs503@r7.com', '1968-05-02', '347.435.903-70', 'B4319270A0F70F2A45F7253C6321FEC61BBA4A82FA83DE6B1CAC09136409BD92C481565E0B38C7E18D0664A7F6EB1ACECAA3842B8007B43646F8ED0C00AB1274', 326, 'F'),
+('juliana_gj73@icloud.com', '2001-06-08', '021.799.693-09', '74825F99885460B307E7BFC348D95A77B983E2EC263408D01A0A6B0B5B8910B3B57E0F2AAA039097F47D2D0F847CD633533C7956760D5C32A3156531AC72C0CF', 327, 'F'),
+('julianamd327@hotmail.com', '1962-07-21', '671.863.581-28', '44E1147C4693B9A67C356758E04BF9BF8515BDF65FCEC3628A2273605B97D83343F3A8C4870788F6217AE4D8EEDC941F39C0715286AD3EE5A606594392DFF3C8', 328, 'F'),
+('juliananp259@live.com', '1982-11-12', '609.277.636-72', '7571C269D273305EAD5A486C8545414F1DA2A0768B29E60DB83EEC208F5315A0C80C08043AFEC1AB663F3950C30DA7E7B5D0800D92809D5DD30DD7CA73254A73', 329, 'F'),
+('juliana-ps33@yahoo.com', '1964-05-12', '162.057.598-10', '8E628EF365B5DFDFD6977311BB8D9B5C2D4FCEB4D3B68C791AC3A6198F418F41DDC6C2E6137A060EE7C7EB10F185B1578A00DF11DC8C6C55DDF00F0408563DB7', 330, 'F'),
+('juliana.rt556@hotmail.com', '1953-05-21', '061.107.267-02', 'D3C2AE67B767514BDFB3170327483184609836F28E44CF11316E013468BB47625158F1B21B5E36EA4D1234A235E1F5D1FC1CF2437EE7E43437157BFDEEF900D8', 331, 'F'),
+('juliana_rm23@bol.com.br', '1982-06-20', '336.952.750-22', '2DB6E8D84F06430F6FE37372998E3427F2D2E4D3006BFFF00BD6F7EDDBC640DB46651AFE11E17DB40029ABE3FBC397C42C6851AA5547E65D90139338817DA72A', 332, 'F'),
+('julianarn282@icloud.com', '1956-10-10', '153.458.557-57', 'E5F95E781B6CCEE9557ED091A753C1BA7F942BA0CE9668DBF74E7B864DC59323DACF65F514F342ED7C98236178668B952A0B80FE2B67E8F0FF36C7C22D09864E', 333, 'F'),
+('juliana.ts245@hotmail.com', '1973-01-12', '374.971.088-08', 'CAF5D060BA36FE606F064D7FBBD311A6CBB6510AA4C9D14D019ADAA741457808A01F4861C60E45E9EE06861F28EAFE8DF8B44E4B19A5BCD650A01168C44A5370', 334, 'F'),
+('juliana_va665@icloud.com', '1996-03-27', '054.517.177-61', '1A473EDE0420A270352FA870138EC27F353EB388C8A546620466D3F6C45890EAA9CC0C8115BE85152708B0C2B23CB05ACCE86383CA69D77B71C8CF6346E8D09E', 335, 'F'),
+('juliane.fgm101@protonmail.com', '1990-04-15', '159.979.422-52', 'D41E5AC23F0268EAED963018F2CBA53A2813F616945DE7A2CBFCDD1C19BE85CC3074F2E3509E87CC42635698497308784D06704FED47EF746A93FC146A6996CC', 336, 'F'),
+('juliane.g282@yahoo.com', '1999-01-11', '346.632.025-94', '34DA230DF709E9C6FA77D47DC8AE5987342357D904C638763B42F760154FA8D7B75172A6F865ACE2CE12441C05BD29B825816C7B41D67B492165EDAB37722246', 337, 'F'),
+('karin-el315@r7.com', '1992-03-24', '668.831.232-88', '72DF70FC2AF36ED003B06A5CD2F2D2315E3FB80BDF25C4EFE5CDB06863C9A34FC3C449C94CA6836C381AFC89FD310039E5CEDD73A7530625B40D469FDE059929', 338, 'F'),
+('karina_f283@yahoo.com', '1973-11-28', '336.309.297-02', '65C63B5E067222817FAB4700EFE84799220E82BA0038B56488AD3E03D06A598B83A3E5F8CBFA0D0F954E0532DC4CFF5A4604B0B2E75F7899B0B434A54135EBCB', 339, 'F'),
+('karinagr208@yahoo.com', '1973-03-10', '881.913.225-79', '3E92EC5D4C0600D0766855D625656465A305A91C60DF4687784AA4856DF69F743B6A108DC6E9D5CCCB0C909C58D21851AE529253A5E865B1F72491822E852404', 340, 'F'),
+('karina.pb27@r7.com', '1954-10-01', '238.849.647-04', '4AF8E219F4A40A1FCCDCFDCE326705E32B56DD67625EDCD3D57EB0C9218320F9248EB8C771B49098BC449E80E7A364DE1DD35FDF14801F0AF2A3FF507B4C6C46', 341, 'F'),
+('karine.lds160@r7.com', '1982-09-12', '612.399.977-01', '16D08914C00C9A537482A8593C5EF50B51FA6E7F476D1B6EFE3EAC0A9FD9DF1C045537D32E8A2DDC489A9C53E2605509B9996B3B63340ABB2E289180932586F1', 342, 'F'),
+('katia.dos569@hotmail.com', '1970-09-22', '165.021.417-06', 'B8D017420AEC75B07136B164DBF16BCF0B4F84AA25EBC25F1D8C4293A59E6C6B809C101FF490FD65495D5CE10C9A5F7D204B39F4F809DCCD3D8005C568B1E6E8', 343, 'F'),
+('kelen-k562@hotmail.com', '1978-07-04', '481.931.616-88', 'FB9BF48335802F81F19A2F87CC2D133D26F61997E7C3D21E4DF9085959882277CF8495DD1DDABE142CF1A4C9FAC71A96165F27540E3AAF3F9484946334119412', 344, 'F'),
+('kely-cacda561@yahoo.com', '1963-09-24', '216.256.373-81', 'B70D046969AFCF1AB49C77EF9BBAB98D2ECBD3E75D4CADEEAFA95BA800AD9A18582D93F59CBD72C7BA20D4770CDC077DB11AB8A334889F6FF9B53678EE57FE07', 345, 'F'),
+('kharine.m432@protonmail.com', '1975-02-26', '886.187.260-36', '2FAFB1B79C4374A41D7A65DCCAD7970B3E9BDA3A0B61A5CD34516E8A242EB1DFD89D1F926BB5B95A97D951730B4A0CD0293B60AAE5F21FE0825894EE33391345', 346, 'F'),
+('lais.mds292@live.com', '1965-07-22', '593.161.241-66', 'E2DDDAF19C650F0263C0A16217FC3C36926F86E8447B8A89DD976AF812E29013AEEF9308C0678B7582E2B614E46BB201B9AB5418EA3EBF5542377C4CAA061362', 347, 'F'),
+('lara-mdl293@live.com.br', '1976-05-23', '578.954.061-91', '23FCFB9A69AB707682B80D0BCA748767107BD28ADEA3D0523C8D2184E95FB88006E621EB9E89A21954641B8FDA4B60B7D605336ACA42A949158C45F1D460C2FE', 348, 'F'),
+('larissa-ma192@live.com', '1981-01-12', '722.690.038-61', '6EF4F1A5C9320412C52DAC3F5ACDCAF583CA91B6C35BA7774DD91AFB0317C2F8FC68C0C54BD3D801671E9B47D46F8CB9712140635E933E0922F8D52599A8EAC5', 349, 'F'),
+('larissa_vt283@hushmail.com', '1968-05-12', '757.959.894-95', 'A57F7C038B7400418E317FEBC97B6FF190A2BC99F39118E9E9869E17259AFEF02EB7E3C2BDCBE449C816607663A845392A3BE646E766BF93385199AA29BE0B48', 350, 'F'),
+('larissa_xdfb665@outlook.com', '1985-03-16', '104.688.876-52', 'EA2233F02C549FBBE773FBAAD71A3F543FF4BC5BA3A074234BF89C4CA24097F6C8B5B0E18EA8E0B6D45FF571C5A1D1FDC4F07E66DD91EA1F0094BA508F6BC9F5', 351, 'F'),
+('laura_ca534@bol.com.br', '1964-04-18', '579.881.674-56', '08AA6AA826ED9DEAD2CEEA9A3C94C928A4C395E1B09902F7A1A96A0560757815676060B5042CE9911D48BCE037380C0B4420F06A29B1234642D0167CA8CD7DF2', 352, 'F'),
+('laura-dfet329@hotmail.com', '1964-07-09', '930.317.245-00', 'AA462E4CF5784C2AD41464EC2A5DD56149D494FF7B90675882CD8750884B9365AE0C230DFE6D31A3DA03D07A5FFA13575365AC20BA93C232E28D0FD75E161693', 353, 'F'),
+('layza-fmf115@protonmail.com', '1965-08-28', '354.609.176-03', '81B44C1FE298D3684A154920D080B566C690200946C6632C8E5CA94878FCB3D646D9F480ECA35A3E64E23F89F59DE90EBE6755657A96EEFA3AD2E9A3E75D4C9F', 354, 'F'),
+('leandro_bs598@hushmail.com', '1957-07-16', '546.608.774-26', '5C2472AE3A515FC28650FF879CB2E14AC044C67BE4FD8FCC2E49C3DE9FDAABF24F4092A1CC81E20D24ACE251C3276AE638B020FD6C49161FF12803C26D5FA619', 355, 'M'),
+('leandrocdo268@hotmail.com', '1950-12-29', '659.465.649-00', 'C9932483257C41BB6090279A27676E7BFA673B8F68861A14233DD1C881E138E617FFFDEB7DECC05F1F05119385BB02C2FDED1113B37D92350160A494A44327E3', 356, 'M'),
+('leandrofp593@yahoo.com', '2000-04-06', '213.290.587-80', '05CC535F54BAFB8D07257354A6E72AE4F11905DFFE527076EF6B629EC479795F82DEEE34968C9D5362012AFE0F8D8AA9523B7B872510ECF283B9B78BC66F936B', 357, 'M'),
+('leandro-gs499@icloud.com', '1952-09-05', '198.690.230-70', '4C1331649BF640D834B3C396C2AB24486BCB619A1CDCA327CBEFF39C626334D086F7302F3ABED4A168887ECAA63F6C3CCE9981A271E45AA0F78D7BA7936FFDE5', 358, 'M'),
+('leandro.ho413@protonmail.com', '1979-01-12', '049.761.140-66', 'BCEFA7DB5334F26B06B1FDECAC94D09D5C7FF4D8818C827DE7A10AFE591F845692857A386F0198203776BA4026ED402FB5F5E1ED376B82AB0D09082B8F91557F', 359, 'M'),
+('leandro-ma665@gmail.com', '1968-07-30', '334.071.445-20', 'BF31B4F18C945A066C00AEFEC097A3537A4ACBCA2F72A87E754FD879841CF00A569E894A77996C0D5D4244E41935CB4A0F1057594A3E2EDD4A4C1AFFF2E1632A', 360, 'M'),
+('leila_br200@outlook.com', '1983-09-24', '838.523.871-91', 'B4816C0BCB4398DECBD1229DEBEE3507E13D1544ADFD118D3DA6501A3DF38EA24E5D3F9A39424E7947C8E8DEC4440E900DEC871213690C02E8B1986C297E3A9C', 361, 'F'),
+('leilarb143@gmail.com', '1982-04-28', '368.636.539-15', '2E2782E710EB1AF32666E7BFCB2D6D956FD4648E15A8EDE11848932551326AE5A2E095A901125ADF8C7F1C7541801D1C7E353C1188267CF715B1C67A14D6D6A6', 362, 'F'),
+('leonardohl606@outlook.com', '1997-03-21', '681.825.171-41', 'B9E65D0798DF69A40DDE5790BA46B20F939EAD418FFA7382089D5F707FBC9C0C35B00F17DF23F5EA9003FE36433E5654DD7233549057B2DB6D4F22EDF91B194D', 363, 'M'),
+('leonardo.jdc30@gmail.com', '1968-01-13', '752.283.815-03', 'B02C8A36CE1EB0C8ECED0691585072A5C19243AD4EE1B98A0DF139DBE9BA8514FE38F8963CEC61F4D5A82628572393B5ABD4E2CDDE6D599F7BB24CF0EF33D6F0', 364, 'M'),
+('leone.acdmp57@live.com', '1953-04-30', '742.916.809-45', '7CB1D59DAE6FF49DBBFE96B9665AD2EAF40FFE6C10268C11E82DE9D25D289E935FE43C4074270303247CD9E14EB7090E6195A34F39D2594ED177D7F5943CDAF8', 365, 'F'),
+('leticia.mpr482@yahoo.com', '1969-10-26', '214.886.097-64', '78AA0A5DD025D2529207C6E27CD1BB0B4DAA401139C27C6917240CEA27CC4119BDF21A19B747B536DC5AE0FF41362E62AFE4853C1F55A23E48C2BD923BEAA495', 366, 'F'),
+('ligia.fst71@outlook.com', '1969-10-22', '140.214.874-76', '6718C9FC6BDB4BA2B6B60950665B8B77F81C89428E930387E99B9BC1C5A483564E38C93144E443776D072DE5A96B4562C9EAE327BA392AB160CB9CC652A2B83F', 367, 'F'),
+('ligia.n156@live.com', '1970-10-15', '730.523.976-30', '65F4283BACCA4440B377CB2CC3B75D26BBB0B0543DA640EB9F91B4012ABCFC313A7B93243ECD3ACDC7BBA45C0D0215B167AEAF2F42EA657727B712E50BD0D23A', 368, 'F'),
+('lilia_rsdb432@yahoo.com', '1967-10-15', '804.384.041-57', '048016A730F73D456DBE72C8458986564B9439AE69D6E61CB8F2BBD376FEA55D6782A1740353F0F864DBC8F0295266F65462D364B66CCEB1F74D32042A761FB7', 369, 'F'),
+('lilian.vs443@protonmail.com', '1974-09-15', '869.822.540-38', '0E3CA90EF412ADD5787DFB8BCC4D0CB65BF4DEA63BDCCD9CD8F71E960745112FF29A4029E6220DC2A333DEEF00AB36A940D890C731488EAAA520FEBB3AB3027A', 370, 'F'),
+('liliane.pda320@bol.com.br', '1966-06-21', '919.089.695-55', '9280CCEA02B04AB76EE85CC96013DDD19614A53FBCFAF311E321F0EED176F101B7251A7197BC9CC9429E7ECDCD091157DD23381C28B70B361FA99E94BB542561', 371, 'F'),
+('lincoln.dsbb45@bol.com.br', '1955-05-23', '296.560.220-84', '0DA2C6CDEC600B6B3EB4807BBAC2544897CDEDAF07DB90A351491235F1DFD7EE4DDBCF452678BA3D3A1792C9A3C58831BCEFC749F0207273340A52EE154A7B5B', 372, 'M'),
+('livia-fm172@r7.com', '1957-08-23', '664.372.966-15', 'A181E742748CA6A9EEA32045E93C0400C996E0BFFF0AF3882E74B1BDD6AFBC4BB9BC74923825086D11DF982759911636B4D732B27D1700A16A147891B03307C2', 373, 'F'),
+('lucas.bds58@protonmail.com', '1998-02-27', '596.104.457-21', 'F860D5E1610BB3854D103E847302F611EC65DDF4D74E0DBC4D4257416FC2B472DE4FE2A07FEFAA94EE6B836B74263DC9890020BFF246EB8AA19EDF35FB19BEE1', 374, 'M'),
+('lucas_hcdm623@live.com.br', '1952-08-03', '272.705.871-32', 'DB735E3B4BCC141717EE03333B4C23D850BF55C2314279EA8FD2D11D4D1324DB3C132646D1D20951CD5F7C829F07488055D8FFE5AD148C480BE91E4C054E5729', 375, 'M'),
+('lucas_ik217@protonmail.com', '1978-07-24', '720.476.578-81', '5B6A74424B6FBA7BE5B628ACE9F1DC2DA0E154D89511EA11C1E1C14B7600E025BA2F5C98360B8CAB4E6846CF6A788B84AC51801D3E4C8B6AF34EF5BD87F3784E', 376, 'M'),
+('lucaslds375@r7.com', '1980-04-11', '719.283.774-16', '9B3CB9720FC87ADCF0D507466A2FFF7C8F5F91E1F91C1FC785C047E2FC9E25E4C6D0D2C4370FA34E5F3C4F605B8BBD55D6F7AF462688221C14CE95864ABA5A9B', 377, 'M'),
+('luciana-daa254@hushmail.com', '1991-08-18', '543.481.158-50', 'A9475210095B09B5163B5B52970C1538EC0F9E0FBE051B70D3FA8EE3276C6A264EF0B4D5354D0E3CA672CCB6F389BA1496955BF3A5F030E0BAB3B3DADF97CAAD', 378, 'F'),
+('luciana-oc666@hushmail.com', '1992-10-11', '492.513.423-00', 'D3400414EEC348D96002B578476C6FA67ECFBC5042EC3F25A1203636DA91F46BF72765AA5D368990022DB06DABBC81D2254AB7B9DC84040CBAF7E73FE910E2D9', 379, 'F'),
+('luciana.ys463@fastmail.com', '1980-10-09', '952.571.041-64', '49920518A169198A1053D279A14BE572B17FD14F8D03BCEAF058E3E4014FC08130CD1F0EB3476847A51EA1FEBB8C4A79742FAA85A42002BB42454C989369253D', 380, 'F'),
+('luciane.df195@yahoo.com', '1974-07-10', '353.380.815-71', 'C5EBC8D74DB364383F14ED345CEBA82E9C628C6735EE839ACDD1A206583D4893E04E55B041FD46446130C517E37B9D01B53C997DEF7A424ABB28CBDDE9F183A9', 381, 'F'),
+('lucianeldl573@protonmail.com', '1962-08-18', '535.965.367-15', 'A8E365FAFA82A5CEC21C0B9708BFFCC3FCF431D6198FDB16B8090E53479796D44CA0AD0E8F89E022ACB5193A63CEDF1E2B34AA2C54B8BF84CD093993C2E034A0', 382, 'F'),
+('lucianomds267@hushmail.com', '1987-05-15', '001.135.224-87', 'B02D787185975C0D4F05B7E244CF8C4F4C778D69D5480F34B7F1866E31C920B762375FF993328D26070F7756926DA462B22B7A99894864D271790045775A3B4C', 383, 'M'),
+('lucirene_ada200@outlook.com', '1991-06-18', '796.917.332-26', '4FC6624D79EE29FCE10604A5AF6084F42BD36B7DEC6A8287629B2BE7F31F331CEA3E98505B7A4961891FEE7281DA6CFFC00B872BACE2431A9F364895CB5F76E9', 384, 'F'),
+('luis.fp321@outlook.com', '2001-04-14', '253.774.134-07', 'BE4AF0F176C9DB562BA6A1F24F33D92E07C403B6A8FCC6505BA764D6E65A1856D21873D142814B90CF0C3F2BD06E09FCE27F0D10B657BD96C735C8A29DC0BB23', 385, 'M'),
+('luistm17@hotmail.com', '1955-11-06', '872.916.994-10', '8A32F81FDB231FD53A589277A2CFF43296C66BF2869B424BEC3295B248BE535BBCFCABD8B4E9F758C65D0E040C6C7A236DDD1FEF563F5BAD31B18926791BE06A', 386, 'M'),
+('luizfcb366@protonmail.com', '1951-04-29', '804.764.689-30', '42AAF23829519686B5174795DEBD17B0FF2DE73B2CB91644FA67B828770C62BBB48A364FB86723EEC9973C40FCC64DAF0027650B9AD890FFC9361C8A177CD07B', 387, 'M'),
+('luiz-gdtca100@hushmail.com', '1959-09-23', '802.155.068-63', 'A7545B6FD1B421A5689E92F9FC74FF7851821AB67BEE89A07DD11365C6DD64AA6EC0825D0F9CB1BCF0D7FC2FA427B79B7476A5A29B605A184DBA1F7B612BFAE9', 388, 'M'),
+('luiz_gff39@icloud.com', '2002-11-17', '876.333.823-84', 'DC168663F7AE6BF4CC3C00028550D004EAD57EECC388944029EAFF792AC5E515BA3D87C751A47FEC53D256B9FEF50B086C736E0DCAD1B4FCA6EDF4A1BEDFD3A8', 389, 'M'),
+('luiz.pdb30@live.com.br', '1976-04-14', '451.553.537-42', 'B9222252F3D7AF83D0B08474A5795ABE2E6FB8F80EA473988C877173E1611227253ADE93F808792EACBFD6CE692A9BA85E3A52B4A9CB22852F549B0A3ED02195', 390, 'M'),
+('luzineide.rds641@r7.com', '1991-12-19', '893.080.862-00', '56B95B9CB0D43B8CAAC9A2C5D43E81E4601FA1B36DD15CDF8F26A90025F6A6A30324323E844A54BD0E8D36328D0898695EB78D678CCA738BC24CD49579876B95', 391, 'F'),
+('maiara-bn17@gmail.com', '1987-09-24', '835.256.339-47', 'C03BEA2EBBC9F65175A407C8EF50F963B4F83C3BAAD6DEEB1E227D137B9DA646B486E398399B31BCE521EC16893DF63D7528EFD2A33B9A583F3531EA3A116542', 392, 'F'),
+('maira_vdps477@bol.com.br', '1976-04-18', '117.141.936-83', '0BAF8F2DFB02543D75E2E15AFE6876CD57918E2827B7B8B2316FB30CCFF84DFEC15475862400FE4311002A3121590012E1E27A59486DB21DF43DAA947BA88415', 393, 'F'),
+('marcelo_dc389@fastmail.com', '1990-04-18', '950.545.294-20', '9FED20FBAE872AACF7689E0A9E69EF741EB692C64B07BD264261294CE31FE6C1C95255BC62165CAEF21EE9D0898BC97CA750D7416B02D9F347A4F4F00AAD16FA', 394, 'M'),
+('marcelo-dls609@hotmail.com', '1997-01-01', '138.074.506-37', 'C15AE995513FACFC8C3DFB850EC720D47A043338B6CFD47FE8C3CB5D3373EB0F5C056AC918423054CA345D075AE3F34F874842C800FF73855B968CD2E87C602F', 395, 'M'),
+('marcelo.hsd623@fastmail.com', '1997-06-20', '278.711.736-85', '8EA72E0B0714625580D1D80986732212B7D2531717A829F1E7D589910DC9F40D925F81A676D76F58B46A35C6156B21DF169BF948A6457B8AB4513DF61430D859', 396, 'M'),
+('marcelohdds579@fastmail.com', '1981-03-01', '567.223.624-34', 'F8C2F6F0008DF266513CDD0F1BCADE91C0429131ECA92F7F24CAABFF0923F5B775A060BCAEEEE2719FD0E2851107911419C87D8449F1AE9D6955E2DFBC5CE4F2', 397, 'M'),
+('marcelolp353@protonmail.com', '1980-01-03', '715.389.649-02', '50A4D50752F5BA40F27B6AF6E41892FC8239590D911F3C00C1534E31A5B8BD4E43300F8CD2130134482D90E4F4C2884137805E292F41677527DC46DE5BE29CBC', 398, 'M'),
+('marciabdsg226@protonmail.com', '1984-01-16', '610.873.802-27', 'AD70A2AE16829B887F0BF28D5F493F9E21F04A24E2E4F453DD339960C413E03BE5094E505351BD13D6C71D3434258472D8D4A591F40DE3C2DE5E64EF1962DAC2', 399, 'F'),
+('marciok44@gmail.com', '1954-09-30', '633.696.494-97', 'BD701BD644023A7ADAF6DD88438E1B06D5BD01C0E172D31BF17FE988842D6C7071744749B03524422B25BBD16DD2769E029552701AB03469E4AAB31E401A2BB8', 400, 'M');
 
 INSERT INTO juridica(cnpj, fk_pessoa) VALUES
 ('29.477.783/0001-80', 401),
