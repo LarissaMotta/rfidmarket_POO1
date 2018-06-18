@@ -66,7 +66,7 @@ public abstract class ContatoDAO extends CoreDAO {
             
             Contato.Tipo type = null;
             for (Contato.Tipo t : Contato.Tipo.values()){
-                if (t.toString().equals(tipo)){
+                if (t.toString().equalsIgnoreCase(tipo)){
                     type = t;
                     break;
                 }
