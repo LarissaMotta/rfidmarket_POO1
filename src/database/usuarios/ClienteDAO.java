@@ -88,7 +88,7 @@ public abstract class ClienteDAO extends CoreDAO{
         String nome = rs.getString("nome");
         Endereco end = PessoaDAO.getEndereco(rs);
         
-        Genero genero = null;
+        Genero genero;
         if (gen == 'M') genero = Genero.M;
         else genero = Genero.F;
 

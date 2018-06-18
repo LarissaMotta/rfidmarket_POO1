@@ -9,51 +9,64 @@ import java.util.Date;
 import util.Util;
 
 public class Lote {
-    // nenhum dos atributos pode ser null
-    private int id;               //não pode ser alterado depois de instanciado e nem <= 0
-    private final Date dataCompra;
-    private final Date dataFabricacao;
-    private final Date dataValidade;
-    private final int numUnidades;      //não pode ser <= 0
-    private final String identificador;
-    private final Produto produto;      // deve ser carregado e não passado para construtor
+    private int id;                 //não pode ser alterado depois de instanciado e nem <= 0
+    private Date dataCompra;
+    private Date dataFabricacao;
+    private Date dataValidade;      //Único atributo que pode ser null
+    private int numUnidades;        //não pode ser <= 0
+    private String identificador;
+    private Produto produto;      
 
     // Pode ser usada quando para instanciar a partir de dados do BD
     public Lote(int id, Date dataCompra, Date dataFabricacao, Date dataValidade, int numUnidades, String identificador, Produto produto) throws IllegalArgumentException{
         Util.verificaID(id);
-        Util.verificaIsObjNull(dataCompra, "Data de compra");
-        Util.verificaIsObjNull(dataFabricacao, "Data de fabricação");
-        Util.verificaIsObjNull(dataValidade, "Data de validade");
-        Util.verificaStringNullVazia(identificador, "Identificador");
-        Util.verificaIsObjNull(produto, "Produto");
-        
-        if (numUnidades <= 0) throw new IllegalArgumentException("Número de unidade menor ou igual a 0!");
-        
         this.id = id;
-        this.dataCompra = dataCompra;
-        this.dataFabricacao = dataFabricacao;
-        this.dataValidade = dataValidade;
-        this.numUnidades = numUnidades;
-        this.identificador = identificador;
-        this.produto = produto;    // Fazer carregamento do produto aki
+        
+        setDataCompra(dataCompra);
+        setDataFabricacao(dataFabricacao);
+        setDataValidade(dataValidade);
+        setIdentificador(identificador);
+        setNumUnidades(numUnidades);
+        setProduto(produto);
     }
     
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
     public Lote(Date dataCompra, Date dataFabricacao, Date dataValidade, int numUnidades, String identificador, Produto produto) throws IllegalArgumentException{
+        setDataCompra(dataCompra);
+        setDataFabricacao(dataFabricacao);
+        setDataValidade(dataValidade);
+        setIdentificador(identificador);
+        setNumUnidades(numUnidades);
+        setProduto(produto);
+    }
+
+    public final void setDataCompra(Date dataCompra) throws IllegalArgumentException{
         Util.verificaIsObjNull(dataCompra, "Data de compra");
-        Util.verificaIsObjNull(dataFabricacao, "Data de fabricação");
-        Util.verificaIsObjNull(dataValidade, "Data de validade");
-        Util.verificaStringNullVazia(identificador, "Identificador");
-        Util.verificaIsObjNull(produto, "Produto");
-         
-        if (numUnidades <= 0) throw new IllegalArgumentException("Número de unidade menor ou igual a 0!");
-        
         this.dataCompra = dataCompra;
+    }
+
+    public final void setDataFabricacao(Date dataFabricacao) throws IllegalArgumentException{
+        Util.verificaIsObjNull(dataFabricacao, "Data de fabricação");
         this.dataFabricacao = dataFabricacao;
+    }
+
+    public final void setDataValidade(Date dataValidade){
         this.dataValidade = dataValidade;
+    }
+
+    public final void setNumUnidades(int numUnidades) throws IllegalArgumentException{
+        if (numUnidades <= 0) throw new IllegalArgumentException("Número de unidade menor ou igual a 0!");
         this.numUnidades = numUnidades;
+    }
+
+    public final void setIdentificador(String identificador) throws IllegalArgumentException{
+        Util.verificaStringNullVazia(identificador, "Identificador");
         this.identificador = identificador;
-        this.produto = produto;    
+    }
+
+    public final void setProduto(Produto produto) throws IllegalArgumentException{
+        Util.verificaIsObjNull(produto, "Produto");
+        this.produto = produto;
     }
     
     public int getId() {

@@ -10,49 +10,54 @@ import util.Util;
 public class Produto {
     // nenhum atributo pode ser null
     private int id;                 // não pode ser <= 0
-    private final String codigo;    
+    private String codigo;    
     private double custo;
     private String descricao;       
-    private final String marca;     // Faz sentido eu mudar a marca do produto depois de instancia-lo? ou seja, final ou não?
-    private final String nome;      // E o nome? Faz sentido permitir muda-lo?
+    private String marca;     // Faz sentido eu mudar a marca do produto depois de instancia-lo? ou seja, final ou não?
+    private String nome;      // E o nome? Faz sentido permitir muda-lo?
     private double precoVenda;      // deve ser > 0
     private int qtdPrateleira;      // deve ser > 0
     private int qtdEstoque;         // deve ser > 0
-    private final String tipo;      // E o tipo? Faz sentido permitir muda-lo?
+    private String tipo;      // E o tipo? Faz sentido permitir muda-lo?
 
     // Pode ser usada quando para instanciar a partir de dados do BD
     public Produto(int id, String codigo, double custo, String descricao, String marca, String nome, double precoVenda, int qtdPrateleira, int qtdEstoque, String tipo) throws IllegalArgumentException{
         Util.verificaID(id);
-        Util.verificaStringNullVazia(marca, "Marca");
-        Util.verificaStringNullVazia(nome, "Nome");
-        Util.verificaStringNullVazia(tipo, "Tipo");
-       
         this.id = id;
-        this.codigo = codigo;
+        
+        setCodigo(codigo);
         setCusto(custo);
         setDescricao(descricao);
-        this.marca = marca;
-        this.nome = nome;
+        setMarca(marca);
+        setNome(nome);
         setPrecoVenda(precoVenda);
         setQtdPrateleira(qtdPrateleira);
         setQtdEstoque(qtdEstoque);
-        this.tipo = tipo;
+        setTipo(tipo);
     }
 
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
     public Produto(String codigo, double custo, String descricao, String marca, String nome, double precoVenda, int qtdPrateleira, int qtdEstoque, String tipo) throws IllegalArgumentException{
-        Util.verificaStringNullVazia(marca, "Marca");
-        Util.verificaStringNullVazia(nome, "Nome");
-        Util.verificaStringNullVazia(tipo, "Tipo");
         
+    }
+
+    public final void setCodigo(String codigo) throws IllegalArgumentException{
+        Util.verificaStringNullVazia(codigo, "Código");
         this.codigo = codigo;
-        setCusto(custo);
-        setDescricao(descricao);
+    }
+
+    public final void setMarca(String marca) throws IllegalArgumentException{
+        Util.verificaStringNullVazia(marca, "Marca");
         this.marca = marca;
+    }
+
+    public final void setNome(String nome) throws IllegalArgumentException{
+        Util.verificaStringNullVazia(nome, "Nome");
         this.nome = nome;
-        setPrecoVenda(precoVenda);
-        setQtdPrateleira(qtdPrateleira);
-        setQtdEstoque(qtdEstoque);
+    }
+
+    public final void setTipo(String tipo) throws IllegalArgumentException{
+        Util.verificaStringNullVazia(tipo, "Tipo");
         this.tipo = tipo;
     }
     
