@@ -15,11 +15,12 @@ public class Lote {
     private Date dataValidade;      //Único atributo que pode ser null
     private int numUnidades;        //não pode ser <= 0
     private String identificador;
-    private Produto produto;      
+    private final Produto produto;      
 
     // Pode ser usada quando para instanciar a partir de dados do BD
     public Lote(int id, Date dataCompra, Date dataFabricacao, Date dataValidade, int numUnidades, String identificador, Produto produto) throws IllegalArgumentException{
         Util.verificaID(id);
+        Util.verificaIsObjNull(produto, "Produto");
         this.id = id;
         
         setDataCompra(dataCompra);
@@ -27,17 +28,20 @@ public class Lote {
         setDataValidade(dataValidade);
         setIdentificador(identificador);
         setNumUnidades(numUnidades);
-        setProduto(produto);
+        this.produto = produto;
     }
     
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
     public Lote(Date dataCompra, Date dataFabricacao, Date dataValidade, int numUnidades, String identificador, Produto produto) throws IllegalArgumentException{
+        Util.verificaIsObjNull(produto, "Produto");
+        
         setDataCompra(dataCompra);
         setDataFabricacao(dataFabricacao);
         setDataValidade(dataValidade);
         setIdentificador(identificador);
         setNumUnidades(numUnidades);
-        setProduto(produto);
+        
+        this.produto = produto;
     }
 
     public final void setDataCompra(Date dataCompra) throws IllegalArgumentException{
@@ -62,11 +66,6 @@ public class Lote {
     public final void setIdentificador(String identificador) throws IllegalArgumentException{
         Util.verificaStringNullVazia(identificador, "Identificador");
         this.identificador = identificador;
-    }
-
-    public final void setProduto(Produto produto) throws IllegalArgumentException{
-        Util.verificaIsObjNull(produto, "Produto");
-        this.produto = produto;
     }
     
     public int getId() {
