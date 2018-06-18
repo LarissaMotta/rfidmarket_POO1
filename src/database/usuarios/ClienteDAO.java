@@ -122,14 +122,14 @@ public abstract class ClienteDAO extends CoreDAO{
 
         Filter filter = new Filter();
         
-        Clause clause = new Clause("pessoa.nome", nome+"%", Clause.ILIKE);
+        Clause clause = new Clause("p.nome", nome+"%", Clause.ILIKE);
         filter.addClause(clause);
         
-        clause = new Clause("fisica.cpf", cpf, Clause.IGUAL);
+        clause = new Clause("pf.cpf", cpf, Clause.IGUAL);
         filter.addClause(clause);
         
         if (genero != null) {
-            clause = new Clause("fisica.genero", genero.toChar(), Clause.IGUAL);
+            clause = new Clause("pf.genero", genero.toChar(), Clause.IGUAL);
             filter.addClause(clause);
         }
         
@@ -138,8 +138,10 @@ public abstract class ClienteDAO extends CoreDAO{
                 "p.estado, p.cidade, pf.data_nasc, pf.genero, pf.login, pf.senha," +
                 "pf.cpf FROM hist_compra as hc " +
                 "INNER JOIN fisica as pf ON hc.fk_cliente = pf.fk_pessoa " +
-                "INNER JOIN pessoa as p ON pf.fk_pessoa = p.id "
-                + "WHERE hc.fk_supermercado = ? " + filter.getFilter();
+                "INNER JOIN pessoa as p ON pf.fk_pessoa = p.id " +
+                "WHERE hc.fk_supermercado = ? " + filter.getFilter() +
+                " GROUP BY (p.id, p.nome, p.numero, p.rua, p.cep, p.bairro," +
+                "p.estado, p.cidade, pf.data_nasc, pf.genero, pf.login, pf.senha, pf.cpf)";
         
         // Substitua a '?' pelo valor da coluna;
         PreparedStatement ps = conexao.prepareStatement(sql);
