@@ -22,6 +22,7 @@ public abstract class LoteDAO extends CoreDAO {
 
     /**
      * Insere um lote de um produto na base de dados;
+     *
      * @param lote lote a ser escrito na base de dados;
      * @param forn fornecedor do lote de produtos;
      * @param prod produto que corresponde as unidades do lote;
@@ -30,15 +31,15 @@ public abstract class LoteDAO extends CoreDAO {
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      */
-    public static int create(Lote lote, Fornecedor forn, Produto prod, Supermercado superm)throws ClassNotFoundException, SQLException {
+    public static int create(Lote lote, Fornecedor forn, Produto prod, Supermercado superm) throws ClassNotFoundException, SQLException {
 
         // Obtenha a conexão com o BD;
         Connection conexao = getConnection();
 
         // Forme a string básica de sql;
-        String sql = "INSERT INTO lote" +
-                "(data_compra, identificador, fabricacao, quantidade, validade," +
-                "fk_fornecedor, fk_produto, fk_supermercado) "
+        String sql = "INSERT INTO lote"
+                + "(data_compra, identificador, fabricacao, quantidade, validade,"
+                + "fk_fornecedor, fk_produto, fk_supermercado) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         PreparedStatement ps = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -48,7 +49,13 @@ public abstract class LoteDAO extends CoreDAO {
         ps.setString(2, lote.getIdentificador());
         ps.setDate(3, new java.sql.Date(lote.getDataFabricacao().getTime()));
         ps.setInt(4, lote.getNumUnidades());
-        ps.setDate(5, new java.sql.Date(lote.getDataValidade().getTime()));
+
+        if (lote.getDataValidade() == null) {
+            ps.setDate(5, null);
+        } else {
+            ps.setDate(5, new java.sql.Date(lote.getDataValidade().getTime()));
+        }
+
         ps.setInt(6, forn.getId());
         ps.setInt(7, prod.getId());
         ps.setInt(8, superm.getId());
@@ -63,41 +70,48 @@ public abstract class LoteDAO extends CoreDAO {
         return id;
     }
 
-    
     private static Lote readLote(PreparedStatement ps)
             throws SQLException, ClassNotFoundException {
 
         ResultSet rs = ps.executeQuery();
         rs.next();
 
-        return readLote(rs,null);
+        return readLote(rs, null);
     }
 
     /**
-     * Com base em um ResultSet, cria e retorna um novo Lote de produtos com os dados
-     * da linha do RS.
+     * Com base em um ResultSet, cria e retorna um novo Lote de produtos com os
+     * dados da linha do RS.
+     *
      * @param rs resultSet com os dados do Lote;
      * @return Lote gerado com base nos dados do RS;
      * @throws SQLException
      */
-    private static Lote readLote(ResultSet rs,Produto prod)
+    private static Lote readLote(ResultSet rs, Produto prod)
             throws SQLException, ClassNotFoundException {
 
-        if (prod == null) prod = ProdutoDAO.readProdutos(rs);
-        
+        if (prod == null) {
+            prod = ProdutoDAO.readProdutos(rs);
+        }
+
         int id = rs.getInt("id");
         java.util.Date dtComp = new java.util.Date(rs.getDate("data_compra").getTime());
         java.util.Date dtFab = new java.util.Date(rs.getDate("fabricacao").getTime());
-        java.util.Date dtVal = new java.util.Date(rs.getDate("validade").getTime());
+        java.util.Date dtVal = null;
+        if (rs.getDate("validade") != null) {
+            dtVal = new java.util.Date(rs.getDate("validade").getTime());
+        }
         int numUnid = rs.getInt("quantidade");
         String ident = rs.getString("identificador");
 
-        return new Lote(id,dtComp, dtFab, dtVal, numUnid, ident, prod);
+        return new Lote(id, dtComp, dtFab, dtVal, numUnid, ident, prod);
     }
 
     //Jubileu
     /**
-     * Dado um supermercado, retorna um conjunto de lotes associados ao supermercado;
+     * Dado um supermercado, retorna um conjunto de lotes associados ao
+     * supermercado;
+     *
      * @param superm supermercado detentor dos lotes de produtos;
      * @param ident
      * @param dataFabMin
@@ -110,55 +124,55 @@ public abstract class LoteDAO extends CoreDAO {
      * @throws SQLException
      * @throws ClassNotFoundException
      */
-    public static List<Lote> readLotesBySupermercado(Supermercado superm, String ident, Date dataFabMin, 
+    public static List<Lote> readLotesBySupermercado(Supermercado superm, String ident, Date dataFabMin,
             Date dataFabMax, Date dataValMin, Date dataValMax, Date dataCompraMin, Date dataCompraMax)
             throws SQLException, ClassNotFoundException {
 
         // Crie e inicialize a lista, e abra uma conexão com o BD;
         List<Lote> lotes = new ArrayList<>();
-        
-        if (!Util.isIntervalValid(dataFabMin,dataFabMax)){
+
+        if (!Util.isIntervalValid(dataFabMin, dataFabMax)) {
             throw new IllegalArgumentException("Intervalo de data de fabricação inválido!");
         }
-        
-        if (!Util.isIntervalValid(dataValMin,dataValMax)){
+
+        if (!Util.isIntervalValid(dataValMin, dataValMax)) {
             throw new IllegalArgumentException("Intervalo de data de validade inválido!");
         }
-        
-        if (!Util.isIntervalValid(dataCompraMin,dataCompraMax)){
+
+        if (!Util.isIntervalValid(dataCompraMin, dataCompraMax)) {
             throw new IllegalArgumentException("Intervalo de data de compra inválido!");
         }
 
         Connection conexao = getConnection();
-        
+
         Filter filter = new Filter();
-        
+
         Clause clause = new Clause("identificador", ident, Clause.IGUAL);
         filter.addClause(clause);
-        
+
         clause = new Clause("fabricacao", dataFabMin, Clause.MAIOR_IGUAL);
         filter.addClause(clause);
-        
+
         clause = new Clause("fabricacao", dataFabMax, Clause.MENOR_IGUAL);
         filter.addClause(clause);
-        
+
         clause = new Clause("validade", dataValMin, Clause.MAIOR_IGUAL);
         filter.addClause(clause);
-        
+
         clause = new Clause("validade", dataValMax, Clause.MENOR_IGUAL);
         filter.addClause(clause);
-        
+
         clause = new Clause("data_compra", dataCompraMin, Clause.MAIOR_IGUAL);
         filter.addClause(clause);
-        
+
         clause = new Clause("data_compra", dataCompraMax, Clause.MENOR_IGUAL);
         filter.addClause(clause);
 
         // Forme a string sql;
-        String sql = "SELECT lote.id, data_compra, fabricacao, validade, quantidade, identificador, " + 
-                     "produto.id, nome, preco, codigo, descricao, custo, estoque, tipo, quant_prateleira, marca FROM lote " +
-                     "INNER JOIN produto ON (lote.fk_produto = produto.id) " +
-                     "WHERE lote.fk_supermercado = ? " + filter.getFilter();
+        String sql = "SELECT lote.id, data_compra, fabricacao, validade, quantidade, identificador, "
+                + "produto.id, nome, preco, codigo, descricao, custo, estoque, tipo, quant_prateleira, marca FROM lote "
+                + "INNER JOIN produto ON (lote.fk_produto = produto.id) "
+                + "WHERE lote.fk_supermercado = ? " + filter.getFilter();
 
         // Substitua a '?' pelo valor da coluna;
         PreparedStatement ps = conexao.prepareStatement(sql);
@@ -167,17 +181,20 @@ public abstract class LoteDAO extends CoreDAO {
         ResultSet rs = ps.executeQuery();
 
         // Enquanto houver linhas, gere um lote c/ a linha e add. na lista;
-        while (rs.next()) lotes.add(readLote(rs,null));
+        while (rs.next()) {
+            lotes.add(readLote(rs, null));
+        }
 
         ps.close();
         conexao.close();
 
         return lotes;
     }
-    
+
     //Jubileu
     /**
      * Dado um produto, retorna um conjunto de lotes do produto;
+     *
      * @param produto item que compõem o(s) lote(s);
      * @return Lista com todos lotes compostos pelo produto recebido;
      * @throws SQLException
@@ -192,8 +209,8 @@ public abstract class LoteDAO extends CoreDAO {
         Connection conexao = getConnection();
 
         // Forme a string sql;
-        String sql = "SELECT id, data_compra, fabricacao, validade, " +
-                "quantidade, identificador FROM lote WHERE fk_produto = ?";
+        String sql = "SELECT id, data_compra, fabricacao, validade, "
+                + "quantidade, identificador FROM lote WHERE fk_produto = ?";
 
         // Substitua a '?' pelo valor da coluna;
         PreparedStatement ps = conexao.prepareStatement(sql);
@@ -202,17 +219,21 @@ public abstract class LoteDAO extends CoreDAO {
         ResultSet rs = ps.executeQuery();
 
         // Enquanto houver linhas, gere um lote c/ a linha e add. na lista;
-        while (rs.next()) lotes.add(readLote(rs,produto));
+        while (rs.next()) {
+            lotes.add(readLote(rs, produto));
+        }
 
         ps.close();
         conexao.close();
 
         return lotes;
     }
-    
+
     //Jubileu
     /**
-     * Dado um fornecedor, retorna uma lista de lotes oferecidos por essa entidade;
+     * Dado um fornecedor, retorna uma lista de lotes oferecidos por essa
+     * entidade;
+     *
      * @param fornecedor entidade que fornece os lotes de produtos;
      * @param supermercado
      * @return Lista de lotes produzidos pelo fornecedor;
@@ -228,10 +249,10 @@ public abstract class LoteDAO extends CoreDAO {
         Connection conexao = getConnection();
 
         // Forme a string sql;
-        String sql = "SELECT lote.id, data_compra, fabricacao, validade, quantidade, identificador, " + 
-                     "produto.id, nome, preco, codigo, descricao, custo, estoque, tipo, quant_prateleira, marca FROM lote " +
-                     "INNER JOIN produto ON (lote.fk_produto = produto.id) " +
-                     "WHERE lote.fk_fornecedor = ? AND lote.fk_supermercado = ?";
+        String sql = "SELECT lote.id, data_compra, fabricacao, validade, quantidade, identificador, "
+                + "produto.id, nome, preco, codigo, descricao, custo, estoque, tipo, quant_prateleira, marca FROM lote "
+                + "INNER JOIN produto ON (lote.fk_produto = produto.id) "
+                + "WHERE lote.fk_fornecedor = ? AND lote.fk_supermercado = ?";
 
         // Substitua a '?' pelo valor da coluna;
         PreparedStatement ps = conexao.prepareStatement(sql);
@@ -241,14 +262,16 @@ public abstract class LoteDAO extends CoreDAO {
         ResultSet rs = ps.executeQuery();
 
         // Enquanto houver linhas, gere um lote c/ a linha e add. na lista;
-        while (rs.next()) lotes.add(readLote(rs,null));
+        while (rs.next()) {
+            lotes.add(readLote(rs, null));
+        }
 
         ps.close();
         conexao.close();
 
         return lotes;
     }
-    
+
     public static void delete(int id) throws SQLException, ClassNotFoundException {
 
         Connection conn = getConnection();
@@ -258,7 +281,7 @@ public abstract class LoteDAO extends CoreDAO {
         st.setInt(1, id);
 
         st.executeUpdate();
-        
+
         st.close();
         conn.close();
     }
