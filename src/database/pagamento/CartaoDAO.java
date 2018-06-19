@@ -156,44 +156,58 @@ public abstract class CartaoDAO extends CoreDAO {
 
         return map;
     }
-}
-
-
-/*public static void main(String args[]) {
-     // --Quais meio de pagamento mais lucrativo
+    
+    public static Map<java.util.Date, Map<String, Number>> getMeiosPagMaisRentavel(Supermercado supermercado, java.util.Date dataMin, java.util.Date dataMax) throws ClassNotFoundException, SQLException {
         // criacao do hashmap
-        HashMap<Cartao, String> map4 = new HashMap<Cartao, String>();
-        
-        Statement st = null;
-        ResultSet rs = null;
+        Map<java.util.Date, Map<String, Number>> map = new LinkedHashMap<>();
+
         Connection con = getConnection();
-        Cartao card;
-        //int id, String bandeira, Date dataValid, String numero, String titular, Tipo tipo) 
-        try{
-            st = con.createStatement();
-            rs = st.executeQuery(" SELECT c.tipo "Tipo de cartão", SUM(com.preco_compra) "Lucro" FROM cartao c INNER JOIN hist_compra ON hist_compra.fk_cartao = c.id INNER JOIN compra com ON com.fk_hist_compra = hist_compra.id WHERE hist_compra.fk_supermercado = 401 AND hist_compra.timestamp >= '2018-05-01' AND hist_compra.timestamp <= '2018-06-01' GROUP BY (c.tipo)" );
-            while(rs.next()){
-               //nome,preco,codigo,descricao,custo,id,estoque, tipo, quant_pratelereira, marca,fk_supermercado
-                
-                int id = rs.getInt("id");
-                Date dataValid = rs.getDate("validade");
-                String bandeira = rs.getString("bandeira");
-                String numero = rs.getString("numero");
-                String titular = rs.getString("titular");
-                String tipo = rs.getString("tipo");
-                //int id, String codigo, double custo, String descricao, String marca, String nome, double precoVenda, int qtdPrateleira, int qtdEstoque, String tipo)
-                
-                card = new Cartao(id,dataValid,bandeira,numero,titular,tipo);
-                
-         
-                map4.put(card,tipo);
+
+        Filter filter = new Filter();
+
+        Clause clause = new Clause("hc.timestamp", dataMin, Clause.MAIOR_IGUAL);
+        filter.addClause(clause);
+
+        clause = new Clause("hc.timestamp", dataMax, Clause.MENOR_IGUAL);
+        filter.addClause(clause);
+
+        String sql = "SELECT c.tipo, DATE(timestamp) as data_compra, SUM(compra.preco_compra) as valor FROM hist_compra AS hc "
+                + "INNER JOIN cartao as c ON hc.fk_cartao = c.id "
+                + "INNER JOIN compra ON compra.fk_hist_compra = hc.id "
+                + "WHERE hc.fk_supermercado = ? " + filter.getFilter()
+                + " GROUP BY (c.tipo,data_compra) ORDER BY data_compra";
+
+        PreparedStatement st = con.prepareStatement(sql);
+        st.setInt(1, supermercado.getId());
+
+        ResultSet rs;
+        try {
+            rs = st.executeQuery();
+        } catch (SQLException ex) {
+            con.close();
+            throw ex;
+        }
+
+        while (rs.next()) {
+
+            String tipo = rs.getString("tipo");
+            java.util.Date dataCompra = new java.util.Date(rs.getDate("data_compra").getTime());
+            double valor = rs.getInt("valor");
+
+            if (map.get(dataCompra) == null) {
+                map.put(dataCompra, new HashMap<>());
             }
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
-        
-   
+
+            if (tipo.equals("C")) {
+                map.get(dataCompra).put("Crédito", valor);
+            } else {
+                map.get(dataCompra).put("Débito", valor);
+            }
         }
 
+        st.close();
+        con.close();
 
- */
+        return map;
+    }
+}
