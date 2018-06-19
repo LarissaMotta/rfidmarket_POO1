@@ -105,11 +105,9 @@ public abstract class CartaoDAO extends CoreDAO {
         return cartoes;
     }
 
-    public static Map<String, Map<java.util.Date, Integer>> getMeiosPagMaisUsado(Supermercado supermercado, java.util.Date dataMin, java.util.Date dataMax) throws ClassNotFoundException, SQLException {
+    public static Map<java.util.Date, Map<String, Number>> getMeiosPagMaisUsado(Supermercado supermercado, java.util.Date dataMin, java.util.Date dataMax) throws ClassNotFoundException, SQLException {
         // criacao do hashmap
-        Map<String, Map<java.util.Date, Integer>> map = new HashMap<>();
-        map.put("Crédito", new LinkedHashMap<>());
-        map.put("Débito", new LinkedHashMap<>());
+        Map<java.util.Date, Map<String, Number>> map = new LinkedHashMap<>();
 
         Connection con = getConnection();
 
@@ -127,7 +125,7 @@ public abstract class CartaoDAO extends CoreDAO {
 
         PreparedStatement st = con.prepareStatement(sql);
         st.setInt(1, supermercado.getId());
-        
+
         ResultSet rs;
         try {
             rs = st.executeQuery();
@@ -142,10 +140,14 @@ public abstract class CartaoDAO extends CoreDAO {
             java.util.Date dataCompra = new java.util.Date(rs.getDate("data_compra").getTime());
             int numUsos = rs.getInt("num_uso");
 
+            if (map.get(dataCompra) == null) {
+                map.put(dataCompra, new HashMap<>());
+            }
+
             if (tipo.equals("C")) {
-                map.get("Crédito").put(dataCompra, numUsos);
+                map.get(dataCompra).put("Crédito", numUsos);
             } else {
-                map.get("Débito").put(dataCompra, numUsos);
+                map.get(dataCompra).put("Débito", numUsos);
             }
         }
 
