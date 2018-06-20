@@ -56,6 +56,29 @@ public abstract class PessoaFisicaDAO extends CoreDAO {
 
         return id;
     }
+    
+    public static void update(PessoaFisica pf) throws SQLException, ClassNotFoundException{
+        Connection conn = getConnection();
+        String sql = "UPDATE fisica "
+                + "SET cpf = ?, "
+                + "SET data_nasc = ?, "
+                + "SET genero = ?, "
+                + "SET senha = ?, "
+                + "WHERE fk_pessoa = ?";
+
+        PreparedStatement st = conn.prepareStatement(sql);
+        st.setString(1, pf.getCpf());
+        st.setDate(2, new Date(pf.getDataNasc().getTime()));
+        st.setString(3, String.valueOf(pf.getGenero().toChar()));
+        st.setString(4, pf.getSenha());
+        st.setInt(5, pf.getId());
+
+        st.executeUpdate();
+        st.close();
+        conn.close();
+        
+        PessoaDAO.update(pf);
+    }
 
     /**
      * Remove uma usuarios da base de dados;
