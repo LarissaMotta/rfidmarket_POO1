@@ -6,14 +6,13 @@
 package modelo.usuarios;
 
 import java.util.Date;
-import java.util.GregorianCalendar;
 import util.Util;
 
 public abstract class PessoaFisica extends Pessoa{
     // nenhum atributo pode ser null
-    private final String cpf;       // deve ter length igual a 14 e ser válido. Ex: 541.578.176-19
-    private final Date dataNasc;  
-    private final Genero genero;    // deve ser M para masculino e F para feminino
+    private String cpf;             // deve ter length igual a 14 e ser válido. Ex: 541.578.176-19
+    private Date dataNasc;  
+    private Genero genero;          // deve ser M para masculino e F para feminino
     private final String login;     // deve seguir o padrao: example@servidor.com
     private String senha;           // deve ter no length >= 6
 
@@ -35,15 +34,12 @@ public abstract class PessoaFisica extends Pessoa{
     public PessoaFisica(String cpf, Date dataNasc, Genero genero, String login, String senha, int id, String nome, Endereco endereco) throws IllegalArgumentException{
         super(id, nome, endereco);
         
-        if (!Util.isCpfValido(cpf)) throw new IllegalArgumentException("CPF não é válido");
         if (!Util.isLoginValido(login)) throw new IllegalArgumentException("Login inválido");
-        Util.verificaIsObjNull(dataNasc, "Data de nascimento");
-        Util.verificaIsObjNull(genero, "Gênero");
         
         
-        this.cpf = cpf;
-        this.dataNasc = dataNasc;
-        this.genero = genero;
+        setCpf(cpf);
+        setDataNasc(dataNasc);
+        setGenero(genero);
         this.login = login;
         setSenha(senha);
     }
@@ -51,16 +47,29 @@ public abstract class PessoaFisica extends Pessoa{
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
     public PessoaFisica(String cpf, Date dataNasc, Genero genero, String login, String senha, String nome, Endereco endereco) throws IllegalArgumentException{
         super(nome, endereco);
-        if (!Util.isCpfValido(cpf)) throw new IllegalArgumentException("CPF não é válido");
-        if (!Util.isLoginValido(login)) throw new IllegalArgumentException("Login inválido");
-        Util.verificaIsObjNull(dataNasc, "Data de nascimento");
-        Util.verificaIsObjNull(genero, "Gênero");
         
-        this.cpf = cpf;
-        this.dataNasc = dataNasc;
-        this.genero = genero;
+        if (!Util.isLoginValido(login)) throw new IllegalArgumentException("Login inválido");
+        
+        setCpf(cpf);
+        setDataNasc(dataNasc);
+        setGenero(genero);
         this.login = login;
         setSenha(senha);
+    }
+
+    public final void setCpf(String cpf) throws IllegalArgumentException{
+        if (!Util.isCpfValido(cpf)) throw new IllegalArgumentException("CPF não é válido");
+        this.cpf = cpf;
+    }
+
+    public final void setDataNasc(Date dataNasc) throws IllegalArgumentException{
+        Util.verificaIsObjNull(dataNasc, "Data de nascimento");
+        this.dataNasc = dataNasc;
+    }
+
+    public final void setGenero(Genero genero) throws IllegalArgumentException{
+        Util.verificaIsObjNull(genero, "Gênero");
+        this.genero = genero;
     }
     
     public final void setSenha(String senha) throws IllegalArgumentException{

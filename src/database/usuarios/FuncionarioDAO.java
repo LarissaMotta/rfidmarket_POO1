@@ -156,7 +156,7 @@ public abstract class FuncionarioDAO extends CoreDAO {
         Connection conn = getConnection();
         String sql = "UPDATE funcionario "
                 + "SET setor = ?, "
-                + "SET cargo = ?, "
+                + "cargo = ? "
                 + "WHERE fk_pessoa_fisica = ?";
 
         PreparedStatement st = conn.prepareStatement(sql);

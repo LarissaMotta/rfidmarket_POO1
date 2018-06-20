@@ -54,12 +54,12 @@ public abstract class PessoaDAO extends CoreDAO{
         Connection conn = getConnection();
         String sql = "UPDATE pessoa "
                 + "SET nome = ?, "
-                + "SET numero = ?, "
-                + "SET rua = ?, "
-                + "SET cep = ?, "
-                + "SET bairro = ?, "
-                + "SET cidade = ?, "
-                + "SET estado = ?, "
+                + "numero = ?, "
+                + "rua = ?, "
+                + "cep = ?, "
+                + "bairro = ?, "
+                + "cidade = ?, "
+                + "estado = ? "
                 + "WHERE id = ?";
         
         Endereco endereco = p.getEndereco();

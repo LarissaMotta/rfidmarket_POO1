@@ -61,9 +61,9 @@ public abstract class PessoaFisicaDAO extends CoreDAO {
         Connection conn = getConnection();
         String sql = "UPDATE fisica "
                 + "SET cpf = ?, "
-                + "SET data_nasc = ?, "
-                + "SET genero = ?, "
-                + "SET senha = ?, "
+                + "data_nasc = ?, "
+                + "genero = ?, "
+                + "senha = ? "
                 + "WHERE fk_pessoa = ?";
 
         PreparedStatement st = conn.prepareStatement(sql);
