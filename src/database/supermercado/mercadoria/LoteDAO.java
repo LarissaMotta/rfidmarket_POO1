@@ -293,7 +293,7 @@ public abstract class LoteDAO extends CoreDAO {
      * @throws SQLException
      * @throws ClassNotFoundException
      */
-    public static void updateLote(Lote lote)
+    public static void update(Lote lote)
             throws SQLException, ClassNotFoundException {
 
         Connection conn = getConnection();

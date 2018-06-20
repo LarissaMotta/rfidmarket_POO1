@@ -128,7 +128,7 @@ public abstract class ProdutoDAO extends CoreDAO {
      * @throws SQLException
      * @throws ClassNotFoundException
      */
-    public static void updateProduto(Produto produto)
+    public static void update(Produto produto)
             throws SQLException, ClassNotFoundException {
 
 
