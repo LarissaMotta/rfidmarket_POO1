@@ -12,8 +12,6 @@ import java.sql.SQLException;
 import java.util.List;
 import modelo.pagamento.Cartao;
 import modelo.usuarios.Cliente;
-import objGeneretor.CartaoTDAO;
-import objGeneretor.ClienteTDAO;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
