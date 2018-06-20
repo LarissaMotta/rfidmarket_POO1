@@ -298,8 +298,7 @@ public abstract class LoteDAO extends CoreDAO {
 
         Connection conn = getConnection();
         String sql = "UPDATE lote SET data_compra = ?, identificador = ?, "
-                + "fabricacao = ?, quantidade = ?, validade = ? WHERE ?"
-                + "id = ?;";
+                + "fabricacao = ?, quantidade = ?, validade = ? WHERE id = ?;";
 
         PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
@@ -312,12 +311,10 @@ public abstract class LoteDAO extends CoreDAO {
 
         if (lote.getDataValidade() == null) {
             ps.setDate(5, null);
-        }
-
-        else {
+        } else {
             ps.setDate(5, new java.sql.Date(lote.getDataValidade().getTime()));
         }
-        // Execute o INSERT e receba o ID do cartão cadastrado no BD;
+        
         ps.executeUpdate();
         ps.close();
         conn.close();
