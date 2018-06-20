@@ -81,6 +81,22 @@ public abstract class ContatoDAO extends CoreDAO {
         return lstContatos;
     }
     
+    public static void update(Contato c) throws ClassNotFoundException, SQLException{
+        Connection conn = getConnection();
+        String sql = "UPDATE contato "
+                + "SET descricao = ?, "
+                + "SET tipo = ?, "
+                + "WHERE fk_pessoa_fisica = ?";
+
+        PreparedStatement st = conn.prepareStatement(sql);
+        st.setString(1, c.getDescricao());
+        st.setString(2, c.getTipo().toString());
+        
+        st.executeUpdate();
+        st.close();
+        conn.close();
+    }
+    
     public static void delete(int id) throws SQLException, ClassNotFoundException {
 
         Connection conn = getConnection();

@@ -285,4 +285,41 @@ public abstract class LoteDAO extends CoreDAO {
         st.close();
         conn.close();
     }
+
+    /**
+     * Dado um lote já registrado na base, atualiza os dados desse lote com
+     * as informações do lote recebido como parâmetro;
+     * @param lote lote a ser atualizado na base de dados;
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    public static void update(Lote lote)
+            throws SQLException, ClassNotFoundException {
+
+        Connection conn = getConnection();
+        String sql = "UPDATE lote SET data_compra = ?, identificador = ?, "
+                + "fabricacao = ?, quantidade = ?, validade = ? WHERE ?"
+                + "id = ?;";
+
+        PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+        // Defina os valores que ocuparão as '?' na ordem acima;
+        ps.setDate(1, new java.sql.Date(lote.getDataCompra().getTime()));
+        ps.setString(2, lote.getIdentificador());
+        ps.setDate(3, new java.sql.Date(lote.getDataFabricacao().getTime()));
+        ps.setInt(4, lote.getNumUnidades());
+        ps.setInt(6, lote.getId());
+
+        if (lote.getDataValidade() == null) {
+            ps.setDate(5, null);
+        }
+
+        else {
+            ps.setDate(5, new java.sql.Date(lote.getDataValidade().getTime()));
+        }
+        // Execute o INSERT e receba o ID do cartão cadastrado no BD;
+        ps.executeUpdate();
+        ps.close();
+        conn.close();
+    }
 }

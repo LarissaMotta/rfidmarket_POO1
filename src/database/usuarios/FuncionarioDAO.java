@@ -1,6 +1,7 @@
 package database.usuarios;
 
 import database.core.CoreDAO;
+import static database.core.CoreDAO.getConnection;
 import database.filter.Clause;
 import database.filter.Filter;
 import modelo.supermercado.Supermercado;
@@ -149,6 +150,25 @@ public abstract class FuncionarioDAO extends CoreDAO {
 
         return funcionarios;
 
+    }
+    
+    public static void update(Funcionario f) throws ClassNotFoundException, SQLException{
+        Connection conn = getConnection();
+        String sql = "UPDATE funcionario "
+                + "SET setor = ?, "
+                + "SET cargo = ?, "
+                + "WHERE fk_pessoa_fisica = ?";
+
+        PreparedStatement st = conn.prepareStatement(sql);
+        st.setString(1, f.getSetor());
+        st.setString(2, f.getCargo());
+        st.setInt(3, f.getId());
+        
+        st.executeUpdate();
+        st.close();
+        conn.close();
+        
+        PessoaFisicaDAO.update(f);
     }
 
     public static Funcionario SignIn(String login, String senha)
