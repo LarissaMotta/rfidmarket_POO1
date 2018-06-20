@@ -1,6 +1,7 @@
 package database.usuarios;
 
 import database.core.CoreDAO;
+import static database.core.CoreDAO.getConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -47,6 +48,35 @@ public abstract class PessoaDAO extends CoreDAO{
         conn.close();
 
         return id;
+    }
+    
+    public static void update (Pessoa p) throws ClassNotFoundException, SQLException{
+        Connection conn = getConnection();
+        String sql = "UPDATE pessoa "
+                + "SET nome = ?, "
+                + "SET numero = ?, "
+                + "SET rua = ?, "
+                + "SET cep = ?, "
+                + "SET bairro = ?, "
+                + "SET cidade = ?, "
+                + "SET estado = ?, "
+                + "WHERE id = ?";
+        
+        Endereco endereco = p.getEndereco();
+        
+        PreparedStatement st = conn.prepareStatement(sql);
+        st.setString(1, p.getNome());
+        st.setInt(2, endereco.getNumero());
+        st.setString(3, endereco.getRuaAvenida());
+        st.setString(4, endereco.getCep());
+        st.setString(5, endereco.getBairro());
+        st.setString(6, endereco.getCidade());
+        st.setString(7, endereco.getEstado().toString());
+        st.setInt(8, p.getId());
+        
+        st.executeUpdate();
+        st.close();
+        conn.close();
     }
     
     // tem que perguntar ao professor se pode deixar como argumento o id ou

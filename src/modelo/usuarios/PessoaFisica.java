@@ -6,6 +6,7 @@
 package modelo.usuarios;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 import util.Util;
 
 public abstract class PessoaFisica extends Pessoa{
