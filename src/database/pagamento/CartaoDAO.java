@@ -113,10 +113,10 @@ public abstract class CartaoDAO extends CoreDAO {
 
         Filter filter = new Filter();
 
-        Clause clause = new Clause("hc.timestamp", dataMin, Clause.MAIOR_IGUAL);
+        Clause clause = new Clause("DATE(hc.timestamp)", dataMin, Clause.MAIOR_IGUAL);
         filter.addClause(clause);
 
-        clause = new Clause("hc.timestamp", dataMax, Clause.MENOR_IGUAL);
+        clause = new Clause("DATE(hc.timestamp)", dataMax, Clause.MENOR_IGUAL);
         filter.addClause(clause);
 
         String sql = "SELECT c.tipo, DATE(timestamp) as data_compra, COUNT(c.tipo) as num_uso FROM hist_compra AS hc "
@@ -165,10 +165,10 @@ public abstract class CartaoDAO extends CoreDAO {
 
         Filter filter = new Filter();
 
-        Clause clause = new Clause("hc.timestamp", dataMin, Clause.MAIOR_IGUAL);
+        Clause clause = new Clause("DATE(hc.timestamp)", dataMin, Clause.MAIOR_IGUAL);
         filter.addClause(clause);
 
-        clause = new Clause("hc.timestamp", dataMax, Clause.MENOR_IGUAL);
+        clause = new Clause("DATE(hc.timestamp)", dataMax, Clause.MENOR_IGUAL);
         filter.addClause(clause);
 
         String sql = "SELECT c.tipo, DATE(timestamp) as data_compra, SUM(compra.preco_compra) as valor FROM hist_compra AS hc "

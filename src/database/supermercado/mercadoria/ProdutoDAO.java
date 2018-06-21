@@ -162,10 +162,10 @@ public abstract class ProdutoDAO extends CoreDAO {
         
         Filter filter = new Filter();
         
-        Clause clause = new Clause("h.timestamp", dataMin, Clause.MAIOR_IGUAL);
+        Clause clause = new Clause("DATE(h.timestamp)", dataMin, Clause.MAIOR_IGUAL);
         filter.addClause(clause);
         
-        clause = new Clause("h.timestamp", dataMax, Clause.MENOR_IGUAL);
+        clause = new Clause("DATE(h.timestamp)", dataMax, Clause.MENOR_IGUAL);
         filter.addClause(clause);
         
         String sql = "SELECT p.nome, p.preco, p.codigo, p.descricao, p.custo, "
