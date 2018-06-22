@@ -17,6 +17,7 @@ import java.util.List;
 
 import modelo.supermercado.Supermercado;
 import modelo.supermercado.mercadoria.Produto;
+import util.Util;
 
 public abstract class ProdutoDAO extends CoreDAO {
 
@@ -156,6 +157,10 @@ public abstract class ProdutoDAO extends CoreDAO {
     public static HashMap<Produto, Integer> readProdutosMaisVendidos(Supermercado supermercado, Date dataMin, Date dataMax, Integer maxResult)
             throws SQLException, ClassNotFoundException, IllegalArgumentException {
 
+        if (!Util.isIntervalValid(dataMin, dataMax)) {
+            throw new IllegalArgumentException("Intervalo de data inválido!");
+        }
+        
         Connection con = getConnection();
         
         HashMap<Produto, Integer> map = new LinkedHashMap<>();
@@ -200,9 +205,5 @@ public abstract class ProdutoDAO extends CoreDAO {
         st.close();
         con.close();
         return map;
-    }
-
-    private static Exception IllegalArgumentException(String máx_Resultados_não_pode_ser_menor_que_1) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

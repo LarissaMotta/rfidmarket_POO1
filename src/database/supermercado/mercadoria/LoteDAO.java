@@ -229,6 +229,36 @@ public abstract class LoteDAO extends CoreDAO {
         return lotes;
     }
 
+    public static List<Lote> readLotesProxVal(Produto produto, int distValidade) throws ClassNotFoundException, SQLException {
+        // Crie e inicialize a lista, e abra uma conexão com o BD;
+        List<Lote> lotes = new ArrayList<>();
+        
+        if (distValidade <= 0) throw new IllegalArgumentException("Máx. Resultados não pode ser menor que 1");
+
+        Connection conexao = getConnection();
+        //TODO Considerar a partir de hoje ou Qualquer dia anterior hoje + distValidade?
+        String sql = "SELECT id, data_compra, fabricacao, validade,"
+                + "quantidade, identificador FROM lote "
+                + "WHERE fk_produto = ? AND "
+                + "validade >= CURRENT_DATE AND validade <= CURRENT_DATE + " + distValidade
+                + " ORDER BY validade, fabricacao, data_compra";
+
+        PreparedStatement ps = conexao.prepareStatement(sql);
+        ps.setInt(1, produto.getId());
+
+        ResultSet rs = ps.executeQuery();
+
+        // Enquanto houver linhas, gere um lote c/ a linha e add. na lista;
+        while (rs.next()) {
+            lotes.add(readLote(rs, produto));
+        }
+
+        ps.close();
+        conexao.close();
+
+        return lotes;
+    }
+
     //Jubileu
     /**
      * Dado um fornecedor, retorna uma lista de lotes oferecidos por essa
@@ -272,23 +302,10 @@ public abstract class LoteDAO extends CoreDAO {
         return lotes;
     }
 
-    public static void delete(int id) throws SQLException, ClassNotFoundException {
-
-        Connection conn = getConnection();
-        String sql = "DELETE FROM lote WHERE id = ?";
-
-        PreparedStatement st = conn.prepareStatement(sql);
-        st.setInt(1, id);
-
-        st.executeUpdate();
-
-        st.close();
-        conn.close();
-    }
-
     /**
-     * Dado um lote já registrado na base, atualiza os dados desse lote com
-     * as informações do lote recebido como parâmetro;
+     * Dado um lote já registrado na base, atualiza os dados desse lote com as
+     * informações do lote recebido como parâmetro;
+     *
      * @param lote lote a ser atualizado na base de dados;
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -314,9 +331,23 @@ public abstract class LoteDAO extends CoreDAO {
         } else {
             ps.setDate(5, new java.sql.Date(lote.getDataValidade().getTime()));
         }
-        
+
         ps.executeUpdate();
         ps.close();
+        conn.close();
+    }
+
+    public static void delete(int id) throws SQLException, ClassNotFoundException {
+
+        Connection conn = getConnection();
+        String sql = "DELETE FROM lote WHERE id = ?";
+
+        PreparedStatement st = conn.prepareStatement(sql);
+        st.setInt(1, id);
+
+        st.executeUpdate();
+
+        st.close();
         conn.close();
     }
 }

@@ -22,6 +22,7 @@ import modelo.pagamento.Cartao;
 import modelo.pagamento.Cartao.Tipo;
 import modelo.supermercado.Supermercado;
 import modelo.usuarios.Cliente;
+import util.Util;
 
 public abstract class CartaoDAO extends CoreDAO {
 
@@ -105,8 +106,11 @@ public abstract class CartaoDAO extends CoreDAO {
         return cartoes;
     }
 
-    public static Map<java.util.Date, Map<String, Number>> getMeiosPagMaisUsado(Supermercado supermercado, java.util.Date dataMin, java.util.Date dataMax) throws ClassNotFoundException, SQLException {
-        // criacao do hashmap
+    public static Map<java.util.Date, Map<String, Number>> readMeiosPagMaisUsado(Supermercado supermercado, java.util.Date dataMin, java.util.Date dataMax) throws ClassNotFoundException, SQLException {
+        if (!Util.isIntervalValid(dataMin, dataMax)) {
+            throw new IllegalArgumentException("Intervalo de data inválido!");
+        }
+        
         Map<java.util.Date, Map<String, Number>> map = new LinkedHashMap<>();
 
         Connection con = getConnection();
@@ -157,8 +161,11 @@ public abstract class CartaoDAO extends CoreDAO {
         return map;
     }
     
-    public static Map<java.util.Date, Map<String, Number>> getMeiosPagMaisRentavel(Supermercado supermercado, java.util.Date dataMin, java.util.Date dataMax) throws ClassNotFoundException, SQLException {
-        // criacao do hashmap
+    public static Map<java.util.Date, Map<String, Number>> readMeiosPagMaisRentavel(Supermercado supermercado, java.util.Date dataMin, java.util.Date dataMax) throws ClassNotFoundException, SQLException {
+        if (!Util.isIntervalValid(dataMin, dataMax)) {
+            throw new IllegalArgumentException("Intervalo de data inválido!");
+        }
+        
         Map<java.util.Date, Map<String, Number>> map = new LinkedHashMap<>();
 
         Connection con = getConnection();
