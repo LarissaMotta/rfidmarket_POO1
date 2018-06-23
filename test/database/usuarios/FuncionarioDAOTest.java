@@ -15,7 +15,7 @@ import java.util.List;
 import modelo.supermercado.Supermercado;
 import modelo.usuarios.Endereco;
 import modelo.usuarios.Funcionario;
-import objGeneretor.FuncionarioTDAO;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -28,6 +28,7 @@ import static org.junit.Assert.*;
  */
 public class FuncionarioDAOTest {
     private Funcionario funcionario;
+    private Supermercado supermercado;
     
     public FuncionarioDAOTest() {
     }
@@ -42,14 +43,16 @@ public class FuncionarioDAOTest {
          ResetTable.cleanAllTables();
         System.out.println("create");
         
+        Endereco end = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 76, "Rua Xablau");
+        supermercado = new Supermercado(18.5774, 15.1741, "Serra", "11.457.914/0001-00", "Carone", end);
+        int idSuperm = SupermercadoDAO.create(supermercado);
+        supermercado = new Supermercado(idSuperm, supermercado.getLatitude(), supermercado.getLongitude(), supermercado.getUnidade(), supermercado.getCnpj(), supermercado.getNome(), end);
+                
         Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        funcionario = new Funcionario("estagiario", "atendente","216.856.707-76", new Date(11,06,2018), Funcionario.Genero.M, "joel@hotmail.com", "testedesenha", "Joel", endereco);
-        Supermercado supermercado = new Supermercado(1,12,13,"Vila Velha","85685","Carone",endereco);
-        //int id, double latitude, double longitude, String unidade, String cnpj, String nome, Endereco endereco
-        
+        funcionario = new Funcionario("estagiario", "atendente","216.856.707-76", new Date(11,06,2018), Funcionario.Genero.M, "JXSEP@hotmail.com", "testedesenha", "Joel", endereco);
         int result = FuncionarioDAO.create(funcionario,supermercado);
-        
         funcionario = new Funcionario(funcionario.getCargo(),funcionario.getSetor(),funcionario.getCpf(), funcionario.getDataNasc(), funcionario.getGenero(), funcionario.getLogin(), funcionario.getSenha(),result, funcionario.getNome(), endereco);
+        
         System.out.println("id = "+result);
     }
     
@@ -75,14 +78,7 @@ public class FuncionarioDAOTest {
     @Test
     public void testReadFuncionariosBySupermercado() throws Exception {
         System.out.println("readFuncionariosBySupermercado");
-        
-        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        Supermercado supermercado = new Supermercado(18.5774, 15.1741, "Serra", "35.415.363/0001-72", "Carone", endereco);
-        int idSuperm = SupermercadoDAO.create(supermercado);
-        supermercado = new Supermercado(idSuperm, supermercado.getLatitude(), supermercado.getLongitude(), supermercado.getUnidade(), supermercado.getCnpj(), supermercado.getNome(), endereco);
-        
-        funcionario = FuncionarioTDAO.readFuncionario();
-       
+
         List<Funcionario> result = FuncionarioDAO.readFuncionariosBySupermercado(supermercado,funcionario.getNome(),funcionario.getCpf(),funcionario.getGenero(),funcionario.getSetor(),funcionario.getCargo());
         System.out.println(result);//vai printar vazio
     }
