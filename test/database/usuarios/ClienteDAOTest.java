@@ -101,10 +101,10 @@ public class ClienteDAOTest {
         
         superm = new Supermercado(idSuperm, superm.getLatitude(), superm.getLongitude(), superm.getUnidade(), superm.getCnpj(), superm.getNome(), endereco);
         
-        Produto prod = new Produto("Lol", 15.50, "Dwa", "dwa", "gfjkdwa", 19.5, 15, 50, "dwa");
+        Produto prod = new Produto("1234", 15.50, "Dwa", "dwa", "gfjkdwa", 19.5, 15, 50, "dwa");
         int idProd = ProdutoDAO.create(prod, superm);
-        prod = new Produto(idProd, prod.getCodigo(), prod.getCusto(), prod.getDescricao(), prod.getMarca(), 
-                prod.getNome(), prod.getPrecoVenda(), prod.getQtdPrateleira(), prod.getQtdEstoque(), prod.getTipo());
+        prod = new Produto(idProd, prod.getCodigo(), 15.50, prod.getDescricao(), "dwa", 
+                "gfjkdwa", 19.5, prod.getQtdPrateleira(), prod.getQtdEstoque(),"dwa" );
         
         
         Cartao cartao = new Cartao("MasterCard", new  Date(2019, 8, 1), "5482657412589634", "Maria", Cartao.Tipo.CREDITO);
