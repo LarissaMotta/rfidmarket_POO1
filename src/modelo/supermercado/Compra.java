@@ -69,7 +69,7 @@ public class Compra {
         
         double valor = 0;
         for (ItemProduto item : itens){
-            valor += item.getPrecoCompra() * item.getQuantidade();
+            valor += item.getPrecoCompra();
         }
         
         return valor;

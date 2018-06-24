@@ -186,7 +186,7 @@ public abstract class ClienteDAO extends CoreDAO {
         clause = new Clause("DATE(hc.timestamp)", dataMax, Clause.MENOR_IGUAL);
         filter.addClause(clause);
 
-        String sql = "SELECT SUM(c.preco_compra * c.quant) as valor_comprado, p.id, p.nome, p.numero, p.rua, p.cep, p.bairro, "
+        String sql = "SELECT SUM(c.preco_compra) as valor_comprado, p.id, p.nome, p.numero, p.rua, p.cep, p.bairro, "
                 + "p.estado, p.cidade, pf.data_nasc, pf.genero, pf.login, pf.senha,pf.cpf "
                 + "FROM hist_compra as hc "
                 + "INNER JOIN fisica as pf ON hc.fk_cliente = pf.fk_pessoa "
@@ -195,7 +195,7 @@ public abstract class ClienteDAO extends CoreDAO {
                 + "WHERE hc.fk_supermercado = ? " + filter.getFilter()
                 + " GROUP BY (p.id, p.nome, p.numero, p.rua, p.cep, p.bairro, "
                 + "p.estado, p.cidade, pf.data_nasc, pf.genero, pf.login, pf.senha, pf.cpf) "
-                + "ORDER BY SUM(c.preco_compra * c.quant) DESC, p.nome";
+                + "ORDER BY SUM(c.preco_compra) DESC, p.nome";
 
         if (maxResult != null) {
             if (maxResult <= 0) {
@@ -226,7 +226,7 @@ public abstract class ClienteDAO extends CoreDAO {
         String sql = "SELECT AVG(valor_comprado) as media_compra, p.id, p.nome, p.numero, p.rua, p.cep, p.bairro, "
                 + "p.estado, p.cidade, pf.data_nasc, pf.genero, pf.login, pf.senha,pf.cpf "
                 + "FROM ("
-                + "	SELECT SUM(c.quant * c.preco_compra) as valor_comprado, p.id as cliente, hc.id "
+                + "	SELECT SUM(c.preco_compra) as valor_comprado, p.id as cliente, hc.id "
                 + "	FROM hist_compra as hc "
                 + "	INNER JOIN pessoa as p ON hc.fk_cliente = p.id "
                 + "	INNER JOIN compra as c ON c.fk_hist_compra = hc.id "
