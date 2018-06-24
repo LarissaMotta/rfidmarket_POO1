@@ -186,7 +186,7 @@ public abstract class ClienteDAO extends CoreDAO {
         clause = new Clause("DATE(hc.timestamp)", dataMax, Clause.MENOR_IGUAL);
         filter.addClause(clause);
         
-        String sql = "SELECT SUM(c.preco_compra) as valor_comprado, p.id, p.nome, p.numero, p.rua, p.cep, p.bairro, "
+        String sql = "SELECT SUM(c.preco_compra * c.quant) as valor_comprado, p.id, p.nome, p.numero, p.rua, p.cep, p.bairro, "
                 + "p.estado, p.cidade, pf.data_nasc, pf.genero, pf.login, pf.senha,pf.cpf "
                 + "FROM hist_compra as hc "
                 + "INNER JOIN fisica as pf ON hc.fk_cliente = pf.fk_pessoa "
@@ -220,7 +220,7 @@ public abstract class ClienteDAO extends CoreDAO {
         clause = new Clause("DATE(hc.timestamp)", dataMax, Clause.MENOR_IGUAL);
         filter.addClause(clause);
         
-        String sql = "SELECT AVG(c.preco_compra) as media_compra, p.id, p.nome, p.numero, p.rua, p.cep, p.bairro, "
+        String sql = "SELECT AVG(c.preco_compra * c.quant) as media_compra, p.id, p.nome, p.numero, p.rua, p.cep, p.bairro, "
                 + "p.estado, p.cidade, pf.data_nasc, pf.genero, pf.login, pf.senha,pf.cpf "
                 + "FROM hist_compra as hc "
                 + "INNER JOIN fisica as pf ON hc.fk_cliente = pf.fk_pessoa "
