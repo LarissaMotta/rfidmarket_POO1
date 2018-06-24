@@ -60,10 +60,9 @@ public class ClienteDAOTest {
         
         Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
         cliente = new Cliente("216.856.707-76", new Date(), PessoaFisica.Genero.M, "joel@hotmail.com", "testedesenha", "Joel", endereco);
-        
         int result = ClienteDAO.create(cliente);
-        
         cliente = new Cliente(cliente.getCpf(), cliente.getDataNasc(), cliente.getGenero(), cliente.getLogin(), cliente.getSenha(),result, cliente.getNome(), endereco);
+        
         System.out.println("id = "+result);
     }
     
@@ -103,8 +102,8 @@ public class ClienteDAOTest {
         
         Produto prod = new Produto("1234", 15.50, "Dwa", "dwa", "gfjkdwa", 19.5, 15, 50, "dwa");
         int idProd = ProdutoDAO.create(prod, superm);
-        prod = new Produto(idProd, prod.getCodigo(), 15.50, prod.getDescricao(), "dwa", 
-                "gfjkdwa", 19.5, prod.getQtdPrateleira(), prod.getQtdEstoque(),"dwa" );
+        prod = new Produto(idProd, prod.getCodigo(), prod.getCusto() , prod.getDescricao(), prod.getMarca() , 
+                prod.getNome(), prod.getPrecoVenda(), prod.getQtdPrateleira(), prod.getQtdEstoque(), prod.getTipo());
         
         
         Cartao cartao = new Cartao("MasterCard", new  Date(2019, 8, 1), "5482657412589634", "Maria", Cartao.Tipo.CREDITO);
