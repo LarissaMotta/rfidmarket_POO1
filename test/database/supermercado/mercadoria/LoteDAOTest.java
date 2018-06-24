@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 import database.supermercado.SupermercadoDAO;
+import database.usuarios.PessoaJuridicaDAO;
 import modelo.supermercado.Supermercado;
 import modelo.supermercado.mercadoria.Fornecedor;
 import modelo.supermercado.mercadoria.Lote;
@@ -29,6 +30,9 @@ import static org.junit.Assert.*;
  */
 public class LoteDAOTest {
     private Lote lote;
+    private Supermercado supermercado;
+    private Produto prod;
+    private Fornecedor fornecedor;
     
     public LoteDAOTest() {
     }
@@ -42,14 +46,29 @@ public class LoteDAOTest {
          ResetTable.cleanAllTables();
         System.out.println("create");
         
-        Produto produto = new Produto (2,"6666",127.66,"Ta pegando fogo","top","Churras",356.56,12,15,"npox");
-        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 76, "Rua Xablau");
-        Fornecedor fornecedor = new Fornecedor("44.122.623/0001-02", "EPA", endereco);
-        lote = new Lote(new Date(20,06,2018), new Date(11,02,2018),new Date(11,02,2019), 333,"Churrasqueira do Faustop",produto);
-        Supermercado supermercado = new Supermercado(1,12,13,"Vila Velha","85685","Carone",endereco);
-
-        int result = LoteDAO.create(lote,fornecedor,produto,supermercado);
+        Endereco end = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
+        supermercado = new Supermercado(-52.2471,-2.5297,"serra 03","44.122.623/0001-02", "EPA", end);
+        int idSuper = SupermercadoDAO.create(supermercado);
+        supermercado = new Supermercado(idSuper,supermercado.getLatitude(),supermercado.getLongitude(),supermercado.getUnidade(),supermercado.getCnpj(), supermercado.getNome(), end);
+        
+        prod = new Produto("0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
+        int idProd = ProdutoDAO.create(prod, supermercado);
+        prod = new Produto(idProd, prod.getCodigo(), prod.getCusto() , prod.getDescricao(), prod.getMarca() , 
+                prod.getNome(), prod.getPrecoVenda(), prod.getQtdPrateleira(), prod.getQtdEstoque(), prod.getTipo());
+        
+        Endereco endereco = new Endereco("Jacaraípe", "29177-483", "SERRA", Endereco.Estado.ES, 76, "Rua Xablau");
+        fornecedor = new Fornecedor("35.415.363/0001-72", "Paul", endereco);
+        int idForn = PessoaJuridicaDAO.create(fornecedor);
+        fornecedor = new Fornecedor(fornecedor.getCnpj(), idForn,fornecedor.getNome(), endereco);
+        
+        SupermercadoDAO.addFornecedor(fornecedor, supermercado); 
+        
+        lote = new Lote(new Date(20,06,2018), new Date(11,02,2018),new Date(11,02,2019), 333,"Fralda XG",prod);
+        int result = LoteDAO.create(lote,fornecedor,prod,supermercado);
         lote = new Lote(result,lote.getDataCompra(),lote.getDataFabricacao(),lote.getDataValidade(),lote.getNumUnidades(),lote.getIdentificador(), lote.getProduto());
+        
+        
+        
         System.out.println("id = "+result);
     }
     
@@ -58,26 +77,15 @@ public class LoteDAOTest {
         ResetTable.cleanAllTables();
     }
 
-
+    
     /**
      * Test of readLotesBySupermercado method, of class LoteDAO.
      */
-    @Test
+   @Test
     public void testReadLotesBySupermercado() throws Exception {
         System.out.println("readLotesBySupermercado");
 
-        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        Supermercado supermercado = new Supermercado(18.5774, 15.1741, "Serra", "35.415.363/0001-72", "Carone", endereco);
-        int idSuperm = SupermercadoDAO.create(supermercado);
-        supermercado = new Supermercado(idSuperm, supermercado.getLatitude(), supermercado.getLongitude(), supermercado.getUnidade(), supermercado.getCnpj(), supermercado.getNome(), endereco);
-        //(String cnpj, int id, String nome, Endereco endereco)
-        Endereco ende = new Endereco("Jacaraípe", "29177-487", "SERRA", Endereco.Estado.ES, 80, "Rua Xablau");
-        Fornecedor fornecedor = new Fornecedor( "35.415.363/0001-72",2, "Carone", ende);
-
-        Produto produto = new Produto(3,"0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
-        lote = new Lote(new Date(2018,06,20), new Date(2018,02,11),new Date(2019,02,11), 100,"Fralda XG",produto);
-        LoteDAO.create(lote,fornecedor,produto,supermercado);
-
+ 
         List<Lote> result = LoteDAO.readLotesBySupermercado(supermercado,null,null,null,null,null,null,null);
         System.out.println(result);
     }
@@ -88,18 +96,8 @@ public class LoteDAOTest {
     @Test
     public void testReadLotesByProduto() throws Exception {
         System.out.println("readLotesByProduto");
-        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        Supermercado supermercado = new Supermercado(18.5774, 15.1741, "Serra", "35.415.363/0001-72", "Carone", endereco);
-        int idSuperm = SupermercadoDAO.create(supermercado);
-        supermercado = new Supermercado(idSuperm, supermercado.getLatitude(), supermercado.getLongitude(), supermercado.getUnidade(), supermercado.getCnpj(), supermercado.getNome(), endereco);
-        Endereco ende = new Endereco("Jacaraípe", "29177-487", "SERRA", Endereco.Estado.ES, 80, "Rua Xablau");
-        Fornecedor fornecedor = new Fornecedor( "35.415.363/0001-84",2, "Paul", ende);
 
-        Produto produto = new Produto(3,"0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
-        lote = new Lote(new Date(2018,06,20), new Date(2018,02,11),new Date(2019,02,11), 100,"Fralda XG",produto);
-        LoteDAO.create(lote,fornecedor,produto,supermercado);
-        
-        List<Lote> result = LoteDAO.readLotesByProduto(produto);
+        List<Lote> result = LoteDAO.readLotesByProduto(prod);
         System.out.println(result);
     }
 
@@ -109,19 +107,7 @@ public class LoteDAOTest {
     @Test
     public void testReadLotesByFornecedor() throws Exception {
         System.out.println("readLotesByFornecedor");
-        
-        System.out.println("readLotesByProduto");
-        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        Supermercado supermercado = new Supermercado(18.5774, 15.1741, "Serra", "35.415.363/0001-72", "Carone", endereco);
-        int idSuperm = SupermercadoDAO.create(supermercado);
-        supermercado = new Supermercado(idSuperm, supermercado.getLatitude(), supermercado.getLongitude(), supermercado.getUnidade(), supermercado.getCnpj(), supermercado.getNome(), endereco);
-        Endereco ende = new Endereco("Jacaraípe", "29177-487", "SERRA", Endereco.Estado.ES, 80, "Rua Xablau");
-        Fornecedor fornecedor = new Fornecedor( "35.415.363/0001-84",2, "Paul", ende);
 
-        Produto produto = new Produto(3,"0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
-        lote = new Lote(new Date(2018,06,20), new Date(2018,02,11),new Date(2019,02,11), 100,"Fralda XG",produto);
-        LoteDAO.create(lote,fornecedor,produto,supermercado);
-  
         List<Lote> result = LoteDAO.readLotesByFornecedor(fornecedor,supermercado);
         System.out.println(result);
     }
@@ -131,8 +117,6 @@ public class LoteDAOTest {
         System.out.println("delete");
         int id = lote.getId();
         LoteDAO.delete(id);
-        
-       
     }
 
     
