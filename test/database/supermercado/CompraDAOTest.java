@@ -22,7 +22,7 @@ import modelo.supermercado.mercadoria.ItemProduto;
 import modelo.supermercado.mercadoria.Produto;
 import modelo.usuarios.Cliente;
 import modelo.usuarios.Endereco;
-import objGeneretor.*;
+import modelo.usuarios.PessoaFisica;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -37,6 +37,10 @@ import static org.junit.Assert.*;
 public class CompraDAOTest {
     private Compra compra;
     private Cliente cliente;
+    private Cartao cartao;
+    private Supermercado superm;
+    private Produto prod;
+    
     public CompraDAOTest() {
     }
     
@@ -53,20 +57,36 @@ public class CompraDAOTest {
     public void setUp() throws ClassNotFoundException, SQLException, UnsupportedEncodingException, NoSuchAlgorithmException {
         ResetTable.cleanAllTables();
         System.out.println("create");
+        
         Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        Supermercado supermercado = new Supermercado(1,-52.2471,-2.5297,"serra 03","44.122.623/0001-02", "EPA", endereco);
+        superm = new Supermercado(18.5774, 15.1741, "Serra", "35.415.363/0001-72", "Carone", endereco);
+        int idSuperm = SupermercadoDAO.create(superm);
+        superm = new Supermercado(idSuperm, superm.getLatitude(), superm.getLongitude(), superm.getUnidade(), superm.getCnpj(), superm.getNome(), endereco);
         
         List<ItemProduto> itens = new ArrayList<>();
-        this.cliente = ClienteTDAO.readCliente();
-        Cartao cartao = CartaoTDAO.readCartao();
-        Produto produto = new Produto("0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
-        ItemProduto itemProduto = new ItemProduto(35.00,02,produto);
+        
+        Endereco end = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
+        cliente = new Cliente("216.856.707-76", new Date(), PessoaFisica.Genero.M, "joel@hotmail.com", "testedesenha", "Joel", end);
+        int result = ClienteDAO.create(cliente);
+        cliente = new Cliente(cliente.getCpf(), cliente.getDataNasc(), cliente.getGenero(), cliente.getLogin(), cliente.getSenha(),result, cliente.getNome(), end);
+       
+        cartao = new Cartao("MasterCard", new  Date(2019, 8, 1), "5482657412589634", "Maria", Cartao.Tipo.CREDITO);
+        int id = CartaoDAO.create(cartao);
+        cartao = new Cartao(id, cartao.getBandeira(), cartao.getDataValid(), cartao.getNumero(), cartao.getTitular(), cartao.getTipo());
+        ClienteDAO.addCartao(cliente, cartao);
+        
+        prod = new Produto("0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
+        int idProd = ProdutoDAO.create(prod, superm);
+        prod = new Produto(idProd, prod.getCodigo(), prod.getCusto() , prod.getDescricao(), prod.getMarca() , 
+                prod.getNome(), prod.getPrecoVenda(), prod.getQtdPrateleira(), prod.getQtdEstoque(), prod.getTipo());
+        
+        ItemProduto itemProduto = new ItemProduto(35.00,02,prod);
         itens.add(itemProduto);
         compra = new Compra(new Date(2018,06,20),itens);
-        int result = CompraDAO.create(compra,cliente,cartao,supermercado);
-        this.compra = new Compra(result, compra.getDataHora());
+        int resultado = CompraDAO.create(compra,cliente,cartao,superm);
+        compra = new Compra(result, compra.getDataHora());
         
-        System.out.println("id = "+result);
+        System.out.println("id = "+resultado);
     }
     @After
     public void tearDown() throws ClassNotFoundException, SQLException {
@@ -82,7 +102,7 @@ public class CompraDAOTest {
     public void testReadHistoricoCompras() throws Exception {
         System.out.println("readHistoricoCompras");
         
-        List<Compra> result = CompraDAO.readHistoricoCompras(this.cliente);
+        List<Compra> result = CompraDAO.readHistoricoCompras(cliente);
         System.out.println(result);
     }
 
@@ -93,11 +113,7 @@ public class CompraDAOTest {
     public void testReadHistoricoComprasByCartao() throws Exception {
         System.out.println("readHistoricoComprasByCartao");
         
-        Cartao cartao = new Cartao("MasterCard", new  Date(2019, 8, 1), "5482657412589634", "Maria", Cartao.Tipo.CREDITO);
-        int id = CartaoDAO.create(cartao);
-        cartao = new Cartao(id, cartao.getBandeira(), cartao.getDataValid(), cartao.getNumero(), cartao.getTitular(), cartao.getTipo());
-        ClienteDAO.addCartao(cliente, cartao);
-
+        
         List<Compra> result = CompraDAO.readHistoricoComprasByCartao(cliente, cartao);
         System.out.println(result);
     }
@@ -108,29 +124,7 @@ public class CompraDAOTest {
     @Test
     public void testReadHistoricoComprasBySupermercado() throws Exception {
         System.out.println("readHistoricoComprasBySupermercado");
-        
-        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        Supermercado superm = new Supermercado(18.5774, 15.1741, "Serra", "35.415.363/0001-72", "Carone", endereco);
-        int idSuperm = SupermercadoDAO.create(superm);
-        superm = new Supermercado(idSuperm, superm.getLatitude(), superm.getLongitude(), superm.getUnidade(), superm.getCnpj(), superm.getNome(), endereco);
-        
-        Produto prod = new Produto("Lol", 15.50, "Dwa", "dwa", "gfjkdwa", 19.5, 15, 50, "dwa");
-        int idProd = ProdutoDAO.create(prod, superm);
-        prod = new Produto(idProd, prod.getCodigo(), prod.getCusto(), prod.getDescricao(), prod.getMarca(), 
-                prod.getNome(), prod.getPrecoVenda(), prod.getQtdPrateleira(), prod.getQtdEstoque(), prod.getTipo());
-        
-        
-        Cartao cartao = new Cartao("MasterCard", new  Date(2019, 8, 1), "5482657412589634", "Maria", Cartao.Tipo.CREDITO);
-        int idCartao = CartaoDAO.create(cartao);
-        cartao = new Cartao(idCartao, cartao.getBandeira(), cartao.getDataValid(), cartao.getNumero(), cartao.getTitular(), cartao.getTipo());
-        
-        ItemProduto item = new ItemProduto(54.6, 12, prod);
-        List<ItemProduto> itens = new ArrayList<>();
-        itens.add(item);
-        compra = new Compra(new Date(), itens);
-        
-        CompraDAO.create(compra, cliente, cartao, superm);
-        
+     
         List<Compra> result = CompraDAO.readHistoricoComprasBySupermercado(superm);
         System.out.println(result);
         
