@@ -7,6 +7,7 @@ package database.supermercado.mercadoria;
 
 import controlTest.ResetTable;
 import database.supermercado.SupermercadoDAO;
+import database.usuarios.PessoaJuridicaDAO;
 import java.sql.SQLException;
 import java.util.List;
 import modelo.supermercado.Supermercado;
@@ -25,6 +26,8 @@ import static org.junit.Assert.*;
  */
 public class ProdutoDAOTest {
     private Produto produto;
+    private Supermercado supermercado;
+    
     public ProdutoDAOTest() {
     }
     
@@ -40,12 +43,17 @@ public class ProdutoDAOTest {
     public void setUp() throws ClassNotFoundException, SQLException {
         ResetTable.cleanAllTables();
         System.out.println("create");
+        
         Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        Supermercado supermercado = new Supermercado(1,-52.2471,-2.5297,"serra 03","44.122.623/0001-02", "EPA", endereco);
+        supermercado = new Supermercado(-52.2471,-2.5297,"serra 03","44.122.623/0001-02", "EPA", endereco);
+        int idSuper = SupermercadoDAO.create(supermercado);
+        supermercado = new Supermercado(idSuper,supermercado.getLatitude(),supermercado.getLongitude(),supermercado.getUnidade(),supermercado.getCnpj(), supermercado.getNome(), endereco);
+        
         produto = new Produto("0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
         int result = ProdutoDAO.create(produto,supermercado);
-        produto = new Produto(result, produto.getCodigo(),produto.getCusto(), produto.getDescricao(),produto.getMarca(), produto.getNome(),produto.getPrecoVenda(),produto.getQtdPrateleira(), produto.getQtdEstoque(), produto.getTipo());
-        
+        produto = new Produto(result, produto.getCodigo(), produto.getCusto() , produto.getDescricao(), produto.getMarca() , 
+                produto.getNome(), produto.getPrecoVenda(), produto.getQtdPrateleira(), produto.getQtdEstoque(), produto.getTipo());
+               
         System.out.println("id = "+result);
         //int id, String codigo, double custo, String descricao, String marca, String nome, double precoVenda, int qtdPrateleira, int qtdEstoque, String tipo
         
@@ -64,32 +72,10 @@ public class ProdutoDAOTest {
     @Test
     public void testReadProdutosBySupermercado() throws Exception {
         System.out.println("readProdutosBySupermercado");
-        
-        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        Supermercado supermercado = new Supermercado(18.5774, 15.1741, "Serra", "35.415.363/0001-72", "Carone", endereco);
-        int idSuperm = SupermercadoDAO.create(supermercado);
-        supermercado = new Supermercado(idSuperm, supermercado.getLatitude(), supermercado.getLongitude(), supermercado.getUnidade(), supermercado.getCnpj(), supermercado.getNome(), endereco);
+    
 
-        produto = new Produto("0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
-        int idProd = ProdutoDAO.create(produto,supermercado);
-        produto = new Produto(idProd,produto.getCodigo(),produto.getCusto(),produto.getDescricao(),produto.getMarca(),produto.getNome(),produto.getPrecoVenda(),produto.getQtdPrateleira(),produto.getQtdEstoque(),produto.getTipo());
-
-
-        List<Produto> result = ProdutoDAO.readProdutosBySupermercado(supermercado,"Fralda XG","Pampers","fralda","0000");
+        List<Produto> result = ProdutoDAO.readProdutosBySupermercado(supermercado,produto.getNome(),produto.getMarca(), produto.getTipo(),produto.getCodigo());
         System.out.println(result);
     }
 
-    /**
-     * Test of create method, of class ProdutoDAO.
-     */
-    @Test
-    public void testCreate() throws Exception {
-    }
-
-    /**
-     * Test of readProdutos method, of class ProdutoDAO.
-     */
-    @Test
-    public void testReadProdutos() throws Exception {
-    }
 }
