@@ -12,6 +12,8 @@ import database.supermercado.mercadoria.ProdutoDAO;
 import database.usuarios.ClienteDAO;
 import database.usuarios.FuncionarioDAO;
 import database.usuarios.PessoaJuridicaDAO;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,7 +42,11 @@ import static org.junit.Assert.*;
  */
 public class SupermercadoDAOTest {
     private Supermercado supermercado;
-      
+    private Produto produto;
+    private Fornecedor fornecedor;
+    private Lote lote; 
+    private Funcionario funcionario;
+    
     public SupermercadoDAOTest() {
     }
     
@@ -53,14 +59,18 @@ public class SupermercadoDAOTest {
     }
     
     @Before
-    public void setUp() throws ClassNotFoundException, SQLException {
+    public void setUp() throws ClassNotFoundException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
         ResetTable.cleanAllTables();
         System.out.println("create");
         
         Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
         supermercado = new Supermercado(-52.2471,-2.5297,"serra 03","44.122.623/0001-02", "EPA", endereco);
-        int result = PessoaJuridicaDAO.create(supermercado);
+        int result = SupermercadoDAO.create(supermercado);
         supermercado = new Supermercado(result,supermercado.getLatitude(),supermercado.getLongitude(),supermercado.getUnidade(),supermercado.getCnpj(), supermercado.getNome(), endereco);
+        
+        Endereco end = new Endereco("Jacaraípe", "29177-487", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
+        funcionario = new Funcionario("estagiario", "atendente","216.856.707-76", new Date(11,06,2018), Funcionario.Genero.M, "joel_tendencia@hotmail.com", "testedesenha", "Joel", end);
+        FuncionarioDAO.create(funcionario, supermercado);
         
         System.out.println("id = "+result);
     }
@@ -86,10 +96,8 @@ public class SupermercadoDAOTest {
     @Test
     public void testReadSupermercadoByFuncionario() throws Exception {
         System.out.println("readSupermercadoByFuncionario");
-        
-        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        Funcionario  funcionario = new Funcionario("estagiario", "atendente","216.856.707-76", new Date(11,06,2018), Funcionario.Genero.M, "joel@hotmail.com", "testedesenha", "Joel", endereco);
-        FuncionarioDAO.create(funcionario, supermercado);
+
+      
         //Funcionario funcionario
         Supermercado result = SupermercadoDAO.readSupermercadoByFuncionario(funcionario);
         System.out.println(result);
@@ -106,22 +114,29 @@ public class SupermercadoDAOTest {
         System.out.println("readSupermercadoByCompra");
 
         
-        List<ItemProduto> itens = new ArrayList<>();
-        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        Cliente cliente = new Cliente("216.856.707-76", new Date(), PessoaFisica.Genero.M, "joel@hotmail.com", "testedesenha",02, "Joel", endereco);
-        int idcliente = ClienteDAO.create(cliente);
-        cliente = new Cliente(cliente.getCpf(), cliente.getDataNasc(), cliente.getGenero(), cliente.getLogin(), cliente.getSenha(),idcliente, cliente.getNome(), endereco);
+       List<ItemProduto> itens = new ArrayList<>();
         
-        Cartao cartao = new Cartao("MasterCard", new  java.util.Date(2019, 8, 1), "5482657412589634", "Maria", Cartao.Tipo.CREDITO);
-        int id = CartaoDAO.create(cartao);        
+        Endereco end = new Endereco("Jacaraípe", "29177-488", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
+        Cliente cliente = new Cliente("216.856.707-76", new Date(), PessoaFisica.Genero.M, "joel@hotmail.com", "testedesenha", "Joel", end);
+        int idCliente = ClienteDAO.create(cliente);
+        cliente = new Cliente(cliente.getCpf(), cliente.getDataNasc(), cliente.getGenero(), cliente.getLogin(), cliente.getSenha(),idCliente, cliente.getNome(), end);
+       
+        Cartao cartao = new Cartao("MasterCard", new  Date(2019, 8, 1), "5482657412589634", "Maria", Cartao.Tipo.CREDITO);
+        int id = CartaoDAO.create(cartao);
         cartao = new Cartao(id, cartao.getBandeira(), cartao.getDataValid(), cartao.getNumero(), cartao.getTitular(), cartao.getTipo());
+        ClienteDAO.addCartao(cliente, cartao);
         
-        Produto produto = new Produto("0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
+        produto = new Produto("0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
+        int idProd = ProdutoDAO.create(produto, supermercado);
+        produto = new Produto(idProd, produto.getCodigo(), produto.getCusto() , produto.getDescricao(), produto.getMarca() , 
+                produto.getNome(), produto.getPrecoVenda(), produto.getQtdPrateleira(), produto.getQtdEstoque(), produto.getTipo());
+
         ItemProduto itemProduto = new ItemProduto(35.00,02,produto);
         itens.add(itemProduto);
-        Compra compra = new Compra(new Date(14,06,2018),itens);
-        CompraDAO.create(compra,cliente,cartao,supermercado);
-
+        Compra compra = new Compra(new Date(2018,06,20),itens);
+        int resultado = CompraDAO.create(compra,cliente,cartao,supermercado);
+        compra = new Compra(resultado, compra.getDataHora());
+        
         Supermercado result = SupermercadoDAO.readSupermercadoByCompra(compra);
         System.out.println(result);
 
@@ -135,13 +150,22 @@ public class SupermercadoDAOTest {
 
         System.out.println("readSupermercadoByFornecedor");
 
-        
-        Endereco ende = new Endereco("Jacaraípe", "29177-487", "SERRA", Endereco.Estado.ES, 80, "Rua Xablau");
-        Fornecedor fornecedor = new Fornecedor( "35.415.363/0001-84",2, "Paul", ende);
+        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 76, "Rua Xablau");
+        fornecedor = new Fornecedor("35.415.363/0001-72", "EPA", endereco);
+        int idF = PessoaJuridicaDAO.create(fornecedor);
+        fornecedor = new Fornecedor(fornecedor.getCnpj(), idF,fornecedor.getNome(), endereco);
 
-        Produto produto = new Produto(3,"0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
-        Lote lote = new Lote(new Date(2018,06,20), new Date(2018,02,11),new Date(2019,02,11), 100,"Fralda XG",produto);
-        LoteDAO.create(lote,fornecedor,produto,supermercado);
+        SupermercadoDAO.addFornecedor(fornecedor,supermercado);
+        
+        produto = new Produto("0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
+        int idProd = ProdutoDAO.create(produto, supermercado);
+        produto = new Produto(idProd, produto.getCodigo(), produto.getCusto() , produto.getDescricao(), produto.getMarca() , 
+                produto.getNome(), produto.getPrecoVenda(), produto.getQtdPrateleira(), produto.getQtdEstoque(), produto.getTipo());
+
+        
+        lote = new Lote(new Date(2018,06,20), new Date(2018,02,11),new Date(2019,02,11), 100,"Fralda XG",produto);
+        int idLote = LoteDAO.create(lote,fornecedor,produto,supermercado);
+        lote = new Lote(idLote,lote.getDataCompra(),lote.getDataFabricacao(),lote.getDataValidade(),lote.getNumUnidades(),lote.getIdentificador(), lote.getProduto());
 
 
         List<Supermercado> result = SupermercadoDAO.readSupermercadoByFornecedor(fornecedor);
@@ -155,13 +179,20 @@ public class SupermercadoDAOTest {
     @Test
     public void testReadSupermercadoByLote() throws Exception {
         System.out.println("readSupermercadoByLote");
+        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 76, "Rua Xablau");
+        fornecedor = new Fornecedor("35.415.363/0001-72", "EPA", endereco);
+        int idF = PessoaJuridicaDAO.create(fornecedor);
+        fornecedor = new Fornecedor(fornecedor.getCnpj(), idF,fornecedor.getNome(), endereco);
 
-        //(String cnpj, int id, String nome, Endereco endereco)
-        Endereco ende = new Endereco("Jacaraípe", "29177-487", "SERRA", Endereco.Estado.ES, 80, "Rua Xablau");
-        Fornecedor fornecedor = new Fornecedor( "35.415.363/0001-84",2, "Paul", ende);
+        SupermercadoDAO.addFornecedor(fornecedor,supermercado);
+        
+        produto = new Produto("0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
+        int idProd = ProdutoDAO.create(produto, supermercado);
+        produto = new Produto(idProd, produto.getCodigo(), produto.getCusto() , produto.getDescricao(), produto.getMarca() , 
+                produto.getNome(), produto.getPrecoVenda(), produto.getQtdPrateleira(), produto.getQtdEstoque(), produto.getTipo());
 
-        Produto produto = new Produto(3,"0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
-        Lote lote = new Lote(new Date(2018,06,20), new Date(2018,02,11),new Date(2019,02,11), 100,"Fralda XG",produto);
+        
+        lote = new Lote(new Date(2018,06,20), new Date(2018,02,11),new Date(2019,02,11), 100,"Fralda XG",produto);
         int idLote = LoteDAO.create(lote,fornecedor,produto,supermercado);
         lote = new Lote(idLote,lote.getDataCompra(),lote.getDataFabricacao(),lote.getDataValidade(),lote.getNumUnidades(),lote.getIdentificador(), lote.getProduto());
 
@@ -177,11 +208,11 @@ public class SupermercadoDAOTest {
     @Test
     public void testReadSupermercadoByProduto() throws Exception {
         System.out.println("readSupermercadoByProduto");
-
-
-        Produto produto = new Produto("0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
-        int idProd = ProdutoDAO.create(produto,supermercado);
-        produto = new Produto(idProd,produto.getCodigo(),produto.getCusto(),produto.getDescricao(),produto.getMarca(),produto.getNome(),produto.getPrecoVenda(),produto.getQtdPrateleira(),produto.getQtdEstoque(),produto.getTipo());
+           
+          produto = new Produto("0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
+        int idProd = ProdutoDAO.create(produto, supermercado);
+        produto = new Produto(idProd, produto.getCodigo(), produto.getCusto() , produto.getDescricao(), produto.getMarca() , 
+                produto.getNome(), produto.getPrecoVenda(), produto.getQtdPrateleira(), produto.getQtdEstoque(), produto.getTipo());
 
         Supermercado result = SupermercadoDAO.readSupermercadoByProduto(produto);
 
