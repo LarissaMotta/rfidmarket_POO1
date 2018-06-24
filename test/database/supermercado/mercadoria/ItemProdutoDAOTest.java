@@ -101,7 +101,7 @@ public class ItemProdutoDAOTest {
     @Test
     public void testReadItensByCompra() throws Exception {
         System.out.println("readItensByCompra");
-  
+       
         List<ItemProduto> resultado = ItemProdutoDAO.readItensByCompra(compra);
         System.out.println(resultado);
     }
