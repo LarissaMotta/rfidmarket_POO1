@@ -13,7 +13,7 @@ import util.Util;
  */
 public class ItemProduto {
     private int id;                 // não pode ser <= 0
-    private double precoCompra;     // não pode ser <= 0
+    private double precoCompra;     // não pode ser <= 0 e é o preço unitario
     private int quantidade;         // não pode ser <= 0
     private final Produto produto;  // deve ser carregado e não passado para construtor
 
