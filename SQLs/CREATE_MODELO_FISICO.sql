@@ -89,7 +89,7 @@ ALTER TABLE JURIDICA ADD CONSTRAINT cnpj UNIQUE (cnpj);
 CREATE TABLE Lote (
     id SERIAL,
     data_compra DATE,
-    identificador CHAR(30),
+    identificador VARCHAR(30),
     fabricacao DATE,
     quantidade INTEGER,
     validade DATE,
@@ -157,7 +157,7 @@ ALTER TABLE SUPERMERCADO ADD CONSTRAINT fk_pessoa_juridica
 ALTER TABLE CONTATO ADD CONSTRAINT fk_pessoa
     FOREIGN KEY (fk_pessoa)
     REFERENCES PESSOA (id)
-    ON DELETE RESTRICT ON UPDATE RESTRICT;
+    ON DELETE CASCADE ON UPDATE RESTRICT;
  
 ALTER TABLE HIST_COMPRA ADD CONSTRAINT fk_cartao
     FOREIGN KEY (fk_cartao)
