@@ -6,7 +6,12 @@
 package database.supermercado.mercadoria;
 
 import controlTest.ResetTable;
+import database.pagamento.CartaoDAO;
 import database.supermercado.CompraDAO;
+import database.supermercado.SupermercadoDAO;
+import database.usuarios.ClienteDAO;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,8 +23,7 @@ import modelo.supermercado.mercadoria.ItemProduto;
 import modelo.supermercado.mercadoria.Produto;
 import modelo.usuarios.Cliente;
 import modelo.usuarios.Endereco;
-import objGeneretor.CartaoTDAO;
-import objGeneretor.ClienteTDAO;
+import modelo.usuarios.PessoaFisica;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -33,6 +37,9 @@ import static org.junit.Assert.*;
  */
 public class ItemProdutoDAOTest {
     private ItemProduto itemProduto;
+    private Produto produto;
+    private Compra compra;
+    
     public ItemProdutoDAOTest() {
     }
     
@@ -45,12 +52,37 @@ public class ItemProdutoDAOTest {
     }
     
         @Before
-    public void setUp() throws ClassNotFoundException, SQLException {
+    public void setUp() throws ClassNotFoundException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
         ResetTable.cleanAllTables();
         System.out.println("create");
-        Produto produto = new Produto("0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
-        itemProduto = new ItemProduto(35.00,02,produto);
-        Compra compra = new Compra(1, new Date(14,06,2018));
+        
+        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
+        Supermercado supermercado = new Supermercado(-52.2471,-2.5297,"serra 03","44.122.623/0001-02", "EPA", endereco);
+        int idSuper = SupermercadoDAO.create(supermercado);
+        supermercado = new Supermercado(idSuper,supermercado.getLatitude(),supermercado.getLongitude(),supermercado.getUnidade(),supermercado.getCnpj(), supermercado.getNome(), endereco);
+        
+        produto = new Produto("0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
+        int idProd = ProdutoDAO.create(produto,supermercado);
+        produto = new Produto(idProd,produto.getCodigo(), produto.getCusto() , produto.getDescricao(), produto.getMarca() , 
+                produto.getNome(), produto.getPrecoVenda(), produto.getQtdPrateleira(), produto.getQtdEstoque(), produto.getTipo());       
+        
+        Endereco end = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
+        Cliente cliente = new Cliente("216.856.707-76", new Date(), PessoaFisica.Genero.M, "joel@hotmail.com", "testedesenha",02, "Joel", end);
+        int idCliente = ClienteDAO.create(cliente);
+        cliente = new Cliente(cliente.getCpf(), cliente.getDataNasc(), cliente.getGenero(), cliente.getLogin(), cliente.getSenha(),idCliente, cliente.getNome(), end);
+        
+        Cartao cartao = new Cartao("MasterCard", new  Date(2019, 8, 1), "5482657412589634", "Maria", Cartao.Tipo.CREDITO);
+        int id = CartaoDAO.create(cartao);
+        cartao = new Cartao(id, cartao.getBandeira(), cartao.getDataValid(), cartao.getNumero(), cartao.getTitular(), cartao.getTipo());
+        ClienteDAO.addCartao(cliente, cartao);
+        
+        List<ItemProduto> itens = new ArrayList<>();
+        itemProduto = new ItemProduto(35.00,2,produto);
+        itens.add(itemProduto);
+        compra = new Compra(new Date(2018,06,20),itens);
+        int idCompra = CompraDAO.create(compra,cliente,cartao,supermercado);
+        compra = new Compra(idCompra, compra.getDataHora());
+        
         int result = ItemProdutoDAO.create(compra.getId(),itemProduto);
         itemProduto = new ItemProduto(result, itemProduto.getPrecoCompra(),itemProduto.getQuantidade(), itemProduto.getProduto());
         
@@ -69,20 +101,7 @@ public class ItemProdutoDAOTest {
     @Test
     public void testReadItensByCompra() throws Exception {
         System.out.println("readItensByCompra");
-        
-        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        Supermercado supermercado = new Supermercado(1,-52.2471,-2.5297,"serra 03","44.122.623/0001-02", "EPA", endereco);
-        
-        List<ItemProduto> itens = new ArrayList<>();
-        Cliente cliente = ClienteTDAO.readCliente();
-        Cartao cartao = CartaoTDAO.readCartao();
-        Produto produto = new Produto("0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
-        itemProduto = new ItemProduto(35.00,02,produto);
-        itens.add(itemProduto);
-        Compra compra = new Compra(new Date(2018,06,20),itens);
-        int result = CompraDAO.create(compra,cliente,cartao,supermercado);
-        compra = new Compra(result, compra.getDataHora());
-        
+  
         List<ItemProduto> resultado = ItemProdutoDAO.readItensByCompra(compra);
         System.out.println(resultado);
     }
