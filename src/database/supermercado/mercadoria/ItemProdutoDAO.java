@@ -66,7 +66,9 @@ public abstract class ItemProdutoDAO extends CoreDAO{
  
         // Forme a string sql;
         String sql = "SELECT * from compra "
-                + "WHERE fk_hist_compra = ?"; //REVER SE ESTA CERTO
+                + "INNER JOIN produto ON produto.id = compra.fk_produto "
+                + "WHERE fk_hist_compra = ? "
+                + "ORDER BY produto.nome"; //REVER SE ESTA CERTO
         PreparedStatement st = conexao.prepareStatement (sql);
         st.setInt(1, compra.getId());
         
@@ -77,8 +79,7 @@ public abstract class ItemProdutoDAO extends CoreDAO{
             int id = rs.getInt("id");
             double precoCompra = rs.getDouble("preco_compra");
             int quantidade = rs.getInt("quant");
-            Produto prod ;
-            prod = ProdutoDAO.readProdutos(rs);
+            Produto prod = ProdutoDAO.readProdutos(rs);
                         
             itens.add(new ItemProduto(id,precoCompra,quantidade,prod));
         }

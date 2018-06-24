@@ -62,15 +62,35 @@ public abstract class CompraDAO extends CoreDAO{
         return id;
     }
     
-    public static List<Compra> readHistoricoCompras(Cliente cliente) throws ClassNotFoundException, SQLException{
+    public static List<Compra> readHistoricoComprasByCliente(Cliente cliente) throws ClassNotFoundException, SQLException{
         // Obtenha a conexão com o BD;
         Connection conexao = getConnection();
 
         // Forme a string sql;
-        String sql = "SELECT id,timestamp from hist_compra WHERE fk_cliente = ?";
+        String sql = "SELECT id,timestamp from hist_compra WHERE fk_cliente = ? "
+                + "ORDER BY timestamp";
 
         PreparedStatement st = conexao.prepareStatement (sql);
         st.setInt(1, cliente.getId());
+        
+        List<Compra> histCompras = readHistoricoCompras(st);
+        
+        st.close();
+        conexao.close();
+        return histCompras;
+    }
+    
+    public static List<Compra> readHistoricoComprasByCliente(Cliente cliente, Supermercado supermercado) throws ClassNotFoundException, SQLException{
+        // Obtenha a conexão com o BD;
+        Connection conexao = getConnection();
+
+        // Forme a string sql;
+        String sql = "SELECT id,timestamp from hist_compra WHERE fk_cliente = ? AND fk_supermercado = ? "
+                + "ORDER BY timestamp";
+
+        PreparedStatement st = conexao.prepareStatement (sql);
+        st.setInt(1, cliente.getId());
+        st.setInt(2, supermercado.getId());
         
         List<Compra> histCompras = readHistoricoCompras(st);
         
@@ -84,7 +104,8 @@ public abstract class CompraDAO extends CoreDAO{
         Connection conexao = getConnection();
 
         // Forme a string sql;
-        String sql = "SELECT id,timestamp from hist_compra WHERE fk_cliente = ? AND fk_cartao = ?";
+        String sql = "SELECT id,timestamp from hist_compra WHERE fk_cliente = ? AND fk_cartao = ? "
+                + "ORDER BY timestamp";
         
         PreparedStatement st = conexao.prepareStatement (sql);
         st.setInt(1, cliente.getId());
@@ -103,7 +124,8 @@ public abstract class CompraDAO extends CoreDAO{
         Connection conexao = getConnection();
 
         // Forme a string sql;
-        String sql = "SELECT id,timestamp from hist_compra WHERE fk_supermercado = ?";
+        String sql = "SELECT id,timestamp from hist_compra WHERE fk_supermercado = ? "
+                + "ORDER BY timestamp";
 
         PreparedStatement st = conexao.prepareStatement (sql);
         st.setInt(1, supermercado.getId());

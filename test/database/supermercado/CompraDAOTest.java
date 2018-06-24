@@ -96,13 +96,13 @@ public class CompraDAOTest {
 
 
     /**
-     * Test of readHistoricoCompras method, of class CompraDAO.
+     * Test of readHistoricoComprasByCliente method, of class CompraDAO.
      */
     @Test
     public void testReadHistoricoCompras() throws Exception {
         System.out.println("readHistoricoCompras");
         
-        List<Compra> result = CompraDAO.readHistoricoCompras(cliente);
+        List<Compra> result = CompraDAO.readHistoricoComprasByCliente(cliente);
         System.out.println(result);
     }
 
