@@ -9,17 +9,18 @@ import controlTest.ResetTable;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import modelo.usuarios.*;
 import modelo.usuarios.Contato.Tipo;
 import modelo.usuarios.Endereco;
 import modelo.usuarios.Pessoa;
-import objGeneretor.ClienteTDAO;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
 
 /**
  *
@@ -27,32 +28,44 @@ import static org.junit.Assert.*;
  */
 public class ContatoDAOTest {
     private Contato contato;
+    private Cliente cliente;
   
     
     public ContatoDAOTest() {
     }
     
-    
-    
     @BeforeClass
-    public void setUpClass()throws ClassNotFoundException, SQLException, UnsupportedEncodingException, NoSuchAlgorithmException  {
+    public static void setUpClass() {
+    }
+    
+    @AfterClass
+    public static void tearDownClass() {
+    }
+    
+    
+    @Before
+    public void setUp()throws ClassNotFoundException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException  {
         ResetTable.cleanAllTables();
         System.out.println("create");
-        contato = new Contato("98765432", Tipo.CELULAR);
-        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        Pessoa pessoa = new Pessoa(1,"Teste", endereco){};
-        int result = ContatoDAO.create(contato,pessoa);
         
+        contato = new Contato("98765432", Tipo.CELULAR);
+        
+        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
+        cliente = new Cliente("216.856.707-76", new Date(), PessoaFisica.Genero.M, "joel@hotmail.com", "testedesenha",02, "Joel", endereco);
+        int idcliente = ClienteDAO.create(cliente);
+        cliente = new Cliente(cliente.getCpf(), cliente.getDataNasc(), cliente.getGenero(), cliente.getLogin(), cliente.getSenha(),idcliente, cliente.getNome(), endereco);
+                
+        int result = ContatoDAO.create(contato,cliente);
         contato = new Contato(result, contato.getDescricao(), contato.getTipo());
         
         System.out.println("id = "+result);
     }
     
     
-    @AfterClass
+   /* @AfterClass
     public void tearDownClass() throws ClassNotFoundException, SQLException {
         ResetTable.cleanAllTables();
-    }
+    }*/
     
  
     
@@ -78,8 +91,6 @@ public class ContatoDAOTest {
     public void testReadContatosByPessoa() throws Exception {
         System.out.println("readContatosByPessoa");
 
-        Cliente cliente = ClienteTDAO.readCliente();
-        ContatoDAO.create(new Contato("98765432", Tipo.CELULAR),cliente);
         List<Contato> result = ContatoDAO.readContatosByPessoa(cliente);
         System.out.println(result);
     }
