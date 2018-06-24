@@ -76,11 +76,10 @@ public abstract class ItemProdutoDAO extends CoreDAO{
   
             int id = rs.getInt("id");
             double precoCompra = rs.getDouble("preco_compra");
-            int quantidade = rs.getInt("quantidade");
+            int quantidade = rs.getInt("quant");
             Produto prod ;
             prod = ProdutoDAO.readProdutos(rs);
-            
-             
+                        
             itens.add(new ItemProduto(id,precoCompra,quantidade,prod));
         }
 
