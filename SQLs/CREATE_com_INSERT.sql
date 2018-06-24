@@ -89,7 +89,7 @@ ALTER TABLE JURIDICA ADD CONSTRAINT cnpj UNIQUE (cnpj);
 CREATE TABLE Lote (
 	id SERIAL,
 	data_compra DATE,
-	identificador CHAR(30),
+	identificador VARCHAR(30),
 	fabricacao DATE,
 	quantidade INTEGER,
 	validade DATE,
