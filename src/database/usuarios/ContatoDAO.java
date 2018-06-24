@@ -85,12 +85,13 @@ public abstract class ContatoDAO extends CoreDAO {
         Connection conn = getConnection();
         String sql = "UPDATE contato "
                 + "SET descricao = ?, "
-                + "SET tipo = ?, "
-                + "WHERE fk_pessoa_fisica = ?";
+                + "tipo = ? "
+                + "WHERE id = ?";
 
         PreparedStatement st = conn.prepareStatement(sql);
         st.setString(1, c.getDescricao());
         st.setString(2, c.getTipo().toString());
+        st.setInt(3, c.getId());
         
         st.executeUpdate();
         st.close();
