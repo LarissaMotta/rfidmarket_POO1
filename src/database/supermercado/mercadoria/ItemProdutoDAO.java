@@ -65,7 +65,7 @@ public abstract class ItemProdutoDAO extends CoreDAO{
         Connection conexao = getConnection();
  
         // Forme a string sql;
-        String sql = "SELECT * from compra "
+        String sql = "SELECT compra.*, produto.id as prodID, nome, preco, codigo, descricao, custo, estoque, tipo, quant_prateleira, marca from compra "
                 + "INNER JOIN produto ON produto.id = compra.fk_produto "
                 + "WHERE fk_hist_compra = ? "
                 + "ORDER BY produto.nome"; //REVER SE ESTA CERTO

@@ -170,7 +170,7 @@ public abstract class LoteDAO extends CoreDAO {
 
         // Forme a string sql;
         String sql = "SELECT lote.id, data_compra, fabricacao, validade, quantidade, identificador, "
-                + "produto.id, nome, preco, codigo, descricao, custo, estoque, tipo, quant_prateleira, marca FROM lote "
+                + "produto.id as prodID, nome, preco, codigo, descricao, custo, estoque, tipo, quant_prateleira, marca FROM lote "
                 + "INNER JOIN produto ON (lote.fk_produto = produto.id) "
                 + "WHERE lote.fk_supermercado = ? " + filter.getFilter()
                 + " ORDER BY identificador";
@@ -282,7 +282,7 @@ public abstract class LoteDAO extends CoreDAO {
 
         // Forme a string sql;
         String sql = "SELECT lote.id, data_compra, fabricacao, validade, quantidade, identificador, "
-                + "produto.id, nome, preco, codigo, descricao, custo, estoque, tipo, quant_prateleira, marca FROM lote "
+                + "produto.id as prodID, nome, preco, codigo, descricao, custo, estoque, tipo, quant_prateleira, marca FROM lote "
                 + "INNER JOIN produto ON (lote.fk_produto = produto.id) "
                 + "WHERE lote.fk_fornecedor = ? AND lote.fk_supermercado = ? "
                 + "ORDER BY identificador";

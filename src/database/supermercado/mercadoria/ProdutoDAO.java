@@ -80,9 +80,9 @@ public abstract class ProdutoDAO extends CoreDAO {
         filter.addClause(clause);
 
         // Forme a string sql;
-        String sql = "SELECT * from produto "
+        String sql = "SELECT produto.id as prodID, nome, preco, codigo, descricao, custo, estoque, tipo, quant_prateleira, marca from produto "
                 + "WHERE fk_supermercado = ? " + filter.getFilter()
-                + " ORDER BY nome"; //REVER SE ESTA CERTO !
+                + " ORDER BY nome"; 
 
         PreparedStatement st = conexao.prepareStatement(sql);
         st.setInt(1, supermercado.getId());
@@ -109,7 +109,7 @@ public abstract class ProdutoDAO extends CoreDAO {
     //Jennifer
     static Produto readProdutos(ResultSet rs) throws SQLException {
 
-        int id = rs.getInt("id");
+        int id = rs.getInt("prodID");
         String codigo = rs.getString("codigo");
         double custo = rs.getDouble("custo");
         String descricao = rs.getString("descricao");
@@ -139,7 +139,7 @@ public abstract class ProdutoDAO extends CoreDAO {
                 + "descricao = ?, custo = ?, estoque = ?, tipo = ?, "
                 + "quant_prateleira = ?, marca = ? WHERE id = ?;";
 
-        PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement st = conn.prepareStatement(sql);
         st.setString(1, produto.getNome());
         st.setDouble(2, produto.getPrecoVenda());
         st.setString(3, produto.getCodigo());
@@ -150,6 +150,7 @@ public abstract class ProdutoDAO extends CoreDAO {
         st.setInt(8, produto.getQtdPrateleira());
         st.setString(9, produto.getMarca());
         st.setInt(10, produto.getId());
+        
         st.executeUpdate();
         st.close();
         conn.close();
@@ -174,16 +175,16 @@ public abstract class ProdutoDAO extends CoreDAO {
         clause = new Clause("DATE(h.timestamp)", dataMax, Clause.MENOR_IGUAL);
         filter.addClause(clause);
         
-        String sql = "SELECT p.nome, p.preco, p.codigo, p.descricao, p.custo, "
-                + "p.id, p.estoque, p.tipo, p.quant_prateleira, "
-                + "p.marca, sum(c.quant) as soma FROM produto p "
-                + "INNER JOIN compra c ON c.fk_produto = p.id "
+        String sql = "SELECT nome, preco, codigo, descricao, custo, "
+                + "produto.id as prodID, estoque, tipo, quant_prateleira, "
+                + "marca, sum(c.quant) as soma FROM produto "
+                + "INNER JOIN compra c ON c.fk_produto = produto.id "
                 + "INNER JOIN hist_compra h ON h.id = c.fk_hist_compra "
                 + "WHERE h.fk_supermercado = ? " + filter.getFilter() 
-                + " GROUP BY (p.nome, p.preco, "
-                + "p.codigo, p.descricao, p.custo, p.id, p.estoque, "
-                + "p.tipo, p.quant_prateleira, p.marca) "
-                + "ORDER BY soma DESC, p.nome";
+                + " GROUP BY (nome, preco, "
+                + "codigo, descricao, custo, produto.id, estoque, "
+                + "tipo, quant_prateleira, marca) "
+                + "ORDER BY soma DESC, nome";
         
         if (maxResult != null){
             if (maxResult <= 0) throw new IllegalArgumentException("Máx. Resultados não pode ser menor que 1");
