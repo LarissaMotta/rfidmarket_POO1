@@ -135,7 +135,8 @@ public abstract class FuncionarioDAO extends CoreDAO {
         String sql = "SELECT * FROM funcionario "
                 + "INNER JOIN fisica on fisica.fk_pessoa = funcionario.fk_pessoa_fisica "
                 + "INNER JOIN pessoa on pessoa.id = funcionario.fk_pessoa_fisica "
-                + "WHERE fk_supermercado = ? " + filter.getFilter();
+                + "WHERE fk_supermercado = ? " + filter.getFilter()
+                + " ORDER BY pessoa.nome";
 
         PreparedStatement st = conexao.prepareStatement(sql);
         st.setInt(1, supermercado.getId());

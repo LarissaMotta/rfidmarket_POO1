@@ -152,7 +152,8 @@ public abstract class ClienteDAO extends CoreDAO {
                 + "INNER JOIN pessoa as p ON pf.fk_pessoa = p.id "
                 + "WHERE hc.fk_supermercado = ? " + filter.getFilter()
                 + " GROUP BY (p.id, p.nome, p.numero, p.rua, p.cep, p.bairro,"
-                + "p.estado, p.cidade, pf.data_nasc, pf.genero, pf.login, pf.senha, pf.cpf)";
+                + "p.estado, p.cidade, pf.data_nasc, pf.genero, pf.login, pf.senha, pf.cpf) "
+                + "ORDER BY p.nome";
 
         // Substitua a '?' pelo valor da coluna;
         PreparedStatement ps = conexao.prepareStatement(sql);
@@ -194,7 +195,7 @@ public abstract class ClienteDAO extends CoreDAO {
                 + "WHERE hc.fk_supermercado = ? " + filter.getFilter()
                 + " GROUP BY (p.id, p.nome, p.numero, p.rua, p.cep, p.bairro, "
                 + "p.estado, p.cidade, pf.data_nasc, pf.genero, pf.login, pf.senha, pf.cpf) "
-                + "ORDER BY SUM(c.preco_compra) DESC";
+                + "ORDER BY SUM(c.preco_compra) DESC, p.nome";
         
         if (maxResult != null){
             if (maxResult <= 0) throw new IllegalArgumentException("Máx. Resultados não pode ser menor que 1");
@@ -228,7 +229,7 @@ public abstract class ClienteDAO extends CoreDAO {
                 + "WHERE hc.fk_supermercado = ? " + filter.getFilter()
                 + " GROUP BY (p.id, p.nome, p.numero, p.rua, p.cep, p.bairro, "
                 + "p.estado, p.cidade, pf.data_nasc, pf.genero, pf.login, pf.senha, pf.cpf) "
-                + "ORDER BY AVG(c.preco_compra) DESC";
+                + "ORDER BY AVG(c.preco_compra) DESC, p.nome";
         
         if (maxResult != null){
             if (maxResult <= 0) throw new IllegalArgumentException("Máx. Resultados não pode ser menor que 1");

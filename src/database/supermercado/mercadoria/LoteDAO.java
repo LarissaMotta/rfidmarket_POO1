@@ -172,7 +172,8 @@ public abstract class LoteDAO extends CoreDAO {
         String sql = "SELECT lote.id, data_compra, fabricacao, validade, quantidade, identificador, "
                 + "produto.id, nome, preco, codigo, descricao, custo, estoque, tipo, quant_prateleira, marca FROM lote "
                 + "INNER JOIN produto ON (lote.fk_produto = produto.id) "
-                + "WHERE lote.fk_supermercado = ? " + filter.getFilter();
+                + "WHERE lote.fk_supermercado = ? " + filter.getFilter()
+                + " ORDER BY identificador";
 
         // Substitua a '?' pelo valor da coluna;
         PreparedStatement ps = conexao.prepareStatement(sql);
@@ -210,7 +211,8 @@ public abstract class LoteDAO extends CoreDAO {
 
         // Forme a string sql;
         String sql = "SELECT id, data_compra, fabricacao, validade, "
-                + "quantidade, identificador FROM lote WHERE fk_produto = ?";
+                + "quantidade, identificador FROM lote WHERE fk_produto = ? "
+                + "ORDER BY identificador";
 
         // Substitua a '?' pelo valor da coluna;
         PreparedStatement ps = conexao.prepareStatement(sql);
@@ -241,7 +243,7 @@ public abstract class LoteDAO extends CoreDAO {
                 + "quantidade, identificador FROM lote "
                 + "WHERE fk_produto = ? AND "
                 + "validade >= CURRENT_DATE AND validade <= CURRENT_DATE + " + distValidade
-                + " ORDER BY validade, fabricacao, data_compra";
+                + " ORDER BY validade, fabricacao, data_compra, identificador";
 
         PreparedStatement ps = conexao.prepareStatement(sql);
         ps.setInt(1, produto.getId());
@@ -282,7 +284,8 @@ public abstract class LoteDAO extends CoreDAO {
         String sql = "SELECT lote.id, data_compra, fabricacao, validade, quantidade, identificador, "
                 + "produto.id, nome, preco, codigo, descricao, custo, estoque, tipo, quant_prateleira, marca FROM lote "
                 + "INNER JOIN produto ON (lote.fk_produto = produto.id) "
-                + "WHERE lote.fk_fornecedor = ? AND lote.fk_supermercado = ?";
+                + "WHERE lote.fk_fornecedor = ? AND lote.fk_supermercado = ? "
+                + "ORDER BY identificador";
 
         // Substitua a '?' pelo valor da coluna;
         PreparedStatement ps = conexao.prepareStatement(sql);

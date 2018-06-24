@@ -81,7 +81,8 @@ public abstract class ProdutoDAO extends CoreDAO {
 
         // Forme a string sql;
         String sql = "SELECT * from produto "
-                + "WHERE fk_supermercado = ? " + filter.getFilter(); //REVER SE ESTA CERTO !
+                + "WHERE fk_supermercado = ? " + filter.getFilter()
+                + " ORDER BY nome"; //REVER SE ESTA CERTO !
 
         PreparedStatement st = conexao.prepareStatement(sql);
         st.setInt(1, supermercado.getId());
@@ -182,7 +183,7 @@ public abstract class ProdutoDAO extends CoreDAO {
                 + " GROUP BY (p.nome, p.preco, "
                 + "p.codigo, p.descricao, p.custo, p.id, p.estoque, "
                 + "p.tipo, p.quant_prateleira, p.marca) "
-                + "ORDER BY soma DESC";
+                + "ORDER BY soma DESC, p.nome";
         
         if (maxResult != null){
             if (maxResult <= 0) throw new IllegalArgumentException("Máx. Resultados não pode ser menor que 1");
