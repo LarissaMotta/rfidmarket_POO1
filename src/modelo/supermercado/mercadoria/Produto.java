@@ -38,7 +38,15 @@ public class Produto {
 
     // Pode ser usada quando for instaciar um objeto novo e que será salvo posteriormente no BD
     public Produto(String codigo, double custo, String descricao, String marca, String nome, double precoVenda, int qtdPrateleira, int qtdEstoque, String tipo) throws IllegalArgumentException{
-        
+        setCodigo(codigo);
+        setCusto(custo);
+        setDescricao(descricao);
+        setMarca(marca);
+        setNome(nome);
+        setPrecoVenda(precoVenda);
+        setQtdPrateleira(qtdPrateleira);
+        setQtdEstoque(qtdEstoque);
+        setTipo(tipo);
     }
 
     public final void setCodigo(String codigo) throws IllegalArgumentException{
