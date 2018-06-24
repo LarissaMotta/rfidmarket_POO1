@@ -172,20 +172,20 @@ public abstract class ClienteDAO extends CoreDAO {
         return clientes;
     }
 
-    public static Map<Cliente,Double> readClientesMaisConsumistas(Supermercado supermercado, Date dataMin, Date dataMax, Integer maxResult) 
+    public static Map<Cliente, Double> readClientesMaisConsumistas(Supermercado supermercado, Date dataMin, Date dataMax, Integer maxResult)
             throws ClassNotFoundException, SQLException, IllegalArgumentException {
         if (!Util.isIntervalValid(dataMin, dataMax)) {
             throw new IllegalArgumentException("Intervalo de data inválido!");
         }
-        
+
         Filter filter = new Filter();
-        
+
         Clause clause = new Clause("DATE(hc.timestamp)", dataMin, Clause.MAIOR_IGUAL);
         filter.addClause(clause);
-        
+
         clause = new Clause("DATE(hc.timestamp)", dataMax, Clause.MENOR_IGUAL);
         filter.addClause(clause);
-        
+
         String sql = "SELECT SUM(c.preco_compra * c.quant) as valor_comprado, p.id, p.nome, p.numero, p.rua, p.cep, p.bairro, "
                 + "p.estado, p.cidade, pf.data_nasc, pf.genero, pf.login, pf.senha,pf.cpf "
                 + "FROM hist_compra as hc "
@@ -195,55 +195,66 @@ public abstract class ClienteDAO extends CoreDAO {
                 + "WHERE hc.fk_supermercado = ? " + filter.getFilter()
                 + " GROUP BY (p.id, p.nome, p.numero, p.rua, p.cep, p.bairro, "
                 + "p.estado, p.cidade, pf.data_nasc, pf.genero, pf.login, pf.senha, pf.cpf) "
-                + "ORDER BY SUM(c.preco_compra) DESC, p.nome";
-        
-        if (maxResult != null){
-            if (maxResult <= 0) throw new IllegalArgumentException("Máx. Resultados não pode ser menor que 1");
-            else sql += " LIMIT " + maxResult;
+                + "ORDER BY SUM(c.preco_compra * c.quant) DESC, p.nome";
+
+        if (maxResult != null) {
+            if (maxResult <= 0) {
+                throw new IllegalArgumentException("Máx. Resultados não pode ser menor que 1");
+            } else {
+                sql += " LIMIT " + maxResult;
+            }
         }
-        
+
         return readClienteRelatorio(supermercado, sql, "valor_comprado");
     }
-    
-    public static Map<Cliente,Double> readClientesMediaConsumo(Supermercado supermercado, Date dataMin, Date dataMax, Integer maxResult)
+
+    public static Map<Cliente, Double> readClientesMediaConsumo(Supermercado supermercado, Date dataMin, Date dataMax, Integer maxResult)
             throws ClassNotFoundException, SQLException, IllegalArgumentException {
-        
+
         if (!Util.isIntervalValid(dataMin, dataMax)) {
             throw new IllegalArgumentException("Intervalo de data inválido!");
         }
-        
+
         Filter filter = new Filter();
-        
+
         Clause clause = new Clause("DATE(hc.timestamp)", dataMin, Clause.MAIOR_IGUAL);
         filter.addClause(clause);
-        
+
         clause = new Clause("DATE(hc.timestamp)", dataMax, Clause.MENOR_IGUAL);
         filter.addClause(clause);
-        
-        String sql = "SELECT AVG(c.preco_compra * c.quant) as media_compra, p.id, p.nome, p.numero, p.rua, p.cep, p.bairro, "
+
+        String sql = "SELECT AVG(valor_comprado) as media_compra, p.id, p.nome, p.numero, p.rua, p.cep, p.bairro, "
                 + "p.estado, p.cidade, pf.data_nasc, pf.genero, pf.login, pf.senha,pf.cpf "
-                + "FROM hist_compra as hc "
-                + "INNER JOIN fisica as pf ON hc.fk_cliente = pf.fk_pessoa "
+                + "FROM ("
+                + "	SELECT SUM(c.quant * c.preco_compra) as valor_comprado, p.id as cliente, hc.id "
+                + "	FROM hist_compra as hc "
+                + "	INNER JOIN pessoa as p ON hc.fk_cliente = p.id "
+                + "	INNER JOIN compra as c ON c.fk_hist_compra = hc.id "
+                + "	WHERE hc.fk_supermercado = ? " + filter.getFilter()
+                + "	GROUP BY (p.id,hc.id)"
+                + ") as valor_compras "
+                + "INNER JOIN fisica as pf ON valor_compras.cliente = pf.fk_pessoa "
                 + "INNER JOIN pessoa as p ON pf.fk_pessoa = p.id "
-                + "INNER JOIN compra as c ON c.fk_hist_compra = hc.id "
-                + "WHERE hc.fk_supermercado = ? " + filter.getFilter()
-                + " GROUP BY (p.id, p.nome, p.numero, p.rua, p.cep, p.bairro, "
+                + "GROUP BY (p.id, p.nome, p.numero, p.rua, p.cep, p.bairro, "
                 + "p.estado, p.cidade, pf.data_nasc, pf.genero, pf.login, pf.senha, pf.cpf) "
-                + "ORDER BY AVG(c.preco_compra) DESC, p.nome";
-        
-        if (maxResult != null){
-            if (maxResult <= 0) throw new IllegalArgumentException("Máx. Resultados não pode ser menor que 1");
-            else sql += " LIMIT " + maxResult;
+                + "ORDER BY AVG(valor_comprado) DESC, p.nome";
+
+        if (maxResult != null) {
+            if (maxResult <= 0) {
+                throw new IllegalArgumentException("Máx. Resultados não pode ser menor que 1");
+            } else {
+                sql += " LIMIT " + maxResult;
+            }
         }
-        
+
         return readClienteRelatorio(supermercado, sql, "media_compra");
     }
-    
-    private static Map<Cliente,Double> readClienteRelatorio(Supermercado supermercado, String sql, String colValor) throws ClassNotFoundException, SQLException{
-        Map<Cliente,Double> map = new LinkedHashMap<>();
+
+    private static Map<Cliente, Double> readClienteRelatorio(Supermercado supermercado, String sql, String colValor) throws ClassNotFoundException, SQLException {
+        Map<Cliente, Double> map = new LinkedHashMap<>();
 
         Connection conexao = getConnection();
-        
+
         // Substitua a '?' pelo valor da coluna;
         PreparedStatement ps = conexao.prepareStatement(sql);
         ps.setInt(1, supermercado.getId());

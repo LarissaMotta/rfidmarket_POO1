@@ -235,14 +235,14 @@ public abstract class LoteDAO extends CoreDAO {
         // Crie e inicialize a lista, e abra uma conexão com o BD;
         List<Lote> lotes = new ArrayList<>();
         
-        if (distValidade <= 0) throw new IllegalArgumentException("Máx. Resultados não pode ser menor que 1");
+        if (distValidade <= 0) throw new IllegalArgumentException("Distância (dias) da validade não pode ser menor que 1");
 
         Connection conexao = getConnection();
         //TODO Considerar a partir de hoje ou Qualquer dia anterior hoje + distValidade?
         String sql = "SELECT id, data_compra, fabricacao, validade,"
                 + "quantidade, identificador FROM lote "
                 + "WHERE fk_produto = ? AND "
-                + "validade >= CURRENT_DATE AND validade <= CURRENT_DATE + " + distValidade
+                + "validade <= CURRENT_DATE + " + distValidade
                 + " ORDER BY validade, fabricacao, data_compra, identificador";
 
         PreparedStatement ps = conexao.prepareStatement(sql);
