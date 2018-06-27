@@ -28,7 +28,8 @@ import static org.junit.Assert.*;
  * @author 20162bsi0147
  */
 public class CartaoDAOTest {
-     private Cartao cartao;
+    private Cartao cartao;
+    private Cliente cliente;
     
     public CartaoDAOTest() {
     }
@@ -48,10 +49,22 @@ public class CartaoDAOTest {
         System.out.println("create");
         
         cartao = new Cartao("MasterCard", new  java.util.Date(2019, 8, 1), "5482657412589634", "Maria", Cartao.Tipo.CREDITO);
-        int result = CartaoDAO.create(cartao);   
-        cartao = new Cartao(result, cartao.getBandeira(), cartao.getDataValid(), cartao.getNumero(), cartao.getTitular(), cartao.getTipo());
+        int idCartao = CartaoDAO.create(cartao);
         
-        System.out.println("id = "+result);
+        cartao = new Cartao(idCartao, cartao.getBandeira(), cartao.getDataValid(), cartao.getNumero(), cartao.getTitular(), cartao.getTipo());
+        
+        System.out.println("idCartao = "+idCartao);
+
+        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
+        cliente = new Cliente("216.856.707-76", new Date(), PessoaFisica.Genero.M, "joel@hotmail.com", "testedesenha", "Joel", endereco);
+        
+        int idCliente = ClienteDAO.create(cliente);
+        
+        cliente = new Cliente(cliente.getCpf(), cliente.getDataNasc(), cliente.getGenero(), cliente.getLogin(), cliente.getSenha(),idCliente, cliente.getNome(), endereco);
+        System.out.println("idCliente = "+idCliente);
+        
+        ClienteDAO.addCartao(cliente, cartao);
+        
     }
     
     ///LALALA
@@ -68,28 +81,8 @@ public class CartaoDAOTest {
     public void testReadCartoesByCliente() throws Exception {
         System.out.println("readCartoesByCliente");
         
-        Endereco end = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        Cliente cliente = new Cliente("216.856.707-76", new Date(), PessoaFisica.Genero.M, "joel@hotmail.com", "testedesenha",02, "Joel", end);
-        int idCliente = ClienteDAO.create(cliente);
-        cliente = new Cliente(cliente.getCpf(), cliente.getDataNasc(), cliente.getGenero(), cliente.getLogin(), cliente.getSenha(),idCliente, cliente.getNome(), end);
-        
-        ClienteDAO.addCartao(cliente, cartao);
-
-        
         List<Cartao> result = CartaoDAO.readCartoesByCliente(cliente);
+        assertEquals(1, result.size());
         System.out.println(result);
     }
-    
-    /**
-     *
-     * @throws ClassNotFoundException
-     * @throws SQLException
-     */
-   
-
-  
-
-  
-        
-
 }

@@ -9,6 +9,7 @@ import controlTest.ResetTable;
 import database.pagamento.CartaoDAO;
 import database.supermercado.mercadoria.ProdutoDAO;
 import database.usuarios.ClienteDAO;
+import database.usuarios.PessoaJuridicaDAO;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
@@ -35,11 +36,9 @@ import static org.junit.Assert.*;
  * @author laly_
  */
 public class CompraDAOTest {
-    private Compra compra;
     private Cliente cliente;
     private Cartao cartao;
-    private Supermercado superm;
-    private Produto prod;
+    private Supermercado supermercado;
     
     public CompraDAOTest() {
     }
@@ -59,51 +58,47 @@ public class CompraDAOTest {
         System.out.println("create");
         
         Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        superm = new Supermercado(18.5774, 15.1741, "Serra", "35.415.363/0001-72", "Carone", endereco);
-        int idSuperm = SupermercadoDAO.create(superm);
-        superm = new Supermercado(idSuperm, superm.getLatitude(), superm.getLongitude(), superm.getUnidade(), superm.getCnpj(), superm.getNome(), endereco);
+        supermercado = new Supermercado(1,-52.2471,-2.5297,"serra 03","44.122.623/0001-02", "EPA", endereco);
         
-        List<ItemProduto> itens = new ArrayList<>();
+        int idSupermercado = SupermercadoDAO.create(supermercado);
+        supermercado = new Supermercado(idSupermercado,supermercado.getLatitude(),supermercado.getLongitude(),supermercado.getUnidade(),supermercado.getCnpj(), supermercado.getNome(), endereco);
         
-        Endereco end = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        cliente = new Cliente("216.856.707-76", new Date(), PessoaFisica.Genero.M, "joel@hotmail.com", "testedesenha", "Joel", end);
-        int result = ClienteDAO.create(cliente);
-        cliente = new Cliente(cliente.getCpf(), cliente.getDataNasc(), cliente.getGenero(), cliente.getLogin(), cliente.getSenha(),result, cliente.getNome(), end);
-       
-        cartao = new Cartao("MasterCard", new  Date(2019, 8, 1), "5482657412589634", "Maria", Cartao.Tipo.CREDITO);
-        int id = CartaoDAO.create(cartao);
-        cartao = new Cartao(id, cartao.getBandeira(), cartao.getDataValid(), cartao.getNumero(), cartao.getTitular(), cartao.getTipo());
+        System.out.println("idSupermercado = "+idSupermercado);
+        
+        cliente = new Cliente("216.856.707-76", new Date(), PessoaFisica.Genero.M, "joel@hotmail.com", "testedesenha", "Joel", endereco);
+        int idCliente = ClienteDAO.create(cliente);
+        
+        cliente = new Cliente(cliente.getCpf(), cliente.getDataNasc(), cliente.getGenero(), cliente.getLogin(), cliente.getSenha(),idCliente, cliente.getNome(), endereco);
+        System.out.println("idCliente = "+idCliente);
+        
+        cartao = new Cartao("MasterCard", new  java.util.Date(2019, 8, 1), "5482657412589634", "Maria", Cartao.Tipo.CREDITO);
+        int idCartao = CartaoDAO.create(cartao);
+        
+        cartao = new Cartao(idCartao, cartao.getBandeira(), cartao.getDataValid(), cartao.getNumero(), cartao.getTitular(), cartao.getTipo());
+        System.out.println("idCartao = "+idCartao);
+        
         ClienteDAO.addCartao(cliente, cartao);
         
-        prod = new Produto("0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
-        int idProd = ProdutoDAO.create(prod, superm);
-        prod = new Produto(idProd, prod.getCodigo(), prod.getCusto() , prod.getDescricao(), prod.getMarca() , 
-                prod.getNome(), prod.getPrecoVenda(), prod.getQtdPrateleira(), prod.getQtdEstoque(), prod.getTipo());
+        Produto produto = new Produto("0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
+        int idProd = ProdutoDAO.create(produto, supermercado);
         
-        ItemProduto itemProduto = new ItemProduto(35.00,02,prod);
+        System.out.println("idProduto = "+idProd);
+        produto = new Produto(idProd, produto.getCodigo(), produto.getCusto(), produto.getDescricao(), produto.getMarca(), produto.getNome(), produto.getPrecoVenda(), produto.getQtdPrateleira(), produto.getQtdEstoque(),produto.getTipo());
+        
+        
+        ItemProduto itemProduto = new ItemProduto(35.00,02,produto);
+        
+        List<ItemProduto> itens = new ArrayList<>();
         itens.add(itemProduto);
-        compra = new Compra(new Date(2018,06,20),itens);
-        int resultado = CompraDAO.create(compra,cliente,cartao,superm);
-        compra = new Compra(result, compra.getDataHora());
         
-        System.out.println("id = "+resultado);
+        Compra compra = new Compra(new Date(2018,06,20),itens);
+        int idCompra = CompraDAO.create(compra,cliente,cartao,supermercado);
+        
+        System.out.println("idCompra = "+idCompra);
     }
     @After
     public void tearDown() throws ClassNotFoundException, SQLException {
         ResetTable.cleanAllTables();
-    }
-
-
-
-    /**
-     * Test of readHistoricoComprasByCliente method, of class CompraDAO.
-     */
-    @Test
-    public void testReadHistoricoCompras() throws Exception {
-        System.out.println("readHistoricoCompras");
-        
-        List<Compra> result = CompraDAO.readHistoricoComprasByCliente(cliente);
-        System.out.println(result);
     }
 
     /**
@@ -113,8 +108,8 @@ public class CompraDAOTest {
     public void testReadHistoricoComprasByCartao() throws Exception {
         System.out.println("readHistoricoComprasByCartao");
         
-        
         List<Compra> result = CompraDAO.readHistoricoComprasByCartao(cliente, cartao);
+        assertEquals(1, result.size());
         System.out.println(result);
     }
 
@@ -124,10 +119,34 @@ public class CompraDAOTest {
     @Test
     public void testReadHistoricoComprasBySupermercado() throws Exception {
         System.out.println("readHistoricoComprasBySupermercado");
-     
-        List<Compra> result = CompraDAO.readHistoricoComprasBySupermercado(superm);
+        
+        List<Compra> result = CompraDAO.readHistoricoComprasBySupermercado(supermercado);
+        assertEquals(1, result.size());
         System.out.println(result);
         
     }
-    
+
+    /**
+     * Test of readHistoricoComprasByCliente method, of class CompraDAO.
+     */
+    @Test
+    public void testReadHistoricoComprasByCliente_Cliente() throws Exception {
+        System.out.println("readHistoricoComprasByCliente");
+        
+        List<Compra> result = CompraDAO.readHistoricoComprasByCliente(cliente);
+        assertEquals(1, result.size());
+        System.out.println(result);
+    }
+
+    /**
+     * Test of readHistoricoComprasByCliente method, of class CompraDAO.
+     */
+    @Test
+    public void testReadHistoricoComprasByCliente_Cliente_Supermercado() throws Exception {
+        System.out.println("readHistoricoComprasByCliente");
+        
+        List<Compra> result = CompraDAO.readHistoricoComprasByCliente(cliente,supermercado);
+        assertEquals(1, result.size());
+        System.out.println(result);
+    }
 }

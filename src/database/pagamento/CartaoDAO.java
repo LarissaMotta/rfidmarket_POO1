@@ -22,7 +22,6 @@ import modelo.pagamento.Cartao;
 import modelo.pagamento.Cartao.Tipo;
 import modelo.supermercado.Supermercado;
 import modelo.usuarios.Cliente;
-import util.Util;
 
 public abstract class CartaoDAO extends CoreDAO {
 
@@ -72,7 +71,7 @@ public abstract class CartaoDAO extends CoreDAO {
 
         // Forme a string sql;
         String sql = "SELECT c.id, c.nome_titular, c.validade, c.bandeira, c.numero,"
-                + "c.tipo FROM utiliza AS ut INNER JOIN cartao AS c"
+                + "c.tipo FROM utiliza AS ut INNER JOIN cartao AS c "
                 + "ON ut.fk_cartao = c.id WHERE ut.fk_cliente = ?";
 
         PreparedStatement st = conexao.prepareStatement(sql);
@@ -106,21 +105,18 @@ public abstract class CartaoDAO extends CoreDAO {
         return cartoes;
     }
 
-    public static Map<java.util.Date, Map<String, Number>> readMeiosPagMaisUsado(Supermercado supermercado, java.util.Date dataMin, java.util.Date dataMax) throws ClassNotFoundException, SQLException {
-        if (!Util.isIntervalValid(dataMin, dataMax)) {
-            throw new IllegalArgumentException("Intervalo de data inválido!");
-        }
-        
+    public static Map<java.util.Date, Map<String, Number>> getMeiosPagMaisUsado(Supermercado supermercado, java.util.Date dataMin, java.util.Date dataMax) throws ClassNotFoundException, SQLException {
+        // criacao do hashmap
         Map<java.util.Date, Map<String, Number>> map = new LinkedHashMap<>();
 
         Connection con = getConnection();
 
         Filter filter = new Filter();
 
-        Clause clause = new Clause("DATE(hc.timestamp)", dataMin, Clause.MAIOR_IGUAL);
+        Clause clause = new Clause("hc.timestamp", dataMin, Clause.MAIOR_IGUAL);
         filter.addClause(clause);
 
-        clause = new Clause("DATE(hc.timestamp)", dataMax, Clause.MENOR_IGUAL);
+        clause = new Clause("hc.timestamp", dataMax, Clause.MENOR_IGUAL);
         filter.addClause(clause);
 
         String sql = "SELECT c.tipo, DATE(timestamp) as data_compra, COUNT(c.tipo) as num_uso FROM hist_compra AS hc "
@@ -161,21 +157,18 @@ public abstract class CartaoDAO extends CoreDAO {
         return map;
     }
     
-    public static Map<java.util.Date, Map<String, Number>> readMeiosPagMaisRentavel(Supermercado supermercado, java.util.Date dataMin, java.util.Date dataMax) throws ClassNotFoundException, SQLException {
-        if (!Util.isIntervalValid(dataMin, dataMax)) {
-            throw new IllegalArgumentException("Intervalo de data inválido!");
-        }
-        
+    public static Map<java.util.Date, Map<String, Number>> getMeiosPagMaisRentavel(Supermercado supermercado, java.util.Date dataMin, java.util.Date dataMax) throws ClassNotFoundException, SQLException {
+        // criacao do hashmap
         Map<java.util.Date, Map<String, Number>> map = new LinkedHashMap<>();
 
         Connection con = getConnection();
 
         Filter filter = new Filter();
 
-        Clause clause = new Clause("DATE(hc.timestamp)", dataMin, Clause.MAIOR_IGUAL);
+        Clause clause = new Clause("hc.timestamp", dataMin, Clause.MAIOR_IGUAL);
         filter.addClause(clause);
 
-        clause = new Clause("DATE(hc.timestamp)", dataMax, Clause.MENOR_IGUAL);
+        clause = new Clause("hc.timestamp", dataMax, Clause.MENOR_IGUAL);
         filter.addClause(clause);
 
         String sql = "SELECT c.tipo, DATE(timestamp) as data_compra, SUM(compra.preco_compra) as valor FROM hist_compra AS hc "
