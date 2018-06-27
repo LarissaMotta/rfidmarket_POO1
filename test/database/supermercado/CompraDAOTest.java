@@ -9,7 +9,6 @@ import controlTest.ResetTable;
 import database.pagamento.CartaoDAO;
 import database.supermercado.mercadoria.ProdutoDAO;
 import database.usuarios.ClienteDAO;
-import database.usuarios.PessoaJuridicaDAO;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
@@ -71,7 +70,7 @@ public class CompraDAOTest {
         cliente = new Cliente(cliente.getCpf(), cliente.getDataNasc(), cliente.getGenero(), cliente.getLogin(), cliente.getSenha(),idCliente, cliente.getNome(), endereco);
         System.out.println("idCliente = "+idCliente);
         
-        cartao = new Cartao("MasterCard", new  java.util.Date(2019, 8, 1), "5482657412589634", "Maria", Cartao.Tipo.CREDITO);
+        cartao = new Cartao("MasterCard", new Date("2018/05/28"), "5482657412589634", "Maria", Cartao.Tipo.CREDITO);
         int idCartao = CartaoDAO.create(cartao);
         
         cartao = new Cartao(idCartao, cartao.getBandeira(), cartao.getDataValid(), cartao.getNumero(), cartao.getTitular(), cartao.getTipo());
@@ -89,7 +88,7 @@ public class CompraDAOTest {
         List<ItemProduto> itens = new ArrayList<>();
         itens.add(itemProduto);
         
-        Compra compra = new Compra(new Date(2018,06,20),itens);
+        Compra compra = new Compra(new Date("2018/05/28"),itens);
         int idCompra = CompraDAO.create(compra,cliente,cartao,supermercado);
         
         System.out.println("idCompra = "+idCompra);

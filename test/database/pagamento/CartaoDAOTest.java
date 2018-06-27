@@ -48,7 +48,7 @@ public class CartaoDAOTest {
         ResetTable.cleanAllTables();
         System.out.println("create");
         
-        cartao = new Cartao("MasterCard", new  java.util.Date(2019, 8, 1), "5482657412589634", "Maria", Cartao.Tipo.CREDITO);
+        cartao = new Cartao("MasterCard", new Date("2018/05/28"), "5482657412589634", "Maria", Cartao.Tipo.CREDITO);
         int idCartao = CartaoDAO.create(cartao);
         
         cartao = new Cartao(idCartao, cartao.getBandeira(), cartao.getDataValid(), cartao.getNumero(), cartao.getTitular(), cartao.getTipo());

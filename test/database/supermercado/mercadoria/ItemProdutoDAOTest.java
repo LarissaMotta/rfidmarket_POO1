@@ -69,7 +69,7 @@ public class ItemProdutoDAOTest {
         cliente = new Cliente(cliente.getCpf(), cliente.getDataNasc(), cliente.getGenero(), cliente.getLogin(), cliente.getSenha(),idCliente, cliente.getNome(), endereco);
         System.out.println("idCliente = "+idCliente);
         
-        Cartao cartao = new Cartao("MasterCard", new  java.util.Date(2019, 8, 1), "5482657412589634", "Maria", Cartao.Tipo.CREDITO);
+        Cartao cartao = new Cartao("MasterCard", new Date("2018/05/28"), "5482657412589634", "Maria", Cartao.Tipo.CREDITO);
         int idCartao = CartaoDAO.create(cartao);
         
         cartao = new Cartao(idCartao, cartao.getBandeira(), cartao.getDataValid(), cartao.getNumero(), cartao.getTitular(), cartao.getTipo());
@@ -88,7 +88,7 @@ public class ItemProdutoDAOTest {
         List<ItemProduto> itens = new ArrayList<>();
         itens.add(itemProduto);
         
-        compra = new Compra(new Date(2018,06,20),itens);
+        compra = new Compra(new Date("2018/05/28"),itens);
         int idCompra = CompraDAO.create(compra,cliente,cartao,supermercado);
         
         compra = new Compra(idCompra, compra.getDataHora());

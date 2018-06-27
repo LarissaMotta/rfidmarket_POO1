@@ -68,7 +68,7 @@ public class FornecedorDAOTest {
         System.out.println("idProduto = "+idProd);
         produto = new Produto(idProd, produto.getCodigo(), produto.getCusto(), produto.getDescricao(), produto.getMarca(), produto.getNome(), produto.getPrecoVenda(), produto.getQtdPrateleira(), produto.getQtdEstoque(),produto.getTipo());
         
-        lote = new Lote(new Date(2018,06,20), new Date(2018,02,11),new Date(2019,02,11), 100,"Fralda XG",produto);
+        lote = new Lote(new Date("2018/05/28"), new Date("2018/05/01"),new Date("2018/06/28"), 100,"Fralda XG",produto);
         int idLote = LoteDAO.create(lote,fornecedor,produto,supermercado);
         
         System.out.println("idLote = "+idLote);

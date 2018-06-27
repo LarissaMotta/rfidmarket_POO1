@@ -71,7 +71,7 @@ public class SupermercadoDAOTest {
         supermercado = new Supermercado(idSupermercado,supermercado.getLatitude(),supermercado.getLongitude(),supermercado.getUnidade(),supermercado.getCnpj(), supermercado.getNome(), endereco);
         System.out.println("idSupermercado = "+idSupermercado);
         
-        funcionario = new Funcionario("estagiario", "atendente","216.856.707-76", new Date(11,06,2018), Funcionario.Genero.M, "joel_tendencia@hotmail.com", "testedesenha", "Joel", endereco);
+        funcionario = new Funcionario("estagiario", "atendente","216.856.707-76", new Date("2018/05/28"), Funcionario.Genero.M, "joel_tendencia@hotmail.com", "testedesenha", "Joel", endereco);
         int idFuncionario = FuncionarioDAO.create(funcionario, supermercado);
         
         funcionario = new Funcionario(funcionario.getCargo(), funcionario.getSetor(), funcionario.getCpf(), funcionario.getDataNasc(), funcionario.getGenero(), funcionario.getLogin(), funcionario.getSenha(), idFuncionario, funcionario.getNome(),funcionario.getEndereco());
@@ -89,7 +89,7 @@ public class SupermercadoDAOTest {
         System.out.println("idForc = "+idForc);
         fornecedor = new Fornecedor(fornecedor.getCnpj(), idForc,fornecedor.getNome(), endereco);
         
-        lote = new Lote(new Date(2018,06,20), new Date(2018,02,11),new Date(2019,02,11), 100,"Fralda XG",produto);
+        lote = new Lote(new Date("2018/05/28"), new Date("2018/05/01"),new Date("2018/06/28"), 100,"Fralda XG",produto);
         int idLote = LoteDAO.create(lote,fornecedor,produto,supermercado);
         
         System.out.println("idLote = "+idLote);
