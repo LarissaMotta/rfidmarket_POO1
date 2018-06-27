@@ -1,12 +1,15 @@
 # Tralho integrado - Programação Orientada a Objetos I
-
+```java
+String nome_do_projeto = "EasyMarket (Desktop)";
+```
 ### 1. COMPONENTES
-<p align="left">
-  
-- Antônio Carlos Durães da Silva
-- Jennifer De Castro Gonçalves
-- Joel Will Belmiro
-- Larissa Santos Da Motta</p><br>
+
+```java
+String aluno1 = "Antônio Carlos Durães da Silva";
+String aluno2 = "Jennifer De Castro Gonçalves";
+String aluno3 = "Joel Will Belmiro";
+String aluno4 = "Larissa Santos Da Motta";
+```
 
 ### 2. PROPÓSITO DO SISTEMA
 <p align="justify">
