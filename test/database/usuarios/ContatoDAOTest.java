@@ -14,7 +14,6 @@ import java.util.List;
 import modelo.usuarios.*;
 import modelo.usuarios.Contato.Tipo;
 import modelo.usuarios.Endereco;
-import modelo.usuarios.Pessoa;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -80,8 +79,6 @@ public class ContatoDAOTest {
         System.out.println("delete");
         int id = contato.getId();
         ContatoDAO.delete(id);
-        
-       
     }
 
     /**
@@ -93,6 +90,16 @@ public class ContatoDAOTest {
 
         List<Contato> result = ContatoDAO.readContatosByPessoa(cliente);
         System.out.println(result);
+    }
+
+    /**
+     * Test of update method, of class ContatoDAO.
+     */
+    @Test
+    public void testUpdate() throws Exception {
+        System.out.println("update");
+        contato = new Contato(contato.getId(), "joel@hotmail.com", Contato.Tipo.EMAIL);
+        ContatoDAO.update(contato);
     }
     
 }
