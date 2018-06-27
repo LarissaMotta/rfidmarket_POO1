@@ -18,6 +18,7 @@ import java.util.Date;
 
 import modelo.usuarios.Cliente;
 import modelo.usuarios.Endereco;
+import modelo.usuarios.Pessoa;
 import modelo.usuarios.PessoaFisica;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -69,29 +70,20 @@ public class PessoaDAOTest {
     public void testDelete() throws Exception {
         System.out.println("delete");
         int id = cliente.getId();
+        
         PessoaFisicaDAO.delete(id);
         PessoaDAO.delete(id);
     }
 
     /**
-     * Test of getEndereco method, of class PessoaDAO.
+     * Test of update method, of class PessoaDAO.
      */
     @Test
-    public void testGetEndereco() throws Exception {
-        System.out.println("getEndereco");
-        Connection conexao = getConnection();
-
-        // Forme a string sql;
-        String sql = "SELECT numero, rua, cep, bairro, estado, cidade FROM usuarios";
+    public void testUpdate() throws Exception {
+        System.out.println("update");
         
-        // Substitua a '?' pelo valor da coluna;
-        PreparedStatement ps = conexao.prepareStatement(sql);
-        ps.executeQuery();
-        ResultSet rs = ps.getResultSet();
-        rs.next();
-        
-        Endereco expResult = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        Endereco result = PessoaDAO.getEndereco(rs);
+        cliente = new Cliente("216.856.707-76", new Date(), PessoaFisica.Genero.M, "joel@hotmail.com", "testedesenha", cliente.getId(), "Will", cliente.getEndereco());
+        PessoaDAO.update(cliente);
     }
     
 }
