@@ -3,7 +3,6 @@
 String nome_do_projeto = "EasyMarket (Desktop)";
 ```
 ### 1. COMPONENTES
-
 ```java
 String aluno1 = "Antônio Carlos Durães da Silva";
 String aluno2 = "Jennifer De Castro Gonçalves";
