@@ -17,6 +17,7 @@ import modelo.usuarios.Endereco;
 import modelo.usuarios.Funcionario;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -36,6 +37,10 @@ public class FuncionarioDAOTest {
     @BeforeClass
     public static void setUpClass() {
     }
+
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+    }
     
     
     @Before
@@ -49,7 +54,7 @@ public class FuncionarioDAOTest {
         supermercado = new Supermercado(idSuperm, supermercado.getLatitude(), supermercado.getLongitude(), supermercado.getUnidade(), supermercado.getCnpj(), supermercado.getNome(), end);
                 
         Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        funcionario = new Funcionario("estagiario", "atendente","216.856.707-76", new Date(11,06,2018), Funcionario.Genero.M, "JXSEP@hotmail.com", "testedesenha", "Joel", endereco);
+        funcionario = new Funcionario("estagiario", "atendente","216.856.707-76", new Date(), Funcionario.Genero.M, "JXSEP@hotmail.com", "testedesenha", "Joel", endereco);
         int result = FuncionarioDAO.create(funcionario,supermercado);
         funcionario = new Funcionario(funcionario.getCargo(),funcionario.getSetor(),funcionario.getCpf(), funcionario.getDataNasc(), funcionario.getGenero(), funcionario.getLogin(), funcionario.getSenha(),result, funcionario.getNome(), endereco);
         
@@ -79,8 +84,29 @@ public class FuncionarioDAOTest {
     public void testReadFuncionariosBySupermercado() throws Exception {
         System.out.println("readFuncionariosBySupermercado");
 
-        List<Funcionario> result = FuncionarioDAO.readFuncionariosBySupermercado(supermercado,funcionario.getNome(),funcionario.getCpf(),funcionario.getGenero(),funcionario.getSetor(),funcionario.getCargo());
+        List<Funcionario> result = FuncionarioDAO.readFuncionariosBySupermercado(supermercado,null,null,null,null,null);
         System.out.println(result);//vai printar vazio
+    }
+
+    /**
+     * Test of update method, of class FuncionarioDAO.
+     */
+    @Test
+    public void testUpdate() throws Exception {
+        System.out.println("update");
+        funcionario = new Funcionario("Gerente", "Vendas","216.856.707-76", new Date(), Funcionario.Genero.M, "JXSEP@hotmail.com", "testedesenha", funcionario.getId(),"Joel", funcionario.getEndereco());
+        FuncionarioDAO.update(funcionario);
+    }
+
+    /**
+     * Test of SignIn method, of class FuncionarioDAO.
+     */
+    @Test
+    public void testSignIn() throws Exception {
+        System.out.println("SignIn");
+        String login = "JXSEP@hotmail.com";
+        String senha = "testedesenha";
+        Funcionario result = FuncionarioDAO.SignIn(login, senha);
     }
     
 }
