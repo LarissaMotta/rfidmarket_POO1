@@ -63,5 +63,4 @@ public class PessoaJuridicaDAOTest {
         int id = pessoaJuridica.getId();
         PessoaJuridicaDAO.delete(id);
     }
-    
 }
