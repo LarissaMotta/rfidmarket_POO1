@@ -68,5 +68,16 @@ public class PessoaFisicaDAOTest {
         int id = cliente.getId();
         PessoaFisicaDAO.delete(id);
     }
+
+    /**
+     * Test of update method, of class PessoaFisicaDAO.
+     */
+    @Test
+    public void testUpdate() throws Exception {
+        System.out.println("update");
+        cliente = new Cliente("216.856.707-76", new Date(), PessoaFisica.Genero.M, "joel@hotmail.com", "testedesenha", cliente.getId(), "Will", cliente.getEndereco());
+        
+        PessoaFisicaDAO.update(cliente);
+    }
     
 }
