@@ -48,29 +48,33 @@ public class FornecedorDAOTest {
         ResetTable.cleanAllTables();
         System.out.println("create");
         
-        Endereco endere = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 76, "Rua Xablau");
-        fornecedor = new Fornecedor("44.122.623/0001-02", "EPA", endere);
-        int result = PessoaJuridicaDAO.create(fornecedor);
-        fornecedor = new Fornecedor(fornecedor.getCnpj(), result,fornecedor.getNome(), endere);
+        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 76, "Rua Xablau");
         
-        Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        supermercado = new Supermercado(18.5774, 15.1741, "Serra", "35.415.363/0001-72", "Carone", endereco);
-        int idSuperm = SupermercadoDAO.create(supermercado);
-        supermercado = new Supermercado(idSuperm, supermercado.getLatitude(), supermercado.getLongitude(), supermercado.getUnidade(), supermercado.getCnpj(), supermercado.getNome(), endereco);
+        fornecedor = new Fornecedor("35.415.363/0001-72", "EPA", endereco);
+        int idForc = PessoaJuridicaDAO.create(fornecedor);
+        
+        System.out.println("idForc = "+idForc);
+        fornecedor = new Fornecedor(fornecedor.getCnpj(), idForc,fornecedor.getNome(), endereco);
+        
+        supermercado = new Supermercado(1,-52.2471,-2.5297,"serra 03","44.122.623/0001-02", "EPA", endereco);
+        int idSupermercado = SupermercadoDAO.create(supermercado);
+        
+        supermercado = new Supermercado(idSupermercado,supermercado.getLatitude(),supermercado.getLongitude(),supermercado.getUnidade(),supermercado.getCnpj(), supermercado.getNome(), endereco);
+        System.out.println("idSupermercado = "+idSupermercado);
         
         Produto produto = new Produto("0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
-        int idProd = ProdutoDAO.create(produto,supermercado);
-        produto = new Produto(idProd, produto.getCodigo(), produto.getCusto() , produto.getDescricao(), produto.getMarca() , 
-                produto.getNome(), produto.getPrecoVenda(), produto.getQtdPrateleira(), produto.getQtdEstoque(), produto.getTipo());
-               
+        int idProd = ProdutoDAO.create(produto, supermercado);
+        
+        System.out.println("idProduto = "+idProd);
+        produto = new Produto(idProd, produto.getCodigo(), produto.getCusto(), produto.getDescricao(), produto.getMarca(), produto.getNome(), produto.getPrecoVenda(), produto.getQtdPrateleira(), produto.getQtdEstoque(),produto.getTipo());
         
         lote = new Lote(new Date(2018,06,20), new Date(2018,02,11),new Date(2019,02,11), 100,"Fralda XG",produto);
         int idLote = LoteDAO.create(lote,fornecedor,produto,supermercado);
-        lote = new Lote(idLote ,lote.getDataCompra(),lote.getDataFabricacao(),lote.getDataValidade(),lote.getNumUnidades(),lote.getIdentificador(), lote.getProduto());
         
+        System.out.println("idLote = "+idLote);
+        lote = new Lote(idLote,lote.getDataCompra(),lote.getDataFabricacao(),lote.getDataValidade(),lote.getNumUnidades(),lote.getIdentificador(), lote.getProduto());
+
         SupermercadoDAO.addFornecedor(fornecedor, supermercado);
-        
-        System.out.println("id = "+result);
     }
     
     @After
@@ -86,7 +90,8 @@ public class FornecedorDAOTest {
     public void testReadFornecedoresBySupermercado() throws Exception {
         System.out.println("readFornecedoresBySupermercado");
         
-        List<Fornecedor> resultado = FornecedorDAO.readFornecedoresBySupermercado(supermercado, "EPA","44.122.623/0001-02");
+        List<Fornecedor> resultado = FornecedorDAO.readFornecedoresBySupermercado(supermercado, null, null);
+        assertEquals(1, resultado.size());
         System.out.println(resultado);
     
     }
@@ -99,8 +104,18 @@ public class FornecedorDAOTest {
         System.out.println("readFornecedorByLote");
  
         Fornecedor result = FornecedorDAO.readFornecedorByLote(lote);
-        System.out.println(result);
+    }
 
+    /**
+     * Test of readAllFornecedores method, of class FornecedorDAO.
+     */
+    @Test
+    public void testReadAllFornecedores() throws Exception {
+        System.out.println("readAllFornecedores");
+        
+        List<Fornecedor> resultado = FornecedorDAO.readAllFornecedores(null, null);
+        assertEquals(1, resultado.size());
+        System.out.println(resultado);
     }
     
 }
