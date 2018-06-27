@@ -36,8 +36,6 @@ import static org.junit.Assert.*;
  * @author laly_
  */
 public class ItemProdutoDAOTest {
-    private ItemProduto itemProduto;
-    private Produto produto;
     private Compra compra;
     
     public ItemProdutoDAOTest() {
@@ -57,36 +55,44 @@ public class ItemProdutoDAOTest {
         System.out.println("create");
         
         Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
+        
         Supermercado supermercado = new Supermercado(-52.2471,-2.5297,"serra 03","44.122.623/0001-02", "EPA", endereco);
-        int idSuper = SupermercadoDAO.create(supermercado);
-        supermercado = new Supermercado(idSuper,supermercado.getLatitude(),supermercado.getLongitude(),supermercado.getUnidade(),supermercado.getCnpj(), supermercado.getNome(), endereco);
+        int idSupermercado = SupermercadoDAO.create(supermercado);
         
-        produto = new Produto("0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
-        int idProd = ProdutoDAO.create(produto,supermercado);
-        produto = new Produto(idProd,produto.getCodigo(), produto.getCusto() , produto.getDescricao(), produto.getMarca() , 
-                produto.getNome(), produto.getPrecoVenda(), produto.getQtdPrateleira(), produto.getQtdEstoque(), produto.getTipo());       
+        supermercado = new Supermercado(idSupermercado,supermercado.getLatitude(),supermercado.getLongitude(),supermercado.getUnidade(),supermercado.getCnpj(), supermercado.getNome(), endereco);
+        System.out.println("idSupermercado = "+idSupermercado);
         
-        Endereco end = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        Cliente cliente = new Cliente("216.856.707-76", new Date(), PessoaFisica.Genero.M, "joel@hotmail.com", "testedesenha",02, "Joel", end);
+        
+        Cliente cliente = new Cliente("216.856.707-76", new Date(), PessoaFisica.Genero.M, "joel@hotmail.com", "testedesenha", "Joel", endereco);
         int idCliente = ClienteDAO.create(cliente);
-        cliente = new Cliente(cliente.getCpf(), cliente.getDataNasc(), cliente.getGenero(), cliente.getLogin(), cliente.getSenha(),idCliente, cliente.getNome(), end);
         
-        Cartao cartao = new Cartao("MasterCard", new  Date(2019, 8, 1), "5482657412589634", "Maria", Cartao.Tipo.CREDITO);
-        int id = CartaoDAO.create(cartao);
-        cartao = new Cartao(id, cartao.getBandeira(), cartao.getDataValid(), cartao.getNumero(), cartao.getTitular(), cartao.getTipo());
+        cliente = new Cliente(cliente.getCpf(), cliente.getDataNasc(), cliente.getGenero(), cliente.getLogin(), cliente.getSenha(),idCliente, cliente.getNome(), endereco);
+        System.out.println("idCliente = "+idCliente);
+        
+        Cartao cartao = new Cartao("MasterCard", new  java.util.Date(2019, 8, 1), "5482657412589634", "Maria", Cartao.Tipo.CREDITO);
+        int idCartao = CartaoDAO.create(cartao);
+        
+        cartao = new Cartao(idCartao, cartao.getBandeira(), cartao.getDataValid(), cartao.getNumero(), cartao.getTitular(), cartao.getTipo());
+        System.out.println("idCartao = "+idCartao);
+        
         ClienteDAO.addCartao(cliente, cartao);
         
+        Produto produto = new Produto("0000", 20.00,"Premium care", "Pampers","Fralda XG", 35.00, 30, 40, "fralda");
+        int idProd = ProdutoDAO.create(produto, supermercado);
+        
+        System.out.println("idProduto = "+idProd);
+        produto = new Produto(idProd, produto.getCodigo(), produto.getCusto(), produto.getDescricao(), produto.getMarca(), produto.getNome(), produto.getPrecoVenda(), produto.getQtdPrateleira(), produto.getQtdEstoque(),produto.getTipo());
+        
+        ItemProduto itemProduto = new ItemProduto(35.00,02,produto);
+        
         List<ItemProduto> itens = new ArrayList<>();
-        itemProduto = new ItemProduto(35.00,2,produto);
         itens.add(itemProduto);
+        
         compra = new Compra(new Date(2018,06,20),itens);
         int idCompra = CompraDAO.create(compra,cliente,cartao,supermercado);
+        
         compra = new Compra(idCompra, compra.getDataHora());
-        
-        int result = ItemProdutoDAO.create(compra.getId(),itemProduto);
-        itemProduto = new ItemProduto(result, itemProduto.getPrecoCompra(),itemProduto.getQuantidade(), itemProduto.getProduto());
-        
-        System.out.println("id = "+result); 
+        System.out.println("idCompra = "+idCompra);
     }
     
     @After
@@ -103,7 +109,8 @@ public class ItemProdutoDAOTest {
         System.out.println("readItensByCompra");
        
         List<ItemProduto> resultado = ItemProdutoDAO.readItensByCompra(compra);
+        assertEquals(1, resultado.size());
         System.out.println(resultado);
     }
-    
+
 }

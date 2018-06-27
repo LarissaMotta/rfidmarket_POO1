@@ -93,7 +93,6 @@ public class FornecedorDAOTest {
         List<Fornecedor> resultado = FornecedorDAO.readFornecedoresBySupermercado(supermercado, null, null);
         assertEquals(1, resultado.size());
         System.out.println(resultado);
-    
     }
 
     /**

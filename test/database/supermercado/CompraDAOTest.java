@@ -58,7 +58,7 @@ public class CompraDAOTest {
         System.out.println("create");
         
         Endereco endereco = new Endereco("Jacaraípe", "29177-486", "SERRA", Endereco.Estado.ES, 75, "Rua Xablau");
-        supermercado = new Supermercado(1,-52.2471,-2.5297,"serra 03","44.122.623/0001-02", "EPA", endereco);
+        supermercado = new Supermercado(-52.2471,-2.5297,"serra 03","44.122.623/0001-02", "EPA", endereco);
         
         int idSupermercado = SupermercadoDAO.create(supermercado);
         supermercado = new Supermercado(idSupermercado,supermercado.getLatitude(),supermercado.getLongitude(),supermercado.getUnidade(),supermercado.getCnpj(), supermercado.getNome(), endereco);
@@ -85,9 +85,7 @@ public class CompraDAOTest {
         System.out.println("idProduto = "+idProd);
         produto = new Produto(idProd, produto.getCodigo(), produto.getCusto(), produto.getDescricao(), produto.getMarca(), produto.getNome(), produto.getPrecoVenda(), produto.getQtdPrateleira(), produto.getQtdEstoque(),produto.getTipo());
         
-        
         ItemProduto itemProduto = new ItemProduto(35.00,02,produto);
-        
         List<ItemProduto> itens = new ArrayList<>();
         itens.add(itemProduto);
         
