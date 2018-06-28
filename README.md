@@ -1,4 +1,4 @@
-# Tralho integrado - Programação Orientada a Objetos I
+# Trabalho Integrado - Programação Orientada a Objetos I
 ```java
 String nome_do_projeto = "EasyMarket (Desktop)";
 ```
